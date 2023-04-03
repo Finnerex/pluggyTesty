@@ -51,7 +51,8 @@ public class PlayerInteractEventListener implements Listener {
         float spreadY = -0.5f + new Random().nextFloat();
         float spreadX = -0.5f + new Random().nextFloat();
 
-
         fireball.setDirection(playerDirection.rotateAroundY(spreadY).rotateAroundX(spreadX).multiply(speed));
+
+        player.setCooldown(Material.STICK, 20);
     }
 }
