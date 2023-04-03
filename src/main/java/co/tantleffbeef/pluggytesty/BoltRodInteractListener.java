@@ -46,13 +46,13 @@ public class BoltRodInteractListener implements Listener {
     private Entity shootBolt(float range, Player player) {
 
         Location location = player.getEyeLocation();
-        location.add(location.getDirection().multiply(1));
+        location.add(location.getDirection().multiply(2));
 
-        Entity entity = player.getWorld().rayTraceEntities(location, location.getDirection(), range * 10).getHitEntity();
-        if (entity != null)
-            player.sendMessage(entity.toString());
-        else
-            player.sendMessage("no entity");
+        Entity entity = null;
+        RayTraceResult result = player.getWorld().rayTraceEntities(location, location.getDirection(), range * 10);
+        if (result != null)
+            entity = result.getHitEntity();
+
 
         for(float i = 0.1f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
