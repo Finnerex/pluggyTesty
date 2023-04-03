@@ -55,7 +55,7 @@ public class BoltRodInteractListener implements Listener {
 
             @Override
             public void run() {
-                i += 0.1f;
+                i += 1f;
                 if (i >= range) {
                     cancel();
                     return;
@@ -63,7 +63,7 @@ public class BoltRodInteractListener implements Listener {
 
                 Location currentLocation = location.clone();
 
-                for (float j = start; j < i; j += 0.1f) {
+                for (float j = start; j < i; j += 0.25f) {
                     currentLocation.add(location.getDirection().multiply(j));
                     player.spawnParticle(Particle.ELECTRIC_SPARK, location, 2);
                 }
