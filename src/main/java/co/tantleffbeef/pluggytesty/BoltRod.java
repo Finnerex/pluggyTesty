@@ -30,11 +30,11 @@ public class BoltRod implements CommandExecutor {
         ItemMeta meta = rod.getItemMeta();
 
         int rarityNum = new Random().nextInt(10);
-        String rarity = rarityNum < 5 ? "§7Common" : (rarityNum < 7 ? "§9Rare" : "§l§6Legendary");
+        String rarity = rarityNum < 5 ? "§7Common" : (rarityNum < 8 ? "§9Rare" : "§6§lLegendary");
 
         meta.setDisplayName(rarity + " §fBolt Rod");
 
-        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("generic.movementSpeed", rarityNum, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("generic.movementSpeed", rarityNum / 10.0, AttributeModifier.Operation.ADD_NUMBER));
 
         rod.setItemMeta(meta);
         player.getInventory().addItem(rod);
