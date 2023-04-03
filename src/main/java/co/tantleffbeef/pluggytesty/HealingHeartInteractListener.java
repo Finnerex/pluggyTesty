@@ -62,7 +62,7 @@ public class HealingHeartInteractListener implements Listener {
                         cancel();
                         return;
                     }
-                    if (tickNum % 5 == 0)
+                    if (tickNum % 4 == 0)
                         lastAmount = curAmount;
 
                 }
