@@ -41,14 +41,14 @@ public class HealingHeartInteractListener implements Listener {
 
         charge += (charge < 60) ? 1 : 0; //every tick it is held for, max 3 sec
 
-        player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 1, charge);
+        player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 1, charge / 60.0f);
 
     }
 
     // when the player releases right click
     private void heal(Player player) {
         player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-        player.setHealth(player.getHealth() + charge/10);
+        player.setHealth(player.getHealth() + charge / 10.0f);
         player.setCooldown(Material.REDSTONE, 60);
     }
 }
