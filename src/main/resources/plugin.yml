@@ -1,4 +1,4 @@
-name: gavGav
+name: pluggyTesty
 version: '${project.version}'
-main: co.tantleffbeef.gavgav.GavGav
+main: co.tantleffbeef.pluggytesty.PluggyTesty
 api-version: 1.19

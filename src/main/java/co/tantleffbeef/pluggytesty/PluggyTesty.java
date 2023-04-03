@@ -1,8 +1,8 @@
-package co.tantleffbeef.gavgav;
+package co.tantleffbeef.pluggytesty;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class GavGav extends JavaPlugin {
+public final class PluggyTesty extends JavaPlugin {
 
     @Override
     public void onEnable() {
@@ -12,6 +12,6 @@ public final class GavGav extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        System.out.println("kys");
     }
 }
