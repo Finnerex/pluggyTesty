@@ -7,7 +7,8 @@ public final class PluggyTesty extends JavaPlugin {
     public void onEnable() {
         getLogger().info("penis haha");
         getCommand("givemewood").setExecutor(new MagicStick());
-        getServer().getPluginManager().registerEvents(new PlayerInteractEventListener(), this);
+        getCommand("givemerod").setExecutor(new BoltRod());
+        getServer().getPluginManager().registerEvents(new MagicStickInteractListener(), this);
     }
 
     @Override

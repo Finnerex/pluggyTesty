@@ -14,12 +14,13 @@ import java.util.ArrayList;
 
 public class MagicStick implements CommandExecutor {
     public static final String STICK_LORE = "This stick has penetrated many villains over the years.";
+    private static int number = 1;
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (!(commandSender instanceof Player)) {
+        if (!(commandSender instanceof Player))
             return false;
-        }
+
 
         Player player = (Player) commandSender;
 
@@ -34,6 +35,8 @@ public class MagicStick implements CommandExecutor {
 
         ArrayList<String> die = new ArrayList<>();
         die.add(STICK_LORE);
+        die.add("Edition #" + number);
+        number++;
 
         meta.setLore(die);
 

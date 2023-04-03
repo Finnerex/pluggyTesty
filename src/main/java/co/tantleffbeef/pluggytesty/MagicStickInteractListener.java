@@ -17,7 +17,7 @@ import org.bukkit.util.Vector;
 import java.util.Objects;
 import java.util.Random;
 
-public class PlayerInteractEventListener implements Listener {
+public class MagicStickInteractListener implements Listener {
     private static final int FIREBALL_MAXSPEED = 7;
     private static final int FIREBALL_MINSPEED = 4;
     private static final float FIREBALL_STRENGTH = 2.0f;
