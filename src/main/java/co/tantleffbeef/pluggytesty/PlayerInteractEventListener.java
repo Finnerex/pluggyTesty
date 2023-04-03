@@ -48,8 +48,10 @@ public class PlayerInteractEventListener implements Listener {
         fireball.setIsIncendiary(true);
 
         float speed = FIREBALL_MINSPEED + new Random().nextFloat() * (FIREBALL_MAXSPEED - FIREBALL_MINSPEED);
-        float spread = -0.5f + new Random().nextFloat();
+        float spreadY = -0.5f + new Random().nextFloat();
+        float spreadX = -0.5f + new Random().nextFloat();
 
-        fireball.setDirection(playerDirection.rotateAroundY(spread).multiply(speed));
+
+        fireball.setDirection(playerDirection.rotateAroundY(spreadY).rotateAroundX(spreadX).multiply(speed));
     }
 }
