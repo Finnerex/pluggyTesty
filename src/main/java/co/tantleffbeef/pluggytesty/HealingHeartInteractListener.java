@@ -12,8 +12,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class HealingHeartInteractListener implements Listener {
     private static int charge = 0;
+    private static long lastTime = 0;
     @EventHandler
     private void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
 
         ItemStack item = event.getItem();
 
@@ -25,30 +29,35 @@ public class HealingHeartInteractListener implements Listener {
         if (!meta.getLore().get(0).equals(HealingHeart.HEART_LORE))
             return;
 
+        event.setCancelled(true);
+
         Player player = event.getPlayer();
 
         if (player.hasCooldown(Material.REDSTONE))
             return;
 
-        player.sendMessage("c: " + charge);
+        int timeDif = (int) (System.currentTimeMillis() - lastTime);
+        lastTime = System.currentTimeMillis();
 
-        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            if (charge > 5)
-                heal(player);
+        if (timeDif > 250) {
+            heal(player);
             charge = 0;
             return;
         }
 
+        player.sendMessage("c: " + charge);
+
         charge += (charge < 60) ? 1 : 0; //every tick it is held for, max 3 sec
 
-        player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 1, charge / 60.0f);
+        player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 1, charge / 20.0f);
 
     }
 
     // when the player releases right click
     private void heal(Player player) {
         player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-        player.setHealth(player.getHealth() + charge / 10.0f);
+        player.damage(-charge / 10.0f);
+        //player.setHealth((player.getHealth() + charge / 10.0f ));
         player.setCooldown(Material.REDSTONE, 60);
     }
 }
