@@ -40,6 +40,8 @@ public class BoltRod implements CommandExecutor {
         ArrayList<String> lore = new ArrayList<>();
         lore.add(ROD_LORE);
 
+        meta.setLore(lore);
+
         rod.setItemMeta(meta);
         player.getInventory().addItem(rod);
         player.updateInventory();
