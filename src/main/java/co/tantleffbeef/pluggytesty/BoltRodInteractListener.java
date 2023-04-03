@@ -44,11 +44,11 @@ public class BoltRodInteractListener implements Listener {
     private boolean fireBolt(float range, float speed, Player player) { // returns if hit target
 
         Location location = player.getEyeLocation();
-        Vector direction = location.getDirection().normalize();
+//        Vector direction = location.getDirection().normalize();
 
         for(float i = 0; i < range; i+= 0.1f) {
-            location.add(direction.multiply(i));
-            player.spawnParticle(Particle.FLASH, location, 1);
+            location.add(location.getDirection().multiply(i));
+            player.spawnParticle(Particle.SPELL, location, 1);
         }
 
         return false;
