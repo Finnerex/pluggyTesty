@@ -50,32 +50,27 @@ public class BoltRodInteractListener implements Listener {
         Location location = player.getEyeLocation();
 
         final float start = 0.5f;
-        BukkitRunnable runnable = new BukkitRunnable() {
-            private float i = start;
+//        BukkitRunnable runnable = new BukkitRunnable() {
+//            private float i = start;
+//
+//            @Override
+//            public void run() {
+//                i += 1f;
+//                if (i >= range) {
+//                    cancel();
+//                    return;
+//                }
+//
+//                Location currentLocation = location.clone();
+//            }
+//        };
 
-            @Override
-            public void run() {
-                i += 1f;
-                if (i >= range) {
-                    cancel();
-                    return;
-                }
+//        runnable.runTaskTimer(plugin, 0, 0);
 
-                Location currentLocation = location.clone();
-
-                for (float j = start; j < i; j += 0.25f) {
-                    currentLocation.add(location.getDirection().multiply(j));
-                    player.spawnParticle(Particle.SPELL_INSTANT, location, 1);
-                }
-            }
-        };
-
-        runnable.runTaskTimer(plugin, 0, 0);
-
-//        for(float i = 0.5f; i < range; i += 0.1f) {
-//            location.add(location.getDirection().multiply(i));
-//            player.spawnParticle(Particle.SPELL_INSTANT, location, 2);
-//        }
+        for(float i = 0.5f; i < range; i += 0.1f) {
+            location.add(location.getDirection().multiply(i));
+            player.spawnParticle(Particle.SPELL_INSTANT, location, 2);
+        }
 
         return false;
     }
