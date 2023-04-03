@@ -40,7 +40,8 @@ public class HealingHeartInteractListener implements Listener {
         lastTime = System.currentTimeMillis();
 
         if (timeDif > 250) {
-            heal(player);
+            if (charge > 5)
+                heal(player);
             charge = 0;
             return;
         }
