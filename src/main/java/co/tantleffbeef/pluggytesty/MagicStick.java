@@ -19,16 +19,18 @@ public class MagicStick implements CommandExecutor {
 
         ItemStack stick = new ItemStack(Material.STICK);
         // custom name, description, make it enchanted
-        stick.addEnchantment(Enchantment.RIPTIDE, 10);
 
         ItemMeta meta = stick.getItemMeta();
         // Change some stuff
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.setDisplayName("Magic Rod of Destiny!!!!!!111!");
-        ArrayList<String> die = new ArrayList<String>();
+        meta.addEnchant(Enchantment.RIPTIDE, 10, true);
+
+        ArrayList<String> die = new ArrayList<>();
         die.add("This stick has penetrated many villains over the years.");
 
         meta.setLore(die);
+
         stick.setItemMeta(meta);
 
 
