@@ -43,4 +43,5 @@ public class MagicStick implements CommandExecutor {
 
         return true;
     }
+
 }
