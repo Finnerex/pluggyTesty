@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class PlayerInteractEventListener implements Listener {
     private static final int FIREBALL_SPEED = 5;
@@ -45,6 +46,9 @@ public class PlayerInteractEventListener implements Listener {
         fireball.setYield(FIREBALL_STRENGTH);
         fireball.setIsIncendiary(true);
 
-        fireball.setDirection(playerDirection.multiply(FIREBALL_SPEED));
+        float speed = FIREBALL_MINSPEED + new Random().nextFloat() * (FIREBALL_MAXSPEED - FIREBALL_MINSPEED);
+        float spread = -0.5f + new Random().nextFloat();
+
+        fireball.setDirection(playerDirection.rotateAroundY(spread).multiply(speed));
     }
 }
