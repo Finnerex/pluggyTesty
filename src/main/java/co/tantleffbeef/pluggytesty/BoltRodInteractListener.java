@@ -5,16 +5,11 @@ import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
-
-import java.util.Objects;
 
 public class BoltRodInteractListener implements Listener {
     private final PluggyTesty plugin;
@@ -44,15 +39,19 @@ public class BoltRodInteractListener implements Listener {
         if (player.hasCooldown(Material.BLAZE_ROD))
             return;
 
-        ((Damageable) fireBolt(3.5f, player)).damage(10, (Entity) player);
+        ((Damageable) shootBolt(3.5f, player)).damage(10, (Entity) player);
 
     }
 
-    private Entity fireBolt(float range, Player player) {
+    private Entity shootBolt(float range, Player player) {
 
         Location location = player.getEyeLocation();
 
         Entity entity = player.getWorld().rayTraceEntities(location, location.getDirection(), range * 10).getHitEntity();
+        if (entity != null)
+            player.sendMessage(entity.toString());
+        else
+            player.sendMessage("no entity");
 
         for(float i = 0.5f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
