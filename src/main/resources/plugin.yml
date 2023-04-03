@@ -1,0 +1,4 @@
+name: gavGav
+version: '${project.version}'
+main: co.tantleffbeef.gavgav.GavGav
+api-version: 1.19
