@@ -57,12 +57,12 @@ public class HealingHeartInteractListener implements Listener {
 
                     player.sendMessage("c: " + curAmount + "\nl: " + lastAmount + "\nt: " + tickNum);
 
-                    if (tickNum > 15 && curAmount == lastAmount) {
+                    if (tickNum > 40 && curAmount == lastAmount) {
                         heal(player, item);
                         cancel();
                         return;
                     }
-                    if (tickNum % 4 == 0)
+                    if (tickNum % 4 == 0) // roughly about four ticks per interaction -ish
                         lastAmount = curAmount;
 
                 }
@@ -74,7 +74,7 @@ public class HealingHeartInteractListener implements Listener {
         }
 
 
-        item.setAmount(Math.min(item.getAmount() + 1, 60)); //every tick it is held for, max 60
+        item.setAmount(Math.min(item.getAmount() + 1, 60)); //every tick(s) it is held for, max 60
 
         player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 1, 1 + item.getAmount() * 0.01f);
 
