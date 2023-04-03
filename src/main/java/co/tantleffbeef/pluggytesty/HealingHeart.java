@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,7 +24,7 @@ public class HealingHeart implements CommandExecutor {
         ItemStack item = new ItemStack(Material.REDSTONE);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName("§mHealing Heart");
+        meta.setDisplayName(ChatColor.DARK_RED + "Healing Heart");
 
         ArrayList<String> lore = new ArrayList<>();
         lore.add(HEART_LORE);
