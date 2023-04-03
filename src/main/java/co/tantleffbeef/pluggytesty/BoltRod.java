@@ -13,11 +13,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.joml.Random;
 
 import javax.lang.model.element.Modifier;
+import java.util.ArrayList;
 import java.util.jar.Attributes;
 
 public class BoltRod implements CommandExecutor {
 
-    //public static final String ROD_LORE = "not stolen from hypixel sb";
+    public static final String ROD_LORE = "not stolen from hypixel sb";
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -34,7 +35,10 @@ public class BoltRod implements CommandExecutor {
 
         meta.setDisplayName(rarity + " §fBolt Rod");
 
-        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("generic.movementSpeed", rarityNum / 10.0, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("generic.movementSpeed", rarityNum / 20.0, AttributeModifier.Operation.ADD_NUMBER));
+
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(ROD_LORE);
 
         rod.setItemMeta(meta);
         player.getInventory().addItem(rod);
@@ -42,4 +46,5 @@ public class BoltRod implements CommandExecutor {
 
         return true;
     }
+
 }
