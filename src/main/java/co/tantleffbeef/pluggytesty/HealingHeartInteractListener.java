@@ -32,7 +32,7 @@ public class HealingHeartInteractListener implements Listener {
 
         ItemMeta meta = item.getItemMeta();
 
-        if (!meta.getLore().get(0).equals(HealingHeart.HEART_LORE))
+        if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(HealingHeart.HEART_LORE))
             return;
 
         event.setCancelled(true);

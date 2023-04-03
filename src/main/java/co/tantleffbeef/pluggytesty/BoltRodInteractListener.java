@@ -32,7 +32,7 @@ public class BoltRodInteractListener implements Listener {
 
         ItemMeta meta = item.getItemMeta();
 
-        if (!meta.getLore().get(0).equals(BoltRod.ROD_LORE))
+        if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(BoltRod.ROD_LORE))
             return;
 
         Player player = event.getPlayer();

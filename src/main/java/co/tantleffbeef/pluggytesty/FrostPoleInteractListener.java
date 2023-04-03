@@ -28,7 +28,7 @@ public class FrostPoleInteractListener implements Listener {
         if (item == null || item.getType() != Material.SOUL_TORCH) return;
 
         ItemMeta meta = item.getItemMeta();
-        if (meta == null || !meta.getLore().get(0).equals(FrostPole.POLE_LORE)) return;
+        if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(FrostPole.POLE_LORE)) return;
 
         event.setCancelled(true);
 

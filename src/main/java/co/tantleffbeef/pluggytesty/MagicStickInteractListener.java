@@ -34,7 +34,7 @@ public class MagicStickInteractListener implements Listener {
             return;
 
         ItemMeta leMeta = leItem.getItemMeta();
-        if (!leMeta.getLore().get(0).equals(MagicStick.STICK_LORE))
+        if (leMeta == null || leMeta.getLore() == null || !leMeta.getLore().get(0).equals(MagicStick.STICK_LORE))
             return;
 
         Player player = event.getPlayer();
