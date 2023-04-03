@@ -55,21 +55,16 @@ public class HealingHeartInteractListener implements Listener {
                     tickNum ++;
                     int curAmount = item.getAmount();
 
-                    //player.sendMessage("c: " + curAmount + "\nl: " + lastAmount + "\nt: " + tickNum);
-
                     if(curAmount != lastAmount)
                         tickNum = 0;
 
-                    if (tickNum > 40 && curAmount == lastAmount) {
+                    if (tickNum > 15) { // last and current amount are the same for 15 ticks
                         heal(player, item);
                         cancel();
                         return;
                     }
 
                     lastAmount = curAmount;
-
-//                    if (tickNum % 4 == 0) // roughly about four ticks per interaction -ish
-//                        lastAmount = curAmount;
 
                 }
 
