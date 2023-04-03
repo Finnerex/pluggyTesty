@@ -13,6 +13,6 @@ public final class PluggyTesty extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        System.out.println("kys");
+        getLogger().info("no more");
     }
 }
