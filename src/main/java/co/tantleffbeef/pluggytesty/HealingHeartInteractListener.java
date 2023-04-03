@@ -52,12 +52,12 @@ public class HealingHeartInteractListener implements Listener {
 
                 @Override
                 public void run() {
-                    tickNum++;
+                    tickNum ++;
                     int curAmount = item.getAmount();
 
                     player.sendMessage("c: " + curAmount + "\nl: " + lastAmount + "\nt: " + tickNum);
 
-                    if (tickNum > 10 && curAmount == lastAmount) {
+                    if (tickNum > 50 && curAmount == lastAmount) {
                         heal(player, item);
                         cancel();
                         return;
