@@ -6,7 +6,16 @@ public final class PluggyTesty extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getLogger().info("penis haha");;;
+        getLogger().info("penis haha");
+        ;
+        ;
+        ;
+        ;
+        ;
+        ;
+        ;
+        ;
+        ;
 
     }
 
