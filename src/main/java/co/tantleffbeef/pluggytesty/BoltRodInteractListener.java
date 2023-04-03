@@ -65,7 +65,7 @@ public class BoltRodInteractListener implements Listener {
 
                 for (float j = start; j < i; j += 0.25f) {
                     currentLocation.add(location.getDirection().multiply(j));
-                    player.spawnParticle(Particle.ELECTRIC_SPARK, location, 2);
+                    player.spawnParticle(Particle.SPELL, location, 2);
                 }
             }
         };
