@@ -2,3 +2,7 @@ name: pluggyTesty
 version: '${project.version}'
 main: co.tantleffbeef.pluggytesty.PluggyTesty
 api-version: 1.19
+
+commands:
+  givemewood:
+    description: gives you would (but this would is magic and explosive and boom boom)
