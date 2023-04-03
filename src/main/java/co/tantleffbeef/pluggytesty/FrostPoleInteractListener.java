@@ -13,6 +13,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 import java.util.Objects;
@@ -36,18 +37,25 @@ public class FrostPoleInteractListener implements Listener {
 
         final float range = 4f;
         Entity target = shootBolt(range, player);
-        target.setFreezeTicks(220);
+        target.setFreezeTicks(140);
 
     }
 
     private Entity shootBolt(float r, Player p) {
         Location location = p.getEyeLocation();
-        Entity entity = p.getWorld().rayTraceEntities(location, location.getDirection(), r * 10).getHitEntity();
+        location.add(location.getDirection().multiply(2));
 
-        for(float i = 0.5f; i < r; i += 0.1f) {
+        Entity entity = null;
+        RayTraceResult result = p.getWorld().rayTraceEntities(location, location.getDirection(), r * 10);
+        if (result != null)
+            entity = result.getHitEntity();
+
+
+        for(float i = 0.1f; i < r; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
             p.spawnParticle(Particle.SPELL_INSTANT, location, 2);
         }
+
         return entity;
     }
 }
