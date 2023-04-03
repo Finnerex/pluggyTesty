@@ -37,7 +37,7 @@ public class BoltRodInteractListener implements Listener {
         if (player.hasCooldown(Material.BLAZE_ROD))
             return;
 
-        fireBolt(5, 20, player);
+        fireBolt(5, 0.1f, player);
 
     }
 
@@ -46,9 +46,9 @@ public class BoltRodInteractListener implements Listener {
         Location location = player.getEyeLocation();
 //        Vector direction = location.getDirection().normalize();
 
-        for(float i = 0; i < range; i+= 0.1f) {
+        for(float i = 0; i < range; i+= 0.1f * speed) {
             location.add(location.getDirection().multiply(i));
-            player.spawnParticle(Particle.END_ROD, location, 3);
+            player.spawnParticle(Particle.SPELL_INSTANT, location, 2);
         }
 
         return false;
