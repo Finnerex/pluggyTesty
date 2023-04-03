@@ -48,8 +48,8 @@ public class BoltRodInteractListener implements Listener {
 
         World boltWorld = Objects.requireNonNull(playerLocation.getWorld());
 
-        for(int i = 0; i < range; i++) {
-            boltWorld.spawnParticle(Particle.END_ROD, playerLocation, 2);
+        for(int i = 1; i < range; i++) {
+            boltWorld.spawnParticle(Particle.END_ROD, playerLocation.multiply(i), 1);
         }
 
         return false;
