@@ -16,6 +16,11 @@ public class MagicStick implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+        if (!(commandSender instanceof Player)) {
+            return false;
+        }
+
+        Player player = (Player) commandSender;
 
         ItemStack stick = new ItemStack(Material.STICK);
         // custom name, description, make it enchanted
@@ -33,6 +38,8 @@ public class MagicStick implements CommandExecutor {
 
         stick.setItemMeta(meta);
 
+        player.getInventory().addItem(stick);
+        player.updateInventory();
 
         return true;
     }
