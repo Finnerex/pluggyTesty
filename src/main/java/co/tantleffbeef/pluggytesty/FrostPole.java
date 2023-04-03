@@ -13,5 +13,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 
 public class FrostPole implements CommandExecutor {
-    public static final String STICK_LORE = "This stick has penetrated many villains over the years.";
+    public static final String POLE_LORE1 = "The frost pole, while a decently powerful weapon, is also commonly";
+    public static final String POLE_LORE2 = "used to cool down houses during particularly hot summer days.";
+
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+        return false;
+    }
 }
