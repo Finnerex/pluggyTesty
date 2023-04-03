@@ -40,7 +40,10 @@ public class BoltRodInteractListener implements Listener {
         if (player.hasCooldown(Material.BLAZE_ROD))
             return;
 
-        ((Damageable) shootBolt(3.5f, player)).damage(4, player);
+        Damageable hitEntity = (Damageable) shootBolt(3.5f, player);
+        if (hitEntity != null)
+            hitEntity.damage(4, player);
+
         player.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
 
         player.setCooldown(Material.BLAZE_ROD, 5);
