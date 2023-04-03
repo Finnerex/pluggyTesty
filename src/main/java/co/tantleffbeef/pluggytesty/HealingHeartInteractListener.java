@@ -30,6 +30,8 @@ public class HealingHeartInteractListener implements Listener {
         if (player.hasCooldown(Material.REDSTONE))
             return;
 
+        player.sendMessage("c: " + charge);
+
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             if (charge > 5)
                 heal(player);
