@@ -17,8 +17,9 @@ import java.util.Objects;
 import java.util.Random;
 
 public class PlayerInteractEventListener implements Listener {
-    private static final int FIREBALL_SPEED = 5;
-    private static final float FIREBALL_STRENGTH = 3.0f;
+    private static final int FIREBALL_MAXSPEED = 7;
+    private static final int FIREBALL_MINSPEED = 4;
+    private static final float FIREBALL_STRENGTH = 2.0f;
 
     @EventHandler
     private void onPlayerInteract(PlayerInteractEvent event) {
