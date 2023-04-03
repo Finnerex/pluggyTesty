@@ -54,6 +54,9 @@ public class HealingHeartInteractListener implements Listener {
                 public void run() {
                     tickNum++;
                     int curAmount = item.getAmount();
+
+                    player.sendMessage("c: " + curAmount + "\nl: " + lastAmount + "\nt: " + tickNum);
+
                     if (tickNum > 10 && curAmount == lastAmount) {
                         heal(player, item);
                         cancel();
