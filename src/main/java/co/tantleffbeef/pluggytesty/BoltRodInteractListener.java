@@ -41,13 +41,15 @@ public class BoltRodInteractListener implements Listener {
         if (player.hasCooldown(Material.BLAZE_ROD))
             return;
 
-        fireBolt(3.5f, player);
+        ((Damageable) fireBolt(3.5f, player)).damage(10, (Entity) player);
 
     }
 
     private boolean fireBolt(float range, Player player) { // returns if hit target
 
         Location location = player.getEyeLocation();
+
+        Entity entity = player.getWorld().rayTraceEntities(location, location.getDirection(), range * 10).getHitEntity();
 
         for(float i = 0.5f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
