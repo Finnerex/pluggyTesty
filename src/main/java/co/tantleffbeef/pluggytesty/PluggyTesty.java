@@ -13,7 +13,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MagicStickInteractListener(), this);
         getServer().getPluginManager().registerEvents(new BoltRodInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new FrostPoleInteractListener(), this);
-        getServer().getPluginManager().registerEvents(new HealingHeartInteractListener(), this);
+        getServer().getPluginManager().registerEvents(new HealingHeartInteractListener(this), this);
     }
 
     @Override
