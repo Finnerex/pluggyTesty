@@ -60,6 +60,8 @@ public class BoltRodInteractListener implements Listener {
         if (result != null)
             entity = result.getHitEntity();
 
+        if (entity instanceof Damageable)
+            entity = null;
 
         for(float i = 0.1f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
