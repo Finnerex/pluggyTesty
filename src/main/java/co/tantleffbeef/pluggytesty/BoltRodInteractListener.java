@@ -49,6 +49,15 @@ public class BoltRodInteractListener implements Listener {
 
         Location location = player.getEyeLocation();
 
+        for(float i = 0.5f; i < range; i += 0.01f) {
+            location.add(location.getDirection().multiply(i));
+            player.spawnParticle(Particle.SPELL_INSTANT, location, 2);
+        }
+
+        return false;
+    }
+}
+
 //        final float start = 0.5f;
 //        BukkitRunnable runnable = new BukkitRunnable() {
 //            private float i = start;
@@ -71,12 +80,3 @@ public class BoltRodInteractListener implements Listener {
 //        };
 //
 //        runnable.runTaskTimer(plugin, 0, 0);
-
-        for(float i = 0.5f; i < range; i += 0.1f) {
-            location.add(location.getDirection().multiply(i));
-            player.spawnParticle(Particle.SPELL_INSTANT, location, 2);
-        }
-
-        return false;
-    }
-}
