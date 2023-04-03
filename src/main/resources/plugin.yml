@@ -10,3 +10,5 @@ commands:
     description: gives you bolt rod
   givemepole:
     description: gives you frost pole
+  givemeheal:
+    description: healing item cool

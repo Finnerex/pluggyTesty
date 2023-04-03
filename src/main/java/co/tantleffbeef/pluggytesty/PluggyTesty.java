@@ -9,9 +9,11 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("givemewood").setExecutor(new MagicStick());
         getCommand("givemerod").setExecutor(new BoltRod());
         getCommand("givemepole").setExecutor(new FrostPole());
+        getCommand("givemeheal").setExecutor(new HealingHeart());
         getServer().getPluginManager().registerEvents(new MagicStickInteractListener(), this);
         getServer().getPluginManager().registerEvents(new BoltRodInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new FrostPoleInteractListener(), this);
+        getServer().getPluginManager().registerEvents(new HealingHeartInteractListener(), this);
     }
 
     @Override
