@@ -34,6 +34,9 @@ public class PlayerInteractEventListener implements Listener {
 
         Player player = event.getPlayer();
 
+        if (player.hasCooldown(Material.STICK))
+            return;
+
         Location playerLocation = player.getEyeLocation();
         Vector playerDirection = playerLocation.getDirection().normalize();
         // get player direction
