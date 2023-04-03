@@ -49,7 +49,7 @@ public class BoltRodInteractListener implements Listener {
 
         Location location = player.getEyeLocation();
 
-        for(float i = 0.5f; i < range; i += 0.01f) {
+        for(float i = 0.5f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
             player.spawnParticle(Particle.SPELL_INSTANT, location, 2);
         }
