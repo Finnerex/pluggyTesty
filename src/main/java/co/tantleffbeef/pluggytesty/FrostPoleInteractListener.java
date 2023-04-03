@@ -19,7 +19,7 @@ import org.bukkit.util.Vector;
 import java.util.Objects;
 import java.util.Random;
 
-public class FrostPoleInteractListener {
+public class FrostPoleInteractListener implements Listener {
     @EventHandler
     private void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
