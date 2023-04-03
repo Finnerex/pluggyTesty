@@ -31,7 +31,7 @@ public class MagicStick implements CommandExecutor {
         // Change some stuff
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.setDisplayName(player.getName() + "'s Magic Rod of Destiny!!!1!!!11!");
-        meta.addEnchant(Enchantment.RIPTIDE, 10, true);
+        meta.addEnchant(Enchantment.RIPTIDE, 1, true);
 
         ArrayList<String> die = new ArrayList<>();
         die.add(STICK_LORE);

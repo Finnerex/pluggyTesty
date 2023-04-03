@@ -17,6 +17,26 @@ public class FrostPole implements CommandExecutor {
     public static final String POLE_LORE2 = "used to cool down houses during particularly hot summer days.";
 
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        return false;
+        if (!(commandSender instanceof Player)) return false;
+
+        Player player = (Player) commandSender;
+
+        ItemStack pole = new ItemStack(Material.SOUL_TORCH);
+
+        ItemMeta meta = pole.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.setDisplayName("The Frost Pole");
+        meta.addEnchant(Enchantment.FROST_WALKER, 2, true);
+
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(POLE_LORE1);
+        lore.add(POLE_LORE2);
+        meta.setLore(lore);
+
+        pole.setItemMeta(meta);
+        player.getInventory().addItem(pole);
+        player.updateInventory();
+
+        return true;
     }
 }
