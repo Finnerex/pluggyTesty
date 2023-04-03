@@ -41,19 +41,37 @@ public class BoltRodInteractListener implements Listener {
         if (player.hasCooldown(Material.BLAZE_ROD))
             return;
 
-        fireBolt(1, 0.05f, player);
+        fireBolt(1, player);
 
     }
 
-    private boolean fireBolt(float range, float speed, Player player) { // returns if hit target
+    private boolean fireBolt(float range, Player player) { // returns if hit target
 
         Location location = player.getEyeLocation();
-//        Vector direction = location.getDirection().normalize();
 
-        for(float i = 0.5f; i < range; i += 0.1f * speed) {
-            location.add(location.getDirection().multiply(i));
-            player.spawnParticle(Particle.SPELL_INSTANT, location, 2);
-        }
+        final float start = 0.5f;
+        BukkitRunnable runnable = new BukkitRunnable() {
+            private float i = start;
+
+            @Override
+            public void run() {
+                i += 0.1f;
+                if (i >= range) {
+                    cancel();
+                    return;
+                }
+
+                location.add(location.getDirection().multiply(i));
+                player.spawnParticle(Particle.SPELL_INSTANT, location, 2);
+            }
+        };
+
+        runnable.runTaskTimer(plugin, 0, 0);
+
+//        for(float i = 0.5f; i < range; i += 0.1f) {
+//            location.add(location.getDirection().multiply(i));
+//            player.spawnParticle(Particle.SPELL_INSTANT, location, 2);
+//        }
 
         return false;
     }
