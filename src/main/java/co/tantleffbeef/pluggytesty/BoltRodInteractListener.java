@@ -41,7 +41,7 @@ public class BoltRodInteractListener implements Listener {
         if (player.hasCooldown(Material.BLAZE_ROD))
             return;
 
-        fireBolt(4.5f, player);
+        fireBolt(4, player);
 
     }
 
