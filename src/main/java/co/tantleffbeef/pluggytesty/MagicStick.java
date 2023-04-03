@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MagicStick implements CommandExecutor {
@@ -24,7 +25,10 @@ public class MagicStick implements CommandExecutor {
         // Change some stuff
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.setDisplayName("Magic Rod of Destiny!!!!!!111!");
-        meta.setLore(Arrays.stream(new String[] {"This stick has penetrated many villains over the years."}).toList());
+        ArrayList<String> die = new ArrayList<String>();
+        die.add("This stick has penetrated many villains over the years.");
+
+        meta.setLore(die);
         stick.setItemMeta(meta);
 
 
