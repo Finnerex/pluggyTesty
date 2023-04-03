@@ -41,6 +41,9 @@ public class BoltRodInteractListener implements Listener {
             return;
 
         ((Damageable) shootBolt(3.5f, player)).damage(4, player);
+        player.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
+
+        player.setCooldown(Material.BLAZE_ROD, 5);
 
     }
 
@@ -57,7 +60,7 @@ public class BoltRodInteractListener implements Listener {
 
         for(float i = 0.1f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
-            player.spawnParticle(Particle.SPELL_INSTANT, location, 2);
+            player.spawnParticle(Particle.SPELL, location, 1);
         }
 
         return entity;

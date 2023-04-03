@@ -35,7 +35,7 @@ public class BoltRod implements CommandExecutor {
 
         meta.setDisplayName(rarity + " §fBolt Rod");
 
-        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("generic.movementSpeed", rarityNum / 20.0, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("generic.movementSpeed", rarityNum / 50.0, AttributeModifier.Operation.ADD_NUMBER));
 
         ArrayList<String> lore = new ArrayList<>();
         lore.add(ROD_LORE);
