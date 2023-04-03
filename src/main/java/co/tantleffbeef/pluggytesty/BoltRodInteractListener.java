@@ -1,9 +1,6 @@
 package co.tantleffbeef.pluggytesty;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,11 +8,18 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
 public class BoltRodInteractListener implements Listener {
+    private final PluggyTesty plugin;
+
+    public BoltRodInteractListener(PluggyTesty plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     private void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR &&
