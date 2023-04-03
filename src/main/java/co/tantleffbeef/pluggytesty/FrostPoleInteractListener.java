@@ -6,7 +6,6 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,21 +24,21 @@ public class FrostPoleInteractListener implements Listener {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         ItemStack item = event.getItem();
-        if (item == null || item.getType() != Material.STICK) return;
+        if (item == null || item.getType() != Material.SOUL_TORCH) return;
 
         ItemMeta meta = item.getItemMeta();
-        if (!meta.getLore().equals(MagicStick.STICK_LORE)) return;
+        if (!meta.getLore().equals(FrostPole.POLE_LORE)) return;
 
         Player player = event.getPlayer();
         if (player.hasCooldown(Material.SOUL_TORCH)) return;
 
         final float range = 4f;
-        Entity target = iceBolt(range, player);
+        Entity target = shootBolt(range, player);
         target.setFreezeTicks(220);
 
     }
 
-    private Entity iceBolt(float r, Player p) {
+    private Entity shootBolt(float r, Player p) {
         Location location = p.getEyeLocation();
         Entity entity = p.getWorld().rayTraceEntities(location, location.getDirection(), r * 10).getHitEntity();
 

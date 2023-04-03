@@ -13,8 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 
 public class FrostPole implements CommandExecutor {
-    public static final String POLE_LORE1 = "The frost pole, while a decently powerful weapon, is also commonly";
-    public static final String POLE_LORE2 = "used to cool down houses during particularly hot summer days.";
+    public static final String POLE_LORE = "The frost pole is commonly used to cool down houses during summertime.";
 
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player)) return false;
@@ -29,8 +28,7 @@ public class FrostPole implements CommandExecutor {
         meta.addEnchant(Enchantment.FROST_WALKER, 2, true);
 
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(POLE_LORE1);
-        lore.add(POLE_LORE2);
+        lore.add(POLE_LORE);
         meta.setLore(lore);
 
         pole.setItemMeta(meta);
