@@ -10,6 +10,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.RayTraceResult;
 
 public class BoltRodInteractListener implements Listener {
     private final PluggyTesty plugin;
@@ -39,7 +40,7 @@ public class BoltRodInteractListener implements Listener {
         if (player.hasCooldown(Material.BLAZE_ROD))
             return;
 
-        ((Damageable) shootBolt(3.5f, player)).damage(10, (Entity) player);
+        ((Damageable) shootBolt(3.5f, player)).damage(4, player);
 
     }
 
