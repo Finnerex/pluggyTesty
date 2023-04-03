@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 
 public class MagicStick implements CommandExecutor {
+    public static final String STICK_LORE = "This stick has penetrated many villains over the years.";
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -32,7 +33,7 @@ public class MagicStick implements CommandExecutor {
         meta.addEnchant(Enchantment.RIPTIDE, 10, true);
 
         ArrayList<String> die = new ArrayList<>();
-        die.add("This stick has penetrated many villains over the years.");
+        die.add(STICK_LORE);
 
         meta.setLore(die);
 
