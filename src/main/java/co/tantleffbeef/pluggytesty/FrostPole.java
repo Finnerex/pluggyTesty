@@ -24,7 +24,7 @@ public class FrostPole implements CommandExecutor {
 
         ItemMeta meta = pole.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.setDisplayName("The Frost Pole");
+        meta.setDisplayName("§bThe Frost Pole");
         meta.addEnchant(Enchantment.FROST_WALKER, 2, true);
 
         ArrayList<String> lore = new ArrayList<>();
