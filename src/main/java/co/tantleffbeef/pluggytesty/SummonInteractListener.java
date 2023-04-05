@@ -7,20 +7,22 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;
 
 public class SummonInteractListener implements Listener {
 
     private final Plugin plugin;
+    private static HashMap<Player, ArrayList<Zombie>> summonOwners = new HashMap<>();
 
     public SummonInteractListener(Plugin plugin) {
         this.plugin = plugin;
@@ -76,11 +78,19 @@ public class SummonInteractListener implements Listener {
                         player.sendMessage("Target: " + target);
                     }
                 }
+
+                if (summonOwners.containsKey(player))
+                    summonOwners.get(player).addAll(summons);
+                else
+                    summonOwners.put(player, summons);
+
                 cancel();
             }
         };
 
         runnable.runTaskTimer(plugin, 20, 0);
+
+
     }
 
     private LivingEntity getNearestEntity(Location l, Player player) {
@@ -101,6 +111,25 @@ public class SummonInteractListener implements Listener {
         }
 
         return closest;
+    }
+
+    @EventHandler
+    private void onTargetChanged(EntityTargetEvent event) {
+        if (!(event.getEntity() instanceof Zombie))
+            return;
+
+        Zombie zombie = (Zombie) event.getEntity();
+        Entity target = event.getTarget();
+
+        if (!(target instanceof Player))
+            return;
+
+        Player player = (Player) target;
+        ArrayList<Zombie> summons = summonOwners.get(player);
+
+        if (summons.contains(zombie)) // if the player owns the zombie
+            zombie.setTarget(getNearestEntity(player.getEyeLocation(), player));
+
     }
 
 
