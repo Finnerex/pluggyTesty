@@ -47,7 +47,7 @@ public class HealingHeartInteractListener implements Listener {
 
         item.setAmount(Math.min(amount + 1, 30)); //every tick(s) it is held for, max 60
 
-        if(amount == 2) {
+        if(amount == 1) {
             BukkitRunnable runnable = new BukkitRunnable() {
                 private int tickNum = 0;
                 private int lastAmount = 1;
