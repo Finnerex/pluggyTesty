@@ -53,7 +53,7 @@ public class SummonInteractListener implements Listener {
             float scatterX = x - 3 + new Random().nextFloat() * 6;
             float scatterZ = z - 3 + new Random().nextFloat() * 6;
             Location location = new Location(world, scatterX, y, scatterZ);
-            Zombie zombie = (Zombie) world.spawnEntity(location, EntityType.ZOMBIE);
+            Zombie zombie = (Zombie) world.spawnEntity(location, EntityType.FIREBALL);
 
             LivingEntity target = getNearestEntity(playerLocation, player);
             if (target != null) {
