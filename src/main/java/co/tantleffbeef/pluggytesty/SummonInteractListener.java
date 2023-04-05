@@ -10,6 +10,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -19,6 +20,11 @@ import java.util.Random;
 
 public class SummonInteractListener implements Listener {
 
+    private final Plugin plugin;
+
+    public SummonInteractListener(Plugin plugin) {
+        this.plugin = plugin;
+    }
     @EventHandler
     private void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR &&
@@ -49,18 +55,37 @@ public class SummonInteractListener implements Listener {
 
         World world = Objects.requireNonNull(playerLocation.getWorld());
 
+        ArrayList<Zombie> summons = new ArrayList<>();
+
         for (int i = 0; i < 3; i++) {
             float scatterX = x - 3 + new Random().nextFloat() * 6;
             float scatterZ = z - 3 + new Random().nextFloat() * 6;
             Location location = new Location(world, scatterX, y, scatterZ);
-            Zombie zombie = (Zombie) world.spawnEntity(location, EntityType.FIREBALL);
-
-            LivingEntity target = getNearestEntity(playerLocation, player);
-            if (target != null) {
-                zombie.setTarget(target);
-                player.sendMessage("Target: " + target);
-            }
+            summons.add((Zombie) world.spawnEntity(location, EntityType.ZOMBIE));
         }
+
+        // schedule the targeting for later because they always target player first
+
+        BukkitRunnable runnable = new BukkitRunnable() {
+            private int tickNum = 0;
+
+            @Override
+            public void run() {
+                tickNum++;
+
+                if (tickNum > 10) {
+                    LivingEntity target = getNearestEntity(playerLocation, player);
+                    for (Zombie s : summons) {
+                        if (target != null) {
+                            s.setTarget(target);
+                            player.sendMessage("Target: " + target);
+                        }
+                    }
+                    cancel();
+                    return;
+                }
+            }
+        };
     }
 
     private LivingEntity getNearestEntity(Location l, Player player) {

@@ -13,11 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.RayTraceResult;
 
 public class BoltRodInteractListener implements Listener {
-    private final PluggyTesty plugin;
-
-    public BoltRodInteractListener(PluggyTesty plugin) {
-        this.plugin = plugin;
-    }
 
     @EventHandler
     private void onPlayerInteract(PlayerInteractEvent event) {
