@@ -58,7 +58,6 @@ public class SummonInteractListener implements Listener {
             LivingEntity target = getNearestEntity(playerLocation, player);
             if (target != null) {
                 zombie.setTarget(target);
-                zombie.attack(target);
                 player.sendMessage("Target: " + target);
             }
         }
@@ -75,7 +74,7 @@ public class SummonInteractListener implements Listener {
 
         for (Entity e : entities) {
             double d = e.getLocation().distance(l);
-            if (!(e instanceof Zombie) /*&& !e.equals(player)*/ && e instanceof LivingEntity && (closestDist == -1 || d < closestDist)) {
+            if (!(e instanceof Zombie) && !e.equals(player) && e instanceof LivingEntity && (closestDist == -1 || d < closestDist)) {
                 closestDist = d;
                 closest = (LivingEntity) e;
             }
