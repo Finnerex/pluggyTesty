@@ -57,10 +57,11 @@ public class BoltRodInteractListener implements Listener {
 
         Entity entity = null;
         RayTraceResult result = player.getWorld().rayTraceEntities(location, location.getDirection(), range * 10);
+
         if (result != null)
             entity = result.getHitEntity();
 
-        if (entity instanceof Damageable)
+        if (!(entity instanceof Damageable))
             entity = null;
 
         for(float i = 0.1f; i < range; i += 0.1f) {

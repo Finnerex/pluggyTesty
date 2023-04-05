@@ -35,6 +35,8 @@ public class SummonInteractListener implements Listener {
         if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(Summon.SUMMON_LORE))
             return;
 
+        event.setCancelled(true);
+
         Player player = event.getPlayer();
 
         if (player.hasCooldown(Material.ROTTEN_FLESH))
@@ -56,6 +58,7 @@ public class SummonInteractListener implements Listener {
             LivingEntity target = getNearestEntity(playerLocation, player);
             if (target != null) {
                 zombie.setTarget(target);
+                zombie.attack(target);
                 player.sendMessage("Target: " + target);
             }
         }
