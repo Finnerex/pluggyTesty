@@ -78,18 +78,18 @@ public class SummonInteractListener implements Listener {
                         player.sendMessage("Target: " + target);
                     }
                 }
-
-                if (summonOwners.containsKey(player))
-                    summonOwners.get(player).addAll(summons);
-                else
-                    summonOwners.put(player, summons);
-
                 cancel();
             }
         };
 
         runnable.runTaskTimer(plugin, 20, 0);
 
+        if (summonOwners.containsKey(player))
+            summonOwners.get(player).addAll(summons);
+        else
+            summonOwners.put(player, summons);
+
+        player.sendMessage(summonOwners.toString());
 
     }
 
