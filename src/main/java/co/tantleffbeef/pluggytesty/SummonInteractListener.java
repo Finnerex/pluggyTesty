@@ -67,25 +67,20 @@ public class SummonInteractListener implements Listener {
         // schedule the targeting for later because they always target player first
 
         BukkitRunnable runnable = new BukkitRunnable() {
-            private int tickNum = 0;
-
             @Override
             public void run() {
-                tickNum++;
-
-                if (tickNum > 10) {
-                    LivingEntity target = getNearestEntity(playerLocation, player);
-                    for (Zombie s : summons) {
-                        if (target != null) {
-                            s.setTarget(target);
-                            player.sendMessage("Target: " + target);
-                        }
+                LivingEntity target = getNearestEntity(playerLocation, player);
+                for (Zombie s : summons) {
+                    if (target != null) {
+                        s.setTarget(target);
+                        player.sendMessage("Target: " + target);
                     }
-                    cancel();
-                    return;
                 }
+                cancel();
             }
         };
+
+        runnable.runTaskTimer(plugin, 20, 0);
     }
 
     private LivingEntity getNearestEntity(Location l, Player player) {
