@@ -12,3 +12,5 @@ commands:
     description: gives you frost pole
   givemeheal:
     description: healing item cool
+  givemesummon:
+    description: summon summons
