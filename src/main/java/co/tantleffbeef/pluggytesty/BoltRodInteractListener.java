@@ -36,6 +36,7 @@ public class BoltRodInteractListener implements Listener {
             return;
 
         Damageable hitEntity = (Damageable) shootBolt(3.5f, player);
+        player.sendMessage(hitEntity.toString());
         if (hitEntity != null)
             hitEntity.damage(4, player);
 

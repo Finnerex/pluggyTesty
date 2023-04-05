@@ -15,9 +15,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.joml.Random;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class SummonInteractListener implements Listener {
 
@@ -43,12 +43,17 @@ public class SummonInteractListener implements Listener {
             return;
 
         Location playerLocation = player.getEyeLocation();
-        Vector playerDirection = playerLocation.getDirection().normalize();
+        float x = (float) playerLocation.getX();
+        float y = (float) playerLocation.getY();
+        float z = (float) playerLocation.getZ();
 
         World world = Objects.requireNonNull(playerLocation.getWorld());
 
         for(int i = 0; i < 3; i ++) {
-            Zombie zombie = (Zombie) world.spawnEntity(playerLocation.multiply(-3 + (new Random()).nextFloat() * 6), EntityType.ZOMBIE);
+            float scatterX = x - 3 + new Random().nextFloat() * 6;
+            float scatterZ = z - 3 + new Random().nextFloat() * 6;
+            Location location = new Location(world, scatterX, y, scatterZ);
+            Zombie zombie = (Zombie) world.spawnEntity(location, EntityType.ZOMBIE);
             //zombie.setTarget();
         }
 
