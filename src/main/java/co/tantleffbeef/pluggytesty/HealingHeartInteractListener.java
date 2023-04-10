@@ -74,7 +74,7 @@ public class HealingHeartInteractListener implements Listener {
 
         }
 
-        item.setAmount(Math.min(amount + 1, 20)); //every tick(s) it is held for, max 60
+        item.setAmount(Math.min(amount + 1, 10)); //every tick(s) it is held for, max 60
         player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 1, 1 + item.getAmount() * 0.01f);
 
     }
@@ -82,8 +82,7 @@ public class HealingHeartInteractListener implements Listener {
     // when the player releases right click
     private void heal(Player player, ItemStack item) {
         player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-        int a = (int) (player.getHealth() + item.getAmount() / 3.0f);
-        player.setHealth(Math.min(20, a));
+        player.setHealth(Math.min(20, (player.getHealth() + item.getAmount())));
         player.setCooldown(Material.REDSTONE, 60);
 
         item.setAmount(1);
