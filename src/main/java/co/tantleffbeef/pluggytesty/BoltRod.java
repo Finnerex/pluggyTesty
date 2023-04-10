@@ -32,10 +32,11 @@ public class BoltRod implements CommandExecutor {
 
         int rarityNum = new Random().nextInt(10);
         String rarity = rarityNum < 5 ? "§7Common" : (rarityNum < 8 ? "§9Rare" : "§6§lLegendary");
+        float speedBoost = rarity.equals("§7Common") ? 0f : (rarity.equals("§9Rare") ? 0.1f : 0.2f);
 
         meta.setDisplayName(rarity + " §eBolt Rod");
 
-        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("generic.movementSpeed", rarityNum / 50.0, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("generic.movementSpeed", speedBoost, AttributeModifier.Operation.ADD_NUMBER));
 
         ArrayList<String> lore = new ArrayList<>();
         lore.add(ROD_LORE);

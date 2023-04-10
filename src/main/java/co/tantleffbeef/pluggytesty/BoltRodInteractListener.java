@@ -37,7 +37,7 @@ public class BoltRodInteractListener implements Listener {
 
         Damageable hitEntity = (Damageable) shootBolt(3.5f, player);
         if (hitEntity != null)
-            hitEntity.damage(4, player);
+            hitEntity.damage(2, player);
 
         player.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
 

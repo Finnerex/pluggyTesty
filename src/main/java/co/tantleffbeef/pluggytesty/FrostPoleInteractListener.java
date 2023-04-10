@@ -39,7 +39,7 @@ public class FrostPoleInteractListener implements Listener {
         Entity target = shootBolt(range, player);
 
         if (target != null)
-            target.setFreezeTicks(140);
+            target.setFreezeTicks(160);
 
     }
 
