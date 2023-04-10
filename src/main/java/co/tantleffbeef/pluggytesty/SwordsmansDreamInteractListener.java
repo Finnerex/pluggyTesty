@@ -59,7 +59,7 @@ public class SwordsmansDreamInteractListener implements Listener {
                         cancel();
                         player.setGravity(true);
                         world.spawnParticle(Particle.EXPLOSION_LARGE, player.getLocation(), 1);
-                        player.setVelocity(player.getFacing())
+                        player.setVelocity(player.getLocation().getDirection());
                     }
 
 
