@@ -10,6 +10,8 @@ commands:
     description: gives you bolt rod
   givemepole:
     description: gives you frost pole
+  givemesword:
+    description: gives you a thick blade you can whack people with
   givemeheal:
     description: healing item cool
   givemesummon:

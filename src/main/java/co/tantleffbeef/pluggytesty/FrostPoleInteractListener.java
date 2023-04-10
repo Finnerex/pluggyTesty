@@ -34,12 +34,10 @@ public class FrostPoleInteractListener implements Listener {
         Player player = event.getPlayer();
         if (player.hasCooldown(Material.SOUL_TORCH)) return;
 
-        if (player.hasCooldown(Material.BLAZE_ROD)) return;
-
-        player.setCooldown(Material.BLAZE_ROD, 5);
+        player.setCooldown(Material.SOUL_TORCH, 5);
         player.playSound(player, Sound.ENTITY_PLAYER_HURT_FREEZE, 1, 1);
 
-        final float range = 4f;
+        final float range = 2f;
         Entity target = shootBolt(range, player);
 
         if (target != null)
@@ -50,6 +48,7 @@ public class FrostPoleInteractListener implements Listener {
     private Entity shootBolt(float r, Player p) {
         Location location = p.getEyeLocation();
         location.add(location.getDirection().multiply(2));
+        World world = location.getWorld();
 
         Entity entity = null;
         RayTraceResult result = p.getWorld().rayTraceEntities(location, location.getDirection(), r * 10);
@@ -60,9 +59,10 @@ public class FrostPoleInteractListener implements Listener {
         for(float i = 0.1f; i < r; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
             Random x = new Random();
-            Location location2 = new Location(location.getWorld(), location.getX(), location.getY(), location.getZ());
-            p.spawnParticle(Particle.DOLPHIN, location, 2);
-            p.spawnParticle(Particle.DOLPHIN, location2.add(x.nextDouble(), x.nextDouble(), x.nextDouble()), 2);
+            Location location2 = location.clone();
+            world.spawnParticle(Particle.DOLPHIN, location, 1);
+            double spread = 0.25;
+            world.spawnParticle(Particle.DOLPHIN, location2.add((x.nextDouble()+0.5)*spread, (x.nextDouble()+0.5)*spread, (x.nextDouble()+0.5)*spread), 1);
         }
 
         return entity;

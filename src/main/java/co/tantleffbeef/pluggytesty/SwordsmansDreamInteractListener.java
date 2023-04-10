@@ -50,6 +50,7 @@ public class SwordsmansDreamInteractListener implements Listener {
                 @Override
                 public void run() {
                     tickNum ++;
+                    // world.spawnParticle();
 
                     if (tickNum >= 8) {
                         cancel();
@@ -65,7 +66,7 @@ public class SwordsmansDreamInteractListener implements Listener {
             return;
         }
         player.setCooldown(Material.BLAZE_ROD, 5);
-        player.playSound(player, Sound.ENTITY_PLAYER_HURT_FREEZE, 1, 1);
+        player.playSound(player, Sound.BLOCK_GRINDSTONE_USE, 1, 1);
 
         final float range = 2f;
 
