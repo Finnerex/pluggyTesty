@@ -50,7 +50,7 @@ public class SwordsmansDreamInteractListener implements Listener {
                 @Override
                 public void run() {
                     tickNum ++;
-                    world.spawnParticle(Particle.SWEEP_ATTACK, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5, 1, 0, 1);
+                    world.spawnParticle(Particle.SWEEP_ATTACK, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5, 1.0, 0.0, 1.0);
 
                     if (tickNum >= 20) player.setVelocity(new Vector(0, 0,0));
                     if(tickNum >= 30) {
