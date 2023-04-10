@@ -40,13 +40,12 @@ public class WorldEnderInteractListener implements Listener {
         Player player = event.getPlayer();
         Location l = player.getEyeLocation();
 
-        Location reference = new Location(player.getWorld(), l.getX() - 1, l.getY() - 1, l.getZ());
-
         for (int i = 0; i < 3; i++){
-            reference.setY(l.getY() + i);
+            Location location = new Location(player.getWorld(), l.getX() - 1, l.getY() - 1, l.getZ());
+            location.setY(l.getY() + i);
             for (int j = 0; j < 3; j++) {
-                reference.setX(l.getX() + j);
-                Damageable hitEntity = (Damageable) shootArea(3.5f, reference);
+                location.setX(l.getX() + j);
+                Damageable hitEntity = (Damageable) shootArea(3.5f, location);
                 if (hitEntity != null)
                     hitEntity.damage(2, player);
             }
