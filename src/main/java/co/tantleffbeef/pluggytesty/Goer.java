@@ -33,6 +33,8 @@ public class Goer implements CommandExecutor {
 
         item.setItemMeta(meta);
 
+        player.sendMessage("??");
+
         player.getInventory().addItem(item);
         player.updateInventory();
 
