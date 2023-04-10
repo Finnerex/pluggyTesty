@@ -68,6 +68,7 @@ public class BoltRodInteractListener implements Listener {
     }
 }
 
+//       TRASH CODE BELOW ----->
 //        final float start = 0.5f;
 //        BukkitRunnable runnable = new BukkitRunnable() {
 //            private float i = start;

@@ -15,11 +15,11 @@ public class HealingHeart implements CommandExecutor {
 
     public static final String HEART_LORE = "hold to charge heal";
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player))
+    public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
+        if (!(commandSender instanceof Player))
             return false;
 
-        Player player = (Player) sender;
+        Player player = (Player) commandSender;
 
         ItemStack item = new ItemStack(Material.REDSTONE);
         ItemMeta meta = item.getItemMeta();
