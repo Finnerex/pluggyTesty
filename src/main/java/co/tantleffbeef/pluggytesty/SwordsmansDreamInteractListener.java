@@ -55,7 +55,7 @@ public class SwordsmansDreamInteractListener implements Listener {
                     if(tickNum >= 20) {
                         player.setVelocity(new Vector(0, 0,0));
                     }
-                    if(tickNum >= 30) {
+                    if(tickNum >= 30 && tickNum < 50) {
                         cancel();
                         player.setGravity(true);
                         world.spawnParticle(Particle.EXPLOSION_LARGE, player.getLocation(), 1);
