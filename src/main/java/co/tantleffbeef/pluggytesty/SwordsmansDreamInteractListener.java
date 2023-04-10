@@ -43,29 +43,30 @@ public class SwordsmansDreamInteractListener implements Listener {
 
         if(player.isSneaking()) {
             player.setGravity(false);
-            player.setVelocity(new Vector(0, 0.1, 0));
+            player.setVelocity(new Vector(0, 0.2, 0));
             // wait
             BukkitRunnable runnable = new BukkitRunnable() {
                 int tickNum = 0;
                 @Override
                 public void run() {
                     tickNum ++;
-                    // world.spawnParticle();
+                    world.spawnParticle(Particle.SWEEP_ATTACK, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5, 1, 0, 1);
 
-                    if (tickNum >= 8) {
+                    if (tickNum >= 20) player.setVelocity(new Vector(0, 0,0));
+                    if(tickNum >= 30) {
                         cancel();
                         return;
                     }
                 }
             };
 
-            runnable.runTaskTimer(plugin, 0, 5);
+            runnable.runTaskTimer(plugin, 0, 1);
             // dash down
             // recharge
         } else {
             return;
         }
-        player.setCooldown(Material.BLAZE_ROD, 5);
+        player.setCooldown(Material.IRON_SWORD, 5);
         player.playSound(player, Sound.BLOCK_GRINDSTONE_USE, 1, 1);
 
         final float range = 2f;
