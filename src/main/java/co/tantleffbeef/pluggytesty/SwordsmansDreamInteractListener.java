@@ -52,9 +52,12 @@ public class SwordsmansDreamInteractListener implements Listener {
                     tickNum ++;
                     world.spawnParticle(Particle.SWEEP_ATTACK, player.getLocation(), 3, 1.0, 0.0, 1.0);
 
-                    if(tickNum >= 20) player.setVelocity(new Vector(0, 0,0));
+                    if(tickNum >= 20) {
+                        player.setVelocity(new Vector(0, 0,0));
+                    }
                     if(tickNum >= 30) {
                         cancel();
+                        player.setGravity(true);
                         world.createExplosion(player.getLocation(), 0);
                         return;
                     }
@@ -64,7 +67,6 @@ public class SwordsmansDreamInteractListener implements Listener {
             runnable.runTaskTimer(plugin, 0, 1);
             // dash down
             // recharge
-            player.setGravity(true);
 
         } else {
             return;
