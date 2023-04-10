@@ -10,12 +10,17 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
+import static org.bukkit.Bukkit.getLogger;
+
 public class Goer implements CommandExecutor {
 
     public static final String GOER_LORE = "makes you go";
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        sender.sendMessage("balls");
+        getLogger().info("balls2");
+
         if (!(sender instanceof Player))
             return false;
 
