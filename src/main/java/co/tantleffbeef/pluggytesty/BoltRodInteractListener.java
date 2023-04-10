@@ -35,7 +35,7 @@ public class BoltRodInteractListener implements Listener {
         if (player.hasCooldown(Material.BLAZE_ROD))
             return;
 
-        Damageable hitEntity = (Damageable) shootBolt(3.5f, player);
+        Damageable hitEntity = (Damageable) shootBolt(3.5f, player.getEyeLocation());
         if (hitEntity != null)
             hitEntity.damage(2, player);
 
@@ -45,13 +45,13 @@ public class BoltRodInteractListener implements Listener {
 
     }
 
-    private Entity shootBolt(float range, Player player) {
+    private Entity shootBolt(float range, Location location) {
 
-        Location location = player.getEyeLocation();
         location.add(location.getDirection().multiply(2));
+        World world = location.getWorld();
 
         Entity entity = null;
-        RayTraceResult result = player.getWorld().rayTraceEntities(location, location.getDirection(), range * 10);
+        RayTraceResult result = world.rayTraceEntities(location, location.getDirection(), range * 10);
 
         if (result != null)
             entity = result.getHitEntity();
@@ -61,7 +61,7 @@ public class BoltRodInteractListener implements Listener {
 
         for(float i = 0.1f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
-            player.spawnParticle(Particle.SPELL_INSTANT, location, 1);
+            world.spawnParticle(Particle.SPELL_INSTANT, location, 1);
         }
 
         return entity;
