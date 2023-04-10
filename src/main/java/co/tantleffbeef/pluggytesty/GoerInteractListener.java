@@ -8,6 +8,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 
 public class GoerInteractListener implements Listener {
 
@@ -32,7 +33,8 @@ public class GoerInteractListener implements Listener {
 //        if (player.hasCooldown(Material.LEATHER))
 //            return;
 
-        player.setVelocity(player.getVelocity().multiply(3));
+        Vector direction = player.getEyeLocation().getDirection();
+        player.setVelocity(player.getVelocity().add(direction.multiply(3)));
 
 
 

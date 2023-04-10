@@ -18,9 +18,6 @@ public class Goer implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        sender.sendMessage("balls");
-        getLogger().info("balls2");
-
         if (!(sender instanceof Player))
             return false;
 
