@@ -55,7 +55,7 @@ public class FrostPoleInteractListener implements Listener {
 
         for(float i = 0.1f; i < r; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
-            p.spawnParticle(Particle.SPELL, location, 2);
+            p.spawnParticle(Particle.DOLPHIN, location, 2);
         }
 
         return entity;
