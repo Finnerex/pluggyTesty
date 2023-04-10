@@ -7,6 +7,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -127,8 +128,15 @@ public class SummonInteractListener implements Listener {
         Player player = (Player) target;
         ArrayList<Zombie> summons = summonOwners.get(player);
 
+        player.sendMessage(summonOwners.toString());
+
         if (summons.contains(zombie)) // if the player owns the zombie
             zombie.setTarget(getNearestEntity(player.getEyeLocation(), player));
+
+    }
+
+    @EventHandler
+    private void onDeath(EntityDeathEvent event) {
 
     }
 

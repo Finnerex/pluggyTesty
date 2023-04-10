@@ -11,6 +11,7 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("givemepole").setExecutor(new FrostPole());
         getCommand("givemeheal").setExecutor(new HealingHeart());
         getCommand("givemesummon").setExecutor(new Summon());
+
         getServer().getPluginManager().registerEvents(new MagicStickInteractListener(), this);
         getServer().getPluginManager().registerEvents(new BoltRodInteractListener(), this);
         getServer().getPluginManager().registerEvents(new FrostPoleInteractListener(), this);

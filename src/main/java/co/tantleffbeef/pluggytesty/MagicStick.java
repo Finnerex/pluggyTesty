@@ -33,12 +33,12 @@ public class MagicStick implements CommandExecutor {
         meta.setDisplayName(player.getName() + "'s Magic Rod of Destiny!!!1!!!11!");
         meta.addEnchant(Enchantment.RIPTIDE, 1, true);
 
-        ArrayList<String> die = new ArrayList<>();
-        die.add(STICK_LORE);
-        die.add("Edition #" + number);
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(STICK_LORE);
+        lore.add("Edition #" + number);
         number++;
 
-        meta.setLore(die);
+        meta.setLore(lore);
 
         stick.setItemMeta(meta);
 
