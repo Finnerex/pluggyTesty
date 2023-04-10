@@ -74,7 +74,7 @@ public class HealingHeartInteractListener implements Listener {
 
         }
 
-        item.setAmount(Math.min(amount + 1, 30)); //every tick(s) it is held for, max 60
+        item.setAmount(Math.min(amount + 1, 20)); //every tick(s) it is held for, max 60
         player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 1, 1 + item.getAmount() * 0.01f);
 
     }
