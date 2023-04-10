@@ -41,7 +41,7 @@ public class WorldEnderInteractListener implements Listener {
 
         for (int i = 0; i < 3; i++){
             Location l = player.getEyeLocation();
-            Location location = new Location(player.getWorld(), l.getX() - 1, l.getY() - 1, l.getZ());
+            Location location = new Location(player.getWorld(), l.getX() - 1, l.getY() - 1, l.getZ(), l.getYaw(), l.getPitch());
             location.setY(l.getY() + i);
             for (int j = 0; j < 3; j++){
                 location.setX(l.getX() + j);
