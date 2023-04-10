@@ -1,9 +1,8 @@
 package co.tantleffbeef.pluggytesty;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -35,6 +34,11 @@ public class FrostPoleInteractListener implements Listener {
         Player player = event.getPlayer();
         if (player.hasCooldown(Material.SOUL_TORCH)) return;
 
+        if (player.hasCooldown(Material.BLAZE_ROD)) return;
+
+        player.setCooldown(Material.BLAZE_ROD, 5);
+        player.playSound(player, Sound.ENTITY_PLAYER_HURT_FREEZE, 1, 1);
+
         final float range = 4f;
         Entity target = shootBolt(range, player);
 
@@ -55,7 +59,10 @@ public class FrostPoleInteractListener implements Listener {
 
         for(float i = 0.1f; i < r; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
+            Random x = new Random();
+            Location location2 = new Location(location.getWorld(), location.getX(), location.getY(), location.getZ());
             p.spawnParticle(Particle.DOLPHIN, location, 2);
+            p.spawnParticle(Particle.DOLPHIN, location2.add(x.nextDouble(), x.nextDouble(), x.nextDouble()), 2);
         }
 
         return entity;
