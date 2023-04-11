@@ -16,7 +16,7 @@ commands:
     description: healing item cool
   givemesummon:
     description: summon summons
-  dontgivemeWE:
+  givemed:
     description: suck my balls
   givemego:
     description: make you go
