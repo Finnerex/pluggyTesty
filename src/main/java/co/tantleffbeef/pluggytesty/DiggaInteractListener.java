@@ -1,12 +1,10 @@
 package co.tantleffbeef.pluggytesty;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -35,29 +33,19 @@ public class DiggaInteractListener implements Listener {
 
         event.setCancelled(true);
 
-        Dig(3)
+        Player player = event.getPlayer();
+
+        Dig(3, player.getEyeLocation()).breakNaturally();
 
     }
 
-        private Block Dig(float range, Location location) {
+        private Block Dig(double range, Location location) {
 
             World world = location.getWorld();
 
-            Entity entity = null;
-            RayTraceResult result = world.rayTraceEntities(location, location.getDirection(), range * 10);
+            return(world.rayTraceBlocks(location, location.getDirection() , range, FluidCollisionMode.NEVER)).getHitBlock();
 
-            if (result != null)
-                entity = result.getHitEntity();
 
-            if (!(entity instanceof Damageable))
-                entity = null;
-
-            for (float i = 0.1f; i < range; i += 0.1f) {
-                location.add(location.getDirection().multiply(i));
-                world.spawnParticle(Particle.SPELL_INSTANT, location, 1);
-            }
-
-            return entity;
         }
 }
 
