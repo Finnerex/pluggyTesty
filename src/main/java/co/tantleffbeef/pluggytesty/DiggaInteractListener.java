@@ -35,7 +35,12 @@ public class DiggaInteractListener implements Listener {
 
         Player player = event.getPlayer();
 
-        Dig(10000, player.getEyeLocation()).breakNaturally();
+        Block block = Dig(10000, player.getEyeLocation());
+
+        if (block == null)
+            return;
+
+        block.breakNaturally();
 
     }
 
@@ -43,7 +48,12 @@ public class DiggaInteractListener implements Listener {
 
             World world = location.getWorld();
 
-            return(world.rayTraceBlocks(location, location.getDirection() , range, FluidCollisionMode.NEVER)).getHitBlock();
+            RayTraceResult result = world.rayTraceBlocks(location, location.getDirection() , range, FluidCollisionMode.NEVER;
+
+            if (result == null)
+                return null;
+
+            return result.getHitBlock();
 
 
         }
