@@ -12,7 +12,7 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("givemepole").setExecutor(new FrostPole());
         getCommand("givemeheal").setExecutor(new HealingHeart());
         //getCommand("givemesummon").setExecutor(new Summon());
-        getCommand("dontgivemeWE").setExecutor(new WorldEnder());
+        getCommand("givemed").setExecutor(new Digga());
         getCommand("givemesword").setExecutor(new SwordsmansDream());
         getCommand("givemego").setExecutor(new Goer());
 

@@ -4,9 +4,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -15,9 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.RayTraceResult;
 
-import java.util.List;
-
-public class WorldEnderInteractListener implements Listener {
+public class DiggaInteractListener implements Listener {
 
     @EventHandler
     private void onPlayerInteract(PlayerInteractEvent event) {
@@ -27,34 +25,22 @@ public class WorldEnderInteractListener implements Listener {
 
         ItemStack blaster = event.getItem();
 
-        if (blaster == null || blaster.getType() != Material.END_ROD)
+        if (blaster == null || blaster.getType() != Material.PRISMARINE_SHARD)
             return;
 
         ItemMeta blasterMeta = blaster.getItemMeta();
 
-        if (blasterMeta == null || blasterMeta.getLore() == null || !(blasterMeta.getLore().get(0).equals(WorldEnder.ENDER_LORE)))
+        if (blasterMeta == null || blasterMeta.getLore() == null || !(blasterMeta.getLore().get(0).equals(Digga.DIGGA_LORE)))
             return;
 
         event.setCancelled(true);
 
-        Player player = event.getPlayer();
+        Dig(3)
 
-        for (int i = 0; i < 3; i++){
-            Location l = player.getEyeLocation();
-            Location location = new Location(player.getWorld(), l.getX() - 1, l.getY() - 1, l.getZ(), l.getYaw(), l.getPitch());
-            location.setY(l.getY() + i);
-            for (int j = 0; j < 3; j++){
-                location.setX(l.getX() + j);
-                Damageable hitEntity = (Damageable) shootArea(3.5f, location);
-                if (hitEntity != null)
-                    hitEntity.damage(2, player);
-            }
-        }
     }
 
-        private Entity shootArea(float range, Location location) {
+        private Block Dig(float range, Location location) {
 
-            location.add(location.getDirection().multiply(2));
             World world = location.getWorld();
 
             Entity entity = null;
