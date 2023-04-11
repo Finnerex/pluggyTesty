@@ -35,7 +35,7 @@ public class DiggaInteractListener implements Listener {
 
         Player player = event.getPlayer();
 
-        Dig(3, player.getEyeLocation()).breakNaturally();
+        Dig(10000, player.getEyeLocation()).breakNaturally();
 
     }
 
