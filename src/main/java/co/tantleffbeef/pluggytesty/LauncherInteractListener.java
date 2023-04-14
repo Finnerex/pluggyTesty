@@ -64,12 +64,13 @@ public class LauncherInteractListener implements Listener {
                     return;
                 }
 
-                location.setPitch(location.getPitch() + 4);
+                float p = location.getPitch();
+                location.setPitch(p + 5 + (p / -18));
                 runs ++;
             }
         };
 
-        runnable.runTaskTimer(plugin, 0, 0);
+        runnable.runTaskTimer(plugin, 0, 1);
 
         //player.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
 
