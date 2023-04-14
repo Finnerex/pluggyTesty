@@ -53,6 +53,7 @@ public class LauncherInteractListener implements Listener {
             @Override
             public void run() {
                 Block block = shootBolt(0.1f, location);
+                player.getWorld().spawnParticle(Particle.SPELL, location, 1);
 
                 if (block != null || runs > 10) {
                     if (block != null)
