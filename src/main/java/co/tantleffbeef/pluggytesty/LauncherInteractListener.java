@@ -53,7 +53,7 @@ public class LauncherInteractListener implements Listener {
             @Override
             public void run() {
                 Block block = shootBolt(0.1f, location);
-                //player.getWorld().spawnParticle(Particle.SPELL, location, 1);
+                player.getWorld().spawnParticle(Particle.SPELL, location, 1);
 
                 if (block != null || runs > 20) {
                     if (block != null)
@@ -86,12 +86,10 @@ public class LauncherInteractListener implements Listener {
         if (result != null)
             block = result.getHitBlock();
 
-//        if (!(entity instanceof Damageable))
-//            entity = null;
-
         for(float i = 0.1f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
             world.spawnParticle(Particle.SPELL, location, 1);
+            plugin.getLogger().info("particle at " + location);
         }
 
         return block;
