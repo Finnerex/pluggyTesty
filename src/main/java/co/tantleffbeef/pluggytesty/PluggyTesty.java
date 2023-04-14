@@ -15,6 +15,7 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("givemed").setExecutor(new Digga());
         getCommand("givemesword").setExecutor(new SwordsmansDream());
         getCommand("givemego").setExecutor(new Goer());
+        getCommand("givemecock").setExecutor((new Launcher()));
 
         getServer().getPluginManager().registerEvents(new MagicStickInteractListener(), this);
         getServer().getPluginManager().registerEvents(new BoltRodInteractListener(), this);
@@ -24,6 +25,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DiggaInteractListener(), this);
         getServer().getPluginManager().registerEvents(new SwordsmansDreamInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new GoerInteractListener(), this);
+        getServer().getPluginManager().registerEvents(new LauncherInteractListener(this), this);
 
     }
 

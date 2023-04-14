@@ -11,10 +11,15 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
 
 public class LauncherInteractListener implements Listener {
+
+    private final Plugin plugin;
+
+    public LauncherInteractListener(Plugin plugin) { this.plugin = plugin; }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -58,9 +63,12 @@ public class LauncherInteractListener implements Listener {
                     return;
                 }
 
-                location.setY(location.getY() - 0.5);
+                location.setPitch(location.getPitch() - 1);
+                runs ++;
             }
         };
+
+        runnable.runTaskTimer(plugin, 0, 0);
 
         player.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
 
