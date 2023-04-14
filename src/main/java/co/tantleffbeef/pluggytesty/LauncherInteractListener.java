@@ -53,9 +53,9 @@ public class LauncherInteractListener implements Listener {
             @Override
             public void run() {
                 Block block = shootBolt(0.1f, location);
-                player.getWorld().spawnParticle(Particle.SPELL, location, 1);
+                //player.getWorld().spawnParticle(Particle.SPELL, location, 1);
 
-                if (block != null || runs > 10) {
+                if (block != null || runs > 20) {
                     if (block != null)
                         location = block.getLocation();
 
@@ -64,8 +64,7 @@ public class LauncherInteractListener implements Listener {
                     return;
                 }
 
-                location.setPitch(location.getPitch() + 2);
-                player.sendMessage(location.toString());
+                location.setPitch(location.getPitch() + 4);
                 runs ++;
             }
         };
@@ -79,11 +78,10 @@ public class LauncherInteractListener implements Listener {
 
     private Block shootBolt(float range, Location location) {
 
-        location.add(location.getDirection().multiply(2));
         World world = location.getWorld();
 
         Block block = null;
-        RayTraceResult result = world.rayTraceBlocks(location, location.getDirection(), range * 1);
+        RayTraceResult result = world.rayTraceBlocks(location, location.getDirection(), range);
 
         if (result != null)
             block = result.getHitBlock();
@@ -93,7 +91,7 @@ public class LauncherInteractListener implements Listener {
 
         for(float i = 0.1f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
-            world.spawnParticle(Particle.SPELL_INSTANT, location, 1);
+            world.spawnParticle(Particle.SPELL, location, 1);
         }
 
         return block;
