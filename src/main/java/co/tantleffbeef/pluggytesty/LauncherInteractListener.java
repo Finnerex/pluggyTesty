@@ -52,10 +52,10 @@ public class LauncherInteractListener implements Listener {
 
             @Override
             public void run() {
-                Block block = shootBolt(2, location);
+                Block block = shootBolt(1, location);
                 player.getWorld().spawnParticle(Particle.SPELL, location, 1);
 
-                if (block != null || runs > 20) {
+                if (block != null || runs > 10) {
                     if (block != null)
                         location = block.getLocation();
 
@@ -71,7 +71,7 @@ public class LauncherInteractListener implements Listener {
 
         runnable.runTaskTimer(plugin, 0, 0);
 
-        player.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
+        //player.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
 
         player.setCooldown(Material.NETHER_BRICK, 5);
     }
@@ -86,8 +86,8 @@ public class LauncherInteractListener implements Listener {
         if (result != null)
             block = result.getHitBlock();
 
-        for(float i = 0; i < range; i += 0.1f) {
-            location.add(location.getDirection().multiply(i));
+        for(float i = 0.1f; i < range; i += 0.1f) {
+            location.add(location.getDirection().normalize().multiply(i));
             world.spawnParticle(Particle.SPELL, location, 1);
         }
 
