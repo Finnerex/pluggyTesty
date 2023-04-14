@@ -61,6 +61,7 @@ public class SwordsmansDreamInteractListener implements Listener {
                     }
                     if(tickNum >= 50) {
                         cancel();
+                        player.setVelocity(player.getLocation().getDirection());
                         player.setGravity(true);
                     }
                 }
