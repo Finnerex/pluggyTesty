@@ -63,7 +63,8 @@ public class LauncherInteractListener implements Listener {
                     return;
                 }
 
-                location.setPitch(location.getPitch() - 1);
+                location.setPitch(location.getPitch() - 2);
+                player.sendMessage(location.toString());
                 runs ++;
             }
         };
@@ -91,7 +92,7 @@ public class LauncherInteractListener implements Listener {
 
         for(float i = 0.1f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
-            world.spawnParticle(Particle.CRIT_MAGIC, location, 1);
+            world.spawnParticle(Particle.SPELL_INSTANT, location, 1);
         }
 
         return block;
