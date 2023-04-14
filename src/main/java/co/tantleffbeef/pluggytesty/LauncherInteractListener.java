@@ -64,7 +64,7 @@ public class LauncherInteractListener implements Listener {
                     return;
                 }
 
-                location.setPitch(location.getPitch() - 2);
+                location.setPitch(location.getPitch() + 2);
                 player.sendMessage(location.toString());
                 runs ++;
             }
