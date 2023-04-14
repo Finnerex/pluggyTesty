@@ -65,7 +65,7 @@ public class LauncherInteractListener implements Listener {
                 }
 
                 float p = location.getPitch();
-                location.setPitch(p + 5 + (p / -18));
+                location.setPitch(p + 5 + ((p + 90) / -36));
                 runs ++;
             }
         };
