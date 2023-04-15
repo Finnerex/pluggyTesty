@@ -5,6 +5,7 @@ import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Random;
@@ -26,7 +28,7 @@ public final class MagicStickItemType extends SimpleItemType implements Interact
     }
 
     @Override
-    public void interact(@NotNull Player player, @NotNull ItemStack itemStack) {
+    public void interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
         if (player.hasCooldown(Material.STICK))
             return;
 

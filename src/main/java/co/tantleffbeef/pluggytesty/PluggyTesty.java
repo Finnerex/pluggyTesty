@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty;
 import co.tantleffbeef.mcplanes.ResourceApi;
 import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.pluggytesty.custom.item.MagicStickItemType;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PluggyTesty extends JavaPlugin {
@@ -10,9 +11,11 @@ public final class PluggyTesty extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        final ResourceApi rApi = getServer().getServicesManager().load(ResourceApi.class);
-        if (rApi == null)
+        final RegisteredServiceProvider<ResourceApi> rapiProvider = getServer().getServicesManager()
+                .getRegistration(ResourceApi.class);
+        if (rapiProvider == null)
             throw new RuntimeException("Resource API cannot be found");
+        final ResourceApi rApi = rapiProvider.getProvider();
 
         rApi.registerInitialBuildListener(this::onItemRegistration);
         resourceManager = rApi.getResourceManager();
