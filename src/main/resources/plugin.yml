@@ -3,8 +3,7 @@ version: '${project.version}'
 main: co.tantleffbeef.pluggytesty.PluggyTesty
 api-version: 1.19
 
-depend:
-  - MCPlanes
+depend: ["MCPlanes"]
 
 commands:
   givemewood:
