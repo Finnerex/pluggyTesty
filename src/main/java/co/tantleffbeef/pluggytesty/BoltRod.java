@@ -1,6 +1,5 @@
 package co.tantleffbeef.pluggytesty;
 
-import com.google.common.collect.Multimap;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -10,22 +9,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Random;
 
-import javax.lang.model.element.Modifier;
 import java.util.ArrayList;
-import java.util.jar.Attributes;
 
 public class BoltRod implements CommandExecutor {
 
     public static final String ROD_LORE = "not stolen from hypixel sb";
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (!(commandSender instanceof Player))
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] strings) {
+        if (!(commandSender instanceof Player player))
             return false;
-
-        Player player = (Player) commandSender;
 
         ItemStack rod = new ItemStack(Material.BLAZE_ROD);
         ItemMeta meta = rod.getItemMeta();

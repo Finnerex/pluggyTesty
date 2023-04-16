@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -17,12 +18,10 @@ public class MagicStick implements CommandExecutor {
     private static int number = 1;
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (!(commandSender instanceof Player))
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] strings) {
+        if (!(commandSender instanceof Player player))
             return false;
 
-
-        Player player = (Player) commandSender;
 
         ItemStack stick = new ItemStack(Material.STICK);
         // custom name, description, make it enchanted

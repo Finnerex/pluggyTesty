@@ -3,7 +3,6 @@ package co.tantleffbeef.pluggytesty;
 import co.tantleffbeef.mcplanes.ResourceApi;
 import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.pluggytesty.custom.item.MagicStickItemType;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PluggyTesty extends JavaPlugin {

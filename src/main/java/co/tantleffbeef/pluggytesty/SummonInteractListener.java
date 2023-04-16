@@ -23,7 +23,7 @@ import java.util.Random;
 public class SummonInteractListener implements Listener {
 
     private final Plugin plugin;
-    private static HashMap<Player, ArrayList<Zombie>> summonOwners = new HashMap<>();
+    private final static HashMap<Player, ArrayList<Zombie>> summonOwners = new HashMap<>();
 
     public SummonInteractListener(Plugin plugin) {
         this.plugin = plugin;
@@ -116,16 +116,14 @@ public class SummonInteractListener implements Listener {
 
     @EventHandler
     private void onTargetChanged(EntityTargetEvent event) {
-        if (!(event.getEntity() instanceof Zombie))
+        if (!(event.getEntity() instanceof Zombie zombie))
             return;
 
-        Zombie zombie = (Zombie) event.getEntity();
         Entity target = event.getTarget();
 
-        if (!(target instanceof Player))
+        if (!(target instanceof Player player))
             return;
 
-        Player player = (Player) target;
         ArrayList<Zombie> summons = summonOwners.get(player);
 
         player.sendMessage(summonOwners.toString());
@@ -137,7 +135,7 @@ public class SummonInteractListener implements Listener {
 
     @EventHandler
     private void onDeath(EntityDeathEvent event) {
-
+        // TODO: Finnerex: finish this please
     }
 
 

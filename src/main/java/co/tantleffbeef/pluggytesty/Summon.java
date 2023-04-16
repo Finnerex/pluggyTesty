@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -14,11 +15,9 @@ public class Summon implements CommandExecutor {
 
     public static final String SUMMON_LORE = "summons zombies fr";
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player))
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+        if (!(sender instanceof Player player))
             return false;
-
-        Player player = (Player) sender;
 
         ItemStack item = new ItemStack(Material.ROTTEN_FLESH);
         ItemMeta meta = item.getItemMeta();
