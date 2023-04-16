@@ -13,11 +13,7 @@ public final class PluggyTesty extends JavaPlugin {
         getLogger().info("penis hahaha");
 
         getLogger().info("grabbing resource manager");
-        final var rApiRegistration = getServer().getServicesManager().getRegistration(ResourceApi.class);
-        if (rApiRegistration == null)
-            throw new RuntimeException("ResourceApi cannot be found!");
-
-        final var rApi = rApiRegistration.getProvider();
+        final ResourceApi rApi = (ResourceApi) JavaPlugin.getProvidingPlugin(ResourceApi.class);
         resourceManager = rApi.getResourceManager();
         onItemRegistration();
 
