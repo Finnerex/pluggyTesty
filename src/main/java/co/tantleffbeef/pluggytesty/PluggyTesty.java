@@ -10,20 +10,17 @@ public final class PluggyTesty extends JavaPlugin {
     private ResourceManager resourceManager;
 
     @Override
-    public void onLoad() {
-        final RegisteredServiceProvider<ResourceApi> rapiProvider = getServer().getServicesManager()
-                .getRegistration(ResourceApi.class);
-        if (rapiProvider == null)
-            throw new RuntimeException("Resource API cannot be found");
-        final ResourceApi rApi = rapiProvider.getProvider();
-
-        rApi.registerInitialBuildListener(this::onItemRegistration);
-        resourceManager = rApi.getResourceManager();
-    }
-
-    @Override
     public void onEnable() {
         getLogger().info("penis hahaha");
+
+        getLogger().info("grabbing resource manager");
+        final var rApiRegistration = getServer().getServicesManager().getRegistration(ResourceApi.class);
+        if (rApiRegistration == null)
+            throw new RuntimeException("ResourceApi cannot be found!");
+
+        final var rApi = rApiRegistration.getProvider();
+        resourceManager = rApi.getResourceManager();
+        onItemRegistration();
 
         getCommand("givemewood").setExecutor(new MagicStick());
         getCommand("givemerod").setExecutor(new BoltRod());
