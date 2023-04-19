@@ -113,7 +113,9 @@ public class BossJawn implements CommandExecutor {
 
                 w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 8, 0.1f);
 
-                for (int i = 1; i <= 6; i++) {
+                for (int i = 0; i <= 6; i++) {
+                    l2.add(pd.clone().multiply(i));
+
                     //w.spawnFallingBlock(l.clone().add(pd.multiply(i)), Material.BEACON.createBlockData());
                     w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
 
@@ -122,8 +124,6 @@ public class BossJawn implements CommandExecutor {
                         if (!(e instanceof Zombie) && e instanceof Damageable damageable)
                             damageable.damage(4);
                     }
-
-                    l2.add(pd.normalize().multiply(i));
 
                 }
 
