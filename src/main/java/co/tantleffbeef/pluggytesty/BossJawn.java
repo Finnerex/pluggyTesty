@@ -76,7 +76,7 @@ public class BossJawn implements CommandExecutor {
                 }
 
                 if (attack == 4) { // quake
-                    quake(jawn.getLocation());
+                    quake(jawn.getLocation().add(new Vector(0, 1, 0)));
                 }
 
             }
