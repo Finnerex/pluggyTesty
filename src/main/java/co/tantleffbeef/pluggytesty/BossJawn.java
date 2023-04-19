@@ -59,7 +59,7 @@ public class BossJawn implements CommandExecutor {
                 if(target == null)
                     return;
 
-                int attack = new Random().nextInt(5);
+                int attack = new Random().nextInt(6);
                 Location targetLocation = target.getLocation();
 
                 if (attack == 1 && jawn.hasLineOfSight(target) && l.distance(target.getLocation()) > 4) { // dash
@@ -77,7 +77,7 @@ public class BossJawn implements CommandExecutor {
                     w.playSound(l, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
                 }
 
-                if (attack == 4) { // quake
+                if (attack == 4 || attack == 5) { // quake
                     quake(jawn.getLocation());
                 }
 
@@ -113,14 +113,14 @@ public class BossJawn implements CommandExecutor {
 
                 w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 8, 0.1f);
 
-                for (int i = 0; i <= 6; i++) {
-                    l2.add(pd.normalize());
+                for (int i = 0; i < 7; i++) {
+                    l2.add(pd); // should probably be normal
 
                     w.spawnFallingBlock(l2, Material.BEACON.createBlockData());
                     w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
 
                     ArrayList<Entity> entities = (ArrayList<Entity>) w.getNearbyEntities(l2, 1, 3, 1); // 1b side, 2b height
-                    for (Entity e : entities) {
+                    for (Entity e : entities) { // damage all entities in that block space
                         if (!(e instanceof Zombie) && e instanceof Damageable damageable)
                             damageable.damage(4);
                     }
@@ -128,7 +128,6 @@ public class BossJawn implements CommandExecutor {
                 }
 
                 l = l.add(d);
-
                 runs++;
             }
         };
