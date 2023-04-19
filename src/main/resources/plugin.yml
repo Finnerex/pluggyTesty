@@ -24,3 +24,5 @@ commands:
     description: make you go
   givemecock:
     description: grngage launchger
+  summonmejawn:
+    description: summons jawn
