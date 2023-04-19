@@ -69,7 +69,7 @@ public class BossJawn implements CommandExecutor {
                     jawn.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 3));
                 }
 
-                if (attack == 3) { // strength
+                if (attack == 3 && l.distance(target.getLocation()) < 3) { // strength
                     jawn.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30, 3));
                     jawn.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30 , 2));
                     w.playSound(l, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
@@ -96,7 +96,7 @@ public class BossJawn implements CommandExecutor {
 
             @Override
             public void run() {
-                if (runs > 10) {
+                if (runs > 20) {
                     cancel();
                     return;
                 }
@@ -110,7 +110,7 @@ public class BossJawn implements CommandExecutor {
 
                 w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 8, 0.1f);
 
-                for (int i = -2; i <= 5; i++) {
+                for (int i = -3; i <= 6; i++) {
                     Location l2 = l.clone().add(pd.multiply(i));
                     //w.spawnFallingBlock(l.clone().add(pd.multiply(i)), Material.BEACON.createBlockData());
                     w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
@@ -131,7 +131,7 @@ public class BossJawn implements CommandExecutor {
             }
         };
 
-        runnable.runTaskTimer(plugin, 0, 2);
+        runnable.runTaskTimer(plugin, 0, 1);
     }
 
 }
