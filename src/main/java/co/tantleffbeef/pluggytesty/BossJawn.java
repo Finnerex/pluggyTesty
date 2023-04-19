@@ -123,7 +123,7 @@ public class BossJawn implements CommandExecutor {
                             damageable.damage(4);
                     }
 
-                    l2.add(pd.multiply(i));
+                    l2.add(pd.normalize().multiply(i));
 
                 }
 
