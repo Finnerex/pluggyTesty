@@ -95,7 +95,7 @@ public class BossJawn implements CommandExecutor {
         BukkitRunnable runnable = new BukkitRunnable() {
             int runs = 0;
             Location l = location;
-            BlockData blockParticle = Material.STONE.createBlockData();
+            final BlockData blockParticle = Material.STONE.createBlockData();
 
             @Override
             public void run() {
@@ -112,6 +112,7 @@ public class BossJawn implements CommandExecutor {
                     return;
 
                 for (int i = -2; i < 5; i++) {
+                    w.spawnFallingBlock(l.add(pd.multiply(i)), Material.BEACON.createBlockData());
                     w.spawnParticle(Particle.BLOCK_DUST, l.add(pd.multiply(i)), 1, blockParticle);
                     w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 5, 0.5f);
                 }
