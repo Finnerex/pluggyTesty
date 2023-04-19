@@ -106,7 +106,7 @@ public class BossJawn implements CommandExecutor {
                 World w = l.getWorld();
                 Vector d = l.getDirection().normalize();
                 Vector pd = d.clone().rotateAroundY(90);
-                Location l2 = l.clone().add(pd.multiply(-3));
+                Location l2 = l.clone()/*.add(pd.multiply(-3))*/;
 
                 if (w == null)
                     return;
