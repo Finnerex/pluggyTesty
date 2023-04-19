@@ -106,14 +106,15 @@ public class BossJawn implements CommandExecutor {
                 World w = l.getWorld();
                 Vector d = l.getDirection().normalize();
                 Vector pd = d.clone().rotateAroundY(90);
+                Location l2 = l.clone().add(pd.multiply(-3));
 
                 if (w == null)
                     return;
 
                 w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 8, 0.1f);
 
-                for (int i = -3; i <= 6; i++) {
-                    Location l2 = l.clone().add(pd.multiply(i));
+                for (int i = 0; i <= 6; i++) {
+                    l2.add(pd.multiply(i));
                     //w.spawnFallingBlock(l.clone().add(pd.multiply(i)), Material.BEACON.createBlockData());
                     w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
 
