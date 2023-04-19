@@ -31,6 +31,7 @@ public class BossJawn implements CommandExecutor {
         Zombie jawn = (Zombie) player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);
         jawn.setCustomName(ChatColor.DARK_RED + "Jawn The Almighty");
         jawn.setCustomNameVisible(true);
+        jawn.setPersistent(true);
 
         World w = jawn.getWorld();
 
@@ -78,7 +79,7 @@ public class BossJawn implements CommandExecutor {
                 }
 
                 if (attack == 4 || attack == 5) { // quake
-                    quake(jawn.getLocation());
+                    quake(jawn.getLocation(), jawn);
                 }
 
             }
@@ -90,7 +91,7 @@ public class BossJawn implements CommandExecutor {
         return true;
     }
 
-    private void quake(Location location) {
+    private void quake(Location location, Zombie jawn) {
         BukkitRunnable runnable = new BukkitRunnable() {
             int runs = 0;
             Location l = location;
@@ -116,13 +117,13 @@ public class BossJawn implements CommandExecutor {
                 for (int i = 0; i < 7; i++) {
                     l2.add(pd); // should probably be normal
 
-                    w.spawnFallingBlock(l2, Material.BEACON.createBlockData());
+                    //w.spawnFallingBlock(l2, Material.BEACON.createBlockData());
                     w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
 
                     ArrayList<Entity> entities = (ArrayList<Entity>) w.getNearbyEntities(l2, 1, 3, 1); // 1b side, 2b height
                     for (Entity e : entities) { // damage all entities in that block space
                         if (!(e instanceof Zombie) && e instanceof Damageable damageable)
-                            damageable.damage(4);
+                            damageable.damage(4, jawn);
                     }
 
                 }
