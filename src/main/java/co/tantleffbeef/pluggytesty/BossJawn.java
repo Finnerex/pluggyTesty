@@ -78,7 +78,6 @@ public class BossJawn implements CommandExecutor {
                 }
 
                 if (attack == 4) { // quake
-                    w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 5, 0.5f);
                     quake(l);
                 }
 
@@ -107,15 +106,15 @@ public class BossJawn implements CommandExecutor {
                 World w = l.getWorld();
                 Vector d = l.getDirection().normalize();
                 Vector pd = new Vector(-d.getZ(), d.getY(), d.getX()); //could have just rotated after but balls
-
+                //Location l2 = l.clone(); // to be mutated in for loop
 
                 if (w == null)
                     return;
 
-                for (int i = -2; i < 5; i++) {
+                w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 5, 0.5f);
+                for (int i = -2; i <= 5; i++) {
                     w.spawnFallingBlock(l.clone().add(pd.multiply(i)), Material.BEACON.createBlockData());
-                    w.spawnParticle(Particle.BLOCK_DUST, l.add(pd.multiply(i)), 1, blockParticle);
-                    w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 5, 0.5f);
+                    //w.spawnParticle(Particle.BLOCK_DUST, l.add(pd.multiply(i)), 1, blockParticle);
                 }
 
                 l = l.add(d);
