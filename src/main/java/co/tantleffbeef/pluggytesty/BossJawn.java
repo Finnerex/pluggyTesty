@@ -76,7 +76,7 @@ public class BossJawn implements CommandExecutor {
                 }
 
                 if (attack == 4) { // quake
-                    quake(jawn.getLocation().add(new Vector(0, 1, 0)));
+                    quake(jawn.getLocation());
                 }
 
             }
@@ -108,21 +108,22 @@ public class BossJawn implements CommandExecutor {
                 if (w == null)
                     return;
 
-                w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 5, 0.5f);
+                w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 8, 0.1f);
+
                 for (int i = -2; i <= 5; i++) {
                     Location l2 = l.clone().add(pd.multiply(i));
                     //w.spawnFallingBlock(l.clone().add(pd.multiply(i)), Material.BEACON.createBlockData());
-                    w.spawnParticle(Particle.BLOCK_DUST, l2, 1, blockParticle);
+                    w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
 
-                    Entity entity = null;
-                    RayTraceResult result = w.rayTraceEntities(l2, d, 1);
+                    ArrayList<Entity> entities = (ArrayList<Entity>) w.getNearbyEntities(l2, 1, 3, 1); // 1b side, 2b height
+                    for (Entity e : entities) {
+                        if (e instanceof Damageable damageable)
+                            damageable.damage(4);
+                    }
 
-                    if (result != null)
-                        entity = result.getHitEntity();
-
-                    if (entity instanceof Damageable damageable)
-                        damageable.damage(4);
                 }
+
+
 
                 l = l.add(d);
 
