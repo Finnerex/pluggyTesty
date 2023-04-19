@@ -106,7 +106,8 @@ public class BossJawn implements CommandExecutor {
 
                 World w = l.getWorld();
                 Vector d = l.getDirection().normalize();
-                Vector pd = l.getDirection().normalize().rotateAroundY(90);
+                Vector pd = new Vector(-d.getZ(), d.getY(), d.getX()); //could have just rotated after but balls
+
 
                 if (w == null)
                     return;
