@@ -116,7 +116,7 @@ public class BossJawn implements CommandExecutor {
                 for (int i = 0; i <= 6; i++) {
                     l2.add(pd.clone().multiply(i));
 
-                    //w.spawnFallingBlock(l.clone().add(pd.multiply(i)), Material.BEACON.createBlockData());
+                    w.spawnFallingBlock(l2, Material.BEACON.createBlockData());
                     w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
 
                     ArrayList<Entity> entities = (ArrayList<Entity>) w.getNearbyEntities(l2, 1, 3, 1); // 1b side, 2b height
