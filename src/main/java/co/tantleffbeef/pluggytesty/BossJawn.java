@@ -103,7 +103,7 @@ public class BossJawn implements CommandExecutor {
 
                 World w = l.getWorld();
                 Vector d = l.getDirection().normalize();
-                Vector pd = d.clone().rotateAroundY(90); //could have just rotated after but balls
+                Vector pd = d.clone().rotateAroundY(90);
 
                 if (w == null)
                     return;
@@ -117,7 +117,7 @@ public class BossJawn implements CommandExecutor {
 
                     ArrayList<Entity> entities = (ArrayList<Entity>) w.getNearbyEntities(l2, 1, 3, 1); // 1b side, 2b height
                     for (Entity e : entities) {
-                        if (e instanceof Damageable damageable)
+                        if (!(e instanceof Zombie) && e instanceof Damageable damageable)
                             damageable.damage(4);
                     }
 
@@ -131,7 +131,7 @@ public class BossJawn implements CommandExecutor {
             }
         };
 
-        runnable.runTaskTimer(plugin, 0, 3);
+        runnable.runTaskTimer(plugin, 0, 2);
     }
 
 }
