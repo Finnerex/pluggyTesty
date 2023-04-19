@@ -63,7 +63,7 @@ public class BossJawn implements CommandExecutor {
                 int attack = new Random().nextInt(10);
 
 
-                if (attack == 1 && jawn.hasLineOfSight(target)) { // dash
+                if (attack == 1 && jawn.hasLineOfSight(target) && l.distance(target.getLocation()) > 3) { // dash
                     jawn.setVelocity(d.multiply(3));
                 }
 
