@@ -49,7 +49,7 @@ public class BossJawn implements CommandExecutor {
                 Location l = jawn.getEyeLocation();
 
                 if (jawn.isDead()) {
-                    l.getWorld().playSound(l, Sound.ENTITY_WITHER_DEATH, 20, 0.1f);
+                    jawn.getWorld().playSound(l, Sound.ENTITY_WITHER_DEATH, 20, 0.1f);
                     cancel();
                     return;
                 }
@@ -75,7 +75,7 @@ public class BossJawn implements CommandExecutor {
                 if (attack == 3) { // strength
                     jawn.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30, 3));
                     jawn.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30 , 2));
-                    l.getWorld().playSound(l, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
+                    jawn.getWorld().playSound(l, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
                 }
 
             }
