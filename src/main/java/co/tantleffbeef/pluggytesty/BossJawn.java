@@ -5,16 +5,14 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Random;
@@ -78,7 +76,7 @@ public class BossJawn implements CommandExecutor {
                 }
 
                 if (attack == 4) { // quake
-                    quake(l);
+                    quake(jawn.getLocation());
                 }
 
             }
@@ -105,16 +103,25 @@ public class BossJawn implements CommandExecutor {
 
                 World w = l.getWorld();
                 Vector d = l.getDirection().normalize();
-                Vector pd = new Vector(-d.getZ(), d.getY(), d.getX()); //could have just rotated after but balls
-                //Location l2 = l.clone(); // to be mutated in for loop
+                Vector pd = d.clone().rotateAroundY(90); //could have just rotated after but balls
 
                 if (w == null)
                     return;
 
                 w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 5, 0.5f);
                 for (int i = -2; i <= 5; i++) {
-                    w.spawnFallingBlock(l.clone().add(pd.multiply(i)), Material.BEACON.createBlockData());
-                    //w.spawnParticle(Particle.BLOCK_DUST, l.add(pd.multiply(i)), 1, blockParticle);
+                    Location l2 = l.clone().add(pd.multiply(i));
+                    //w.spawnFallingBlock(l.clone().add(pd.multiply(i)), Material.BEACON.createBlockData());
+                    w.spawnParticle(Particle.BLOCK_DUST, l2, 1, blockParticle);
+
+                    Entity entity = null;
+                    RayTraceResult result = w.rayTraceEntities(l2, d, 1);
+
+                    if (result != null)
+                        entity = result.getHitEntity();
+
+                    if (entity instanceof Damageable damageable)
+                        damageable.damage(4);
                 }
 
                 l = l.add(d);
