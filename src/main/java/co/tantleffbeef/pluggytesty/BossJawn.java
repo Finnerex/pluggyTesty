@@ -33,6 +33,8 @@ public class BossJawn implements CommandExecutor {
         jawn.setCustomName(ChatColor.DARK_RED + "Jawn The Almighty");
         jawn.setCustomNameVisible(true);
 
+        World w = jawn.getWorld();
+
         // armor
         EntityEquipment equipment = jawn.getEquipment();
         equipment.setChestplate(new ItemStack(Material.IRON_CHESTPLATE)); // my nuts may produce 'NullPointerException'
@@ -59,7 +61,6 @@ public class BossJawn implements CommandExecutor {
 
                 int attack = new Random().nextInt(10);
 
-
                 if (attack == 1 && jawn.hasLineOfSight(target) && l.distance(target.getLocation()) > 3) { // dash
                     jawn.setVelocity(d.multiply(3));
                 }
@@ -72,7 +73,12 @@ public class BossJawn implements CommandExecutor {
                 if (attack == 3) { // strength
                     jawn.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30, 3));
                     jawn.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30 , 2));
-                    jawn.getWorld().playSound(l, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
+                    w.playSound(l, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
+                }
+
+                if (attack == 4) { // quake
+                    w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 5, 0.5f);
+                    quake(l);
                 }
 
             }
@@ -105,6 +111,7 @@ public class BossJawn implements CommandExecutor {
 
                 for (int i = -2; i < 5; i++) {
                     w.spawnParticle(Particle.BLOCK_DUST, l.add(pd.multiply(i)), 1);
+                    w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 5, 0.5f);
                 }
 
                 l = l.add(d);
@@ -114,7 +121,7 @@ public class BossJawn implements CommandExecutor {
             }
         };
 
-        runnable.runTaskTimer(plugin, 0, 10);
+        runnable.runTaskTimer(plugin, 0, 5);
     }
 
 }
