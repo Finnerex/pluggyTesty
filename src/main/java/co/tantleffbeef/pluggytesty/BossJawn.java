@@ -1,9 +1,6 @@
 package co.tantleffbeef.pluggytesty;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -84,8 +81,40 @@ public class BossJawn implements CommandExecutor {
         // run that jawn
         runnable.runTaskTimer(plugin, 0, 20);
 
-
         return true;
+    }
+
+    private void quake(Location location) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            int runs = 0;
+            Location l = location;
+
+            @Override
+            public void run() {
+                if (runs > 10) {
+                    cancel();
+                    return;
+                }
+
+                World w = l.getWorld();
+                Vector d = l.getDirection().normalize();
+                Vector pd = l.getDirection().normalize().rotateAroundY(90);
+
+                if (w == null)
+                    return;
+
+                for (int i = -2; i < 5; i++) {
+                    w.spawnParticle(Particle.BLOCK_DUST, l.add(pd.multiply(i)), 1);
+                }
+
+                l = l.add(d);
+
+                runs++;
+
+            }
+        };
+
+        runnable.runTaskTimer(plugin, 0, 10);
     }
 
 }
