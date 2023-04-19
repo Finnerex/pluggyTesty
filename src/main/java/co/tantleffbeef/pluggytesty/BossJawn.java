@@ -36,8 +36,6 @@ public class BossJawn implements CommandExecutor {
         jawn.setCustomName(ChatColor.DARK_RED + "Jawn The Almighty");
         jawn.setCustomNameVisible(true);
 
-        jawn.setHealth(50);
-
         // armor
         EntityEquipment equipment = jawn.getEquipment();
         equipment.setChestplate(new ItemStack(Material.IRON_CHESTPLATE)); // my nuts may produce 'NullPointerException'
