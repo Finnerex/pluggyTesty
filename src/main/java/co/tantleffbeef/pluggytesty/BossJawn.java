@@ -12,7 +12,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Random;
@@ -107,7 +106,7 @@ public class BossJawn implements CommandExecutor {
                 World w = l.getWorld();
                 Vector d = l.getDirection().normalize();
                 Vector pd = d.clone().rotateAroundY(90);
-                Location l2 = l.clone().add(pd.clone().multiply(-3));
+                Location l2 = l.clone().add(pd.clone().multiply(-4));
 
                 if (w == null)
                     return;
