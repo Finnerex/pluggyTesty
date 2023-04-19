@@ -114,7 +114,7 @@ public class BossJawn implements CommandExecutor {
                 w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 8, 0.1f);
 
                 for (int i = 0; i <= 6; i++) {
-                    l2.add((pd.clone().multiply(i)).normalize());
+                    l2.add(pd.multiply(i).normalize());
 
                     w.spawnFallingBlock(l2, Material.BEACON.createBlockData());
                     w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
