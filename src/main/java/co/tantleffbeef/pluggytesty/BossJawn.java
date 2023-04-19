@@ -59,7 +59,7 @@ public class BossJawn implements CommandExecutor {
                 if(target == null)
                     return;
 
-                int attack = new Random().nextInt(6);
+                int attack = new Random().nextInt(8);
                 Location targetLocation = target.getLocation();
 
                 if (attack == 1 && jawn.hasLineOfSight(target) && l.distance(target.getLocation()) > 4) { // dash
@@ -85,7 +85,7 @@ public class BossJawn implements CommandExecutor {
         };
 
         // run that jawn
-        runnable.runTaskTimer(plugin, 0, 30);
+        runnable.runTaskTimer(plugin, 0, 20);
 
         return true;
     }
