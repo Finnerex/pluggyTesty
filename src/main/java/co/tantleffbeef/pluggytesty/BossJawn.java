@@ -43,7 +43,8 @@ public class BossJawn implements CommandExecutor {
 
         jawn.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(1000); // dont listen to it, null ponters are fake and made up by the Jet brains conspiracy
         jawn.setHealth(1000);
-        jawn.sendMessage("health: " + jawn.getHealth());
+
+        player.sendMessage("health: " + jawn.getHealth());
 
         // ai / attacks??
         BukkitRunnable runnable = new BukkitRunnable() {
