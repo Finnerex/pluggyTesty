@@ -41,8 +41,8 @@ public class BossJawn implements CommandExecutor {
         equipment.setHelmet(new ItemStack(Material.NETHERITE_HELMET));
         // I guess I don't have to update inventory or nothin
 
-        jawn.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(1000); // dont listen to it, null ponters are fake and made up by the Jet brains conspiracy
-        jawn.setHealth(1000);
+        jawn.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(300); // dont listen to it, null ponters are fake and made up by the Jet brains conspiracy
+        jawn.setHealth(300);
 
         player.sendMessage("health: " + jawn.getHealth());
 
