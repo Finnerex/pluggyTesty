@@ -68,7 +68,7 @@ public class BossJawn implements CommandExecutor {
                 int attack = new Random().nextInt(8);
                 Location targetLocation = target.getLocation();
 
-                if (attack == 1 && jawn.hasLineOfSight(target) && l.distance(target.getLocation()) > 4) { // dash
+                if (attack == 1 && jawn.hasLineOfSight(target) && l.distance(targetLocation) > 4) { // dash
                     jawn.setVelocity(d.multiply(3));
                 }
 
@@ -77,7 +77,7 @@ public class BossJawn implements CommandExecutor {
                     jawn.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 3));
                 }
 
-                if (attack == 3 && l.distance(target.getLocation()) < 5) { // strength
+                if (attack == 3 && l.distance(targetLocation) < 5) { // strength
                     jawn.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30, 3));
                     jawn.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30 , 2));
                     w.playSound(l, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
