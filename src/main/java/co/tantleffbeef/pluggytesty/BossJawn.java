@@ -138,7 +138,7 @@ public class BossJawn implements CommandExecutor {
             }
         };
 
-        runnable.runTaskTimer(plugin, 0, 1);
+        runnable.runTaskTimer(plugin, 0, 2);
     }
 
 }
