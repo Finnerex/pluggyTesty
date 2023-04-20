@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty;
 
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -39,6 +40,8 @@ public class BossJawn implements CommandExecutor {
         equipment.setChestplate(new ItemStack(Material.IRON_CHESTPLATE)); // my nuts may produce 'NullPointerException'
         equipment.setHelmet(new ItemStack(Material.NETHERITE_HELMET));
         // I guess I don't have to update inventory or nothin
+
+        jawn.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(1000); // dont listen to it, null ponters are fake and made up by the Jet brains conspiracy
 
         // ai / attacks??
         BukkitRunnable runnable = new BukkitRunnable() {
