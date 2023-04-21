@@ -68,6 +68,12 @@ public class BossSeaman implements CommandExecutor {
 
                 if(isDoingStuff) return;
 
+                for(Entity i : seaman.getNearbyEntities(20, 10, 20)) {
+                    if(i.getType().equals(EntityType.TRIDENT) && i.getTicksLived() < 1000) {
+                        i.setTicksLived(1100);
+                    }
+                }
+
                 int attack = new Random().nextInt(8); // hi
 
                 if (attack == 1 || seaman.getHealth() < 20) { // charge up and heal if not interrupted.
@@ -80,7 +86,7 @@ public class BossSeaman implements CommandExecutor {
                     Vector summonDir = dir.clone();
                     for(int i = 0; i < 8; i++) {
                         Trident creation = (Trident) seaman.getWorld().spawnEntity(loc, EntityType.TRIDENT);
-                        creation.setVelocity(summonDir.rotateAroundY(45));
+                        creation.setVelocity(summonDir.rotateAroundY(45).setY(30));
                     }
                 } else if (attack == 5) { // Lightning strikes around him and summons normal drowned with turtle shells and speed.
                     Location summonHere = loc.clone().add(new Random().nextInt(10)-5, 0, new Random().nextInt(10)-5);
@@ -124,6 +130,61 @@ public class BossSeaman implements CommandExecutor {
         };
 
         runnable.runTaskTimer(plugin, 0, 1);
+    }
+
+    private void rident(Location location, Drowned seaman) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            int runs = 0;
+
+            @Override
+            public void run() {
+                if(runs > 40) {
+                    cancel();
+                }
+
+                runs++;
+            }
+        };
+
+        runnable.runTaskTimer(plugin, 0, 1);
+    }
+
+    private void supercharge(Location location, Drowned seaman) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            int runs = 0;
+
+            @Override
+            public void run() {
+                if(runs > 40) {
+                    cancel();
+                }
+
+                runs++;
+            }
+        };
+
+        runnable.runTaskTimer(plugin, 0, 1);
+    }
+
+    private void octagon(Location location, Drowned seaman) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            int runs = 0;
+            Vector summonDir = location.getDirection().clone();
+            for(int i = 0; i < 8; i++) {
+                Trident creation = (Trident) seaman.getWorld().spawnEntity(location, EntityType.TRIDENT);
+                creation.setVelocity(summonDir.rotateAroundY(45).setY(30));
+            }
+            @Override
+            public void run() {
+                if(runs > 10) {
+
+                    cancel();
+                }
+                runs++;
+            }
+        };
+
+        runnable.runTaskTimer(plugin, 0, 20);
     }
 
 }
