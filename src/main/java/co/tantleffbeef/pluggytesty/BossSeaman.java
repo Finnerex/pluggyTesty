@@ -74,11 +74,12 @@ public class BossSeaman implements CommandExecutor {
                 } else if (attack == 4) { // 8 tridents in 45 degree increments.
                     for(int i = 0; i < 8; i++) {
                         Trident creation = (Trident) seaman.getWorld().spawnEntity(loc, EntityType.TRIDENT);
-                        creation.setVelocity(dir.rotateAroundY(45 * i));
+                        creation.setVelocity(summonDir.rotateAroundY(45));
                     }
                 } else if (attack == 5) { // Lightning strikes around him and summons normal drowned with turtle shells and speed.
-                    Location summonHere = loc.add(new Random().nextInt(10)-5, 0, new Random().nextInt(10)-5);
-                    seaman.getWorld().playSound(summonHere, Sound.ITEM_TRIDENT_THUNDER, 1, 0.1f);
+                    Location summonHere = loc.clone().add(new Random().nextInt(10)-5, 0, new Random().nextInt(10)-5);
+                    seaman.getWorld().playSound(summonHere, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1, 0.1f);
+
                     for(int i = 0; i < 4; i++) {
                         seaman.getWorld().spawnEntity(summonHere, EntityType.LIGHTNING, false);
                         Drowned minion = (Drowned) seaman.getWorld().spawnEntity(summonHere, EntityType.DROWNED, false);
