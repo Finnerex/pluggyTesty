@@ -30,7 +30,7 @@ public class BowShootListener implements Listener {
 
         if (new Random().nextInt(2) == 1) {
             player.getInventory().addItem(new ItemStack(Material.ARROW));
-            player.updateInventory();
+            //player.updateInventory();
         }
 
     }
