@@ -61,8 +61,12 @@ public class BossGru implements CommandExecutor {
                 if (currHealth < prevHealth){ //spawns zombie hoard on hit
 
                     for (int i = 0; i < 5; i++){
-
                         Zombie swordZombie = (Zombie) w.spawnEntity(eye, EntityType.ZOMBIE);
+
+                        LivingEntity target = getNearestEntity(eye, swordZombie);
+                        if (target instanceof Player)
+                            swordZombie.setTarget(target);
+
                         EntityEquipment equipment = swordZombie.getEquipment();
                         equipment.setItemInMainHand(new ItemStack(Material.IRON_SWORD));
                         equipment.setHelmet(new ItemStack(Material.LEATHER_HELMET));

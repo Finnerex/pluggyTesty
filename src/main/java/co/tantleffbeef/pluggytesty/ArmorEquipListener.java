@@ -22,6 +22,7 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 
 public class ArmorEquipListener implements Listener {
@@ -45,11 +46,9 @@ public class ArmorEquipListener implements Listener {
 
         ItemStack[] armor = player.getInventory().getArmorContents();
 
-
         TrimPattern pattern = sameTrim(armor);
 
         if (pattern == null) {
-            Bukkit.broadcastMessage("pattern null");
 
             ArrayList<PotionEffect> effects = (ArrayList<PotionEffect>) player.getActivePotionEffects();
 
@@ -61,14 +60,12 @@ public class ArmorEquipListener implements Listener {
         }
 
         Bukkit.broadcastMessage("pattern not null");
-        if (pattern.equals(TrimPattern.COAST)) {
-            Bukkit.broadcastMessage("TrimPattern.COAST");
-            player.addPotionEffect(PotionEffectType.SPEED.createEffect(PotionEffect.INFINITE_DURATION, 4));
-        }
-        else if (pattern.equals(TrimPattern.EYE)) {
-            Bukkit.broadcastMessage("TrimPattern.EYE");
+        if (pattern.equals(TrimPattern.COAST))
+            player.addPotionEffect(PotionEffectType.CONDUIT_POWER.createEffect(PotionEffect.INFINITE_DURATION, 4));
+        else if (pattern.equals(TrimPattern.EYE))
             player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(PotionEffect.INFINITE_DURATION, 4));
-        }
+        else if (pattern.equals(TrimPattern.R))
+
     }
 
     private TrimPattern sameTrim(ItemStack[] armor) {
