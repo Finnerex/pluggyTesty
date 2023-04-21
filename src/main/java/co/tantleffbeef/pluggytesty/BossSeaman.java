@@ -51,7 +51,11 @@ public class BossSeaman implements CommandExecutor {
                 Vector dir = loc.getDirection();
                 Entity target = seaman.getTarget();
                 Location targetLoc = target.getLocation();
+                w.setStorm(true);
+                w.setThundering(true);
                 if (seaman.isDead()) {
+                    w.setStorm(false);
+                    w.setThundering(false);
                     cancel();
                     return;
                 }
@@ -68,23 +72,36 @@ public class BossSeaman implements CommandExecutor {
                 } else if (attack == 3 && loc.distance(target.getLocation()) < 5) { // lightning strikes him and supercharges him.
 
                 } else if (attack == 4) { // 8 tridents in 45 degree increments.
-                    quake(seaman.getLocation(), seaman);
+                    for(int i = 0; i < 8; i++) {
+                        Trident creation = (Trident) seaman.getWorld().spawnEntity(loc, EntityType.TRIDENT);
+                        creation.setVelocity(dir.rotateAroundY(45 * i));
+                    }
                 } else if (attack == 5) { // Lightning strikes around him and summons normal drowned with turtle shells and speed.
+                    Location summonHere = loc.add(new Random().nextInt(10)-5, 0, new Random().nextInt(10)-5);
+                    seaman.getWorld().playSound(summonHere, Sound.ITEM_TRIDENT_THUNDER, 1, 0.1f);
                     for(int i = 0; i < 4; i++) {
-                        Location summonHere = loc.add(new Random().nextInt(10)-5, 0, new Random().nextInt(10)-5);
                         seaman.getWorld().spawnEntity(summonHere, EntityType.LIGHTNING, false);
-                        seaman.getWorld().playSound(summonHere, Sound.ITEM_TRIDENT_THUNDER, 20, 0.1f);
-                        Drowned minion = (Drowned) player.getWorld().spawnEntity(summonHere, EntityType.DROWNED, false);
+                        Drowned minion = (Drowned) seaman.getWorld().spawnEntity(summonHere, EntityType.DROWNED, false);
                         EntityEquipment mEquip = minion.getEquipment();
                         mEquip.setHelmet(new ItemStack(Material.TURTLE_HELMET));
                     }
                 }
-
             }
         };
         runnable.runTaskTimer(plugin, 0, 20);
 
         return true;
+    }
+
+    private void heal(Location location, Drowned seaman) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            int runs = 0;
+
+            @Override
+            public void run() {
+
+            }
+        }
     }
 
     private void quake(Location location, Drowned seaman) {
