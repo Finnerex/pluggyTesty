@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class ArmorEquipListener implements Listener {
 
     @EventHandler
-    public void onArmorChange(InventoryInteractEvent event) {
+    public void onArmorChange(InventoryClickEvent event) {
         Bukkit.broadcastMessage("InventoryInteractEvent");
         if (!(event.getInventory() instanceof PlayerInventory inventory))
             return;
