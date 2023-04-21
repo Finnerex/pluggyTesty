@@ -70,7 +70,7 @@ public class BossGru implements CommandExecutor {
                         Location random = new Location(w, eye.getX() + rand, eye.getY(), eye.getZ() + rand);
 
                         Zombie swordZombie = (Zombie) w.spawnEntity(random, EntityType.ZOMBIE);
-                        swordZombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1);
+                        swordZombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(1);
 
                         LivingEntity target = getNearestEntity(eye, swordZombie);
                         if (target instanceof Player)
