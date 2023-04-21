@@ -47,6 +47,7 @@ public class BossSeaman implements CommandExecutor {
 
         // ai / attacks??
         BukkitRunnable runnable = new BukkitRunnable() {
+
             @Override
             public void run() {
                 Location loc = seaman.getEyeLocation();
@@ -64,6 +65,8 @@ public class BossSeaman implements CommandExecutor {
                     return;
                 }
                 if(target == null) return;
+
+                if(isDoingStuff) return;
 
                 int attack = new Random().nextInt(8); // hi
 
