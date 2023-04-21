@@ -22,16 +22,16 @@ public class HeavyArmor implements CommandExecutor {
         if (!(commandSender instanceof Player player))
             return false;
 
-        ItemStack head = new ItemStack(Material.LEATHER_HELMET);
+        ItemStack head = new ItemStack(Material.CHAINMAIL_HELMET);
         ItemMeta headMeta = head.getItemMeta();
         headMeta.setDisplayName("Heavy Helmet");
-        ItemStack chest = new ItemStack(Material.LEATHER_CHESTPLATE);
+        ItemStack chest = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
         ItemMeta chestMeta = chest.getItemMeta();
         chestMeta.setDisplayName("Heavy Chestplate");
-        ItemStack pants = new ItemStack(Material.LEATHER_LEGGINGS);
+        ItemStack pants = new ItemStack(Material.CHAINMAIL_LEGGINGS);
         ItemMeta pantsMeta = pants.getItemMeta();
         pantsMeta.setDisplayName("Heavy Leggings");
-        ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
+        ItemStack boots = new ItemStack(Material.CHAINMAIL_BOOTS);
         ItemMeta bootsMeta = boots.getItemMeta();
         bootsMeta.setDisplayName("Heavy Boots");
 
