@@ -30,9 +30,7 @@ public class BossGru implements CommandExecutor {
         gru.setCustomNameVisible(true);
         gru.setPersistent(true);
 
-
         World w = gru.getWorld();
-
 
         gru.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(500);
         gru.setHealth(500);
