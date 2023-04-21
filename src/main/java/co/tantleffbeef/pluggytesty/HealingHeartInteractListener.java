@@ -86,12 +86,7 @@ public class HealingHeartInteractListener implements Listener {
     private void heal(Player player, ItemStack item) {
         player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 
-//        int healthBoost = 0;
-//        PotionEffect e = player.getPotionEffect(PotionEffectType.HEALTH_BOOST);
-//        if (e != null)
-//            healthBoost = (e.getAmplifier() + 1) * 2;
-
-        player.setHealth(Math.min(20 + player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()/*healthBoost*/, (player.getHealth() + item.getAmount())));
+        player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + item.getAmount())));
         player.setCooldown(Material.REDSTONE, 60);
 
         item.setAmount(1);
