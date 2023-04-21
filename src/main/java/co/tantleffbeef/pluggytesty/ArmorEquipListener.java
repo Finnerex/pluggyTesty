@@ -2,37 +2,53 @@ package co.tantleffbeef.pluggytesty;
 
 
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
+import com.jeff_media.armorequipevent.ArmorType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimPattern;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 
 public class ArmorEquipListener implements Listener {
 
+    private final Plugin plugin;
+
+    public ArmorEquipListener(Plugin plugin) { this.plugin = plugin; }
+
     @EventHandler
     public void onArmorChange(ArmorEquipEvent event) {
         Bukkit.broadcastMessage("InventoryInteractEvent");
+
+        plugin.getServer().getScheduler().runTask(plugin, () -> afterArmorChange(event));
+
+    }
+
+    private void afterArmorChange(ArmorEquipEvent event) {
         Player player = event.getPlayer();
+
+        ItemStack piece = event.getNewArmorPiece();
 
         ItemStack[] armor = player.getInventory().getArmorContents();
 
         TrimPattern pattern = sameTrim(armor);
 
         if (pattern == null) {
-            Bukkit.broadcastMessage("pattern null");
 
             ArrayList<PotionEffect> effects = (ArrayList<PotionEffect>) player.getActivePotionEffects();
 
@@ -44,15 +60,16 @@ public class ArmorEquipListener implements Listener {
         }
 
         Bukkit.broadcastMessage("pattern not null");
-        if (pattern.equals(TrimPattern.COAST)) {
-            Bukkit.broadcastMessage("TrimPattern.COAST");
-            player.addPotionEffect(PotionEffectType.SPEED.createEffect(PotionEffect.INFINITE_DURATION, 4));
-        }
-        else if (pattern.equals(TrimPattern.EYE)) {
-            Bukkit.broadcastMessage("TrimPattern.EYE");
-            player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(PotionEffect.INFINITE_DURATION, 4));
-        }
-
+        if (pattern.equals(TrimPattern.COAST))
+            player.addPotionEffect(PotionEffectType.CONDUIT_POWER.createEffect(PotionEffect.INFINITE_DURATION, 0));
+        else if (pattern.equals(TrimPattern.EYE))
+            player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(PotionEffect.INFINITE_DURATION, 0));
+        else if (pattern.equals(TrimPattern.SNOUT))
+            player.addPotionEffect(PotionEffectType.FIRE_RESISTANCE.createEffect(PotionEffect.INFINITE_DURATION, 0));
+        else if (pattern.equals(TrimPattern.VEX))
+            player.addPotionEffect(PotionEffectType.INCREASE_DAMAGE.createEffect(PotionEffect.INFINITE_DURATION, 0));
+        else if (pattern.equals(TrimPattern.WARD))
+            player.addPotionEffect(PotionEffectType.HEALTH_BOOST.createEffect(PotionEffect.INFINITE_DURATION, 4));
 
     }
 

@@ -13,6 +13,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Random;
+
+import java.util.ArrayList;
 
 public class BossGru implements CommandExecutor {
 
@@ -30,9 +33,7 @@ public class BossGru implements CommandExecutor {
         gru.setCustomNameVisible(true);
         gru.setPersistent(true);
 
-
         World w = gru.getWorld();
-
 
         gru.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(500);
         gru.setHealth(500);
@@ -49,9 +50,10 @@ public class BossGru implements CommandExecutor {
 
                 if (gru.isDead()) { //dead command
                     for (int i = 0; i < 15; i++) {
-                        ((Zombie) gru.getWorld().spawnEntity(eye, EntityType.ZOMBIE)).setAge(1);
+
+                        ((Zombie) w.spawnEntity(eye, EntityType.ZOMBIE)).setBaby();
                     }
-                    gru.getWorld().playSound(eye, Sound.ENTITY_PLAYER_LEVELUP, 20, 0.1f);
+                    w.playSound(eye, Sound.ENTITY_PLAYER_LEVELUP, 20, 0.1f);
 
                     cancel();
                     return;
@@ -64,7 +66,16 @@ public class BossGru implements CommandExecutor {
 
                     for (int i = 0; i < 5; i++){
 
-                        Zombie swordZombie = (Zombie) w.spawnEntity(eye, EntityType.ZOMBIE);
+                        int rand = new Random().nextInt(10) - 5;
+                        Location random = new Location(w, eye.getX() + rand, eye.getY(), eye.getZ() + rand);
+
+                        Zombie swordZombie = (Zombie) w.spawnEntity(random, EntityType.ZOMBIE);
+                        swordZombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(1);
+
+                        LivingEntity target = getNearestEntity(eye, swordZombie);
+                        if (target instanceof Player)
+                            swordZombie.setTarget(target);
+
                         EntityEquipment equipment = swordZombie.getEquipment();
                         equipment.setItemInMainHand(new ItemStack(Material.IRON_SWORD));
                         equipment.setHelmet(new ItemStack(Material.LEATHER_HELMET));
@@ -81,6 +92,26 @@ public class BossGru implements CommandExecutor {
         runnable.runTaskTimer(plugin, 0, 1);
 
         return true;
+    }
+
+    private LivingEntity getNearestEntity(Location l, Entity entity) {
+
+        ArrayList<Entity> entities = (ArrayList<Entity>) entity.getNearbyEntities(50, 10, 50);
+        if (entities.get(0) == null)
+            return null;
+
+        LivingEntity closest = null;
+        double closestDist = -1;
+
+        for (Entity e : entities) {
+            double d = e.getLocation().distance(l);
+            if (!(e instanceof Zombie) && !e.equals(entity) && e instanceof LivingEntity && (closestDist == -1 || d < closestDist)) {
+                closestDist = d;
+                closest = (LivingEntity) e;
+            }
+        }
+
+        return closest;
     }
 
 

@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,6 +11,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class HealingHeartInteractListener implements Listener {
@@ -82,7 +85,8 @@ public class HealingHeartInteractListener implements Listener {
     // when the player releases right click
     private void heal(Player player, ItemStack item) {
         player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-        player.setHealth(Math.min(20, (player.getHealth() + item.getAmount())));
+
+        player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + item.getAmount())));
         player.setCooldown(Material.REDSTONE, 60);
 
         item.setAmount(1);
