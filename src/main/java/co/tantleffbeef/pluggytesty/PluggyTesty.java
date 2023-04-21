@@ -31,8 +31,8 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("givemesword").setExecutor(new SwordsmansDream());
         getCommand("givemego").setExecutor(new Goer());
         getCommand("givemecock").setExecutor((new Launcher()));
-        getCommand("summonmejawn").setExecutor(new BossJawn(this));
-        getCommand("summonmecelebrator").setExecutor(new BossCelebrator(this));
+        getCommand("summonjawn").setExecutor(new BossJawn(this));
+        getCommand("summonseaman").setExecutor(new BossSeaman(this));
         getCommand("giveheavyarmor").setExecutor(new HeavyArmor());
 
         getServer().getPluginManager().registerEvents(new MagicStickInteractListener(), this);
