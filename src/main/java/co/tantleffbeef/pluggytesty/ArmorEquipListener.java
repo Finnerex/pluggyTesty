@@ -34,7 +34,6 @@ public class ArmorEquipListener implements Listener {
         if (pattern == null) {
             Bukkit.broadcastMessage("pattern null");
 
-
             ArrayList<PotionEffect> effects = (ArrayList<PotionEffect>) player.getActivePotionEffects();
 
             for (PotionEffect e : effects) {
