@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty;
 
 
+import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,17 +23,13 @@ import java.util.ArrayList;
 public class ArmorEquipListener implements Listener {
 
     @EventHandler
-    public void onArmorChange(InventoryClickEvent event) {
+    public void onArmorChange(ArmorEquipEvent event) {
         Bukkit.broadcastMessage("InventoryInteractEvent");
-        if (!(event.getInventory() instanceof PlayerInventory inventory))
-            return;
-        Bukkit.broadcastMessage("Player inventory");
+        Player player = event.getPlayer();
 
-        ItemStack[] armor = inventory.getArmorContents();
+        ItemStack[] armor = player.getInventory().getArmorContents();
 
         TrimPattern pattern = sameTrim(armor);
-
-        Player player = (Player) event.getWhoClicked();
 
         if (pattern == null) {
             Bukkit.broadcastMessage("pattern null");
