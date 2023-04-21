@@ -25,10 +25,10 @@
           <target>${java.version}</target>
         </configuration>
       </plugin>
-      <!--<plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.4.1</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -37,10 +37,16 @@
             </goals>
             <configuration>
               <createDependencyReducedPom>false</createDependencyReducedPom>
+                <relocations>
+                    <relocation>
+                        <pattern>com.jeff_media.armorequipevent</pattern>
+                        <shadedPattern>co.tantleffbeef.pluggytesty.armorequipevent</shadedPattern>
+                    </relocation>
+                </relocations>
             </configuration>
           </execution>
         </executions>
-      </plugin>-->
+      </plugin>
     </plugins>
     <resources>
       <resource>
@@ -58,6 +64,10 @@
       <repository>
           <id>tantleffbeef</id>
           <url>https://maven.tantleffbeef.co/repository/maven-public/</url>
+      </repository>
+      <repository>
+          <id>jeff-media-public</id>
+          <url>https://hub.jeff-media.com/nexus/repository/jeff-media-public/</url>
       </repository>
   </repositories>
 
@@ -79,6 +89,12 @@
           <artifactId>annotations</artifactId>
           <version>24.0.1</version>
           <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.jeff_media</groupId>
+          <artifactId>ArmorEquipEvent</artifactId>
+          <version>1.0.2-SNAPSHOT</version>
+          <scope>compile</scope>
       </dependency>
   </dependencies>
 </project>
