@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.armor;
 
 
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -82,6 +83,8 @@ public class ArmorEquipListener implements Listener {
             case FIRE_RESISTANCE -> player.addPotionEffect(PotionEffectType.FIRE_RESISTANCE.createEffect(PotionEffect.INFINITE_DURATION, 0));
             case HEALTH_BOOST -> player.addPotionEffect(PotionEffectType.HEALTH_BOOST.createEffect(PotionEffect.INFINITE_DURATION, 4));
         }
+
+        Bukkit.broadcastMessage("effect: " + effectMap.get(playerUUID));
 
     }
 
