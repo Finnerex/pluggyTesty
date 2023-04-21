@@ -13,6 +13,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Random;
+
+import java.util.ArrayList;
 
 public class BossGru implements CommandExecutor {
 
@@ -47,7 +50,10 @@ public class BossGru implements CommandExecutor {
 
                 if (gru.isDead()) { //dead command
                     for (int i = 0; i < 15; i++) {
-                        ((Zombie) gru.getWorld().spawnEntity(eye, EntityType.ZOMBIE)).setAge(1);
+                        int rand = new Random().nextInt(10) - 5;
+                        Location random = new Location(w, eye.getX() + rand, eye.getY(), eye.getZ() + rand);
+
+                        ((Zombie) w.spawnEntity(random, EntityType.ZOMBIE)).setBaby();
                     }
                     w.playSound(eye, Sound.ENTITY_PLAYER_LEVELUP, 20, 0.1f);
 
@@ -83,6 +89,26 @@ public class BossGru implements CommandExecutor {
         runnable.runTaskTimer(plugin, 0, 1);
 
         return true;
+    }
+
+    private LivingEntity getNearestEntity(Location l, Entity entity) {
+
+        ArrayList<Entity> entities = (ArrayList<Entity>) entity.getNearbyEntities(50, 10, 50);
+        if (entities.get(0) == null)
+            return null;
+
+        LivingEntity closest = null;
+        double closestDist = -1;
+
+        for (Entity e : entities) {
+            double d = e.getLocation().distance(l);
+            if (!(e instanceof Zombie) && !e.equals(entity) && e instanceof LivingEntity && (closestDist == -1 || d < closestDist)) {
+                closestDist = d;
+                closest = (LivingEntity) e;
+            }
+        }
+
+        return closest;
     }
 
 
