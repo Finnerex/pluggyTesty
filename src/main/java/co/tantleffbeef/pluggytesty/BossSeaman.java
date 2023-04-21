@@ -53,9 +53,11 @@ public class BossSeaman implements CommandExecutor {
                 Location targetLoc = target.getLocation();
                 w.setStorm(true);
                 w.setThundering(true);
+                w.setWeatherDuration(400);
                 if (seaman.isDead()) {
                     w.setStorm(false);
                     w.setThundering(false);
+                    w.setWeatherDuration(0);
                     cancel();
                     return;
                 }
@@ -72,6 +74,7 @@ public class BossSeaman implements CommandExecutor {
                 } else if (attack == 3 && loc.distance(target.getLocation()) < 5) { // lightning strikes him and supercharges him.
 
                 } else if (attack == 4) { // 8 tridents in 45 degree increments.
+                    Vector summonDir = dir.clone();
                     for(int i = 0; i < 8; i++) {
                         Trident creation = (Trident) seaman.getWorld().spawnEntity(loc, EntityType.TRIDENT);
                         creation.setVelocity(summonDir.rotateAroundY(45));
