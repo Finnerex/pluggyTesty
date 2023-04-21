@@ -59,7 +59,7 @@ public class BossSeaman implements CommandExecutor {
                     return;
                 }
 
-                int attack = new Random().nextInt(8);
+                int attack = new Random().nextInt(8); // hi
 
                 if (attack == 1 || seaman.getHealth() < 20) { // charge up and heal if not interrupted.
 
