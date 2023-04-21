@@ -40,19 +40,18 @@ public class BossGru implements CommandExecutor {
         gru.setHealth(500);
 
 
-        BukkitRunnable runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-
-                location eye = gru.getEyeLocation();
-
-                if (gru.isDead())
-                    gru.getWorld().spawnEntity(eye, EntityType.)
-                    cancel();
-                    return;
-
-            }
-        }
+//        BukkitRunnable runnable = new BukkitRunnable() {
+//            @Override
+//            public void run() {
+//
+//                location eye = gru.getEyeLocation();;
+//                if (gru.isDead())
+//                    gru.getWorld().spawnEntity(eye, EntityType.);
+//                    cancel();
+//                    return;
+//
+//            }
+//        }
 
         return true;
     }
