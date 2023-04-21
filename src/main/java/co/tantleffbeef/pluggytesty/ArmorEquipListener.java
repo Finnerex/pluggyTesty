@@ -69,7 +69,7 @@ public class ArmorEquipListener implements Listener {
         else if (pattern.equals(TrimPattern.VEX))
             player.addPotionEffect(PotionEffectType.INCREASE_DAMAGE.createEffect(PotionEffect.INFINITE_DURATION, 0));
         else if (pattern.equals(TrimPattern.WARD))
-            player.addPotionEffect(PotionEffectType.HEALTH_BOOST.createEffect(PotionEffect.INFINITE_DURATION, 9));
+            player.addPotionEffect(PotionEffectType.HEALTH_BOOST.createEffect(PotionEffect.INFINITE_DURATION, 4));
 
     }
 
