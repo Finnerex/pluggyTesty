@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty;
 import co.tantleffbeef.mcplanes.ResourceApi;
 import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.pluggytesty.custom.item.MagicStickItemType;
+import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PluggyTesty extends JavaPlugin {
@@ -45,7 +46,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GoerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new LauncherInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(), this);
-
+        ArmorEquipEvent.registerListener(this);
     }
 
     private void onItemRegistration() {
