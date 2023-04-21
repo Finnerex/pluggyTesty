@@ -29,7 +29,7 @@ public class BowShootListener implements Listener {
             return;
 
         if (new Random().nextInt(2) == 1) {
-            //player.getInventory().addItem(new ItemStack(Material.ARROW));
+            player.getInventory().addItem(new ItemStack(Material.ARROW));
             player.updateInventory();
             Bukkit.broadcastMessage("arrow");
         }
