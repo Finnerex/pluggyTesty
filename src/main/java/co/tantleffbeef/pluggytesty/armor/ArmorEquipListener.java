@@ -13,14 +13,14 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class ArmorEquipListener implements Listener {
 
     private final Plugin plugin;
-    public static HashMap<UUID, ArmorEffectType> effectMap = new HashMap<>();
+    public static Map<UUID, ArmorEffectType> effectMap = new HashMap<>();
 
     public ArmorEquipListener(Plugin plugin) { this.plugin = plugin; }
 
@@ -48,7 +48,7 @@ public class ArmorEquipListener implements Listener {
             }
 
             effectMap.remove(playerUUID);
-
+            return;
         }
 
         effectMap.put(playerUUID,
