@@ -40,11 +40,16 @@ public class ArmorEquipListener implements Listener {
         TrimPattern trim = sameTrim(armor);
 
         if (trim == null) {
-            switch (effectMap.get(playerUUID)) {
-                case CONDUIT_POWER -> player.removePotionEffect(PotionEffectType.CONDUIT_POWER);
-                case NIGHT_VISION -> player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                case FIRE_RESISTANCE -> player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-                case HEALTH_BOOST -> player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
+            ArmorEffectType effect = effectMap.get(playerUUID);
+
+            if (effect != null) {
+
+                switch (effect) {
+                    case CONDUIT_POWER -> player.removePotionEffect(PotionEffectType.CONDUIT_POWER);
+                    case NIGHT_VISION -> player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                    case FIRE_RESISTANCE -> player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+                    case HEALTH_BOOST -> player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
+                }
             }
 
             effectMap.remove(playerUUID);
