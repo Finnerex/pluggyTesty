@@ -4,6 +4,7 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,7 +38,7 @@ public class SwordsmansDreamInteractListener implements Listener {
         World world = player.getWorld();
 
         if(player.isSneaking()) {
-            player.setCooldown(Material.IRON_SWORD, 4);
+            player.setCooldown(Material.IRON_SWORD, 60);
             player.playSound(player, Sound.BLOCK_GRINDSTONE_USE, 1, 1);
             player.setGravity(false);
             player.setVelocity(new Vector(0, 0.2, 0));
@@ -49,8 +50,9 @@ public class SwordsmansDreamInteractListener implements Listener {
                     tickNum ++;
                     world.spawnParticle(Particle.SWEEP_ATTACK, player.getLocation(), 3, 1.0, 0.0, 1.0);
                     for(Entity i : player.getNearbyEntities(2, 2, 2)) {
-                        Damageable d = (Damageable) i;
-                        d.damage(6, player);
+
+                        if (i instanceof Damageable d)
+                            d.damage(6, player);
                     }
                     if(tickNum >= 20) {
                         player.setVelocity(new Vector(0, 0,0));
