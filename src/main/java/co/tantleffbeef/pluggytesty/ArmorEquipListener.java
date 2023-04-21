@@ -61,10 +61,15 @@ public class ArmorEquipListener implements Listener {
 
         Bukkit.broadcastMessage("pattern not null");
         if (pattern.equals(TrimPattern.COAST))
-            player.addPotionEffect(PotionEffectType.CONDUIT_POWER.createEffect(PotionEffect.INFINITE_DURATION, 4));
+            player.addPotionEffect(PotionEffectType.CONDUIT_POWER.createEffect(PotionEffect.INFINITE_DURATION, 0));
         else if (pattern.equals(TrimPattern.EYE))
-            player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(PotionEffect.INFINITE_DURATION, 4));
-//        else if (pattern.equals(TrimPattern.R))
+            player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(PotionEffect.INFINITE_DURATION, 0));
+        else if (pattern.equals(TrimPattern.SNOUT))
+            player.addPotionEffect(PotionEffectType.FIRE_RESISTANCE.createEffect(PotionEffect.INFINITE_DURATION, 0));
+        else if (pattern.equals(TrimPattern.VEX))
+            player.addPotionEffect(PotionEffectType.INCREASE_DAMAGE.createEffect(PotionEffect.INFINITE_DURATION, 0));
+        else if (pattern.equals(TrimPattern.WARD))
+            player.addPotionEffect(PotionEffectType.HEALTH_BOOST.createEffect(PotionEffect.INFINITE_DURATION, 9));
 
     }
 
