@@ -50,10 +50,8 @@ public class BossGru implements CommandExecutor {
 
                 if (gru.isDead()) { //dead command
                     for (int i = 0; i < 15; i++) {
-                        int rand = new Random().nextInt(10) - 5;
-                        Location random = new Location(w, eye.getX() + rand, eye.getY(), eye.getZ() + rand);
 
-                        ((Zombie) w.spawnEntity(random, EntityType.ZOMBIE)).setBaby();
+                        ((Zombie) w.spawnEntity(eye, EntityType.ZOMBIE)).setBaby();
                     }
                     w.playSound(eye, Sound.ENTITY_PLAYER_LEVELUP, 20, 0.1f);
 
@@ -67,7 +65,12 @@ public class BossGru implements CommandExecutor {
                 if (currHealth < prevHealth){ //spawns zombie hoard on hit
 
                     for (int i = 0; i < 5; i++){
-                        Zombie swordZombie = (Zombie) w.spawnEntity(eye, EntityType.ZOMBIE);
+
+                        int rand = new Random().nextInt(10) - 5;
+                        Location random = new Location(w, eye.getX() + rand, eye.getY(), eye.getZ() + rand);
+
+                        Zombie swordZombie = (Zombie) w.spawnEntity(random, EntityType.ZOMBIE);
+                        swordZombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1);
 
                         LivingEntity target = getNearestEntity(eye, swordZombie);
                         if (target instanceof Player)
