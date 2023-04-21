@@ -26,3 +26,7 @@ commands:
     description: grngage launchger
   summonmejawn:
     description: summons jawn
+  summonmecelebrator:
+    description: summons celebrator
+  giveheavyarmor:
+    description: give you heavy armor!!
