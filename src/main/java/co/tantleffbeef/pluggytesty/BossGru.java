@@ -49,7 +49,7 @@ public class BossGru implements CommandExecutor {
                     for (int i = 0; i < 15; i++) {
                         ((Zombie) gru.getWorld().spawnEntity(eye, EntityType.ZOMBIE)).setAge(1);
                     }
-                    gru.getWorld().playSound(eye, Sound.ENTITY_PLAYER_LEVELUP, 20, 0.1f);
+                    w.playSound(eye, Sound.ENTITY_PLAYER_LEVELUP, 20, 0.1f);
 
                     cancel();
                     return;
