@@ -11,6 +11,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class HealingHeartInteractListener implements Listener {
@@ -83,7 +85,13 @@ public class HealingHeartInteractListener implements Listener {
     // when the player releases right click
     private void heal(Player player, ItemStack item) {
         player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-        player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + item.getAmount())));
+
+        int healthBoost = 0;
+        PotionEffect e = player.getPotionEffect(PotionEffectType.HEALTH_BOOST);
+        if (e != null)
+            healthBoost = (e.getAmplifier() + 1) * 2;
+
+        player.setHealth(Math.min(20 + healthBoost, (player.getHealth() + item.getAmount())));
         player.setCooldown(Material.REDSTONE, 60);
 
         item.setAmount(1);
