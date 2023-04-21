@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class BossSeaman implements CommandExecutor {
     private final Plugin plugin;
     public BossSeaman(Plugin plugin) { this.plugin = plugin; }
+    boolean isDoingStuff = false;
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player player))
@@ -43,6 +44,7 @@ public class BossSeaman implements CommandExecutor {
         seaman.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(100);
         seaman.setHealth(100);
 
+
         // ai / attacks??
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
@@ -61,18 +63,16 @@ public class BossSeaman implements CommandExecutor {
                     cancel();
                     return;
                 }
-                if(target == null) {
-                    return;
-                }
+                if(target == null) return;
 
                 int attack = new Random().nextInt(8); // hi
 
                 if (attack == 1 || seaman.getHealth() < 20) { // charge up and heal if not interrupted.
-
+                    heal(loc, seaman, seaman.getHealth());
                 } else if (attack == 2 && seaman.hasLineOfSight(target) && loc.distance(target.getLocation()) > 4) { // ride the trident
-
+                    return;
                 } else if (attack == 3 && loc.distance(target.getLocation()) < 5) { // lightning strikes him and supercharges him.
-
+                    return;
                 } else if (attack == 4) { // 8 tridents in 45 degree increments.
                     Vector summonDir = dir.clone();
                     for(int i = 0; i < 8; i++) {
@@ -97,55 +97,25 @@ public class BossSeaman implements CommandExecutor {
         return true;
     }
 
-    private void heal(Location location, Drowned seaman) {
+    private void heal(Location location, Drowned seaman, double hp) {
         BukkitRunnable runnable = new BukkitRunnable() {
             int runs = 0;
 
             @Override
             public void run() {
-                cancel();
-            }
-        }
-    }
-
-    private void quake(Location location, Drowned seaman) {
-        BukkitRunnable runnable = new BukkitRunnable() {
-            int runs = 0;
-            Location l = location;
-            final BlockData blockParticle = Material.STONE.createBlockData();
-
-            @Override
-            public void run() {
-                if (runs > 20) {
+                if(runs > 40) {
+                    isDoingStuff = false;
+                    seaman.getWorld().playSound(seaman, Sound.ENTITY_ZOMBIE_CONVERTED_TO_DROWNED, 1, 1);
                     cancel();
-                    return;
                 }
 
-                World w = l.getWorld();
-                Vector d = l.getDirection().setY(0).normalize();
-                Vector pd = d.clone().rotateAroundY(90);
-                Location l2 = l.clone().add(pd.clone().multiply(-4));
-
-                if (w == null)
-                    return;
-
-                w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 8, 0.1f);
-
-                for (int i = 0; i < 7; i++) {
-                    l2.add(pd); // should probably be normal
-
-                    //w.spawnFallingBlock(l2, Material.BEACON.createBlockData());
-                    w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
-
-                    ArrayList<Entity> entities = (ArrayList<Entity>) w.getNearbyEntities(l2, 1, 3, 1); // 1b side, 2b height
-                    for (Entity e : entities) { // damage all entities in that block space
-                        if (!(e instanceof Zombie) && e instanceof Damageable damageable)
-                            damageable.damage(4, seaman);
-                    }
-
+                if(runs > 0 && seaman.getHealth() < hp) {
+                    seaman.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, seaman.getLocation(), 1);
+                    isDoingStuff = false;
+                    cancel();
                 }
-
-                l = l.add(d);
+                isDoingStuff = true;
+                seaman.getWorld().spawnParticle(Particle.REDSTONE, seaman.getLocation(), 3, 1.0, 0.0, 1.0);
                 runs++;
             }
         };
