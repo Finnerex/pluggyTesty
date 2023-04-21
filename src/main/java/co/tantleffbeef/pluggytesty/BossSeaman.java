@@ -33,7 +33,7 @@ public class BossSeaman implements CommandExecutor {
         seaman.setCustomName(ChatColor.DARK_AQUA + "The Fallen Seaman");
         seaman.setCustomNameVisible(true);
         seaman.setPersistent(true);
-        seaman.setAdult();
+        seaman.setAdult(); // hi
         EntityEquipment equipment = seaman.getEquipment();
         equipment.setHelmet(new ItemStack(Material.GOLDEN_HELMET));
         equipment.setChestplate(new ItemStack(Material.GOLDEN_CHESTPLATE));
