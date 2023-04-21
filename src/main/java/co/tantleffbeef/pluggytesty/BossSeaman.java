@@ -103,7 +103,7 @@ public class BossSeaman implements CommandExecutor {
 
             @Override
             public void run() {
-                cancel()
+                cancel();
             }
         }
     }
