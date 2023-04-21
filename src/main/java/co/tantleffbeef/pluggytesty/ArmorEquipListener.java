@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty;
 
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,8 +22,10 @@ public class ArmorEquipListener implements Listener {
 
     @EventHandler
     public void onArmorChange(InventoryInteractEvent event) {
+        Bukkit.broadcastMessage("InventoryInteractEvent");
         if (!(event.getInventory() instanceof PlayerInventory inventory))
             return;
+        Bukkit.broadcastMessage("Player inventory");
 
         ItemStack[] armor = inventory.getArmorContents();
 
@@ -31,6 +34,7 @@ public class ArmorEquipListener implements Listener {
         Player player = (Player) event.getWhoClicked();
 
         if (pattern == null) {
+            Bukkit.broadcastMessage("pattern null");
 
 
             ArrayList<PotionEffect> effects = (ArrayList<PotionEffect>) player.getActivePotionEffects();
@@ -42,11 +46,15 @@ public class ArmorEquipListener implements Listener {
             return;
         }
 
-
-        if (pattern.equals(TrimPattern.COAST))
+        Bukkit.broadcastMessage("pattern not null");
+        if (pattern.equals(TrimPattern.COAST)) {
+            Bukkit.broadcastMessage("TrimPattern.COAST");
             player.addPotionEffect(PotionEffectType.SPEED.createEffect(PotionEffect.INFINITE_DURATION, 4));
-        else if (pattern.equals(TrimPattern.EYE))
+        }
+        else if (pattern.equals(TrimPattern.EYE)) {
+            Bukkit.broadcastMessage("TrimPattern.EYE");
             player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(PotionEffect.INFINITE_DURATION, 4));
+        }
 
 
     }
