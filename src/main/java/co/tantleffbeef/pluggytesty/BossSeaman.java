@@ -167,24 +167,24 @@ public class BossSeaman implements CommandExecutor {
     }
 
     private void octagon(Location location, Drowned seaman) {
-        BukkitRunnable runnable = new BukkitRunnable() {
-            int runs = 0;
-            Vector summonDir = location.getDirection().clone();
-            for(int i = 0; i < 8; i++) {
-                Trident creation = (Trident) seaman.getWorld().spawnEntity(location, EntityType.TRIDENT);
-                creation.setVelocity(summonDir.rotateAroundY(45).setY(30));
-            }
-            @Override
-            public void run() {
-                if(runs > 10) {
-
-                    cancel();
-                }
-                runs++;
-            }
-        };
-
-        runnable.runTaskTimer(plugin, 0, 20);
+//        BukkitRunnable runnable = new BukkitRunnable() {
+//            int runs = 0;
+//            Vector summonDir = location.getDirection().clone();
+//            for(int i = 0; i < 8; i++) {
+//                Trident creation = (Trident) seaman.getWorld().spawnEntity(location, EntityType.TRIDENT);
+//                creation.setVelocity(summonDir.rotateAroundY(45).setY(30));
+//            }
+//            @Override
+//            public void run() {
+//                if(runs > 10) {
+//
+//                    cancel();
+//                }
+//                runs++;
+//            }
+//        };
+//
+//        runnable.runTaskTimer(plugin, 0, 20);
     }
 
 }
