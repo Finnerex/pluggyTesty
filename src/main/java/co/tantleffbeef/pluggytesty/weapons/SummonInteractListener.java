@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty;
+package co.tantleffbeef.pluggytesty.weapons;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

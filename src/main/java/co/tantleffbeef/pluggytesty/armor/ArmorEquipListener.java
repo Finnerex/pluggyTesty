@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty;
+package co.tantleffbeef.pluggytesty.armor;
 
 
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
@@ -33,7 +33,6 @@ public class ArmorEquipListener implements Listener {
 
     @EventHandler
     public void onArmorChange(ArmorEquipEvent event) {
-        Bukkit.broadcastMessage("InventoryInteractEvent");
 
         plugin.getServer().getScheduler().runTask(plugin, () -> afterArmorChange(event));
 
@@ -59,7 +58,6 @@ public class ArmorEquipListener implements Listener {
             return;
         }
 
-        Bukkit.broadcastMessage("pattern not null");
         if (pattern.equals(TrimPattern.COAST))
             player.addPotionEffect(PotionEffectType.CONDUIT_POWER.createEffect(PotionEffect.INFINITE_DURATION, 0));
         else if (pattern.equals(TrimPattern.EYE))

@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty;
+package co.tantleffbeef.pluggytesty.utility;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -34,7 +34,7 @@ public class GoerInteractListener implements Listener {
             return;
 
         Vector direction = player.getEyeLocation().getDirection().normalize();
-        player.setVelocity(direction.multiply(3).add(player.getVelocity()));
+        player.setVelocity(direction.multiply(2).add(player.getVelocity()));
 
         player.setCooldown(Material.LEATHER, 0);
 

@@ -2,7 +2,14 @@ package co.tantleffbeef.pluggytesty;
 
 import co.tantleffbeef.mcplanes.ResourceApi;
 import co.tantleffbeef.mcplanes.ResourceManager;
+import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
+import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
+import co.tantleffbeef.pluggytesty.bosses.BossGru;
+import co.tantleffbeef.pluggytesty.bosses.BossJawn;
+import co.tantleffbeef.pluggytesty.bosses.BossSeaman;
 import co.tantleffbeef.pluggytesty.custom.item.MagicStickItemType;
+import co.tantleffbeef.pluggytesty.utility.*;
+import co.tantleffbeef.pluggytesty.weapons.*;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
