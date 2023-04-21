@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty;
 
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -36,9 +37,11 @@ public class SwordsmansDreamInteractListener implements Listener {
         World world = player.getWorld();
 
         if(player.isSneaking()) {
+            player.setCooldown(Material.IRON_SWORD, 4);
+            player.playSound(player, Sound.BLOCK_GRINDSTONE_USE, 1, 1);
             player.setGravity(false);
             player.setVelocity(new Vector(0, 0.2, 0));
-            // wait
+            // Attribute damage = item.getItemMeta().getAttributeModifiers(Attribute.GENERIC_ATTACK_DAMAGE);
             BukkitRunnable runnable = new BukkitRunnable() {
                 int tickNum = 0;
                 @Override
@@ -47,7 +50,7 @@ public class SwordsmansDreamInteractListener implements Listener {
                     world.spawnParticle(Particle.SWEEP_ATTACK, player.getLocation(), 3, 1.0, 0.0, 1.0);
                     for(Entity i : player.getNearbyEntities(2, 2, 2)) {
                         Damageable d = (Damageable) i;
-                        d.damage(10, player);
+                        d.damage(6, player);
                     }
                     if(tickNum >= 20) {
                         player.setVelocity(new Vector(0, 0,0));
@@ -58,21 +61,16 @@ public class SwordsmansDreamInteractListener implements Listener {
                     }
                     if(tickNum >= 50) {
                         cancel();
-                        player.setVelocity(player.getLocation().getDirection());
                         player.setGravity(true);
                     }
                 }
             };
 
             runnable.runTaskTimer(plugin, 0, 1);
-            // dash down
-            // recharge
 
         } else {
             return;
         }
-        player.setCooldown(Material.IRON_SWORD, 5);
-        player.playSound(player, Sound.BLOCK_GRINDSTONE_USE, 1, 1);
 
         final float range = 2f;
 

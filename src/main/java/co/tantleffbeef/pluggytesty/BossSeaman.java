@@ -39,6 +39,7 @@ public class BossSeaman implements CommandExecutor {
         equipment.setChestplate(new ItemStack(Material.GOLDEN_CHESTPLATE));
         equipment.setLeggings(new ItemStack(Material.GOLDEN_LEGGINGS));
         equipment.setBoots(new ItemStack(Material.GOLDEN_BOOTS));
+        equipment.setItemInMainHand(new ItemStack(Material.TRIDENT));
         seaman.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(100);
         seaman.setHealth(100);
 
@@ -60,29 +61,33 @@ public class BossSeaman implements CommandExecutor {
 
                 int attack = new Random().nextInt(8);
 
-                if (attack == 1 && seaman.hasLineOfSight(target) && loc.distance(target.getLocation()) > 4) { // charge up and summon lightning if not interrupted.
-                    seaman.setVelocity(dir.multiply(3));
-                } else if (attack == 2) { // 8 tridents in line.
-                    seaman.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 1));
-                    seaman.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 3));
-                } else if (attack == 3 && loc.distance(target.getLocation()) < 5) { // strength
-                    seaman.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30, 3));
-                    seaman.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30 , 2));
-                    w.playSound(loc, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
-                } else if (attack == 4 || attack == 5) { // quake
+                if (attack == 1 || seaman.getHealth() < 20) { // charge up and heal if not interrupted.
+
+                } else if (attack == 2 && seaman.hasLineOfSight(target) && loc.distance(target.getLocation()) > 4) { // ride the trident
+
+                } else if (attack == 3 && loc.distance(target.getLocation()) < 5) { // lightning strikes him and supercharges him.
+
+                } else if (attack == 4) { // 8 tridents in 45 degree increments.
                     quake(seaman.getLocation(), seaman);
+                } else if (attack == 5) { // Lightning strikes around him and summons normal drowned with turtle shells and speed.
+                    for(int i = 0; i < 4; i++) {
+                        Location summonHere = loc.add(new Random().nextInt(10)-5, 0, new Random().nextInt(10)-5);
+                        seaman.getWorld().spawnEntity(summonHere, EntityType.LIGHTNING, false);
+                        seaman.getWorld().playSound(summonHere, Sound.ITEM_TRIDENT_THUNDER, 20, 0.1f);
+                        Drowned minion = (Drowned) player.getWorld().spawnEntity(summonHere, EntityType.DROWNED, false);
+                        EntityEquipment mEquip = minion.getEquipment();
+                        mEquip.setHelmet(new ItemStack(Material.TURTLE_HELMET));
+                    }
                 }
 
             }
         };
-
-        // run that seaman
         runnable.runTaskTimer(plugin, 0, 20);
 
         return true;
     }
 
-    private void quake(Location location, Zombie jawn) {
+    private void quake(Location location, Drowned seaman) {
         BukkitRunnable runnable = new BukkitRunnable() {
             int runs = 0;
             Location l = location;
@@ -114,7 +119,7 @@ public class BossSeaman implements CommandExecutor {
                     ArrayList<Entity> entities = (ArrayList<Entity>) w.getNearbyEntities(l2, 1, 3, 1); // 1b side, 2b height
                     for (Entity e : entities) { // damage all entities in that block space
                         if (!(e instanceof Zombie) && e instanceof Damageable damageable)
-                            damageable.damage(4, jawn);
+                            damageable.damage(4, seaman);
                     }
 
                 }
