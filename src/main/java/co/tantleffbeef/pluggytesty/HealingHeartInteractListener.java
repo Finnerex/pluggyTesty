@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -82,7 +83,7 @@ public class HealingHeartInteractListener implements Listener {
     // when the player releases right click
     private void heal(Player player, ItemStack item) {
         player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-        player.setHealth(Math.min(20, (player.getHealth() + item.getAmount())));
+        player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + item.getAmount())));
         player.setCooldown(Material.REDSTONE, 60);
 
         item.setAmount(1);
