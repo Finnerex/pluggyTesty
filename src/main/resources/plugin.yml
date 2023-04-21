@@ -30,3 +30,7 @@ commands:
     description: summons seaman
   giveheavyarmor:
     description: give you heavy armor!!
+  summongru:
+    description: summons gru
+
+
