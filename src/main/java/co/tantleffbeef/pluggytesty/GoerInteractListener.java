@@ -33,8 +33,8 @@ public class GoerInteractListener implements Listener {
         if (player.hasCooldown(Material.LEATHER))
             return;
 
-        Vector direction = player.getEyeLocation().getDirection();
-        player.setVelocity(direction.multiply(2).add(player.getVelocity()));
+        Vector direction = player.getEyeLocation().getDirection().normalize();
+        player.setVelocity(direction.multiply(3).add(player.getVelocity()));
 
         player.setCooldown(Material.LEATHER, 0);
 
