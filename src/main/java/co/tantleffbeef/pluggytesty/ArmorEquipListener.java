@@ -64,7 +64,7 @@ public class ArmorEquipListener implements Listener {
             player.addPotionEffect(PotionEffectType.CONDUIT_POWER.createEffect(PotionEffect.INFINITE_DURATION, 4));
         else if (pattern.equals(TrimPattern.EYE))
             player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(PotionEffect.INFINITE_DURATION, 4));
-        else if (pattern.equals(TrimPattern.R))
+//        else if (pattern.equals(TrimPattern.R))
 
     }
 
