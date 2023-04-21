@@ -2,32 +2,25 @@ package co.tantleffbeef.pluggytesty.armor;
 
 
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
-import com.jeff_media.armorequipevent.ArmorType;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class ArmorEquipListener implements Listener {
 
     private final Plugin plugin;
+    public static HashMap<UUID, ArmorEffectType> effectMap = new HashMap<>();
 
     public ArmorEquipListener(Plugin plugin) { this.plugin = plugin; }
 
@@ -40,34 +33,50 @@ public class ArmorEquipListener implements Listener {
 
     private void afterArmorChange(ArmorEquipEvent event) {
         Player player = event.getPlayer();
-
-        ItemStack piece = event.getNewArmorPiece();
+        UUID playerUUID = player.getUniqueId();
 
         ItemStack[] armor = player.getInventory().getArmorContents();
 
-        TrimPattern pattern = sameTrim(armor);
+        TrimPattern trim = sameTrim(armor);
 
-        if (pattern == null) {
+        if (trim == null) {
+            switch (effectMap.get(playerUUID)) {
+                case CONDUIT_POWER -> player.removePotionEffect(PotionEffectType.CONDUIT_POWER);
+                case NIGHT_VISION -> player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                case FIRE_RESISTANCE -> player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+                case HEALTH_BOOST -> player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
+            }
 
-            ArrayList<PotionEffect> effects = (ArrayList<PotionEffect>) player.getActivePotionEffects();
+            effectMap.remove(playerUUID);
 
-            for (PotionEffect e : effects) {
-                player.removePotionEffect(e.getType());
-            } // removes all them dawgone dawgs which idk man
-
-            return;
         }
 
-        if (pattern.equals(TrimPattern.COAST))
-            player.addPotionEffect(PotionEffectType.CONDUIT_POWER.createEffect(PotionEffect.INFINITE_DURATION, 0));
-        else if (pattern.equals(TrimPattern.EYE))
-            player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(PotionEffect.INFINITE_DURATION, 0));
-        else if (pattern.equals(TrimPattern.SNOUT))
-            player.addPotionEffect(PotionEffectType.FIRE_RESISTANCE.createEffect(PotionEffect.INFINITE_DURATION, 0));
-        else if (pattern.equals(TrimPattern.VEX))
-            player.addPotionEffect(PotionEffectType.INCREASE_DAMAGE.createEffect(PotionEffect.INFINITE_DURATION, 0));
-        else if (pattern.equals(TrimPattern.WARD))
-            player.addPotionEffect(PotionEffectType.HEALTH_BOOST.createEffect(PotionEffect.INFINITE_DURATION, 4));
+        effectMap.put(playerUUID,
+                (trim.equals(TrimPattern.COAST)) ? ArmorEffectType.CONDUIT_POWER :
+//                (trim.equals(TrimPattern.HOST)) ? ArmorEffectType.DEBUFF_DAMAGE_IMMUNITY :
+                (trim.equals(TrimPattern.SENTRY)) ? ArmorEffectType.ARROW_CONSERVATION :
+                (trim.equals(TrimPattern.EYE)) ? ArmorEffectType.NIGHT_VISION :
+//                (trim.equals(TrimPattern.RAISER)) ? ArmorEffectType.JUMP_BOOST :
+//                (trim.equals(TrimPattern.SHAPER)) ? ArmorEffectType.HASTE :
+//                (trim.equals(TrimPattern.WAYFINDER)) ? ArmorEffectType.SPEED :
+                (trim.equals(TrimPattern.TIDE)) ? ArmorEffectType.EXP_BOOST :
+                (trim.equals(TrimPattern.SNOUT)) ? ArmorEffectType.FIRE_RESISTANCE :
+                (trim.equals(TrimPattern.WILD)) ? ArmorEffectType.HUNGER_CONSERVATION :
+                (trim.equals(TrimPattern.VEX)) ? ArmorEffectType.DAMAGE_INCREASE :
+                (trim.equals(TrimPattern.SPIRE)) ? ArmorEffectType.FALL_DAMAGE_IMMUNITY :
+                (trim.equals(TrimPattern.RIB)) ? ArmorEffectType.WITHER_ATTACKS :
+//                (trim.equals(TrimPattern.SILENCE)) ? ArmorEffectType.DASH :
+                (trim.equals(TrimPattern.WARD)) ? ArmorEffectType.HEALTH_BOOST :
+                (trim.equals(TrimPattern.DUNE)) ? ArmorEffectType.REGEN_ON_KILL :
+                ArmorEffectType.NONE
+                );
+
+        switch (effectMap.get(playerUUID)) {
+            case CONDUIT_POWER -> player.addPotionEffect(PotionEffectType.CONDUIT_POWER.createEffect(PotionEffect.INFINITE_DURATION, 0));
+            case NIGHT_VISION -> player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(PotionEffect.INFINITE_DURATION, 0));
+            case FIRE_RESISTANCE -> player.addPotionEffect(PotionEffectType.FIRE_RESISTANCE.createEffect(PotionEffect.INFINITE_DURATION, 0));
+            case HEALTH_BOOST -> player.addPotionEffect(PotionEffectType.HEALTH_BOOST.createEffect(PotionEffect.INFINITE_DURATION, 4));
+        }
 
     }
 
