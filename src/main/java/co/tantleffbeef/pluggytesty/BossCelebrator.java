@@ -19,9 +19,9 @@ import org.joml.Random;
 
 import java.util.ArrayList;
 
-public class BossJawn implements CommandExecutor {
+public class BossCelebrator implements CommandExecutor {
     private final Plugin plugin;
-    public BossJawn(Plugin plugin) { this.plugin = plugin; }
+    public BossCelebrator(Plugin plugin) { this.plugin = plugin; }
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player player))

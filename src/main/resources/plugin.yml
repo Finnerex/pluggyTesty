@@ -24,7 +24,9 @@ commands:
     description: make you go
   givemecock:
     description: grngage launchger
-  summonjawn:
+  summonmejawn:
     description: summons jawn
-  summonseaman:
+  summonmecelebrator:
     description: summons celebrator
+  giveheavyarmor:
+    description: give you heavy armor!!
