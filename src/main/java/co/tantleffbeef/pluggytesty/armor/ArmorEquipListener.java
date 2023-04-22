@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
@@ -37,6 +38,27 @@ public class ArmorEquipListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
 
         afterArmorChange(event.getPlayer());
+
+    }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        UUID playerUUID = player.getUniqueId();
+
+        ArmorEffectType effect = effectMap.get(playerUUID);
+
+        if (effect != null) {
+
+            switch (effect) {
+                case CONDUIT_POWER -> player.removePotionEffect(PotionEffectType.CONDUIT_POWER);
+                case NIGHT_VISION -> player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                case FIRE_RESISTANCE -> player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+                case HEALTH_BOOST -> player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
+            }
+        }
+
+        effectMap.remove(playerUUID);
 
     }
 

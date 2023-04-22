@@ -29,6 +29,7 @@ public class BowShootListener implements Listener {
 
         if (new Random().nextInt(2) == 1) {
             event.setConsumeItem(false);
+            player.updateInventory();
             Bukkit.broadcastMessage("not consumed");
         }
 
