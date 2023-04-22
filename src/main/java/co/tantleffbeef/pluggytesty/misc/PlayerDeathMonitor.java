@@ -17,7 +17,7 @@ public class PlayerDeathMonitor implements Listener {
         death.setKeepInventory(false);
 
         Player victim = death.getEntity();
-        PlayerInventory drops = victim.getInventory();
+        ItemStack[] drops = victim.getInventory().getExtraContents();
 
         Bukkit.broadcastMessage("Drops: " + drops);
 
