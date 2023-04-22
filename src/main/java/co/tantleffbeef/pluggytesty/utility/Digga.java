@@ -1,6 +1,5 @@
-package co.tantleffbeef.pluggytesty;
+package co.tantleffbeef.pluggytesty.utility;
 
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,28 +11,30 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class HealingHeart implements CommandExecutor {
+public class Digga implements CommandExecutor {
 
-    public static final String HEART_LORE = "hold to charge heal";
+    public static final String DIGGA_LORE = "digs";
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(commandSender instanceof Player player))
             return false;
 
-        ItemStack item = new ItemStack(Material.REDSTONE);
-        ItemMeta meta = item.getItemMeta();
+        ItemStack ender = new ItemStack(Material.PRISMARINE_SHARD);
+        ItemMeta metaEnder = ender.getItemMeta();
 
-        meta.setDisplayName(ChatColor.DARK_RED + "Healing Heart");
+        metaEnder.setDisplayName("digga");
 
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(HEART_LORE);
+        lore.add(DIGGA_LORE);
 
-        meta.setLore(lore);
-        item.setItemMeta(meta);
+        metaEnder.setLore(lore);
+        ender.setItemMeta(metaEnder);
 
-        player.getInventory().addItem(item);
+        player.damage(0.0000001);
+        player.giveExpLevels(1);
+        player.getInventory().addItem(ender);
         player.updateInventory();
-
         return true;
     }
 }

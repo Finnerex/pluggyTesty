@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty;
+package co.tantleffbeef.pluggytesty.weapons;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -11,33 +11,28 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class Goer implements CommandExecutor {
+public class Summon implements CommandExecutor {
 
-    public static final String GOER_LORE = "makes you go";
-
+    public static final String SUMMON_LORE = "summons zombies fr";
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player))
             return false;
 
-        ItemStack item = new ItemStack(Material.LEATHER);
+        ItemStack item = new ItemStack(Material.ROTTEN_FLESH);
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName("Go!");
+        meta.setDisplayName("Staff Of The Undead");
 
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(GOER_LORE);
+        lore.add(SUMMON_LORE);
 
         meta.setLore(lore);
-
         item.setItemMeta(meta);
-
-        player.sendMessage("??");
 
         player.getInventory().addItem(item);
         player.updateInventory();
 
         return true;
-
     }
 }

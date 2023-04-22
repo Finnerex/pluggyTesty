@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty;
+package co.tantleffbeef.pluggytesty.armor;
 
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;

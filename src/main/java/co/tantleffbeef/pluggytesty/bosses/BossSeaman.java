@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty;
+package co.tantleffbeef.pluggytesty.bosses;
 
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
