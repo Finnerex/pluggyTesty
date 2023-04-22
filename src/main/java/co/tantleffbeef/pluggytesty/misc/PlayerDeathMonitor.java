@@ -18,32 +18,18 @@ import java.util.List;
 
 public class PlayerDeathMonitor implements Listener {
 
-    private final Plugin plugin;
-
-    public PlayerDeathMonitor(Plugin plugin) { this.plugin = plugin; }
     @EventHandler/*(priority = EventPriority.MONITOR)*/
     public void onDeath(PlayerDeathEvent event) {
         event.setKeepInventory(true);
 
         Player victim = event.getEntity();
-        World w = victim.getWorld();
         ItemStack[] drops = victim.getInventory().getContents();
-//        int c = 0;
-//
-//        Bukkit.broadcastMessage("Location: " + victim.getLocation());
 
         for(int i = 9; i < 36; i++) {
-            if(drops[i] != null && drops[i].getMaxStackSize() != 1) {
-                w.dropItemNaturally(victim.getLocation(), drops[i]);
-//                drops[i] = null;
-            }
+            if(drops[i] != null && drops[i].getMaxStackSize() != 1)
+                victim.getWorld().dropItemNaturally(victim.getLocation(), drops[i]);
 
         }
-
-//        plugin.getServer().getScheduler().runTask(plugin, () -> {
-//            victim.getInventory().setContents(drops);
-//            victim.updateInventory();
-//        });
 
     }
 
@@ -54,9 +40,8 @@ public class PlayerDeathMonitor implements Listener {
         ItemStack[] drops = player.getInventory().getContents();
 
         for(int i = 9; i < 36; i++) {
-            if(drops[i] != null && drops[i].getMaxStackSize() != 1) {
+            if(drops[i] != null && drops[i].getMaxStackSize() != 1)
                 drops[i] = null;
-            }
 
         }
 
