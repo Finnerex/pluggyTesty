@@ -19,7 +19,12 @@ public class PlayerDeathMonitor implements Listener {
         Player victim = death.getEntity();
         ItemStack[] drops = victim.getInventory().getExtraContents();
 
-        Bukkit.broadcastMessage("Drops: " + drops);
+        for(ItemStack d : drops) {
+            // check if item is what we want to keep.
+            // If it isn't, plonk it on the floor
+            Bukkit.broadcastMessage("drops: " + d);
+        }
+
 
     }
 }
