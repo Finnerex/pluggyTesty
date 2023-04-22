@@ -97,7 +97,7 @@ public class ArmorEquipListener implements Listener {
 //                (trim.equals(TrimPattern.WAYFINDER)) ? ArmorEffectType.SPEED :
                 (trim.equals(TrimPattern.TIDE)) ? ArmorEffectType.EXP_BOOST :
                 (trim.equals(TrimPattern.SNOUT)) ? ArmorEffectType.FIRE_RESISTANCE :
-                (trim.equals(TrimPattern.WILD)) ? ArmorEffectType.HUNGER_CONSERVATION :
+                (trim.equals(TrimPattern.WILD)) ? ArmorEffectType.HUNGER_CONSERVATION : // idk man
                 (trim.equals(TrimPattern.VEX)) ? ArmorEffectType.DAMAGE_INCREASE :
                 (trim.equals(TrimPattern.SPIRE)) ? ArmorEffectType.FALL_DAMAGE_IMMUNITY :
                 (trim.equals(TrimPattern.RIB)) ? ArmorEffectType.WITHER_ATTACKS :
