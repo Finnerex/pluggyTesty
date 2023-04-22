@@ -21,7 +21,7 @@ public class VillagerTrades implements Listener {
         if (!(event.getRightClicked() instanceof Villager villager)) return;
 
         switch (villager.getProfession()) {
-            case ARMORER -> villager.setRecipes(armorerTrades(new Random().nextInt(5)));
+            case ARMORER -> villager.setRecipes(armorerTrades(new Random().nextInt(6)));
         }
 
     }
