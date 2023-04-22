@@ -11,10 +11,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 
 public class PlayerDeathMonitor implements Listener {
+
+    private final Plugin plugin;
+
+    public PlayerDeathMonitor(Plugin plugin) { this.plugin = plugin; }
     @EventHandler/*(priority = EventPriority.MONITOR)*/
     public void onDeath(PlayerDeathEvent event) {
 
@@ -37,6 +42,7 @@ public class PlayerDeathMonitor implements Listener {
         victim.updateInventory();
 
     }
+
 //    public void onDamage(EntityDamageEvent event) {
 //        if (!(event.getEntity() instanceof Player player)) return;
 //
