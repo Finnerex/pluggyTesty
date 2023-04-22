@@ -28,7 +28,9 @@ public class VillagerTrades implements Listener {
 
     public List<MerchantRecipe> armorerTrades(int level) {
         List<MerchantRecipe> trades = new ArrayList<>();
-        trades.add(new MerchantRecipe(new ItemStack(Material.LEATHER_HELMET, 1), 0, 10, false, 0, 1.0f)/*.setIngredients(new ArrayList<ItemStack>())*/);
+        MerchantRecipe recipe = new MerchantRecipe(new ItemStack(Material.LEATHER_HELMET, 1), 0, 10, false, 0, 1.0f);
+        recipe.addIngredient(new ItemStack(Material.LEATHER_BOOTS));
+        trades.add(recipe/*.setIngredients(new ArrayList<ItemStack>())*/);
         return trades;
     }
 
