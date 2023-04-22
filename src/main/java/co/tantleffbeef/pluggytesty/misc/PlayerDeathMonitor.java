@@ -1,20 +1,12 @@
 package co.tantleffbeef.pluggytesty.misc;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.plugin.Plugin;
 
-import java.util.List;
 
 public class PlayerDeathMonitor implements Listener {
 
