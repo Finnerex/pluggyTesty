@@ -25,7 +25,7 @@ public class EntityDeathListener implements Listener {
         UUID playerUUID = player.getUniqueId();
 
         if (ArmorEquipListener.effectMap.get(playerUUID) == ArmorEffectType.REGEN_ON_KILL)
-            player.addPotionEffect(PotionEffectType.REGENERATION.createEffect(200, 5));
+            player.addPotionEffect(PotionEffectType.REGENERATION.createEffect(60, 1)); // regen 2 for 3 secs
 
     }
 

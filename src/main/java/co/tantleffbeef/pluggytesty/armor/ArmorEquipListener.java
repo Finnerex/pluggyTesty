@@ -19,13 +19,37 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import static java.util.Map.entry;
 
 public class ArmorEquipListener implements Listener {
 
     private final Plugin plugin;
     public static Map<UUID, ArmorEffectType> effectMap = new HashMap<>();
 
-    public ArmorEquipListener(Plugin plugin) { this.plugin = plugin; }
+    private final static Map<TrimPattern, ArmorEffectType> trimMap = Map.ofEntries(
+
+            entry(TrimPattern.COAST,    ArmorEffectType.CONDUIT_POWER),
+//            entry(TrimPattern.HOST,     ArmorEffectType.DEBUFF_DAMAGE_IMMUNITY),
+            entry(TrimPattern.SENTRY,   ArmorEffectType.ARROW_CONSERVATION),
+            entry(TrimPattern.EYE,      ArmorEffectType.NIGHT_VISION),
+//            entry(TrimPattern.RAISER,   ArmorEffectType.JUMP_BOOST),
+//            entry(TrimPattern.SHAPER,   ArmorEffectType.HASTE),
+//            entry(TrimPattern.WAYFINDER,ArmorEffectType.SPEED),
+            entry(TrimPattern.TIDE,     ArmorEffectType.EXP_BOOST),
+            entry(TrimPattern.SNOUT,    ArmorEffectType.FIRE_RESISTANCE),
+            entry(TrimPattern.WILD,     ArmorEffectType.HUNGER_CONSERVATION),
+            entry(TrimPattern.VEX,      ArmorEffectType.DAMAGE_INCREASE),
+            entry(TrimPattern.SPIRE,    ArmorEffectType.FALL_DAMAGE_IMMUNITY),
+            entry(TrimPattern.RIB,      ArmorEffectType.WITHER_ATTACKS),
+//            entry(TrimPattern.SILENCE,  ArmorEffectType.DASH),
+            entry(TrimPattern.WARD,     ArmorEffectType.HEALTH_BOOST),
+            entry(TrimPattern.DUNE,     ArmorEffectType.REGEN_ON_KILL)
+
+    );
+
+    public ArmorEquipListener(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onArmorChange(ArmorEquipEvent event) {
@@ -87,25 +111,7 @@ public class ArmorEquipListener implements Listener {
             return;
         }
 
-        effectMap.put(playerUUID,
-                (trim.equals(TrimPattern.COAST)) ? ArmorEffectType.CONDUIT_POWER :
-//                (trim.equals(TrimPattern.HOST)) ? ArmorEffectType.DEBUFF_DAMAGE_IMMUNITY :
-                (trim.equals(TrimPattern.SENTRY)) ? ArmorEffectType.ARROW_CONSERVATION :
-                (trim.equals(TrimPattern.EYE)) ? ArmorEffectType.NIGHT_VISION :
-//                (trim.equals(TrimPattern.RAISER)) ? ArmorEffectType.JUMP_BOOST :
-//                (trim.equals(TrimPattern.SHAPER)) ? ArmorEffectType.HASTE :
-//                (trim.equals(TrimPattern.WAYFINDER)) ? ArmorEffectType.SPEED :
-                (trim.equals(TrimPattern.TIDE)) ? ArmorEffectType.EXP_BOOST :
-                (trim.equals(TrimPattern.SNOUT)) ? ArmorEffectType.FIRE_RESISTANCE :
-                (trim.equals(TrimPattern.WILD)) ? ArmorEffectType.HUNGER_CONSERVATION : // idk man
-                (trim.equals(TrimPattern.VEX)) ? ArmorEffectType.DAMAGE_INCREASE :
-                (trim.equals(TrimPattern.SPIRE)) ? ArmorEffectType.FALL_DAMAGE_IMMUNITY :
-                (trim.equals(TrimPattern.RIB)) ? ArmorEffectType.WITHER_ATTACKS :
-//                (trim.equals(TrimPattern.SILENCE)) ? ArmorEffectType.DASH :
-                (trim.equals(TrimPattern.WARD)) ? ArmorEffectType.HEALTH_BOOST :
-                (trim.equals(TrimPattern.DUNE)) ? ArmorEffectType.REGEN_ON_KILL :
-                ArmorEffectType.NONE
-                );
+        effectMap.put(playerUUID, trimMap.get(trim));
 
         switch (effectMap.get(playerUUID)) {
             case CONDUIT_POWER -> player.addPotionEffect(PotionEffectType.CONDUIT_POWER.createEffect(PotionEffect.INFINITE_DURATION, 0));

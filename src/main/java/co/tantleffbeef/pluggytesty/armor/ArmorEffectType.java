@@ -1,7 +1,6 @@
 package co.tantleffbeef.pluggytesty.armor;
 
 public enum ArmorEffectType {
-    NONE, // idk because i have to put something in the else
     CONDUIT_POWER, // on equip
     DEBUFF_DAMAGE_IMMUNITY, // on effect given to player -> if wither/poison, remove
     ARROW_CONSERVATION, // on shoot -> 50% to give back arrow
