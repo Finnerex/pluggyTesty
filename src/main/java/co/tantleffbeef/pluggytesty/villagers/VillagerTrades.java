@@ -37,19 +37,19 @@ public class VillagerTrades implements Listener {
 
         trades.add(createRecipe(new ItemStack(Material.LEATHER, 5), new ItemStack(Material.LEATHER_HELMET, 1)));
         if(level >= 1) {
-            trades.add(createRecipe(new ItemStack(Material.CHAINMAIL_HELMET, 1), new ItemStack(Material.CHAIN, 5)));
+            trades.add(createRecipe(new ItemStack(Material.CHAIN, 5), new ItemStack(Material.CHAINMAIL_HELMET, 1)));
         }
         if(level >= 2) {
-            trades.add(createRecipe(new ItemStack(Material.IRON_HELMET, 1), new ItemStack(Material.IRON_INGOT, 5)));
+            trades.add(createRecipe(new ItemStack(Material.IRON_INGOT, 5), new ItemStack(Material.IRON_HELMET, 1)));
         }
         if(level >= 3) {
-            trades.add(createRecipe(new ItemStack(Material.GOLDEN_HELMET, 1), new ItemStack(Material.GOLD_INGOT, 5)));
+            trades.add(createRecipe(new ItemStack(Material.GOLD_INGOT, 5), new ItemStack(Material.GOLDEN_HELMET, 1)));
         }
         if(level >= 4) {
-            trades.add(createRecipe(new ItemStack(Material.DIAMOND_HELMET, 1), new ItemStack(Material.DIAMOND, 5)));
+            trades.add(createRecipe(new ItemStack(Material.DIAMOND, 5), new ItemStack(Material.DIAMOND_HELMET, 1)));
         }
         if(level >= 5) {
-            trades.add(createRecipe(new ItemStack(Material.NETHERITE_HELMET, 1), new ItemStack(Material.NETHERITE_INGOT, 5)));
+            trades.add(createRecipe(new ItemStack(Material.NETHERITE_INGOT, 5), new ItemStack(Material.NETHERITE_HELMET, 1)));
         }
 
         return trades;
