@@ -38,8 +38,12 @@ public class PlayerDeathMonitor implements Listener {
 
         }
 
-        victim.getInventory().setContents(drops);
-        victim.updateInventory();
+
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            victim.getInventory().setContents(drops);
+            victim.updateInventory();
+        });
+
 
     }
 
