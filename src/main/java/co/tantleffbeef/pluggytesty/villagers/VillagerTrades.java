@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.villagers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
@@ -26,7 +27,7 @@ public class VillagerTrades implements Listener {
 
     public List<MerchantRecipe> armorerTrades(int level) {
         List<MerchantRecipe> trades = new ArrayList<>();
-        trades.add(new MerchantRecipe(new ItemStack(Material.LEATHER_HELMET, 1), 0, 10, false, 0, 1.0f));
+        trades.add(new MerchantRecipe(new ItemStack(Material.LEATHER_HELMET, 1), 0, 10, false, 0, 1.0f)/*.setIngredients(new ArrayList<ItemStack>())*/);
         return trades;
     }
 
