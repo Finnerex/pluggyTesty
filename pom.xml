@@ -23,6 +23,9 @@
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+            <compilerArgs>
+                <arg>-parameters</arg>
+            </compilerArgs>
         </configuration>
       </plugin>
       <plugin>
@@ -41,6 +44,14 @@
                     <relocation>
                         <pattern>com.jeff_media.armorequipevent</pattern>
                         <shadedPattern>co.tantleffbeef.pluggytesty.armorequipevent</shadedPattern>
+                    </relocation>
+                    <relocation>
+                        <pattern>co.aikar.commands</pattern>
+                        <shadedPattern>co.tantleffbeef.pluggytesty.acf</shadedPattern>
+                    </relocation>
+                    <relocation>
+                        <pattern>co.aikar.locales</pattern>
+                        <shadedPattern>co.tantleffbeef.pluggytesty.locales</shadedPattern>
                     </relocation>
                 </relocations>
             </configuration>
@@ -69,6 +80,10 @@
           <id>jeff-media-public</id>
           <url>https://hub.jeff-media.com/nexus/repository/jeff-media-public/</url>
       </repository>
+      <repository>
+          <id>aikar</id>
+          <url>https://repo.aikar.co/content/groups/aikar/</url>
+      </repository>
   </repositories>
 
   <dependencies>
@@ -95,6 +110,11 @@
           <artifactId>ArmorEquipEvent</artifactId>
           <version>1.0.2-SNAPSHOT</version>
           <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>co.aikar</groupId>
+          <artifactId>acf-paper</artifactId>
+          <version>0.5.1-SNAPSHOT</version>
       </dependency>
   </dependencies>
 </project>

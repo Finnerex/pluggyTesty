@@ -5,19 +5,22 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @SuppressWarnings("unused")
 public class Party {
     private final Server server;
-    private final Set<UUID> playerSet;
+    private final UUID owner;
+    private final List<UUID> playerList;
 
-    public Party(@NotNull Server server) {
-        playerSet = new HashSet<>();
+    public Party(@NotNull Server server, @NotNull Player owner) {
+        this.playerList = new ArrayList<>();
         this.server = server;
+        this.owner = owner.getUniqueId();
+    }
+
+    public @NotNull OfflinePlayer partyOwner() {
+        return server.getOfflinePlayer(owner);
     }
 
     /**
@@ -25,7 +28,7 @@ public class Party {
      * @return an immutable collection of all players
      */
     public Collection<OfflinePlayer> getAllPlayers() {
-        return playerSet.stream()
+        return playerList.stream()
                 .map(server::getOfflinePlayer)
                 .toList();
     }
@@ -35,7 +38,7 @@ public class Party {
      * @return an immutable collection of all player ids
      */
     public Collection<UUID> getAllPlayerIds() {
-        return playerSet.stream().toList();
+        return playerList.stream().toList();
     }
 
     /**
@@ -43,7 +46,7 @@ public class Party {
      * @return an immutable collection of all online players
      */
     public Collection<Player> getOnlinePlayers() {
-        return playerSet.stream()
+        return playerList.stream()
                 .filter(uuid -> server.getPlayer(uuid) != null)
                 .map(server::getPlayer)
                 .toList();
@@ -54,10 +57,14 @@ public class Party {
      * @return an immutable collection of all offline players
      */
     public Collection<OfflinePlayer> getOfflinePlayers() {
-        return playerSet.stream()
+        return playerList.stream()
                 .filter(uuid -> server.getPlayer(uuid) == null)
                 .map(server::getOfflinePlayer)
                 .toList();
+    }
+
+    public boolean containsPlayer(OfflinePlayer player) {
+        return playerList.contains(player.getUniqueId());
     }
 
     /**
@@ -66,8 +73,8 @@ public class Party {
      * @param player the player to add
      */
     public void addPlayer(Player player) {
-        assert !playerSet.contains(player.getUniqueId());
-        playerSet.add(player.getUniqueId());
+        assert !playerList.contains(player.getUniqueId());
+        playerList.add(player.getUniqueId());
     }
 
     /**
@@ -76,7 +83,7 @@ public class Party {
      * @param player the player to remove
      */
     public void removePlayer(OfflinePlayer player) {
-        assert playerSet.contains(player.getUniqueId());
-        playerSet.remove(player.getUniqueId());
+        assert playerList.contains(player.getUniqueId());
+        playerList.remove(player.getUniqueId());
     }
 }
