@@ -19,6 +19,7 @@ public class PlayerDeathMonitor implements Listener {
     public void onDeath(PlayerDeathEvent event) {
 
         Player victim = event.getEntity();
+        World w = victim.getWorld();
         ItemStack[] drops = victim.getInventory().getContents();
         int c = 0;
 
