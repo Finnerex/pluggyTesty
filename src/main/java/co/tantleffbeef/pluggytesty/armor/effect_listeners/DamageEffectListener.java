@@ -25,9 +25,13 @@ public class DamageEffectListener implements Listener {
         ArmorEffectType effect = ArmorEquipListener.effectMap.get(playerUUID);
 
         if (effect == ArmorEffectType.DAMAGE_INCREASE)
-            event.setDamage(event.getDamage() * 50);
+            event.setDamage(event.getDamage() * 1.5); // 50% more damage
+
         else if (effect == ArmorEffectType.WITHER_ATTACKS)
-            entity.addPotionEffect(PotionEffectType.WITHER.createEffect(40, 1));
+            entity.addPotionEffect(PotionEffectType.WITHER.createEffect(100, 1)); // 5 secs wither 2
+
+        else if (entity.isDead() && effect == ArmorEffectType.REGEN_ON_KILL)
+            player.addPotionEffect(PotionEffectType.REGENERATION.createEffect(60, 1)); // 3 secs regen 2 on player
 
     }
 
