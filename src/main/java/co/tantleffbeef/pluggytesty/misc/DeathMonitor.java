@@ -17,6 +17,13 @@ import org.bukkit.util.RayTraceResult;
 public class DeathMonitor {
     @EventHandler
     public void onDeath(PlayerDeathEvent death) {
+        death.setKeepLevel(true);
+        death.setKeepInventory(false);
+
         Player victim = death.getEntity();
+        List<ItemStack> drops = death.getDrops();
+
+        Bukkit.broadcastMessage("Drops: " + drops);
+
     }
 }
