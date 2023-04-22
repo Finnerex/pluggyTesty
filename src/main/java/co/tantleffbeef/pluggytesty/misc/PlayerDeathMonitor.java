@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class DeathMonitor implements Listener {
+public class PlayerDeathMonitor implements Listener {
     @EventHandler/*(priority = EventPriority.MONITOR)*/
     public void onDeath(PlayerDeathEvent death) {
         death.setKeepLevel(true);

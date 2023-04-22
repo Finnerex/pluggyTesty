@@ -9,6 +9,7 @@ import co.tantleffbeef.pluggytesty.bosses.BossGru;
 import co.tantleffbeef.pluggytesty.bosses.BossJawn;
 import co.tantleffbeef.pluggytesty.bosses.BossSeaman;
 import co.tantleffbeef.pluggytesty.custom.item.MagicStickItemType;
+import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.utility.*;
 import co.tantleffbeef.pluggytesty.weapons.*;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
@@ -62,6 +63,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new FallDamageListener(), this);
         getServer().getPluginManager().registerEvents(new DamageEffectListener(), this);
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
 
         ArmorEquipEvent.registerListener(this);
     }
