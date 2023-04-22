@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty.misc;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -13,12 +14,13 @@ import java.util.List;
 
 public class PlayerDeathMonitor implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onDeath(PlayerDeathEvent death) {
-        death.setKeepLevel(true);
-        death.setKeepInventory(true);
+    public void onDamage(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
 
-        Player victim = death.getEntity();
-        ItemStack[] drops = victim.getInventory().getExtraContents();
+        if (event.getFinalDamage() < player.getHealthScale())
+            return;
+
+        ItemStack[] drops = player.getInventory().getExtraContents();
         int c = 0;
 
         Bukkit.broadcastMessage("Location: " + victim.getLocation());
