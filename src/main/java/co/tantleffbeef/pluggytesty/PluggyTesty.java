@@ -11,6 +11,7 @@ import co.tantleffbeef.pluggytesty.bosses.BossSeaman;
 import co.tantleffbeef.pluggytesty.custom.item.MagicStickItemType;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.utility.*;
+import co.tantleffbeef.pluggytesty.villagers.VillagerTrades;
 import co.tantleffbeef.pluggytesty.weapons.*;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -63,7 +64,10 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new FallDamageListener(), this);
         getServer().getPluginManager().registerEvents(new DamageEffectListener(), this);
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
+
+        getServer().getPluginManager().registerEvents(new VillagerTrades(), this);
+
 
         ArmorEquipEvent.registerListener(this);
     }
