@@ -6,6 +6,7 @@ import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.BowShootListener;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.ExpChangeListener;
+import co.tantleffbeef.pluggytesty.armor.effect_listeners.FallDamageListener;
 import co.tantleffbeef.pluggytesty.bosses.BossGru;
 import co.tantleffbeef.pluggytesty.bosses.BossJawn;
 import co.tantleffbeef.pluggytesty.bosses.BossSeaman;
@@ -56,9 +57,12 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SwordsmansDreamInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new GoerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new LauncherInteractListener(this), this);
+
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
         getServer().getPluginManager().registerEvents(new BowShootListener(), this);
         getServer().getPluginManager().registerEvents(new ExpChangeListener(), this);
+        getServer().getPluginManager().registerEvents(new FallDamageListener(), this);
+
         ArmorEquipEvent.registerListener(this);
     }
 

@@ -11,7 +11,7 @@ public enum ArmorEffectType {
     SPEED, // on equip
     EXP_BOOST, // on exp gained
     FIRE_RESISTANCE, // on equip
-    HUNGER_CONSERVATION, // on hunger reduced -> if not from healing (idk if possible) give back hunger
+    HUNGER_CONSERVATION, // on hunger reduced -> if not from healing !!Cant differentiate reason for food change!!
     DAMAGE_INCREASE, // on entity damage -> if player has this, increase damage done by player
     FALL_DAMAGE_IMMUNITY, // FIGURE OUT
     WITHER_ATTACKS, // on entity damage -> give entity wither effect

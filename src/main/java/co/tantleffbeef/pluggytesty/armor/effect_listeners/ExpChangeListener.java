@@ -14,15 +14,12 @@ public class ExpChangeListener implements Listener {
 
     @EventHandler
     public void onExpChange(PlayerExpChangeEvent event) {
-        Bukkit.broadcastMessage("experience");
-
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
         if (ArmorEquipListener.effectMap.get(playerUUID) != ArmorEffectType.EXP_BOOST)
             return;
 
-        Bukkit.broadcastMessage("+ 5000");
-        event.setAmount(event.getAmount() + 5000);
+        event.setAmount(event.getAmount() * 2);
     }
 }
