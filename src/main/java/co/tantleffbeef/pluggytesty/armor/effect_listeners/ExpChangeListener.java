@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.armor.effect_listeners;
 
 import co.tantleffbeef.pluggytesty.armor.ArmorEffectType;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,12 +14,15 @@ public class ExpChangeListener implements Listener {
 
     @EventHandler
     public void onExpChange(PlayerExpChangeEvent event) {
+        Bukkit.broadcastMessage("experience");
+
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
         if (ArmorEquipListener.effectMap.get(playerUUID) != ArmorEffectType.EXP_BOOST)
             return;
 
+        Bukkit.broadcastMessage("+ 5000");
         event.setAmount(event.getAmount() + 5000);
     }
 }
