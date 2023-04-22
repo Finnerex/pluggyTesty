@@ -64,7 +64,7 @@ public class ArmorEquipListener implements Listener {
 
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
-        afterArmorChange(event.getPlayer());
+        plugin.getServer().getScheduler().runTask(plugin, () -> afterArmorChange(event.getPlayer()));
     }
 
     @EventHandler
