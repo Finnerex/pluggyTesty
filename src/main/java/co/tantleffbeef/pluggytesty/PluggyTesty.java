@@ -5,6 +5,7 @@ import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.BowShootListener;
+import co.tantleffbeef.pluggytesty.armor.effect_listeners.DamageEffectListener;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.ExpChangeListener;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.FallDamageListener;
 import co.tantleffbeef.pluggytesty.bosses.BossGru;
@@ -62,6 +63,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BowShootListener(), this);
         getServer().getPluginManager().registerEvents(new ExpChangeListener(), this);
         getServer().getPluginManager().registerEvents(new FallDamageListener(), this);
+        getServer().getPluginManager().registerEvents(new DamageEffectListener(), this);
 
         ArmorEquipEvent.registerListener(this);
     }
