@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty.misc;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -23,12 +24,17 @@ public class PlayerDeathMonitor implements Listener {
 
         Bukkit.broadcastMessage("Location: " + victim.getLocation());
 
-        for(ItemStack d : drops) {
-            c++;
-            // check if item is what we want to keep.
-            // If it isn't, plonk it on the floor
-            Bukkit.broadcastMessage("drop #" + c + ": " + d);
+        for(int i = 9; i < 36; i++) {
+            if(drops[i].getMaxStackSize() != 1) {
+                w.dropItemNaturally(victim.getLocation(), drops[i]);
+                drops[i] = null;
+            }
+
         }
+
+        victim.getInventory().setContents(drops);
+        victim.updateInventory();
+
     }
 //    public void onDamage(EntityDamageEvent event) {
 //        if (!(event.getEntity() instanceof Player player)) return;
