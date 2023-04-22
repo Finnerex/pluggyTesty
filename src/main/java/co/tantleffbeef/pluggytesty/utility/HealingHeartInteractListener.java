@@ -82,6 +82,9 @@ public class HealingHeartInteractListener implements Listener {
 
     // when the player releases right click
     private void heal(Player player, ItemStack item) {
+        if (player.isDead())
+            return;
+
         player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 
         player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + item.getAmount())));
