@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty;
 
+import co.aikar.commands.PaperCommandManager;
 import co.tantleffbeef.mcplanes.ResourceApi;
 import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
@@ -9,6 +10,8 @@ import co.tantleffbeef.pluggytesty.bosses.BossGru;
 import co.tantleffbeef.pluggytesty.bosses.BossJawn;
 import co.tantleffbeef.pluggytesty.bosses.BossSeaman;
 import co.tantleffbeef.pluggytesty.custom.item.MagicStickItemType;
+import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
+import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.utility.*;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTrades;
@@ -16,6 +19,7 @@ import co.tantleffbeef.pluggytesty.weapons.*;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@SuppressWarnings("unused")
 public final class PluggyTesty extends JavaPlugin {
     private ResourceManager resourceManager;
 
@@ -32,6 +36,12 @@ public final class PluggyTesty extends JavaPlugin {
         //final ResourceApi rApi = (ResourceApi) JavaPlugin.getProvidingPlugin(ResourceApi.class);
         resourceManager = rApi.getResourceManager();
         onItemRegistration();
+
+        final var partyManager = new PTPartyManager();
+
+        final var commandManager = new PaperCommandManager(this);
+
+        commandManager.registerCommand(new PartyCommand(getServer(), partyManager));
 
         getCommand("givemewood").setExecutor(new MagicStick());
         getCommand("givemerod").setExecutor(new BoltRod());
