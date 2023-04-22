@@ -21,17 +21,33 @@ public class VillagerTrades implements Listener {
         if (!(event.getRightClicked() instanceof Villager villager)) return;
 
         switch (villager.getProfession()) {
-            case ARMORER -> villager.setRecipes(armorerTrades(0/*playerLevel*/));
-            case CLERIC -> Bukkit.broadcastMessage(villager.getRecipes().toString());
+            case ARMORER -> villager.setRecipes(armorerTrades(new Random().nextInt(5)));
         }
 
     }
 
     public List<MerchantRecipe> armorerTrades(int level) {
         List<MerchantRecipe> trades = new ArrayList<>();
-        MerchantRecipe recipe = new MerchantRecipe(new ItemStack(Material.LEATHER_HELMET, 1), 0, 10, false, 0, 1.0f);
-        recipe.addIngredient(new ItemStack(Material.LEATHER_BOOTS));
-        trades.add(recipe/*.setIngredients(new ArrayList<ItemStack>())*/);
+        MerchantRecipe r0 = new MerchantRecipe(new ItemStack(Material.LEATHER_HELMET, 1), 0, 10, false, 0, 1.0f);
+        r0.addIngredient(new ItemStack(Material.LEATHER, 5));
+        MerchantRecipe r1 = new MerchantRecipe(new ItemStack(Material.CHAINMAIL_HELMET, 1), 0, 10, false, 0, 1.0f);
+        r1.addIngredient(new ItemStack(Material.CHAIN, 5));
+        MerchantRecipe r2 = new MerchantRecipe(new ItemStack(Material.IRON_HELMET, 1), 0, 10, false, 0, 1.0f);
+        r2.addIngredient(new ItemStack(Material.IRON_INGOT, 5));
+        MerchantRecipe r3 = new MerchantRecipe(new ItemStack(Material.GOLDEN_HELMET, 1), 0, 10, false, 0, 1.0f);
+        r3.addIngredient(new ItemStack(Material.GOLD_INGOT, 5));
+        MerchantRecipe r4 = new MerchantRecipe(new ItemStack(Material.DIAMOND_HELMET, 1), 0, 10, false, 0, 1.0f);
+        r4.addIngredient(new ItemStack(Material.DIAMOND, 5));
+        MerchantRecipe r5 = new MerchantRecipe(new ItemStack(Material.NETHERITE_HELMET, 1), 0, 10, false, 0, 1.0f);
+        r5.addIngredient(new ItemStack(Material.NETHERITE_INGOT, 5));
+
+        trades.add(r0);
+        if(level >= 1) trades.add(r1);
+        if(level >= 2) trades.add(r2);
+        if(level >= 3) trades.add(r3);
+        if(level >= 4) trades.add(r4);
+        if(level >= 5) trades.add(r5);
+
         return trades;
     }
 
