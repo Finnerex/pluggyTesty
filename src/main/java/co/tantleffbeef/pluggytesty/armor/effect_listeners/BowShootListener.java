@@ -18,7 +18,6 @@ public class BowShootListener implements Listener {
 
     @EventHandler
     public void onBowShoot(EntityShootBowEvent event) {
-        Bukkit.broadcastMessage("shoot event");
 
         if (!(event.getEntity() instanceof Player player))
             return;
@@ -28,8 +27,10 @@ public class BowShootListener implements Listener {
         if (ArmorEquipListener.effectMap.get(playerUUID) != ArmorEffectType.ARROW_CONSERVATION)
             return;
 
-        if (new Random().nextInt(2) == 1)
+        if (new Random().nextInt(2) == 1) {
             event.setConsumeItem(false);
+            Bukkit.broadcastMessage("not consumed");
+        }
 
     }
 }
