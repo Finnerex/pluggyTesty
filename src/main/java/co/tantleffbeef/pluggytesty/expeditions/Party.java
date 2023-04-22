@@ -17,6 +17,8 @@ public class Party {
         this.playerList = new ArrayList<>();
         this.server = server;
         this.owner = owner.getUniqueId();
+
+        addPlayer(owner);
     }
 
     public @NotNull OfflinePlayer partyOwner() {
