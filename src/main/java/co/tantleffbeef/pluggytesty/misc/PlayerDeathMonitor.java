@@ -14,10 +14,10 @@ public class PlayerDeathMonitor implements Listener {
     @EventHandler/*(priority = EventPriority.MONITOR)*/
     public void onDeath(PlayerDeathEvent death) {
         death.setKeepLevel(true);
-        death.setKeepInventory(false);
+        death.setKeepInventory(true);
 
         Player victim = death.getEntity();
-        List<ItemStack> drops = death.getDrops();
+        ItemStack[] drops = victim.getInventory().getExtraContents();
         int c = 0;
 
         Bukkit.broadcastMessage("Location: " + victim.getLocation());
