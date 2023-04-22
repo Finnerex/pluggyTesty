@@ -33,7 +33,7 @@ public class PlayerDeathMonitor implements Listener {
 //        Bukkit.broadcastMessage("Location: " + victim.getLocation());
 
         for(int i = 9; i < 36; i++) {
-            if(drops[i].getMaxStackSize() != 1) {
+            if(drops[i] != null && drops[i].getMaxStackSize() != 1) {
                 w.dropItemNaturally(victim.getLocation(), drops[i]);
 //                drops[i] = null;
             }
@@ -54,7 +54,7 @@ public class PlayerDeathMonitor implements Listener {
         ItemStack[] drops = player.getInventory().getContents();
 
         for(int i = 9; i < 36; i++) {
-            if(drops[i].getMaxStackSize() != 1) {
+            if(drops[i] != null && drops[i].getMaxStackSize() != 1) {
                 drops[i] = null;
             }
 
