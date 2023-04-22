@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
@@ -28,12 +29,19 @@ public class ArmorEquipListener implements Listener {
     @EventHandler
     public void onArmorChange(ArmorEquipEvent event) {
 
-        plugin.getServer().getScheduler().runTask(plugin, () -> afterArmorChange(event));
+        plugin.getServer().getScheduler().runTask(plugin, () -> afterArmorChange(event.getPlayer()));
 
     }
 
-    private void afterArmorChange(ArmorEquipEvent event) {
-        Player player = event.getPlayer();
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+
+        afterArmorChange(event.getPlayer());
+
+    }
+
+    private void afterArmorChange(Player player) {
+//        Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
         ItemStack[] armor = player.getInventory().getArmorContents();
