@@ -21,6 +21,7 @@ public class VillagerTrades implements Listener {
 
         switch (villager.getProfession()) {
             case ARMORER -> villager.setRecipes(armorerTrades(0/*playerLevel*/));
+            case CLERIC -> Bukkit.broadcastMessage(villager.getRecipes().toString());
         }
 
     }
