@@ -21,7 +21,7 @@ public class PlayerDeathMonitor implements Listener {
         ItemStack[] drops = victim.getInventory().getContents();
         int c = 0;
 
-        Bukkit.broadcastMessage("Location: " + player.getLocation());
+        Bukkit.broadcastMessage("Location: " + victim.getLocation());
 
         for(ItemStack d : drops) {
             c++;
