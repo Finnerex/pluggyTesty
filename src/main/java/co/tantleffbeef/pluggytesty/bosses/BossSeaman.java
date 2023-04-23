@@ -53,7 +53,7 @@ public class BossSeaman implements CommandExecutor {
                 Location loc = seaman.getEyeLocation();
                 Vector dir = loc.getDirection();
                 Entity target = seaman.getTarget();
-                Location targetLoc = target.getLocation();
+
                 w.setStorm(true);
                 w.setThundering(true);
                 w.setWeatherDuration(400);
