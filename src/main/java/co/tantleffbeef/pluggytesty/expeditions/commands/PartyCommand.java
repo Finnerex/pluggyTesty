@@ -95,7 +95,7 @@ public class PartyCommand extends BaseCommand {
             caller.sendMessage("accept invite command lol");
         }
 
-        @CatchUnknown
+        @Default
         public void onAcceptName(Player caller, OnlinePlayer acceptance) {
             caller.sendMessage("trying to accept invite from " + acceptance.getPlayer().getName());
         }
