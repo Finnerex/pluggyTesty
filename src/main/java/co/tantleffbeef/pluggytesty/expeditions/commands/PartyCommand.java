@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.expeditions.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import co.tantleffbeef.pluggytesty.expeditions.Party;
 import co.tantleffbeef.pluggytesty.expeditions.PartyManager;
 import co.tantleffbeef.pluggytesty.misc.TimedRecord;
@@ -35,14 +36,15 @@ public class PartyCommand extends BaseCommand {
     }
 
     @Subcommand("invite")
-    public void onInvite(@NotNull Player caller, @NotNull @Flags("other") Player invitee) {
+    public void onInvite(@NotNull Player caller, @NotNull OnlinePlayer toInvite) {
         final var party = partyManager.getPartyWith(caller);
+        final var invitee = toInvite.getPlayer();
 
         // If player is not in a party, create one for them
         // and recall function
         if (party == null) {
             createPartyOwnedBy(caller);
-            onInvite(caller, invitee);
+            onInvite(caller, toInvite);
             return;
         }
 
@@ -75,7 +77,8 @@ public class PartyCommand extends BaseCommand {
         invitee.spigot().sendMessage(
                 new ComponentBuilder(caller.getDisplayName()).color(ChatColor.YELLOW)
                         .append(" sent you an invite to their party.\n").color(ChatColor.GOLD)
-                        .append(clickHereMessage)
+                        .append(clickHereMessage).color(ChatColor.YELLOW)
+                        .append(" to join.").color(ChatColor.GOLD)
                         .create()
         );
     }
@@ -86,7 +89,7 @@ public class PartyCommand extends BaseCommand {
     }
 
     @Subcommand("accept")
-    public static class AcceptInviteCommand extends BaseCommand {
+    public class AcceptInviteCommand extends BaseCommand {
         @Default
         public void onAccept(Player caller) {
             caller.sendMessage("accept invite command lol");
