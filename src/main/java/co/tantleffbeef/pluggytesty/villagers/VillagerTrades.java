@@ -27,7 +27,7 @@ public class VillagerTrades implements Listener {
     }
 
     private MerchantRecipe createRecipe(ItemStack input, ItemStack output) {
-        MerchantRecipe res = new MerchantRecipe(output, 0, 10, false, 0, 0.01f);
+        MerchantRecipe res = new MerchantRecipe(output, 0, 10, false, 0, 0f);
         res.addIngredient(input);
         return res;
     }
