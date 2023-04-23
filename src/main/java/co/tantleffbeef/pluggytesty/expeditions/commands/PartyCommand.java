@@ -1,10 +1,7 @@
 package co.tantleffbeef.pluggytesty.expeditions.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CatchUnknown;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import co.tantleffbeef.pluggytesty.expeditions.Party;
 import co.tantleffbeef.pluggytesty.expeditions.PartyManager;
 import co.tantleffbeef.pluggytesty.misc.TimedRecord;
@@ -38,7 +35,7 @@ public class PartyCommand extends BaseCommand {
     }
 
     @Subcommand("invite")
-    public void onInvite(@NotNull Player caller, @NotNull Player invitee) {
+    public void onInvite(@NotNull Player caller, @NotNull @Flags("other") Player invitee) {
         final var party = partyManager.getPartyWith(caller);
 
         // If player is not in a party, create one for them
