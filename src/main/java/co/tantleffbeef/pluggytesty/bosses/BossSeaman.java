@@ -124,7 +124,7 @@ public class BossSeaman implements CommandExecutor {
                     cancel();
                 }
                 isDoingStuff = true;
-                seaman.getWorld().spawnParticle(Particle.REDSTONE, seaman.getLocation(), 3, 1.0, 0.0, 1.0);
+                seaman.getWorld().spawnParticle(Particle.HEART, seaman.getLocation(), 3, 1.0, 0.0, 1.0);
                 runs++;
             }
         };
