@@ -71,7 +71,7 @@ public class PartyCommand extends BaseCommand {
                         .append("'s invite")
                         .create())));
         clickHereMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                "party accept " + caller.getName()));
+                "/party accept " + caller.getName()));
 
 
         invitee.spigot().sendMessage(
