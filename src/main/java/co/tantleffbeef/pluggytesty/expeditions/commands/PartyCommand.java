@@ -50,8 +50,13 @@ public class PartyCommand extends BaseCommand {
 
     @Subcommand("invite")
     public void onInvite(@NotNull Player caller, @NotNull OnlinePlayer toInvite) {
-        final var party = partyManager.getPartyWith(caller);
         final var invitee = toInvite.getPlayer();
+        if (caller.equals(invitee)) {
+            caller.sendMessage(ChatColor.RED + "You can't invite yourself to a party!");
+            return;
+        }
+
+        final var party = partyManager.getPartyWith(caller);
 
         // If player is not in a party, create one for them
         // and recall function
@@ -64,6 +69,11 @@ public class PartyCommand extends BaseCommand {
         // Check if party owner
         if (!party.partyOwner().equals(caller)) {
             caller.spigot().sendMessage(NOT_OWNER_ERROR);
+            return;
+        }
+
+        if (partyManager.getPartyWith(invitee) != null) {
+            caller.sendMessage(ChatColor.RED + "That player is already in a party!");
             return;
         }
 
@@ -153,6 +163,11 @@ public class PartyCommand extends BaseCommand {
 
         @Default
         public void onAccept(Player caller) {
+            if (partyManager.getPartyWith(caller) != null) {
+                caller.sendMessage(ChatColor.RED + "You are already in a party!");
+                return;
+            }
+
             final var uuid = caller.getUniqueId();
 
             if (!invites.containsKey(uuid)) {
@@ -172,6 +187,11 @@ public class PartyCommand extends BaseCommand {
 
         @Default
         public void onAcceptName(final Player caller, final OnlinePlayer invitePlayer) {
+            if (partyManager.getPartyWith(caller) != null) {
+                caller.sendMessage(ChatColor.RED + "You are already in a party!");
+                return;
+            }
+
             final var uuid = caller.getUniqueId();
 
             if (!invites.containsKey(uuid)) {
