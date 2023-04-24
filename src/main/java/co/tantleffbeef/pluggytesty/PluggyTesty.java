@@ -21,6 +21,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("unused")
 public final class PluggyTesty extends JavaPlugin {
+    private static final long PARTY_INVITE_EXPIRATION_TIME_SECONDS = 60L;
+
     private ResourceManager resourceManager;
 
     @Override
@@ -41,7 +43,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         final var commandManager = new PaperCommandManager(this);
 
-        commandManager.registerCommand(new PartyCommand(getServer(), partyManager));
+        commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
 
         getCommand("givemewood").setExecutor(new MagicStick());
         getCommand("givemerod").setExecutor(new BoltRod());
