@@ -222,4 +222,53 @@ public class PartyCommand extends BaseCommand {
         }
     }
 
+    @Subcommand("disband")
+    public void onDisband(@NotNull Player caller) {
+        if (!conditionSelfPartyOwner(caller))
+            return;
+
+
+    }
+
+//    private boolean conditionSelfPartyOwner(@NotNull Player caller) {
+//
+//    }
+
+    private boolean conditionOtherNotInParty(@NotNull Player toCheck, @NotNull Player errorReceiver) {
+        if (partyManager.getPartyWith(toCheck) != null) {
+            errorReceiver.sendMessage(ChatColor.RED + "That player is already in a party!");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean conditionSelfNotInParty(@NotNull Player caller) {
+        if (partyManager.getPartyWith(caller) != null) {
+            caller.sendMessage(ChatColor.RED + "You are already in a party!");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean conditionSelfInParty(@NotNull Player caller) {
+        if (partyManager.getPartyWith(caller) == null) {
+            caller.sendMessage(ChatColor.RED + "You are not in a party!");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean conditionSelfNotInPartyOrOwner(@NotNull Player caller) {
+        final var party = partyManager.getPartyWith(caller);
+
+        if (party != null && !party.partyOwner().equals(caller)) {
+            caller.sendMessage(ChatColor.RED + "You are already in a party!");
+            return false;
+        }
+
+        return true;
+    }
 }
