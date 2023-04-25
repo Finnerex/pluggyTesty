@@ -21,7 +21,10 @@ import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.UUID;
 
 @SuppressWarnings("unused")
 public final class PluggyTesty extends JavaPlugin {
@@ -101,7 +104,9 @@ public final class PluggyTesty extends JavaPlugin {
                 itemMeta -> {
             itemMeta.addAttributeModifier(
                     Attribute.GENERIC_ARMOR,
-                    new AttributeModifier("pluggyTesty", 1, AttributeModifier.Operation.ADD_NUMBER));
+                    new AttributeModifier(UUID.randomUUID(), "pluggyTesty", 1,
+                            AttributeModifier.Operation.ADD_NUMBER,
+                        EquipmentSlot.HEAD));
                 }));
     }
 
