@@ -121,8 +121,9 @@ public final class PluggyTesty extends JavaPlugin {
     private void registerRecipes() {
         // TODO: make this require buff shard or whatever
         final var buffed_lh_key = new NamespacedKey(this, "buffed_leather_helmet");
-        getServer().addRecipe(new ShapelessRecipe(buffed_lh_key, resourceManager.getCustomItemStack(buffed_lh_key))
-                .addIngredient(1, Material.LEATHER_HELMET));
+        getServer().addRecipe((new ShapelessRecipe(buffed_lh_key, resourceManager.getCustomItemStack(buffed_lh_key))
+                .addIngredient(1, Material.LEATHER_HELMET))
+                .addIngredient(1, Material.NETHERITE_INGOT));
         recipeManager.registerUnlockableRecipe(buffed_lh_key, Material.LEATHER_HELMET);
     }
 
