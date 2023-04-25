@@ -104,7 +104,7 @@ public final class PluggyTesty extends JavaPlugin {
                 itemMeta -> {
             itemMeta.addAttributeModifier(
                     Attribute.GENERIC_ARMOR,
-                    new AttributeModifier(UUID.randomUUID(), "pluggyTesty", 1,
+                    new AttributeModifier(UUID.randomUUID(), "pluggyTesty", 2,
                             AttributeModifier.Operation.ADD_NUMBER,
                         EquipmentSlot.HEAD));
                 }));
