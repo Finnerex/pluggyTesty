@@ -27,7 +27,6 @@ public class BoltRod implements CommandExecutor {
 
         ItemStack rod = new ItemStack(Material.BLAZE_ROD);
         ItemMeta meta = rod.getItemMeta();
-        UUID uuid = UUID.fromString(meta.getLore().get(0));
 
         int rarityNum = new Random().nextInt(10);
         String rarity = rarityNum < 5 ? "§7Common" : (rarityNum < 8 ? "§9Rare" : "§6§lLegendary");
@@ -35,7 +34,7 @@ public class BoltRod implements CommandExecutor {
 
         meta.setDisplayName(rarity + " §eBolt Rod");
 
-        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(uuid,"generic.movementSpeed", speedBoost, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(),"generic.movementSpeed", speedBoost, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
 
         ArrayList<String> lore = new ArrayList<>();
         lore.add(ROD_LORE);
