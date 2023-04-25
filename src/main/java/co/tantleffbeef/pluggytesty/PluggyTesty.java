@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty;
 
 import co.aikar.commands.PaperCommandManager;
+import co.tantleffbeef.mcplanes.RecipeManager;
 import co.tantleffbeef.mcplanes.ResourceApi;
 import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
@@ -19,9 +20,12 @@ import co.tantleffbeef.pluggytesty.villagers.VillagerTrades;
 import co.tantleffbeef.pluggytesty.weapons.*;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
@@ -31,6 +35,7 @@ public final class PluggyTesty extends JavaPlugin {
     private static final long PARTY_INVITE_EXPIRATION_TIME_SECONDS = 60L;
 
     private ResourceManager resourceManager;
+    private RecipeManager recipeManager;
 
     @Override
     public void onEnable() {
@@ -44,7 +49,10 @@ public final class PluggyTesty extends JavaPlugin {
         final var rApi = rApiProvider.getProvider();
         //final ResourceApi rApi = (ResourceApi) JavaPlugin.getProvidingPlugin(ResourceApi.class);
         resourceManager = rApi.getResourceManager();
-        onItemRegistration();
+        recipeManager = rApi.getRecipeManager();
+
+        registerItems();
+        registerRecipes();
 
         final var partyManager = new PTPartyManager();
 
@@ -91,7 +99,7 @@ public final class PluggyTesty extends JavaPlugin {
         ArmorEquipEvent.registerListener(this);
     }
 
-    private void onItemRegistration() {
+    private void registerItems() {
         // Weapons
         resourceManager.registerItem(new MagicStickItemType(this, "magic_stick", false,
                 "Magic Stick"));
@@ -108,6 +116,14 @@ public final class PluggyTesty extends JavaPlugin {
                             AttributeModifier.Operation.ADD_NUMBER,
                         EquipmentSlot.HEAD));
                 }));
+    }
+
+    private void registerRecipes() {
+        // TODO: make this require buff shard or whatever
+        final var buffed_lh_key = new NamespacedKey(this, "buffed_leather_helmet");
+        getServer().addRecipe(new ShapelessRecipe(buffed_lh_key, resourceManager.getCustomItemStack(buffed_lh_key))
+                .addIngredient(1, Material.LEATHER_HELMET));
+        recipeManager.registerUnlockableRecipe(buffed_lh_key, Material.LEATHER_HELMET);
     }
 
     @Override
