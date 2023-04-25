@@ -7,12 +7,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Random;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class BoltRod implements CommandExecutor {
 
@@ -25,6 +27,7 @@ public class BoltRod implements CommandExecutor {
 
         ItemStack rod = new ItemStack(Material.BLAZE_ROD);
         ItemMeta meta = rod.getItemMeta();
+        UUID uuid = UUID.fromString(meta.getLore().get(0));
 
         int rarityNum = new Random().nextInt(10);
         String rarity = rarityNum < 5 ? "§7Common" : (rarityNum < 8 ? "§9Rare" : "§6§lLegendary");
@@ -32,7 +35,7 @@ public class BoltRod implements CommandExecutor {
 
         meta.setDisplayName(rarity + " §eBolt Rod");
 
-        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("generic.movementSpeed", speedBoost, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(uuid,"generic.movementSpeed", speedBoost, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
 
         ArrayList<String> lore = new ArrayList<>();
         lore.add(ROD_LORE);
