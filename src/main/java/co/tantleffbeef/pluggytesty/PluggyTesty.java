@@ -10,6 +10,7 @@ import co.tantleffbeef.pluggytesty.bosses.BossGru;
 import co.tantleffbeef.pluggytesty.bosses.BossJawn;
 import co.tantleffbeef.pluggytesty.bosses.BossSeaman;
 import co.tantleffbeef.pluggytesty.custom.item.MagicStickItemType;
+import co.tantleffbeef.pluggytesty.custom.item.armor.CustomItemArmorType;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
@@ -17,6 +18,9 @@ import co.tantleffbeef.pluggytesty.utility.*;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTrades;
 import co.tantleffbeef.pluggytesty.weapons.*;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
+import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("unused")
@@ -85,8 +89,20 @@ public final class PluggyTesty extends JavaPlugin {
     }
 
     private void onItemRegistration() {
+        // Weapons
         resourceManager.registerItem(new MagicStickItemType(this, "magic_stick", false,
                 "Magic Stick"));
+
+        // Armor
+        resourceManager.registerItem(new CustomItemArmorType(this, "buffed_leather_helmet",
+                Material.LEATHER_HELMET,
+                false,
+                "Buffed Leather Helmet",
+                itemMeta -> {
+            itemMeta.addAttributeModifier(
+                    Attribute.GENERIC_ARMOR,
+                    new AttributeModifier("pluggyTesty", 1, AttributeModifier.Operation.ADD_NUMBER));
+                }));
     }
 
     @Override
