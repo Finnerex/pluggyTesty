@@ -5,17 +5,15 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import co.tantleffbeef.pluggytesty.expeditions.Party;
 import co.tantleffbeef.pluggytesty.expeditions.PartyManager;
-import co.tantleffbeef.pluggytesty.misc.TimedRecord;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @CommandAlias("party|p")
 @SuppressWarnings("unused")
@@ -25,20 +23,40 @@ public class PartyCommand extends BaseCommand {
                     .color(ChatColor.RED)
                     .create();
 
+
+    private final Plugin plugin;
     private final Server server;
     private final PartyManager partyManager;
-    private final Map<UUID, TimedRecord<Party>> invites;
+    private final Map<UUID, Queue<Party>> invites;
+    private final long expirationTimeSeconds;
 
-    public PartyCommand(Server server, PartyManager partyManager) {
+    public PartyCommand(Plugin plugin, Server server, PartyManager partyManager, long expirationTimeSeconds) {
         this.partyManager = partyManager;
         this.server = server;
         this.invites = new HashMap<>();
+        this.expirationTimeSeconds = expirationTimeSeconds;
+        this.plugin = plugin;
+    }
+
+    @HelpCommand
+    public void onHelp(@NotNull Player caller) {
+        caller.performCommand("help pluggytesty:party");
+    }
+
+    @Default
+    public void onDefaultInvite(@NotNull Player caller, @NotNull OnlinePlayer toInvite) {
+        onInvite(caller, toInvite);
     }
 
     @Subcommand("invite")
     public void onInvite(@NotNull Player caller, @NotNull OnlinePlayer toInvite) {
-        final var party = partyManager.getPartyWith(caller);
         final var invitee = toInvite.getPlayer();
+        if (caller.equals(invitee)) {
+            caller.sendMessage(ChatColor.RED + "You can't invite yourself to a party!");
+            return;
+        }
+
+        final var party = partyManager.getPartyWith(caller);
 
         // If player is not in a party, create one for them
         // and recall function
@@ -54,14 +72,26 @@ public class PartyCommand extends BaseCommand {
             return;
         }
 
+        if (partyManager.getPartyWith(invitee) != null) {
+            caller.sendMessage(ChatColor.RED + "That player is already in a party!");
+            return;
+        }
+
+        final var inviteeName = invitee.getDisplayName();
+        final var inviteeUuid = invitee.getUniqueId();
+
         // Send message to caller
-        caller.spigot().sendMessage(
-                new ComponentBuilder("Sent an invite to ").color(ChatColor.GOLD)
-                        .append(invitee.getDisplayName()).color(ChatColor.YELLOW)
-                        .create());
+        party.broadcastMessage(
+                new ComponentBuilder("\n")
+                        .append(inviteeName).color(ChatColor.YELLOW)
+                        .append(" has been invited to the party.\n").color(ChatColor.GOLD)
+                        .create()
+        );
 
         // Send invite to invitee
-        invites.put(invitee.getUniqueId(), TimedRecord.now(party));
+        if (!invites.containsKey(inviteeUuid))
+            invites.put(inviteeUuid, new ArrayDeque<>());
+        invites.get(inviteeUuid).add(party);
 
         // Link player can click to accept invite
         final var clickHereMessage = new TextComponent("Click here");
@@ -71,16 +101,55 @@ public class PartyCommand extends BaseCommand {
                         .append("'s invite")
                         .create())));
         clickHereMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                "party accept " + caller.getName()));
+                "/party accept " + caller.getName()));
 
 
         invitee.spigot().sendMessage(
-                new ComponentBuilder(caller.getDisplayName()).color(ChatColor.YELLOW)
+                new ComponentBuilder("\n")
+                        .append(caller.getDisplayName()).color(ChatColor.YELLOW)
                         .append(" sent you an invite to their party.\n").color(ChatColor.GOLD)
                         .append(clickHereMessage).color(ChatColor.YELLOW)
-                        .append(" to join.").color(ChatColor.GOLD)
+                        .append(" to accept.\n").color(ChatColor.GOLD)
                         .create()
         );
+
+        // Put expiration on invite
+        server.getScheduler().runTaskLater(plugin, () -> {
+            if (!invites.containsKey(inviteeUuid))
+                return;
+
+            // grab all of their invites
+            final var inviteList = invites.get(inviteeUuid);
+            // if they don't have any then no need to expire it
+            if (inviteList.size() < 1)
+                return;
+            if (!inviteList.peek().equals(party))
+                return;
+
+            // Pop the invite off of their invite list
+            // and let them know the invitation expired
+
+            // Send message to party
+            final var inviteParty = inviteList.remove();
+            inviteParty.broadcastMessage(
+                    new ComponentBuilder("\n")
+                            .append(invitee.getDisplayName()).color(ChatColor.YELLOW)
+                            .append(" did not accept the invitation in time, so it expired.").color(ChatColor.GOLD)
+                            .create()
+            );
+
+            // Send message to invited player
+            final var player = server.getPlayer(inviteeUuid);
+            if (player == null)
+                return;
+
+            player.spigot().sendMessage(
+                    new ComponentBuilder("\nYour party invitation from ").color(ChatColor.GOLD)
+                            .append(inviteParty.partyOwner().getName()).color(ChatColor.YELLOW)
+                            .append(" has expired.\n").color(ChatColor.GOLD)
+                            .create()
+            );
+        }, 20L * expirationTimeSeconds);
     }
 
     private void createPartyOwnedBy(Player player) {
@@ -90,14 +159,66 @@ public class PartyCommand extends BaseCommand {
 
     @Subcommand("accept")
     public class AcceptInviteCommand extends BaseCommand {
+        private static final String NO_INVITES_MSG = ChatColor.RED + "You don't have any invites!";
+
         @Default
         public void onAccept(Player caller) {
-            caller.sendMessage("accept invite command lol");
+            if (partyManager.getPartyWith(caller) != null) {
+                caller.sendMessage(ChatColor.RED + "You are already in a party!");
+                return;
+            }
+
+            final var uuid = caller.getUniqueId();
+
+            if (!invites.containsKey(uuid)) {
+                caller.sendMessage(NO_INVITES_MSG);
+                return;
+            }
+
+            final var inviteList = invites.get(uuid);
+            final var invite = inviteList.stream()
+                    .findAny();
+
+            if (invite.isPresent())
+                acceptParty(caller, invite.get());
+            else
+                caller.sendMessage(NO_INVITES_MSG);
         }
 
-        @CatchUnknown
-        public void onAcceptName(Player caller, Player acceptance) {
-            caller.sendMessage("trying to accept invite from " + acceptance.getName());
+        @Default
+        public void onAcceptName(final Player caller, final OnlinePlayer invitePlayer) {
+            if (partyManager.getPartyWith(caller) != null) {
+                caller.sendMessage(ChatColor.RED + "You are already in a party!");
+                return;
+            }
+
+            final var uuid = caller.getUniqueId();
+
+            if (!invites.containsKey(uuid)) {
+                caller.sendMessage(NO_INVITES_MSG);
+                return;
+            }
+
+            final var partyOwner = invitePlayer.getPlayer();
+            final var inviteList = invites.get(uuid);
+            final var invite = inviteList.stream()
+                    .filter(party -> party.partyOwner().getUniqueId().equals(partyOwner.getUniqueId()))
+                    .findAny();
+
+            if (invite.isPresent())
+                acceptParty(caller, invite.get());
+            else
+                caller.sendMessage(NO_INVITES_MSG);
+        }
+
+        private void acceptParty(Player accepter, Party partyToJoin) {
+            partyToJoin.addPlayer(accepter);
+            partyToJoin.broadcastMessage(
+                    new ComponentBuilder("\n")
+                            .append(accepter.getDisplayName()).color(ChatColor.YELLOW)
+                            .append(" has joined the party!\n").color(ChatColor.GOLD)
+                            .create()
+            );
         }
     }
 

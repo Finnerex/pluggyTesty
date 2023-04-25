@@ -1,7 +1,9 @@
 package co.tantleffbeef.pluggytesty.expeditions;
 
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -87,5 +89,34 @@ public class Party {
     public void removePlayer(OfflinePlayer player) {
         assert playerList.contains(player.getUniqueId());
         playerList.remove(player.getUniqueId());
+    }
+
+    /**
+     * Sends an empty line of text to every
+     * player in the party
+     */
+    public void broadcastMessage() {
+        getOnlinePlayers()
+                .forEach(CommandSender::sendMessage);
+    }
+
+    /**
+     * Sends a string message to every
+     * player in the party
+     * @param message the message to broadcast
+     */
+    public void broadcastMessage(@NotNull String message) {
+        getOnlinePlayers()
+                .forEach(player -> player.sendMessage(message));
+    }
+
+    /**
+     * Sends a set of components to
+     * every player in the party
+     * @param components the components to broadcast
+     */
+    public void broadcastMessage(@NotNull BaseComponent... components) {
+        getOnlinePlayers()
+                .forEach(player -> player.spigot().sendMessage(components));
     }
 }
