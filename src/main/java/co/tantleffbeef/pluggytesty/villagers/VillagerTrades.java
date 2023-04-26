@@ -29,10 +29,8 @@ public class VillagerTrades implements Listener {
             {2, 2, 2, 2, 2}, // Librarian
             {2, 2, 2, 1, 2}, // Mason
             {0, 0, 0, 0, 0}, // Shepherd
-            {},
-            {},
-            {},
-            {},
+            {2, 2, 2, 2, 2}, // Toolsmith
+            {1, 1, 1, 1, 1}, // Weaponsmith
     };
 
 
@@ -60,9 +58,9 @@ public class VillagerTrades implements Listener {
         return resList;
     }
 
-    private ArrayList<MerchantRecipe> createRecipe(ItemStack input, int input2, ArrayList<ItemStack> output, int num) {
+    private List<MerchantRecipe> createRecipe(ItemStack input, int input2, List<ItemStack> output, int num) {
         Random r =  new Random();
-        ArrayList<MerchantRecipe> resList = new ArrayList<>();
+        List<MerchantRecipe> resList = new ArrayList<>();
 
         for(int i = 0; i < num; i++) {
             MerchantRecipe res = new MerchantRecipe(output.remove(r.nextInt(output.size())), 0, 10, false, 0, 0f);
