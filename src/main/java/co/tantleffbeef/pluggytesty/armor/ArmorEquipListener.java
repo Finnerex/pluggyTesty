@@ -134,50 +134,36 @@ public class ArmorEquipListener implements Listener {
 
 
     private TrimPattern sameTrim(ItemStack[] armor) {
+        TrimPattern lastPattern = null;
+        int i = 0;
 
-        ItemStack last = armor[0];
+        do {
 
-        if (last == null)
-            return null;
-
-        ArmorMeta meta = (ArmorMeta) last.getItemMeta();
-
-        if (meta == null)
-            return null;
-
-        ArmorTrim trim = meta.getTrim();
-
-        if (trim == null)
-            return null;
-
-        TrimPattern lastPattern = trim.getPattern();
-
-        for (int i = 1; i < armor.length; i++) {
             ItemStack a = armor[i];
 
             if (a == null)
                 return null;
 
-            meta = (ArmorMeta) a.getItemMeta();
-
-            if (meta == null)
-                return null;
-
-            trim = meta.getTrim();
+            ArmorTrim trim = ((ArmorMeta) a.getItemMeta()).getTrim();
 
             if (trim == null)
                 return null;
 
             TrimPattern pattern = trim.getPattern();
 
-            if (!pattern.equals(lastPattern))
+            if (i == 0)
+                lastPattern = pattern;
+
+            if (lastPattern != null || !pattern.equals(lastPattern)) // last will be null for first run
                 return null;
 
             lastPattern = pattern;
 
-        }
+            i++;
+        } while (i < armor.length);
 
         return lastPattern;
     }
+
 
 }
