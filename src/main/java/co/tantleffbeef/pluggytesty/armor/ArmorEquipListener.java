@@ -84,6 +84,7 @@ public class ArmorEquipListener implements Listener {
                 case NIGHT_VISION -> player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                 case FIRE_RESISTANCE -> player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
                 case HEALTH_BOOST -> player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
+                case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
             }
         }
 
@@ -109,6 +110,7 @@ public class ArmorEquipListener implements Listener {
                     case NIGHT_VISION -> player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                     case FIRE_RESISTANCE -> player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
                     case HEALTH_BOOST -> player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
+                    case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
                 }
             }
 
@@ -123,28 +125,11 @@ public class ArmorEquipListener implements Listener {
             case NIGHT_VISION -> player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(PotionEffect.INFINITE_DURATION, 0));
             case FIRE_RESISTANCE -> player.addPotionEffect(PotionEffectType.FIRE_RESISTANCE.createEffect(PotionEffect.INFINITE_DURATION, 0));
             case HEALTH_BOOST -> player.addPotionEffect(PotionEffectType.HEALTH_BOOST.createEffect(PotionEffect.INFINITE_DURATION, 4));
-            case KNOCKBACK_RESIST -> setKbResist(player, armor);
+            case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0.5f);
         }
 
         Bukkit.broadcastMessage("effect: " + effectMap.get(playerUUID));
 
-    }
-
-
-    private void setKbResist(Player p, ItemStack[] armor) {
-        for (int i = 0; i < armor.length; i ++) {
-            ItemMeta meta = armor[i].getItemMeta();
-            meta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier("generic.knockbackResistance", 1, AttributeModifier.Operation.ADD_NUMBER));
-            armor[i].setItemMeta(meta);
-        }
-    }
-
-    private void removeKbResist(Player p, ItemStack[] armor) {
-        for (int i = 0; i < armor.length; i ++) {
-            ItemMeta meta = armor[i].getItemMeta();
-            meta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier("generic.knockbackResistance", -1, AttributeModifier.Operation.ADD_NUMBER));
-            armor[i].setItemMeta(meta);
-        }
     }
 
 
