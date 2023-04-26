@@ -153,7 +153,10 @@ public class ArmorEquipListener implements Listener {
 
             TrimPattern pattern = trim.getPattern();
 
-            if (lastPattern != null || !pattern.equals(lastPattern)) // last will be null for first run
+            if(i == 0) // first trim is null
+                lastPattern = pattern;
+
+            if (!pattern.equals(lastPattern)) // last will be null for first run
                 return null;
 
             lastPattern = pattern;
