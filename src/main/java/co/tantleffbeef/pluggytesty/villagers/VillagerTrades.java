@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.villagers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,57 +17,73 @@ import java.util.Random;
 
 public class VillagerTrades implements Listener {
 
+    public static int tradeAmts[][] = {
+            {2, 1, 1, 1, 2}, // Armorer
+            {2, 2, 1, 2, 1}, // Butcher
+            {0, 0, 0, 0, 0}, // Cartographer
+            {3, 2, 1, 1, 3}, // Cleric
+            {2, 2, 1, 1, 1}, // Farmer
+            {2, 1, 1, 1, 1}, // Fisherman
+            {0, 0, 0, 0, 0}, // Fletcher
+            {0, 0, 0, 0, 0}, // Leatherworker
+            {2, 2, 2, 2, 2}, // Librarian
+            {2, 2, 2, 1, 2}, // Mason
+            {0, 0, 0, 0, 0}, // Shepherd
+            {},
+            {},
+            {},
+            {},
+    };
+
+
     @EventHandler
     public void onVillagerInteract(PlayerInteractEntityEvent event) {
         if (!(event.getRightClicked() instanceof Villager villager)) return;
-
-        switch (villager.getProfession()) {
-            case ARMORER -> villager.setRecipes(armorerTrades(new Random().nextInt(6)));
+        villager.setRecipes(updateTrades(new Random().nextInt(6), villager));
+        Villager.Profession prof = villager.getProfession();
+        switch (prof) {
+//            case ARMORER -> return;
         }
 
     }
 
-    private MerchantRecipe createRecipe(ItemStack input, ItemStack output) {
-        MerchantRecipe res = new MerchantRecipe(output, 0, 10, false, 0, 0f);
-        res.addIngredient(input);
-        return res;
+    private ArrayList<MerchantRecipe> createRecipe(int input, ArrayList<ItemStack> output, int num) {
+        Random r =  new Random();
+        ArrayList<MerchantRecipe> resList = new ArrayList<>();
+
+        for(int i = 0; i < num; i++) {
+            MerchantRecipe res = new MerchantRecipe(output.remove(r.nextInt(output.size())), 0, 10, false, 0, 0f);
+            res.addIngredient(new ItemStack(Material.EMERALD, input));
+            resList.add(res);
+        }
+
+        return resList;
     }
 
-    public List<MerchantRecipe> armorerTrades(int level) {
+    private ArrayList<MerchantRecipe> createRecipe(ItemStack input, int input2, ArrayList<ItemStack> output, int num) {
+        Random r =  new Random();
+        ArrayList<MerchantRecipe> resList = new ArrayList<>();
+
+        for(int i = 0; i < num; i++) {
+            MerchantRecipe res = new MerchantRecipe(output.remove(r.nextInt(output.size())), 0, 10, false, 0, 0f);
+            res.addIngredient(input);
+            res.addIngredient(new ItemStack(Material.EMERALD, input2));
+            resList.add(res);
+        }
+
+        return resList;
+    }
+
+    public List<MerchantRecipe> updateTrades(int pLevel, Villager vil) {
         List<MerchantRecipe> trades = new ArrayList<>();
-
-        trades.add(createRecipe(new ItemStack(Material.LEATHER, 5), new ItemStack(Material.LEATHER_HELMET, 1)));
-        if(level >= 1) {
-            trades.add(createRecipe(new ItemStack(Material.CHAIN, 5), new ItemStack(Material.CHAINMAIL_HELMET, 1)));
-        }
-        if(level >= 2) {
-            trades.add(createRecipe(new ItemStack(Material.IRON_INGOT, 5), new ItemStack(Material.IRON_HELMET, 1)));
-        }
-        if(level >= 3) {
-            trades.add(createRecipe(new ItemStack(Material.GOLD_INGOT, 5), new ItemStack(Material.GOLDEN_HELMET, 1)));
-        }
-        if(level >= 4) {
-            trades.add(createRecipe(new ItemStack(Material.DIAMOND, 5), new ItemStack(Material.DIAMOND_HELMET, 1)));
-        }
-        if(level >= 5) {
-            trades.add(createRecipe(new ItemStack(Material.NETHERITE_INGOT, 5), new ItemStack(Material.NETHERITE_HELMET, 1)));
-        }
-
+        trades = vil.getRecipes();
+        int exp = vil.getVillagerLevel();
+        Villager.Profession prof = vil.getProfession();
+// check if the villager is the correct level by comparing its level to the number of trades it should have at that level
+// if villager level is bad, remove its final trade (the level up one), add its new trades, and then add the new level up trade
+// if the player level is lower than the villager level, find all trades that are too high level and make them out of stock.
         return trades;
     }
 
 
 }
-// Armorer should be updated to:
-// Novice: 5 Leather for Leather Helmet (gives 0 XP to villager)
-// Novice: 5 Chains for Chain Helmet (gives 0 XP to villager)
-// Novice: 1 Emerald for 1 Brown Due (gives 10 XP to villager, letting it level up)
-// Apprentice: 5 Iron for Iron Helmet (gives 0 XP to villager)
-// Apprentice: 1 Emerald for 1 Yellow Due (gives 70 XP to villager, letting it level up)
-// Journeyman: 5 Gold for Golden Helmet (gives 0 XP to villager)
-// Journeyman: 1 Emerald for 1 Green Due (gives 150 XP to villager, letting it level up)
-// Expert: 5 Diamond for Diamond Helmet (gives 0 XP to villager)
-// Expert: 1 Emerald for 1 Blue Due (gives 250 XP to villager, letting it level up)
-// Master: 5 Netherite for Netherite Helmet (gives 0 XP to villager)
-
-// Each trade that gives XP should be removed once the villager levels up.
