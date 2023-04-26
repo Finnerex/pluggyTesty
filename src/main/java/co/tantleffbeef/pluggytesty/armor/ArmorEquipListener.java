@@ -139,8 +139,6 @@ public class ArmorEquipListener implements Listener {
 
         do {
 
-            Bukkit.broadcastMessage("trim: " + lastPattern);
-
             ItemStack a = armor[i];
 
             if (a == null)
@@ -156,7 +154,7 @@ public class ArmorEquipListener implements Listener {
             if(i == 0) // first trim is null
                 lastPattern = pattern;
 
-            if (!pattern.equals(lastPattern)) // last will be null for first run
+            if (!pattern.equals(lastPattern))
                 return null;
 
             lastPattern = pattern;
