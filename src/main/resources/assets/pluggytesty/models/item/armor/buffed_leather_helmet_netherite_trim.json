@@ -4,6 +4,6 @@
     "layer0": "minecraft:item/leather_helmet",
     "layer1": "minecraft:item/leather_helmet_overlay",
     "layer2": "minecraft:trims/items/helmet_trim_netherite",
-    "layer3": "pluggytesty:item/misc/enhanced_star"
+    "layer3": "pluggytesty:misc/enhanced_star"
   }
 }

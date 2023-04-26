@@ -65,6 +65,6 @@
   "textures": {
     "layer0": "minecraft:item/leather_helmet",
     "layer1": "minecraft:item/leather_helmet_overlay",
-    "layer2": "pluggytesty:item/misc/enhanced_star"
+    "layer2": "pluggytesty:misc/enhanced_star"
   }
 }
