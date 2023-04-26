@@ -124,6 +124,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().addRecipe((new ShapelessRecipe(buffed_lh_key, resourceManager.getCustomItemStack(buffed_lh_key))
                 .addIngredient(1, Material.LEATHER_HELMET))
                 .addIngredient(1, Material.NETHERITE_INGOT));
+//        if ()
         recipeManager.registerUnlockableRecipe(buffed_lh_key, Material.LEATHER_HELMET);
     }
 

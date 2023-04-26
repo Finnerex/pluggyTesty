@@ -46,9 +46,9 @@ public class HeavyArmor implements CommandExecutor {
 
             armorMetas[i].setLore(lore);
 
-            armorMetas[i].addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier("ArmorHard", 5, AttributeModifier.Operation.ADD_NUMBER));
+            armorMetas[i].addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier("ArmorHard", 3, AttributeModifier.Operation.ADD_NUMBER));
             armorMetas[i].addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("ArmorSlow", -0.015, AttributeModifier.Operation.ADD_NUMBER));
-            armorMetas[i].addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("Armor", 7, AttributeModifier.Operation.ADD_NUMBER));
+            armorMetas[i].addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("Armor", 1000, AttributeModifier.Operation.ADD_NUMBER));
 
             armorItems[i].setItemMeta(armorMetas[i]);
             player.getInventory().addItem(armorItems[i]);
