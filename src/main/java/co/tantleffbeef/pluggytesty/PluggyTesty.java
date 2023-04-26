@@ -28,7 +28,9 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.util.UUID;
+import java.util.jar.JarFile;
 
 @SuppressWarnings("unused")
 public final class PluggyTesty extends JavaPlugin {
@@ -53,6 +55,13 @@ public final class PluggyTesty extends JavaPlugin {
 
         registerItems();
         registerRecipes();
+
+        // Adds all the textures and models in the resources folder to the resource pack
+        try (JarFile jar = new JarFile(getFile())) {
+            resourceManager.addAssetsFolder(jar);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         final var partyManager = new PTPartyManager();
 
@@ -107,7 +116,7 @@ public final class PluggyTesty extends JavaPlugin {
         // Armor
         resourceManager.registerItem(new CustomItemArmorType(this, "buffed_leather_helmet",
                 Material.LEATHER_HELMET,
-                false,
+                true,
                 "Buffed Leather Helmet",
                 itemMeta -> {
             itemMeta.addAttributeModifier(
