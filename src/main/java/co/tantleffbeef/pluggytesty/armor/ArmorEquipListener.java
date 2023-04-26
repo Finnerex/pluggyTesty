@@ -3,6 +3,8 @@ package co.tantleffbeef.pluggytesty.armor;
 
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +13,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.plugin.Plugin;
@@ -38,7 +41,7 @@ public class ArmorEquipListener implements Listener {
 //            entry(TrimPattern.WAYFINDER,ArmorEffectType.SPEED),
             entry(TrimPattern.TIDE,     ArmorEffectType.EXP_BOOST),
             entry(TrimPattern.SNOUT,    ArmorEffectType.FIRE_RESISTANCE),
-            entry(TrimPattern.WILD,     ArmorEffectType.HUNGER_CONSERVATION),
+            entry(TrimPattern.WILD,     ArmorEffectType.KNOCKBACK_RESIST),
             entry(TrimPattern.VEX,      ArmorEffectType.DAMAGE_INCREASE),
             entry(TrimPattern.SPIRE,    ArmorEffectType.FALL_DAMAGE_IMMUNITY),
             entry(TrimPattern.RIB,      ArmorEffectType.WITHER_ATTACKS),
@@ -120,11 +123,30 @@ public class ArmorEquipListener implements Listener {
             case NIGHT_VISION -> player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(PotionEffect.INFINITE_DURATION, 0));
             case FIRE_RESISTANCE -> player.addPotionEffect(PotionEffectType.FIRE_RESISTANCE.createEffect(PotionEffect.INFINITE_DURATION, 0));
             case HEALTH_BOOST -> player.addPotionEffect(PotionEffectType.HEALTH_BOOST.createEffect(PotionEffect.INFINITE_DURATION, 4));
+            case KNOCKBACK_RESIST -> setKbResist(player, armor);
         }
 
         Bukkit.broadcastMessage("effect: " + effectMap.get(playerUUID));
 
     }
+
+
+    private void setKbResist(Player p, ItemStack[] armor) {
+        for (int i = 0; i < armor.length; i ++) {
+            ItemMeta meta = armor[i].getItemMeta();
+            meta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier("generic.knockbackResistance", 1, AttributeModifier.Operation.ADD_NUMBER));
+            armor[i].setItemMeta(meta);
+        }
+    }
+
+    private void removeKbResist(Player p, ItemStack[] armor) {
+        for (int i = 0; i < armor.length; i ++) {
+            ItemMeta meta = armor[i].getItemMeta();
+            meta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier("generic.knockbackResistance", -1, AttributeModifier.Operation.ADD_NUMBER));
+            armor[i].setItemMeta(meta);
+        }
+    }
+
 
     private TrimPattern sameTrim(ItemStack[] armor) {
 
