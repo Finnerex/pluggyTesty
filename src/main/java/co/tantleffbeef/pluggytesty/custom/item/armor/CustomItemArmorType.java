@@ -20,7 +20,7 @@ public class CustomItemArmorType implements CustomItemType {
     public CustomItemArmorType(Plugin namespace, String id, Material material, boolean model, String name, @NotNull Consumer<ItemMeta> setArmorAttributes) {
         this.id = new NamespacedKey(namespace, id);
         this.material = material;
-        this.customModel = model ? new NamespacedKey(namespace, "item/armor" + this.id.getKey()) : null;
+        this.customModel = model ? new NamespacedKey(namespace, "item/armor/" + this.id.getKey()) : null;
         this.name = name;
         this.armorAttributesCallback = setArmorAttributes;
     }
