@@ -15,6 +15,7 @@ public class ExplodeListener implements Listener {
 
         if (!creeper.getName().equals(ChatColor.GREEN + "BOUNCER")) return;
 
+        Bukkit.broadcastMessage("canceled");
         event.setCancelled(true);
     }
 
