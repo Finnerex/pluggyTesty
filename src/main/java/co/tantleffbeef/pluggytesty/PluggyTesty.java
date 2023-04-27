@@ -7,10 +7,7 @@ import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
-import co.tantleffbeef.pluggytesty.bosses.BossFireWorker;
-import co.tantleffbeef.pluggytesty.bosses.BossGru;
-import co.tantleffbeef.pluggytesty.bosses.BossJawn;
-import co.tantleffbeef.pluggytesty.bosses.BossSeaman;
+import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.MagicStickItemType;
 import co.tantleffbeef.pluggytesty.custom.item.armor.CustomItemArmorType;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
@@ -103,6 +100,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DamageEffectListener(), this);
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
+        getServer().getPluginManager().registerEvents(new ExplodeListener(), this);
 
         getServer().getPluginManager().registerEvents(new VillagerTrades(), this);
 
