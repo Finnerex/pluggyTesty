@@ -5,14 +5,13 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+
 import java.util.Random;
 
 public class BossFireWorker implements CommandExecutor {
@@ -32,9 +31,12 @@ public class BossFireWorker implements CommandExecutor {
         Creeper bouncer = (Creeper) w.spawnEntity(l, EntityType.CREEPER);
         bouncer.setPowered(true);
 
+        bouncer.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(100);
         bouncer.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.5);
         bouncer.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(1000);
         bouncer.setHealth(1000);
+
+        bouncer.setPersistent(true);
 
         bouncer.setCustomName(ChatColor.GREEN + "BOUNCER");
         bouncer.setCustomNameVisible(true);
@@ -68,7 +70,7 @@ public class BossFireWorker implements CommandExecutor {
         return true;
     }
 
-    private void workFires(Creeper bouncer) {
+    private void workFires(LivingEntity bouncer) {
 
         BukkitRunnable runnable = new BukkitRunnable() {
 
@@ -120,7 +122,7 @@ public class BossFireWorker implements CommandExecutor {
         return builder.build();
     }
 
-    private void spreadWorks(Creeper bouncer) {
+    private void spreadWorks(LivingEntity bouncer) {
 
         BukkitRunnable runnable = new BukkitRunnable() {
 
