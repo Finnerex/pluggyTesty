@@ -66,16 +66,16 @@ public class BossFireWorker implements CommandExecutor {
                 int text = new Random().nextInt(500);
 
                 if (text == 1)
-                    bouncer.sendMessage("218 Goodale Road");
+                    Bukkit.broadcastMessage(ChatColor.GREEN + "<Bouncer> 218 Goodale Road");
                 if (text == 2)
-                    bouncer.sendMessage("Happy Birthday gavvy wavvy");
+                    Bukkit.broadcastMessage(ChatColor.GREEN + "<Bouncer> Happy Birthday gavvy wavvy");
                 if (text == 3)
                     // This is allowed because Susan made it
-                    bouncer.sendMessage("Homosexual");
+                    Bukkit.broadcastMessage(ChatColor.GREEN + "<Bouncer> Homosexual");
                 if (text == 4)
-                    bouncer.sendMessage("Congartulations");
+                    Bukkit.broadcastMessage(ChatColor.GREEN + "<Bouncer> Congartulations");
                 if (text == 5)
-                    bouncer.sendMessage("This sounds like the song of the summer");
+                    Bukkit.broadcastMessage(ChatColor.GREEN + "<Bouncer> This sounds like the song of the summer");
 
 
             }
