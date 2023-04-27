@@ -32,3 +32,5 @@ commands:
     description: give you heavy armor!!
   summongru:
     description: summons gru
+  summonbouncer:
+    description: summons gavvys special surprise

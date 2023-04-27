@@ -7,6 +7,7 @@ import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
+import co.tantleffbeef.pluggytesty.bosses.BossFireWorker;
 import co.tantleffbeef.pluggytesty.bosses.BossGru;
 import co.tantleffbeef.pluggytesty.bosses.BossJawn;
 import co.tantleffbeef.pluggytesty.bosses.BossSeaman;
@@ -82,6 +83,7 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("summonseaman").setExecutor(new BossSeaman(this));
         getCommand("giveheavyarmor").setExecutor(new HeavyArmor());
         getCommand("summongru").setExecutor(new BossGru(this));
+        getCommand("summonbouncer").setExecutor(new BossFireWorker(this));
 
 
         getServer().getPluginManager().registerEvents(new MagicStickInteractListener(), this);

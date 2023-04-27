@@ -18,7 +18,7 @@ import org.joml.Random;
 public class BossFireWorker implements CommandExecutor {
     private final Plugin plugin;
 
-    public FireWorker(Plugin plugin) { this.plugin = plugin; }
+    public BossFireWorker(Plugin plugin) { this.plugin = plugin; }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
