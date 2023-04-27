@@ -48,8 +48,7 @@ public class BossFireWorker implements CommandExecutor {
                     return;
                 }
 
-                int jump = new Random().nextInt(3);
-                bouncer.setVelocity(bouncer.getVelocity().add(new Vector(0, jump, 0)));
+
 
                 int attack = new Random().nextInt(10);
 
@@ -57,8 +56,10 @@ public class BossFireWorker implements CommandExecutor {
                     workFires(bouncer);
                 if (attack == 1)
                     spreadWorks(bouncer);
-//                if (attack == 2)
-//                    longWorks(bouncer);
+                if (attack == 2 || attack == 3) {
+                    int jump = new Random().nextInt(3);
+                    bouncer.setVelocity(bouncer.getVelocity().add(new Vector(0, jump, 0)));
+                }
 
             }
         };
