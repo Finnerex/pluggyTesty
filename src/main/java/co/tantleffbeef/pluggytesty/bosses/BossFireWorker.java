@@ -63,6 +63,21 @@ public class BossFireWorker implements CommandExecutor {
                     bouncer.setVelocity(bouncer.getVelocity().add(new Vector(0, jump, 0)));
                 }
 
+                int text = new Random().nextInt(500);
+
+                if (text == 1)
+                    bouncer.sendMessage("218 Goodale Road");
+                if (text == 2)
+                    bouncer.sendMessage("Happy Birthday gavvy wavvy");
+                if (text == 3)
+                    // This is allowed because Susan made it
+                    bouncer.sendMessage("Homosexual");
+                if (text == 4)
+                    bouncer.sendMessage("Congartulations");
+                if (text == 5)
+                    bouncer.sendMessage("This sounds like the song of the summer");
+
+
             }
         };
 
@@ -100,6 +115,8 @@ public class BossFireWorker implements CommandExecutor {
                 meta.setPower(4);
 
                 f.setFireworkMeta(meta);
+
+                loc.getWorld().playSound(loc, Sound.ITEM_CROSSBOW_SHOOT, 1, 1);
 
                 runs ++;
 
@@ -153,6 +170,8 @@ public class BossFireWorker implements CommandExecutor {
                 f.setFireworkMeta(meta);
 
                 l.setYaw(l.getYaw() + 45);
+
+                l.getWorld().playSound(l, Sound.BLOCK_DISPENSER_DISPENSE, 1, 1);
 
                 runs++;
 
