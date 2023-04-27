@@ -37,6 +37,7 @@ public class BossFireWorker implements CommandExecutor {
         bouncer.setHealth(1000);
 
         bouncer.setCustomName(ChatColor.GREEN + "BOUNCER");
+        bouncer.setCustomNameVisible(true);
 
         BukkitRunnable runnable = new BukkitRunnable() {
 
