@@ -45,12 +45,14 @@ public class VillagerTrades implements Listener {
 
     }
 
-    private ArrayList<MerchantRecipe> createRecipe(int input, ArrayList<ItemStack> output, int num) {
+    private List<MerchantRecipe> createRecipe(int input, List<ItemStack> output, int num) {
         Random r =  new Random();
-        ArrayList<MerchantRecipe> resList = new ArrayList<>();
+        List<ItemStack> temp = new ArrayList<>();
+        temp.addAll(output);
+        List<MerchantRecipe> resList = new ArrayList<>();
 
         for(int i = 0; i < num; i++) {
-            MerchantRecipe res = new MerchantRecipe(output.remove(r.nextInt(output.size())), 0, 10, false, 0, 0f);
+            MerchantRecipe res = new MerchantRecipe(temp.remove(r.nextInt(output.size())), 0, 10, false, 0, 0f);
             res.addIngredient(new ItemStack(Material.EMERALD, input));
             resList.add(res);
         }
@@ -60,10 +62,12 @@ public class VillagerTrades implements Listener {
 
     private List<MerchantRecipe> createRecipe(ItemStack input, int input2, List<ItemStack> output, int num) {
         Random r =  new Random();
+        ArrayList<ItemStack> temp = new ArrayList<>();
+        temp.addAll(output);
         List<MerchantRecipe> resList = new ArrayList<>();
 
         for(int i = 0; i < num; i++) {
-            MerchantRecipe res = new MerchantRecipe(output.remove(r.nextInt(output.size())), 0, 10, false, 0, 0f);
+            MerchantRecipe res = new MerchantRecipe(temp.remove(r.nextInt(output.size())), 0, 10, false, 0, 0f);
             res.addIngredient(input);
             res.addIngredient(new ItemStack(Material.EMERALD, input2));
             resList.add(res);
@@ -77,9 +81,51 @@ public class VillagerTrades implements Listener {
         trades = vil.getRecipes();
         int exp = vil.getVillagerLevel();
         Villager.Profession prof = vil.getProfession();
-// check if the villager is the correct level by comparing its level to the number of trades it should have at that level
-// if villager level is bad, remove its final trade (the level up one), add its new trades, and then add the new level up trade
-// if the player level is lower than the villager level, find all trades that are too high level and make them out of stock.
+
+        int profInt = 0;
+        switch (prof) {
+            case ARMORER -> profInt = 0;
+            case BUTCHER -> profInt = 1;
+            case CARTOGRAPHER -> profInt = 2;
+            case CLERIC -> profInt = 3;
+            case FARMER -> profInt = 4;
+            case FISHERMAN -> profInt = 5;
+            case LEATHERWORKER -> profInt = 6;
+            case LIBRARIAN -> profInt = 7;
+            case MASON -> profInt = 8;
+            case SHEPHERD -> profInt = 9;
+            case TOOLSMITH -> profInt = 10;
+            case WEAPONSMITH -> profInt = 11;
+        }
+
+        int numOfTrades = 0;
+        for(int i = 0; i < exp; i++) {
+            numOfTrades += tradeAmts[profInt][i];
+        }
+
+        if(numOfTrades != trades.size() - 1) {
+            trades.remove(trades.size() - 1);
+
+            // add new trades
+            // add new final trade
+        }
+
+
+        if(pLevel < exp - 1) { // pLevel goes from 0-5 and exp goes from 1-5
+            int l = 0;
+            for(int h = pLevel; h < exp - 1; h++) {
+                l += tradeAmts[profInt][h];
+            }
+
+            for(int i = l; i < trades.size(); i++) {
+                trades.get(i).setMaxUses(0); // see if having a maxUses below the Uses gives an error
+            }
+        } else {
+            for(int i = 0; i < trades.size(); i++) {
+                trades.get(i).setMaxUses(10);
+            }
+        }
+
         return trades;
     }
 
