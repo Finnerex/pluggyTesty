@@ -49,15 +49,13 @@ public class BossFireWorker implements CommandExecutor {
                     return;
                 }
 
-
-
                 int attack = new Random().nextInt(10);
 
                 if (attack == 0)
                     workFires(bouncer);
                 if (attack == 1)
                     spreadWorks(bouncer);
-                if (attack == 2 || attack == 3) {
+                if (attack == 2) {
                     int jump = new Random().nextInt(3);
                     bouncer.setVelocity(bouncer.getVelocity().add(new Vector(0, jump, 0)));
                 }
@@ -88,7 +86,8 @@ public class BossFireWorker implements CommandExecutor {
 
                 Firework f = (Firework) bouncer.getWorld().spawnEntity(loc, EntityType.FIREWORK);
                 f.setShotAtAngle(true);
-                f.getLocation().setDirection(loc.getDirection());
+                f.getLocation().setDirection(loc.getDirection().normalize());
+                f.setVelocity(loc.getDirection().multiply(2));
                 f.setBounce(true);
                 f.setShooter(bouncer);
 
@@ -138,7 +137,8 @@ public class BossFireWorker implements CommandExecutor {
 
                 Firework f = (Firework) bouncer.getWorld().spawnEntity(l, EntityType.FIREWORK);
                 f.setShotAtAngle(true);
-                f.getLocation().setDirection(l.getDirection());
+                f.getLocation().setDirection(l.getDirection().normalize());
+                f.setVelocity(l.getDirection().multiply(2));
                 f.setBounce(true);
                 f.setShooter(bouncer);
 
