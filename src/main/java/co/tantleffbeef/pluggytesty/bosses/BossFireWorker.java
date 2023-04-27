@@ -56,7 +56,7 @@ public class BossFireWorker implements CommandExecutor {
                 if (attack == 1)
                     spreadWorks(bouncer);
                 if (attack == 2) {
-                    int jump = new Random().nextInt(3);
+                    double jump = new Random().nextDouble(2);
                     bouncer.setVelocity(bouncer.getVelocity().add(new Vector(0, jump, 0)));
                 }
 
@@ -111,8 +111,8 @@ public class BossFireWorker implements CommandExecutor {
         Random r = new Random();
         FireworkEffect.Builder builder = FireworkEffect.builder();
 
-        builder.flicker(r.nextInt(2) == 1);
-        builder.trail(r.nextInt(2) == 1);
+        builder.flicker(r.nextBoolean());
+        builder.trail(r.nextBoolean());
         builder.withColor(Color.fromRGB(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
         builder.withFade(Color.fromRGB(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
         builder.with(FireworkEffect.Type.values()[r.nextInt(5)]);
