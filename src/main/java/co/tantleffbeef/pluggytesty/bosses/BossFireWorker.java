@@ -28,8 +28,9 @@ public class BossFireWorker implements CommandExecutor {
         World w = player.getWorld();
         Location l = player.getEyeLocation();
 
-        Creeper bouncer = (Creeper) w.spawnEntity(l, EntityType.CREEPER);
-        bouncer.setPowered(true);
+        ZombieVillager bouncer = (ZombieVillager) w.spawnEntity(l, EntityType.ZOMBIE_VILLAGER);
+        bouncer.setVillagerType(Villager.Type.SWAMP);
+        bouncer.setVillagerProfession(Villager.Profession.CARTOGRAPHER);
 
         bouncer.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(100);
         bouncer.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.5);
@@ -57,7 +58,7 @@ public class BossFireWorker implements CommandExecutor {
                     workFires(bouncer);
                 if (attack == 1)
                     spreadWorks(bouncer);
-                if (attack == 2) {
+                if (attack >= 8) {
                     double jump = new Random().nextDouble(2);
                     bouncer.setVelocity(bouncer.getVelocity().add(new Vector(0, jump, 0)));
                 }
@@ -79,7 +80,7 @@ public class BossFireWorker implements CommandExecutor {
             @Override
             public void run() {
 
-                if (runs > 9) {
+                if (runs > 5) {
                     cancel();
                     return;
                 }
@@ -132,7 +133,7 @@ public class BossFireWorker implements CommandExecutor {
             @Override
             public void run() {
 
-                if (runs > 6) {
+                if (runs > 7) {
                     cancel();
                     return;
                 }
