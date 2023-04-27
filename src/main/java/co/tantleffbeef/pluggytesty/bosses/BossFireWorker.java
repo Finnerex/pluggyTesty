@@ -13,7 +13,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.joml.Random;
+import java.util.Random;
 
 public class BossFireWorker implements CommandExecutor {
     private final Plugin plugin;

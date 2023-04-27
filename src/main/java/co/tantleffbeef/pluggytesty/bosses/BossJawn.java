@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Random;
+import java.util.Random;
 
 import java.util.ArrayList;
 
