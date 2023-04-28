@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty;
 
+import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.PaperCommandManager;
 import co.tantleffbeef.mcplanes.ResourceApi;
 import co.tantleffbeef.mcplanes.ResourceManager;
@@ -17,6 +18,7 @@ import co.tantleffbeef.pluggytesty.utility.*;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTrades;
 import co.tantleffbeef.pluggytesty.weapons.*;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("unused")
@@ -40,8 +42,18 @@ public final class PluggyTesty extends JavaPlugin {
         onItemRegistration();
 
         final var partyManager = new PTPartyManager();
-
         final var commandManager = new PaperCommandManager(this);
+        commandManager.getCommandCompletions().registerCompletion("partyPlayers", context -> {
+            final var player = context.getPlayer();
+            final var party = partyManager.getPartyWith(player);
+
+            if (party == null)
+                throw new InvalidCommandArgument();
+
+            return party.getAllPlayers().stream()
+                    .map(OfflinePlayer::getName)
+                    .toList();
+        });
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
 

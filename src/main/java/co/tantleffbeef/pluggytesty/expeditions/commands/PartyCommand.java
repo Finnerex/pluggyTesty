@@ -8,6 +8,7 @@ import co.tantleffbeef.pluggytesty.expeditions.PartyManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -220,6 +221,30 @@ public class PartyCommand extends BaseCommand {
                             .create()
             );
         }
+    }
+
+    @Subcommand("kick")
+    @CommandCompletion("@partyPlayers")
+    public void onKick(@NotNull Player caller, @NotNull OfflinePlayer player) {
+        // sender has to be a party owner
+        if (!checkIfSenderInParty(caller))
+            return;
+        if (!checkIfSenderPartyOwner(caller))
+            return;
+
+        if (caller.getUniqueId().equals(player.getUniqueId())) {
+            caller.spigot().sendMessage(
+                    new ComponentBuilder("You can't kick yourself from the party!\nTry /party disband")
+                            .color(ChatColor.RED)
+                            .create()
+            );
+
+            return;
+        }
+
+        final var party = partyManager.getPartyWith(caller);
+        assert party != null;
+        party.removePlayer(player);
     }
 
     @Subcommand("disband")
