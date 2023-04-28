@@ -73,19 +73,20 @@ public class PartyCommand extends BaseCommand {
             return;
         }
 
-        if (partyManager.getPartyWith(invitee) != null) {
-            caller.sendMessage(ChatColor.RED + "That player is already in a party!");
-            return;
-        }
+//        if (partyManager.getPartyWith(invitee) != null) {
+//            caller.sendMessage(ChatColor.RED + "That player is already in a party!");
+//            return;
+//        }
 
         final var inviteeName = invitee.getDisplayName();
         final var inviteeUuid = invitee.getUniqueId();
 
         // Send message to caller
         party.broadcastMessage(
-                new ComponentBuilder("\n")
+                new ComponentBuilder("---\n").color(ChatColor.RED)
                         .append(inviteeName).color(ChatColor.YELLOW)
                         .append(" has been invited to the party.\n").color(ChatColor.GOLD)
+                        .append("---").color(ChatColor.RED)
                         .create()
         );
 
@@ -106,11 +107,12 @@ public class PartyCommand extends BaseCommand {
 
 
         invitee.spigot().sendMessage(
-                new ComponentBuilder("\n")
+                new ComponentBuilder("---\n").color(ChatColor.RED)
                         .append(caller.getDisplayName()).color(ChatColor.YELLOW)
                         .append(" sent you an invite to their party.\n").color(ChatColor.GOLD)
                         .append(clickHereMessage).color(ChatColor.YELLOW)
                         .append(" to accept.\n").color(ChatColor.GOLD)
+                        .append("---").color(ChatColor.RED)
                         .create()
         );
 
@@ -180,8 +182,10 @@ public class PartyCommand extends BaseCommand {
             final var invite = inviteList.stream()
                     .findAny();
 
-            if (invite.isPresent())
+            if (invite.isPresent()) {
                 acceptParty(caller, invite.get());
+                inviteList.remove(invite.get());
+            }
             else
                 caller.sendMessage(NO_INVITES_MSG);
         }
@@ -244,7 +248,7 @@ public class PartyCommand extends BaseCommand {
 
         final var party = partyManager.getPartyWith(caller);
         assert party != null;
-        party.removePlayer(player);
+        party.removePlayer(player, Party.RemovalReason.KICKED);
     }
 
     @Subcommand("kickoffline")
@@ -262,7 +266,7 @@ public class PartyCommand extends BaseCommand {
         assert party.partyOwner().equals(caller);
 
         party.getOfflinePlayers()
-                .forEach(party::removePlayer);
+                .forEach(p -> party.removePlayer(p, Party.RemovalReason.KICKED_OFFLINE));
     }
 
     @Subcommand("disband")
@@ -299,6 +303,9 @@ public class PartyCommand extends BaseCommand {
         // Loop through all players in the party and append to
         // the list message
         party.getAllPlayers().forEach(player -> {
+            if (player.getUniqueId().equals(caller.getUniqueId()))
+                return;
+
             if (player.isOnline())
                 listMessage.append(player.getName()).color(ChatColor.YELLOW)
                         .append("\n");
@@ -312,6 +319,13 @@ public class PartyCommand extends BaseCommand {
                 listMessage.append("---").color(ChatColor.RED)
                         .create()
         );
+    }
+
+    private void checkParty(@NotNull Party party) {
+        if (party.getAllPlayerIds().size() <= 1) {
+            party.disband();
+            partyManager.unregisterParty(party);
+        }
     }
 
     private boolean checkIfSenderInParty(@NotNull Player sender) {

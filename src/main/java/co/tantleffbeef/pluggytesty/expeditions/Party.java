@@ -96,19 +96,41 @@ public class Party {
      * Precondition: player is in the party
      * @param player the player to remove
      */
-    public void removePlayer(OfflinePlayer player) {
+    public void removePlayer(OfflinePlayer player, RemovalReason reason) {
         assert playerList.contains(player.getUniqueId());
         assert !player.getUniqueId().equals(owner);
 
-        broadcastMessage(
-                new ComponentBuilder("---\n").color(ChatColor.RED)
-                        .append(player.getName()).color(ChatColor.YELLOW)
-                        .append(" has left the party.\n").color(ChatColor.GOLD)
-                        .append("---").color(ChatColor.RED)
-                        .create()
-        );
+        switch (reason) {
+            case PLAYER_LEFT -> broadcastMessage(
+                    new ComponentBuilder("---\n").color(ChatColor.RED)
+                            .append(player.getName()).color(ChatColor.YELLOW)
+                            .append(" has left the party.\n").color(ChatColor.GOLD)
+                            .append("---").color(ChatColor.RED)
+                            .create()
+            );
+            case KICKED -> broadcastMessage(
+                    new ComponentBuilder("---\n").color(ChatColor.RED)
+                            .append(player.getName()).color(ChatColor.YELLOW)
+                            .append(" was kicked from the party.\n").color(ChatColor.GOLD)
+                            .append("---").color(ChatColor.RED)
+                            .create()
+            );
+            case KICKED_OFFLINE -> broadcastMessage(
+                    new ComponentBuilder("---\n").color(ChatColor.RED)
+                            .append(player.getName()).color(ChatColor.YELLOW)
+                            .append(" was kicked from the party for being offline.\n").color(ChatColor.GOLD)
+                            .append("---").color(ChatColor.RED)
+                            .create()
+            );
+        }
 
         playerList.remove(player.getUniqueId());
+    }
+
+    public enum RemovalReason {
+        PLAYER_LEFT,
+        KICKED,
+        KICKED_OFFLINE,
     }
 
     public void disband() {
