@@ -91,7 +91,7 @@ public class AxeOfYourMotherInteractListener implements Listener {
                     location.setX(location.getX() - 1);
                     Bukkit.broadcastMessage("particle" + location.toString());
                 }
-                location.setY(location.getY() - 1);
+                location.setZ(location.getZ() - 1);
             }
         }
     }
