@@ -51,7 +51,7 @@ public class ClusterBombInteractListener implements Listener {
 
         Location location = player.getEyeLocation();
 
-        Snowball pearl = (Snowball) player.getWorld().spawnEntity(location, EntityType.SNOWBALL);
+        EnderPearl pearl = (EnderPearl) player.getWorld().spawnEntity(location, EntityType.ENDER_PEARL);
         pearl.setGravity(false);
         pearl.setVelocity(location.getDirection().normalize());
 
@@ -59,7 +59,7 @@ public class ClusterBombInteractListener implements Listener {
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> explode(pearl), 40);
 
     }
-    private void explode(Snowball pearl) {
+    private void explode(EnderPearl pearl) {
         Location location = pearl.getLocation();
 
 

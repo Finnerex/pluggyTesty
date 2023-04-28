@@ -93,7 +93,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SwordsmansDreamInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new GoerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new LauncherInteractListener(this), this);
-        getServer().getPluginManager().registerEvents(new LauncherInteractListener(this), this);
+        getServer().getPluginManager().registerEvents(new ClusterBombInteractListener(this), this);
 
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
         getServer().getPluginManager().registerEvents(new BowShootListener(), this);
