@@ -8,6 +8,7 @@ import co.tantleffbeef.pluggytesty.expeditions.PartyManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -222,4 +223,126 @@ public class PartyCommand extends BaseCommand {
         }
     }
 
+    @Subcommand("kick")
+    @CommandCompletion("@partyPlayers")
+    public void onKick(@NotNull Player caller, @NotNull OfflinePlayer player) {
+        // sender has to be a party owner
+        if (!checkIfSenderInParty(caller))
+            return;
+        if (!checkIfSenderPartyOwner(caller))
+            return;
+
+        if (caller.getUniqueId().equals(player.getUniqueId())) {
+            caller.spigot().sendMessage(
+                    new ComponentBuilder("You can't kick yourself from the party!\nTry /party disband")
+                            .color(ChatColor.RED)
+                            .create()
+            );
+
+            return;
+        }
+
+        final var party = partyManager.getPartyWith(caller);
+        assert party != null;
+        party.removePlayer(player);
+    }
+
+    @Subcommand("kickoffline")
+    public void onKickOffline(@NotNull Player caller) {
+        // sender has to be a party owner
+        if (!checkIfSenderInParty(caller))
+            return;
+
+        if (!checkIfSenderPartyOwner(caller))
+            return;
+
+        // Grab the party the player is in
+        final var party = partyManager.getPartyWith(caller);
+        assert party != null;
+        assert party.partyOwner().equals(caller);
+
+        party.getOfflinePlayers()
+                .forEach(party::removePlayer);
+    }
+
+    @Subcommand("disband")
+    public void onDisband(@NotNull Player caller) {
+        // sender has to be a party owner
+        if (!checkIfSenderInParty(caller))
+            return;
+
+        if (!checkIfSenderPartyOwner(caller))
+            return;
+
+        // Grab the party the player is in
+        final var party = partyManager.getPartyWith(caller);
+        assert party != null;
+        assert party.partyOwner().equals(caller);
+
+        party.disband();
+        partyManager.unregisterParty(party);
+    }
+
+    @Subcommand("list")
+    public void onList(@NotNull Player caller) {
+        if (!checkIfSenderInParty(caller))
+            return;
+
+        final var party = partyManager.getPartyWith(caller);
+        assert party != null;
+
+        final var listMessage = new ComponentBuilder("---\n").color(ChatColor.RED)
+                .append("Party Owner: ").color(ChatColor.GOLD)
+                .append(party.partyOwner().getName()).color(ChatColor.YELLOW)
+                .append("\n");
+
+        // Loop through all players in the party and append to
+        // the list message
+        party.getAllPlayers().forEach(player -> {
+            if (player.isOnline())
+                listMessage.append(player.getName()).color(ChatColor.YELLOW)
+                        .append("\n");
+            else
+                listMessage.append(player.getName()).color(ChatColor.RED)
+                        .append("\n");
+        });
+
+        // Send the completed message
+        caller.spigot().sendMessage(
+                listMessage.append("---").color(ChatColor.RED)
+                        .create()
+        );
+    }
+
+    private boolean checkIfSenderInParty(@NotNull Player sender) {
+        final var party = partyManager.getPartyWith(sender);
+        if (party == null) {
+            sender.spigot().sendMessage(
+                    new ComponentBuilder("You need to be in a party to use that command!")
+                            .color(ChatColor.RED)
+                            .create()
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkIfSenderPartyOwner(@NotNull Player sender) {
+        final var party = partyManager.getPartyWith(sender);
+        assert party != null;
+
+        if (!party.partyOwner().equals(sender)) {
+            sender.spigot().sendMessage(
+                    new ComponentBuilder("You need to be a party owner to use that command!")
+                            .color(ChatColor.RED)
+                            .create()
+            );
+
+            return false;
+        }
+
+        return true;
+    }
 }
