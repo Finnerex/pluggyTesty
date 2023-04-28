@@ -77,7 +77,7 @@ public class LauncherInteractListener implements Listener {
 
     private Block shootBolt(float range, Location location) {
 
-        World world = location.getWorld();
+        final World world = location.getWorld();
 
         Block block = null;
         RayTraceResult result = world.rayTraceBlocks(location, location.getDirection(), range);

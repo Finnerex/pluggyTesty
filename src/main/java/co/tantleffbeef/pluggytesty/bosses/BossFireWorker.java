@@ -25,7 +25,7 @@ public class BossFireWorker implements CommandExecutor {
         if (!(sender instanceof Player player))
             return false;
 
-        World w = player.getWorld();
+        final World w = player.getWorld();
         Location l = player.getEyeLocation();
 
         ZombieVillager bouncer = w.spawn(l, ZombieVillager.class, (zombieVil) -> {

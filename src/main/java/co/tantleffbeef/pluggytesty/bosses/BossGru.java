@@ -37,7 +37,7 @@ public class BossGru implements CommandExecutor {
             villager.setHealth(500);
         });
 
-        World w = gru.getWorld();
+        final World w = gru.getWorld();
 
 
         BukkitRunnable runnable = new BukkitRunnable() {

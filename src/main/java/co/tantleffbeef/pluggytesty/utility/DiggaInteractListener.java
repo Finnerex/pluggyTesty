@@ -44,7 +44,7 @@ public class DiggaInteractListener implements Listener {
 
         private Block Dig(double range, Location location) {
 
-            World world = location.getWorld();
+            final World world = location.getWorld();
 
             RayTraceResult result = world.rayTraceBlocks(location, location.getDirection() , range, FluidCollisionMode.NEVER);
 

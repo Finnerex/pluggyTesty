@@ -43,7 +43,7 @@ public class FrostPoleInteractListener implements Listener {
     private Entity shootBolt(float r, Player p) {
         Location location = p.getEyeLocation();
         location.add(location.getDirection().multiply(2));
-        World world = location.getWorld();
+        final World world = location.getWorld();
 
         Entity entity = null;
         RayTraceResult result = p.getWorld().rayTraceEntities(location, location.getDirection(), r * 10);

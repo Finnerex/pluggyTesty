@@ -33,7 +33,7 @@ public class SwordsmansDreamInteractListener implements Listener {
         Player player = event.getPlayer();
         if (player.hasCooldown(Material.IRON_SWORD)) return;
 
-        World world = player.getWorld();
+        final World world = player.getWorld();
 
         if(player.isSneaking()) {
             player.setCooldown(Material.IRON_SWORD, 60);

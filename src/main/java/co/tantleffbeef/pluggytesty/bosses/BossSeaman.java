@@ -46,7 +46,7 @@ public class BossSeaman implements CommandExecutor {
             drowned.setHealth(100);
         });
 
-        World w = seaman.getWorld();
+        final World w = seaman.getWorld();
 
 
         // ai / attacks??

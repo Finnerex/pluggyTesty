@@ -44,7 +44,7 @@ public class BossJawn implements CommandExecutor {
 
         });
 
-        World w = jawn.getWorld();
+        final World w = jawn.getWorld();
 
         // ai / attacks?!?!
         BukkitRunnable runnable = new BukkitRunnable() {
@@ -109,7 +109,7 @@ public class BossJawn implements CommandExecutor {
                     return;
                 }
 
-                World w = l.getWorld();
+                final World w = l.getWorld();
                 Vector d = l.getDirection().setY(0).normalize();
                 Vector pd = d.clone().rotateAroundY(90);
                 Location l2 = l.clone().add(pd.clone().multiply(-4));
