@@ -224,6 +224,51 @@ public class PartyCommand extends BaseCommand {
 
     @Subcommand("disband")
     public void onDisband(@NotNull Player caller) {
+        // sender has to be a party owner
+        if (!checkIfSenderInParty(caller))
+            return;
 
+        if (!checkIfSenderPartyOwner(caller))
+            return;
+
+        // Grab the party the player is in
+        final var party = partyManager.getPartyWith(caller);
+        assert party != null;
+        assert party.partyOwner().equals(caller);
+
+        party.disband();
+        partyManager.unregisterParty(party);
+    }
+
+    private boolean checkIfSenderInParty(@NotNull Player sender) {
+        final var party = partyManager.getPartyWith(sender);
+        if (party == null) {
+            sender.spigot().sendMessage(
+                    new ComponentBuilder("You need to be in a party to use that command!")
+                            .color(ChatColor.RED)
+                            .create()
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkIfSenderPartyOwner(@NotNull Player sender) {
+        final var party = partyManager.getPartyWith(sender);
+        assert party != null;
+
+        if (!party.partyOwner().equals(sender)) {
+            sender.spigot().sendMessage(
+                    new ComponentBuilder("You need to be a party owner to use that command!")
+                            .color(ChatColor.RED)
+                            .create()
+            );
+
+            return false;
+        }
+
+        return true;
     }
 }
