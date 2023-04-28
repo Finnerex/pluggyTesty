@@ -35,18 +35,30 @@ public class leather implements CommandExecutor {
         bootsMeta.setDisplayName("Boots");
 
 
-        ItemMeta[] armorMetas = {headMeta, chestMeta, pantsMeta, bootsMeta};
-        ItemStack[] armorItems = {head, chest, pants, boots};
+        ItemMeta[] HBMetas = {headMeta, bootsMeta};
+        ItemMeta[] CLMetas = {chestMeta, pantsMeta};
+        ItemStack[] HB = {head, chest, pants, boots};
+        ItemStack[] CL = {head, chest, pants, boots};
 
 
-        for (int i = 0; i < armorMetas.length; i++){
+        for (int i = 0; i < HBMetas.length; i++){
 
 
-            armorMetas[i].addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier("ArmorHard", 0, AttributeModifier.Operation.ADD_NUMBER));
-            armorMetas[i].addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("Armor", 6, AttributeModifier.Operation.ADD_NUMBER));
+            HBMetas[i].addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier("ArmorHard", 0, AttributeModifier.Operation.ADD_NUMBER));
+            HBMetas[i].addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("Armor", 1, AttributeModifier.Operation.ADD_NUMBER));
 
-            armorItems[i].setItemMeta(armorMetas[i]);
-            player.getInventory().addItem(armorItems[i]);
+            HB[i].setItemMeta(HBMetas[i]);
+            player.getInventory().addItem(HB[i]);
+
+        }
+        for (int i = 0; i < CLMetas.length; i++){
+
+
+            CLMetas[i].addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier("ArmorHard", 0, AttributeModifier.Operation.ADD_NUMBER));
+            CLMetas[i].addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("Armor", 2, AttributeModifier.Operation.ADD_NUMBER));
+
+            CL[i].setItemMeta(CLMetas[i]);
+            player.getInventory().addItem(CL[i]);
 
         }
 
