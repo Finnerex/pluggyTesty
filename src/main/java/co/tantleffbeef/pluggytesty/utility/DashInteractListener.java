@@ -1,8 +1,22 @@
-/* public class DashInteractListener imlpements Listener {
+package co.tantleffbeef.pluggytesty.utility;
+
+import co.tantleffbeef.pluggytesty.utility.Dash;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
+
+public class DashInteractListener implements Listener {
     private Plugin plugin;
 
     public DashInteractListener(Plugin plugin) {
-        this.plugin = plugin
+        this.plugin = plugin;
     }
      private void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
@@ -16,7 +30,7 @@
 
         ItemMeta meta = item.getItemMeta();
 
-        if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(HealingHeart.DASH_LORE))
+        if (meta == null || ((ItemMeta) meta).getLore() == null || !meta.getLore().get(0).equals(Dash.DASH_LORE))
             return;
 
         event.setCancelled(true);
@@ -29,12 +43,11 @@
 
         player.setCooldown(Material.FEATHER, 80);
 
-        plugin.getServer().getScheduler().runTask(plugin, () -> Dash(player));
-
-       private void Dash(Player player) {
+        Dash(player);
+     }
+    private void Dash(Player player) {
         Location location = player.getEyeLocation();
 
-        player.setVelocity(location.getDirection().normalize());
-       }
+        player.setVelocity(location.getDirection().normalize().multiply(2));
     }
-}
+    }
