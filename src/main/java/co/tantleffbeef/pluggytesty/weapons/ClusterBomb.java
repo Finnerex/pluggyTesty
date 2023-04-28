@@ -20,7 +20,7 @@ public class ClusterBomb implements CommandExecutor {
         if (!(commandSender instanceof Player player))
             return false;
 
-        ItemStack proj = new ItemStack(Material.SNOWBALL);
+        ItemStack proj = new ItemStack(Material.COAL_BLOCK);
         ItemMeta meta = proj.getItemMeta();
 
         meta.setDisplayName(ChatColor.RED + "Cluster Bomb");
