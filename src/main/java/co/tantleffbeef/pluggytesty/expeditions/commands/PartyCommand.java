@@ -240,6 +240,37 @@ public class PartyCommand extends BaseCommand {
         partyManager.unregisterParty(party);
     }
 
+    @Subcommand("list")
+    public void onList(@NotNull Player caller) {
+        if (!checkIfSenderInParty(caller))
+            return;
+
+        final var party = partyManager.getPartyWith(caller);
+        assert party != null;
+
+        final var listMessage = new ComponentBuilder("---\n").color(ChatColor.RED)
+                .append("Party Owner: ").color(ChatColor.GOLD)
+                .append(party.partyOwner().getName()).color(ChatColor.YELLOW)
+                .append("\n");
+
+        // Loop through all players in the party and append to
+        // the list message
+        party.getAllPlayers().forEach(player -> {
+            if (player.isOnline())
+                listMessage.append(player.getName()).color(ChatColor.YELLOW)
+                        .append("\n");
+            else
+                listMessage.append(player.getName()).color(ChatColor.RED)
+                        .append("\n");
+        });
+
+        // Send the completed message
+        caller.spigot().sendMessage(
+                listMessage.append("---").color(ChatColor.RED)
+                        .create()
+        );
+    }
+
     private boolean checkIfSenderInParty(@NotNull Player sender) {
         final var party = partyManager.getPartyWith(sender);
         if (party == null) {
