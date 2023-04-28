@@ -56,7 +56,7 @@ public class SummonInteractListener implements Listener {
         float y = (float) playerLocation.getY();
         float z = (float) playerLocation.getZ();
 
-        World world = Objects.requireNonNull(playerLocation.getWorld());
+        final World world = Objects.requireNonNull(playerLocation.getWorld());
 
         ArrayList<Zombie> summons = new ArrayList<>();
 

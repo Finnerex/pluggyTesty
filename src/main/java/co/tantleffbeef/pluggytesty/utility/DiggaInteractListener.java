@@ -14,7 +14,7 @@ import org.bukkit.util.RayTraceResult;
 public class DiggaInteractListener implements Listener {
 
     @EventHandler
-    private void onPlayerInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(PlayerInteractEvent event) {
 
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
@@ -44,7 +44,7 @@ public class DiggaInteractListener implements Listener {
 
         private Block Dig(double range, Location location) {
 
-            World world = location.getWorld();
+            final World world = location.getWorld();
 
             RayTraceResult result = world.rayTraceBlocks(location, location.getDirection() , range, FluidCollisionMode.NEVER);
 

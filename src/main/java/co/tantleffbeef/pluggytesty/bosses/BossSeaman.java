@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Random;
+import java.util.Random;
 
 import java.util.ArrayList;
 
@@ -29,20 +29,24 @@ public class BossSeaman implements CommandExecutor {
             return false;
 
         // spawn seaman with name
-        Drowned seaman = (Drowned) player.getWorld().spawnEntity(player.getLocation(), EntityType.DROWNED, false);
-        World w = seaman.getWorld();
-        seaman.setCustomName(ChatColor.DARK_AQUA + "The Fallen Seaman");
-        seaman.setCustomNameVisible(true);
-        seaman.setPersistent(true);
-        seaman.setAdult(); // hi
-        EntityEquipment equipment = seaman.getEquipment();
-        equipment.setHelmet(new ItemStack(Material.GOLDEN_HELMET));
-        equipment.setChestplate(new ItemStack(Material.GOLDEN_CHESTPLATE));
-        equipment.setLeggings(new ItemStack(Material.GOLDEN_LEGGINGS));
-        equipment.setBoots(new ItemStack(Material.GOLDEN_BOOTS));
-        equipment.setItemInMainHand(new ItemStack(Material.TRIDENT));
-        seaman.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(100);
-        seaman.setHealth(100);
+        Drowned seaman = player.getWorld().spawn(player.getLocation(), Drowned.class, (drowned) -> {
+            drowned.setCustomName(ChatColor.DARK_AQUA + "The Fallen Seaman");
+            drowned.setCustomNameVisible(true);
+            drowned.setPersistent(true);
+            drowned.setAdult(); // hi
+
+            EntityEquipment equipment = drowned.getEquipment();
+            equipment.setHelmet(new ItemStack(Material.GOLDEN_HELMET));
+            equipment.setChestplate(new ItemStack(Material.GOLDEN_CHESTPLATE));
+            equipment.setLeggings(new ItemStack(Material.GOLDEN_LEGGINGS));
+            equipment.setBoots(new ItemStack(Material.GOLDEN_BOOTS));
+            equipment.setItemInMainHand(new ItemStack(Material.TRIDENT));
+
+            drowned.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(100);
+            drowned.setHealth(100);
+        });
+
+        final World w = seaman.getWorld();
 
 
         // ai / attacks??
@@ -57,6 +61,7 @@ public class BossSeaman implements CommandExecutor {
                 w.setStorm(true);
                 w.setThundering(true);
                 w.setWeatherDuration(400);
+
                 if (seaman.isDead()) {
                     w.setStorm(false);
                     w.setThundering(false);
@@ -64,6 +69,7 @@ public class BossSeaman implements CommandExecutor {
                     cancel();
                     return;
                 }
+
                 if(target == null) return;
 
                 if(isDoingStuff) return;
@@ -85,8 +91,7 @@ public class BossSeaman implements CommandExecutor {
                 } else if (attack == 4) { // 8 tridents in 45 degree increments.
                     Vector summonDir = dir.clone();
                     for(int i = 0; i < 8; i++) {
-                        Trident creation = (Trident) seaman.getWorld().spawnEntity(loc, EntityType.TRIDENT);
-                        creation.setVelocity(summonDir.rotateAroundY(45).setY(30));
+                        w.spawn(loc, Trident.class, (trident) -> trident.setVelocity(summonDir.rotateAroundY(45).setY(30)));
                     }
                 } else if (attack == 5) { // Lightning strikes around him and summons normal drowned with turtle shells and speed.
                     Location summonHere = loc.clone().add(new Random().nextInt(10)-5, 0, new Random().nextInt(10)-5);
@@ -94,9 +99,10 @@ public class BossSeaman implements CommandExecutor {
 
                     for(int i = 0; i < 4; i++) {
                         seaman.getWorld().spawnEntity(summonHere, EntityType.LIGHTNING, false);
-                        Drowned minion = (Drowned) seaman.getWorld().spawnEntity(summonHere, EntityType.DROWNED, false);
-                        EntityEquipment mEquip = minion.getEquipment();
-                        mEquip.setHelmet(new ItemStack(Material.TURTLE_HELMET));
+                        w.spawn(summonHere, Drowned.class, (drowned) -> {
+                            EntityEquipment mEquip = drowned.getEquipment();
+                            mEquip.setHelmet(new ItemStack(Material.TURTLE_HELMET));
+                        });
                     }
                 }
             }

@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Random;
+import java.util.Random;
 
 import java.util.ArrayList;
 
@@ -28,21 +28,23 @@ public class BossJawn implements CommandExecutor {
             return false;
 
         // spawn jawn with name
-        Zombie jawn = (Zombie) player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);
-        jawn.setCustomName(ChatColor.DARK_RED + "Jawn The Almighty");
-        jawn.setCustomNameVisible(true);
-        jawn.setPersistent(true);
+        Zombie jawn = player.getWorld().spawn(player.getLocation(), Zombie.class, (zombie) -> {
+            zombie.setCustomName(ChatColor.DARK_RED + "Jawn The Almighty");
+            zombie.setCustomNameVisible(true);
+            zombie.setPersistent(true);
 
-        World w = jawn.getWorld();
+            // armor
+            EntityEquipment equipment = zombie.getEquipment();
+            equipment.setChestplate(new ItemStack(Material.IRON_CHESTPLATE)); // my nuts may produce 'NullPointerException'
+            equipment.setHelmet(new ItemStack(Material.NETHERITE_HELMET));
+            // I guess I don't have to update inventory or nothin
 
-        // armor
-        EntityEquipment equipment = jawn.getEquipment();
-        equipment.setChestplate(new ItemStack(Material.IRON_CHESTPLATE)); // my nuts may produce 'NullPointerException'
-        equipment.setHelmet(new ItemStack(Material.NETHERITE_HELMET));
-        // I guess I don't have to update inventory or nothin
+            zombie.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(300); // dont listen to it, null pointers are fake and made up by the Jet brains conspiracy
+            zombie.setHealth(300);
 
-        jawn.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(300); // dont listen to it, null ponters are fake and made up by the Jet brains conspiracy
-        jawn.setHealth(300);
+        });
+
+        final World w = jawn.getWorld();
 
         // ai / attacks?!?!
         BukkitRunnable runnable = new BukkitRunnable() {
@@ -107,7 +109,7 @@ public class BossJawn implements CommandExecutor {
                     return;
                 }
 
-                World w = l.getWorld();
+                final World w = l.getWorld();
                 Vector d = l.getDirection().setY(0).normalize();
                 Vector pd = d.clone().rotateAroundY(90);
                 Location l2 = l.clone().add(pd.clone().multiply(-4));

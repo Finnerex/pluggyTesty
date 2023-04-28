@@ -32,3 +32,9 @@ commands:
     description: give you heavy armor!!
   summongru:
     description: summons gru
+  summonbouncer:
+    description: summons gavvys special surprise
+  givemeClusterBomb:
+    description: shoots slow moving projecting that explodes into arrows after 4 seconds
+  givemedash:
+    description: Dashes on Right-Click (4 Second Cooldown)
