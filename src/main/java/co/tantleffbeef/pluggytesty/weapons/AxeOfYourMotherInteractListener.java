@@ -83,8 +83,9 @@ public class AxeOfYourMotherInteractListener implements Listener {
         }
 
             location.setX(location.getX() + 2);
-            location.setZ(location.getZ() - 2);
+            location.setZ(location.getZ() + 2);
             for (int i = 0; i < 5; i++) {
+                location.setX(location.getX()+5);
                 for (int j = 0; j < 5; j++) {
                     location.getWorld().spawnParticle(Particle.CLOUD, location, 5/*, location.getBlock().getType().createBlockData()*/);
                     location.setX(location.getX() - 1);
