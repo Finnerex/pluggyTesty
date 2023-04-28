@@ -34,3 +34,5 @@ commands:
     description: summons gru
   summonbouncer:
     description: summons gavvys special surprise
+  givemeClusterBomb:
+    description: shoots slow moving projecting that explodes into arrows after 4 seconds

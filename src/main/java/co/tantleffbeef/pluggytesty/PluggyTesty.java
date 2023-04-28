@@ -81,6 +81,7 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("giveheavyarmor").setExecutor(new HeavyArmor());
         getCommand("summongru").setExecutor(new BossGru(this));
         getCommand("summonbouncer").setExecutor(new BossFireWorker(this));
+        getCommand("givemeClusterBomb").setExecutor(new ClusterBomb());
 
 
         getServer().getPluginManager().registerEvents(new MagicStickInteractListener(), this);
