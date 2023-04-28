@@ -9,30 +9,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
-public class ClusterBomb implements CommandExecutor {
+public class AxeOfYourMother implements CommandExecutor {
 
-    public static final String CB_LORE = "Fires Projectile that Explodes into Arrows";
+    public static final String AOYB_LORE = "Launch Into The Air And Damage Enemies Why You Hit The Ground";
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player player))
             return false;
 
-        ItemStack proj = new ItemStack(Material.COAL_BLOCK);
-        ItemMeta meta = proj.getItemMeta();
+        ItemStack axe = new ItemStack(Material.DIAMOND_AXE);
+        ItemMeta meta = axe.getItemMeta();
 
-        meta.setDisplayName(ChatColor.RED + "Cluster Bomb");
-
+        meta.setDisplayName(ChatColor.AQUA + "Axe of Your Mother");
 
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(CB_LORE);
+        lore.add(AOYB_LORE);
 
         meta.setLore(lore);
 
-        proj.setItemMeta(meta);
-        player.getInventory().addItem(proj);
+        axe.setItemMeta(meta);
+        player.getInventory().addItem(axe);
         player.updateInventory();
 
         return true;
