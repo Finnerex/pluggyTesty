@@ -24,27 +24,27 @@ public class ClusterBombInteractListener implements Listener {
     }
     @EventHandler
     private void onPlayerInteract(PlayerInteractEvent event) {
-        Bukkit.broadcastMessage("event");
+
         if (event.getAction() != Action.RIGHT_CLICK_AIR &&
                 event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 
         ItemStack item = event.getItem();
-        Bukkit.broadcastMessage("Right-Click");
+
         if (item == null || item.getType() != Material.COAL_BLOCK)
             return;
 
         ItemMeta meta = item.getItemMeta();
-        Bukkit.broadcastMessage("Coal Block");
+
         if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(ClusterBomb.CB_LORE))
             return;
-        Bukkit.broadcastMessage("Meta");
+
         event.setCancelled(true);
         Player player = event.getPlayer();
-        Bukkit.broadcastMessage("setCancelled");
+
         if (player.hasCooldown(Material.COAL_BLOCK))
             return;
-        Bukkit.broadcastMessage("Cooldown");
+
         player.playSound(player, Sound.ENTITY_ENDER_PEARL_THROW, 1, 1);
 
         player.setCooldown(Material.COAL_BLOCK, 10);
@@ -55,7 +55,7 @@ public class ClusterBombInteractListener implements Listener {
         pearl.setGravity(false);
         pearl.setVelocity(location.getDirection().normalize());
 
-        Bukkit.broadcastMessage("RTL");
+
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> explode(pearl), 40);
 
     }
