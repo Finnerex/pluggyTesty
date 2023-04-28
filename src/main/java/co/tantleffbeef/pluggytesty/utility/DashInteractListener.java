@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -14,7 +15,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
 public class DashInteractListener implements Listener {
-     private void onPlayerInteract(PlayerInteractEvent event) {
+     @EventHandler
+    private void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
@@ -29,8 +31,6 @@ public class DashInteractListener implements Listener {
         if (meta == null || ((ItemMeta) meta).getLore() == null || !meta.getLore().get(0).equals(Dash.DASH_LORE))
             return;
 
-        event.setCancelled(true);
-
         Player player = event.getPlayer();
 
         if (player.hasCooldown(Material.FEATHER))
@@ -44,6 +44,6 @@ public class DashInteractListener implements Listener {
     private void Dash(Player player) {
         Vector direction = player.getEyeLocation().getDirection();
 
-        player.setVelocity(direction.normalize().multiply(2).add(player.getVelocity()));
+        player.setVelocity(direction.normalize().multiply(4).add(player.getVelocity()));
     }
     }
