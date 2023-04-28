@@ -37,9 +37,9 @@ public class DashInteractListener implements Listener {
             return;
         player.playSound(player, Sound.ENTITY_EGG_THROW, 1, 1);
 
-        player.setCooldown(Material.FEATHER, 80);
-
         Dash(player);
+
+        player.setCooldown(Material.FEATHER, 80);
      }
     private void Dash(Player player) {
         Vector direction = player.getEyeLocation().getDirection();
