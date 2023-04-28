@@ -40,12 +40,12 @@ public class ClusterBombInteractListener implements Listener {
         event.setCancelled(true);
         Player player = event.getPlayer();
 
-        if (player.hasCooldown(Material.BLAZE_ROD))
+        if (player.hasCooldown(Material.SNOWBALL))
             return;
 
         player.playSound(player, Sound.ENTITY_ENDER_PEARL_THROW, 1, 1);
 
-        player.setCooldown(Material.ENDER_PEARL, 10);
+        player.setCooldown(Material.SNOWBALL, 10);
 
         Location location = player.getEyeLocation();
 
