@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class AxeOfYourMother implements CommandExecutor {
 
-    public static final String AOYB_LORE = "Launch Into The Air And Damage Enemies Why You Hit The Ground";
+    public static final String AOYM_LORE = "Launch Into The Air And Damage Enemies Why You Hit The Ground";
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
@@ -27,7 +27,7 @@ public class AxeOfYourMother implements CommandExecutor {
         meta.setDisplayName(ChatColor.AQUA + "Axe of Your Mother");
 
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(AOYB_LORE);
+        lore.add(AOYM_LORE);
 
         meta.setLore(lore);
 

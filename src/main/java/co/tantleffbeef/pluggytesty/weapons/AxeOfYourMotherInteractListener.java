@@ -1,9 +1,6 @@
 package co.tantleffbeef.pluggytesty.weapons;
 
-import co.aikar.commands.BukkitCommandIssuer;
-import co.tantleffbeef.pluggytesty.utility.DashInteractListener;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -25,6 +22,7 @@ public class AxeOfYourMotherInteractListener implements Listener {
     public AxeOfYourMotherInteractListener(Plugin plugin) {
         this.plugin = plugin;
     }
+
     @EventHandler
     private void onPlayerInteract(PlayerInteractEvent event) {
 
@@ -39,7 +37,7 @@ public class AxeOfYourMotherInteractListener implements Listener {
 
         ItemMeta meta = item.getItemMeta();
 
-        if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(AxeOfYourMother.AOYB_LORE))
+        if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(AxeOfYourMother.AOYM_LORE))
             return;
 
         Player player = event.getPlayer();
@@ -56,38 +54,42 @@ public class AxeOfYourMotherInteractListener implements Listener {
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                Location location = player.getLocation().add(new Vector (0, -1,0)).clone();
+                Location location = player.getLocation().add(new Vector(0, -1, 0)).clone();
                 if (!location.getBlock().getType().equals(Material.AIR)) {
-                    AOE(location);
+                    AOE(player);
                     cancel();
                 }
             }
         };
-        runnable.runTaskTimer(plugin, 0, 0);
+        runnable.runTaskTimer(plugin, 10, 0);
 
     }
+
     private void Dash(Player player) {
-        Vector direction = player.getEyeLocation().getDirection();
+        Location location = player.getLocation().clone();
+        location.setPitch(-90);
 
-        player.setVelocity(direction.normalize().multiply(2).add(player.getVelocity()));
+        player.setVelocity(location.getDirection().normalize().multiply(2).add(player.getVelocity()));
     }
-    private void AOE(Location location) {
+
+    private void AOE(Player player) {
+        Location location = player.getLocation();
         ArrayList<Entity> entities = (ArrayList<Entity>) location.getWorld().getNearbyEntities(location, 2.5, 2, 2.5);
 
         for (Entity entity : entities) {
-            if (entity instanceof Damageable damageable)
+            if (entity instanceof Damageable damageable && !entity.equals(player))
                 damageable.damage(7);
 
         }
 
-        location.setX(location.getX()+2);
-        location.setZ(location.getZ()+2);
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                location.getWorld().spawnParticle(Particle.BLOCK_DUST, location, 5, location.getBlock().getType().createBlockData());
-                location.setX(location.getX() - 1);
+            location.setX(location.getX() + 2);
+            location.setZ(location.getZ() + 2);
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 5; j++) {
+                    location.getWorld().spawnParticle(Particle.BLOCK_DUST, location, 5, location.getBlock().getType().createBlockData());
+                    location.setX(location.getX() - 1);
+                }
+                location.setY(location.getY() - 1);
             }
-            location.setY(location.getY() - 1);
         }
     }
-}
