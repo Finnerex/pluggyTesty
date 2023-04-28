@@ -24,6 +24,7 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -52,7 +53,7 @@ public final class PluggyTesty extends JavaPlugin {
         recipeManager = rApi.getRecipeManager();
 
         registerItems();
-        registerRecipes();
+//        registerRecipes();
 
         // Adds all the textures and models in the resources folder to the resource pack
         try (JarFile jar = new JarFile(getFile())) {
@@ -130,15 +131,14 @@ public final class PluggyTesty extends JavaPlugin {
                 }));
     }
 
-    private void registerRecipes() {
-        // TODO: make this require buff shard or whatever
-        final var buffed_lh_key = new NamespacedKey(this, "buffed_leather_helmet");
-        getServer().addRecipe((new ShapelessRecipe(buffed_lh_key, resourceManager.getCustomItemStack(buffed_lh_key))
-                .addIngredient(1, Material.LEATHER_HELMET))
-                .addIngredient(1, Material.NETHERITE_INGOT));
-//        if ()
-        recipeManager.registerUnlockableRecipe(buffed_lh_key, Material.LEATHER_HELMET);
+    public void addRecipe(Material material, Material addedMaterial, String name){
+        var key = new NamespacedKey(this, name);
+        getServer().addRecipe((new ShapelessRecipe(key, resourceManager.getCustomItemStack(key))
+                .addIngredient(1, material))
+                .addIngredient(1, addedMaterial));
+        recipeManager.registerUnlockableRecipe(key, material);
     }
+//   addRecipe();
 
     @Override
     public void onDisable() {
