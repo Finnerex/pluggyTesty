@@ -47,7 +47,7 @@ public class AxeOfYourMotherInteractListener implements Listener {
 
         player.playSound(player, Sound.ENTITY_BAT_TAKEOFF, 1, 1);
 
-        player.setCooldown(Material.DIAMOND_AXE, 300);
+        player.setCooldown(Material.DIAMOND_AXE, 0);
 
         Dash(player);
 
@@ -83,7 +83,7 @@ public class AxeOfYourMotherInteractListener implements Listener {
         }
 
             location.setX(location.getX() + 2);
-            location.setZ(location.getZ() + 2);
+            location.setZ(location.getZ() - 2);
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
                     location.getWorld().spawnParticle(Particle.CLOUD, location, 5/*, location.getBlock().getType().createBlockData()*/);
