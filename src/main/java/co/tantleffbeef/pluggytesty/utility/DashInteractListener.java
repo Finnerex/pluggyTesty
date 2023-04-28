@@ -15,11 +15,10 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
 public class DashInteractListener implements Listener {
-     @EventHandler
+    @EventHandler
     private void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
-        }
 
         ItemStack item = event.getItem();
 
@@ -28,22 +27,24 @@ public class DashInteractListener implements Listener {
 
         ItemMeta meta = item.getItemMeta();
 
-        if (meta == null || ((ItemMeta) meta).getLore() == null || !meta.getLore().get(0).equals(Dash.DASH_LORE))
+        if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(Dash.DASH_LORE))
             return;
 
         Player player = event.getPlayer();
 
         if (player.hasCooldown(Material.FEATHER))
             return;
+
         player.playSound(player, Sound.ENTITY_EGG_THROW, 1, 1);
 
         Dash(player);
 
         player.setCooldown(Material.FEATHER, 80);
-     }
+    }
+
     private void Dash(Player player) {
         Vector direction = player.getEyeLocation().getDirection();
 
         player.setVelocity(direction.normalize().multiply(3).add(player.getVelocity()));
     }
-    }
+}
