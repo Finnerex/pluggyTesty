@@ -13,11 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 public class DashInteractListener implements Listener {
-    private Plugin plugin;
-
-    public DashInteractListener(Plugin plugin) {
-        this.plugin = plugin;
-    }
      private void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
