@@ -247,6 +247,24 @@ public class PartyCommand extends BaseCommand {
         party.removePlayer(player);
     }
 
+    @Subcommand("kickoffline")
+    public void onKickOffline(@NotNull Player caller) {
+        // sender has to be a party owner
+        if (!checkIfSenderInParty(caller))
+            return;
+
+        if (!checkIfSenderPartyOwner(caller))
+            return;
+
+        // Grab the party the player is in
+        final var party = partyManager.getPartyWith(caller);
+        assert party != null;
+        assert party.partyOwner().equals(caller);
+
+        party.getOfflinePlayers()
+                .forEach(party::removePlayer);
+    }
+
     @Subcommand("disband")
     public void onDisband(@NotNull Player caller) {
         // sender has to be a party owner
