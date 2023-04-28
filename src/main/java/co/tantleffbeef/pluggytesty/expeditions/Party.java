@@ -1,6 +1,8 @@
 package co.tantleffbeef.pluggytesty.expeditions;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
@@ -79,6 +81,14 @@ public class Party {
     public void addPlayer(Player player) {
         assert !playerList.contains(player.getUniqueId());
         playerList.add(player.getUniqueId());
+
+        broadcastMessage(
+                new ComponentBuilder("---\n").color(ChatColor.RED)
+                        .append(player.getName()).color(ChatColor.YELLOW)
+                        .append(" has joined the party!\n").color(ChatColor.GOLD)
+                        .append("---").color(ChatColor.RED)
+                        .create()
+        );
     }
 
     /**
@@ -88,7 +98,28 @@ public class Party {
      */
     public void removePlayer(OfflinePlayer player) {
         assert playerList.contains(player.getUniqueId());
+        assert !player.getUniqueId().equals(owner);
+
+        broadcastMessage(
+                new ComponentBuilder("---\n").color(ChatColor.RED)
+                        .append(player.getName()).color(ChatColor.YELLOW)
+                        .append(" has left the party.\n").color(ChatColor.GOLD)
+                        .append("---").color(ChatColor.RED)
+                        .create()
+        );
+
         playerList.remove(player.getUniqueId());
+    }
+
+    public void disband() {
+        broadcastMessage(
+                new ComponentBuilder("---\n").color(ChatColor.RED)
+                        .append("You were removed from the party because it was disbanded.\n").color(ChatColor.GOLD)
+                        .append("---").color(ChatColor.RED)
+                        .create()
+        );
+
+        getAllPlayerIds().forEach(playerList::remove);
     }
 
     /**
