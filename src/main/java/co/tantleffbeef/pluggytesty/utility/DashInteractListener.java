@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Vector;
 
 public class DashInteractListener implements Listener {
      private void onPlayerInteract(PlayerInteractEvent event) {
@@ -41,8 +42,8 @@ public class DashInteractListener implements Listener {
         Dash(player);
      }
     private void Dash(Player player) {
-        Location location = player.getEyeLocation();
+        Vector direction = player.getEyeLocation().getDirection();
 
-        player.setVelocity(location.getDirection().normalize().multiply(2));
+        player.setVelocity(direction.normalize().multiply(2).add(player.getVelocity()));
     }
     }
