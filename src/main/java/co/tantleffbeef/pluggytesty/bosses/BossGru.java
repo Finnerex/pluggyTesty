@@ -27,16 +27,17 @@ public class BossGru implements CommandExecutor {
         if (!(commandSender instanceof Player player))
             return false;
 
-        Villager gru = (Villager) player.getWorld().spawnEntity(player.getLocation(), EntityType.VILLAGER);
-        gru.setProfession(Villager.Profession.ARMORER);
-        gru.setCustomName(ChatColor.LIGHT_PURPLE + "GRUUUUUUU");
-        gru.setCustomNameVisible(true);
-        gru.setPersistent(true);
+        Villager gru = player.getWorld().spawn(player.getLocation(), Villager.class, (villager) -> {
+            villager.setProfession(Villager.Profession.ARMORER);
+            villager.setCustomName(ChatColor.LIGHT_PURPLE + "GRUUUUUUU");
+            villager.setCustomNameVisible(true);
+            villager.setPersistent(true);
+
+            villager.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(500);
+            villager.setHealth(500);
+        });
 
         World w = gru.getWorld();
-
-        gru.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(500);
-        gru.setHealth(500);
 
 
         BukkitRunnable runnable = new BukkitRunnable() {
@@ -52,6 +53,7 @@ public class BossGru implements CommandExecutor {
                     for (int i = 0; i < 15; i++) {
 
                         ((Zombie) w.spawnEntity(eye, EntityType.ZOMBIE)).setBaby();
+
                     }
                     w.playSound(eye, Sound.ENTITY_PLAYER_LEVELUP, 20, 0.1f);
 
@@ -69,19 +71,22 @@ public class BossGru implements CommandExecutor {
                         int rand = new Random().nextInt(10) - 5;
                         Location random = new Location(w, eye.getX() + rand, eye.getY(), eye.getZ() + rand);
 
-                        Zombie swordZombie = (Zombie) w.spawnEntity(random, EntityType.ZOMBIE);
-                        swordZombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(1);
+                        Zombie swordZombie = w.spawn(random, Zombie.class, (zombie) -> {
+                            zombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(1);
+
+                            EntityEquipment equipment = zombie.getEquipment();
+                            equipment.setItemInMainHand(new ItemStack(Material.IRON_SWORD));
+                            equipment.setHelmet(new ItemStack(Material.LEATHER_HELMET));
+                            equipment.setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
+                            equipment.setLeggings(new ItemStack(Material.LEATHER_LEGGINGS));
+                            equipment.setBoots(new ItemStack(Material.LEATHER_BOOTS));
+
+                        });
 
                         LivingEntity target = getNearestEntity(eye, swordZombie);
                         if (target instanceof Player)
                             swordZombie.setTarget(target);
 
-                        EntityEquipment equipment = swordZombie.getEquipment();
-                        equipment.setItemInMainHand(new ItemStack(Material.IRON_SWORD));
-                        equipment.setHelmet(new ItemStack(Material.LEATHER_HELMET));
-                        equipment.setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
-                        equipment.setLeggings(new ItemStack(Material.LEATHER_LEGGINGS));
-                        equipment.setBoots(new ItemStack(Material.LEATHER_BOOTS));
                     }
 
                     prevHealth = currHealth;

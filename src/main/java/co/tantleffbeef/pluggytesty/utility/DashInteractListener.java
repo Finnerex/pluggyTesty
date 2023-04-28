@@ -16,7 +16,7 @@ import org.bukkit.util.Vector;
 
 public class DashInteractListener implements Listener {
     @EventHandler
-    private void onPlayerInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 

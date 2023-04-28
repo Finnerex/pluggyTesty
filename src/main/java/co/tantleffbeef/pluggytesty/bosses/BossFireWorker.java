@@ -28,19 +28,20 @@ public class BossFireWorker implements CommandExecutor {
         World w = player.getWorld();
         Location l = player.getEyeLocation();
 
-        ZombieVillager bouncer = (ZombieVillager) w.spawnEntity(l, EntityType.ZOMBIE_VILLAGER);
-        bouncer.setVillagerType(Villager.Type.SWAMP);
-        bouncer.setVillagerProfession(Villager.Profession.CARTOGRAPHER);
+        ZombieVillager bouncer = w.spawn(l, ZombieVillager.class, (zombieVil) -> {
+            zombieVil.setVillagerType(Villager.Type.SWAMP);
+            zombieVil.setVillagerProfession(Villager.Profession.CARTOGRAPHER);
 
-        bouncer.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(100);
-        bouncer.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.5);
-        bouncer.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(1000);
-        bouncer.setHealth(1000);
+            zombieVil.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(100);
+            zombieVil.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.5);
+            zombieVil.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(1000);
+            zombieVil.setHealth(1000);
 
-        bouncer.setPersistent(true);
+            zombieVil.setPersistent(true);
 
-        bouncer.setCustomName(ChatColor.GREEN + "BOUNCER");
-        bouncer.setCustomNameVisible(true);
+            zombieVil.setCustomName(ChatColor.GREEN + "BOUNCER");
+            zombieVil.setCustomNameVisible(true);
+        });
 
         BukkitRunnable runnable = new BukkitRunnable() {
 
@@ -102,19 +103,20 @@ public class BossFireWorker implements CommandExecutor {
 
                 Location loc = bouncer.getEyeLocation();
 
-                Firework f = (Firework) bouncer.getWorld().spawnEntity(loc, EntityType.FIREWORK);
-                f.setShotAtAngle(true);
-                f.getLocation().setDirection(loc.getDirection().normalize());
-                f.setVelocity(loc.getDirection().multiply(2));
-                f.setBounce(true);
-                f.setShooter(bouncer);
+                bouncer.getWorld().spawn(loc, Firework.class, (f) -> {
+                    f.setShotAtAngle(true);
+                    f.getLocation().setDirection(loc.getDirection().normalize());
+                    f.setVelocity(loc.getDirection().multiply(2));
+                    f.setBounce(true);
+                    f.setShooter(bouncer);
 
-                FireworkMeta meta = f.getFireworkMeta();
+                    FireworkMeta meta = f.getFireworkMeta();
 
-                meta.addEffect(buildFirework());
-                meta.setPower(4);
+                    meta.addEffect(buildFirework());
+                    meta.setPower(4);
 
-                f.setFireworkMeta(meta);
+                    f.setFireworkMeta(meta);
+                });
 
                 loc.getWorld().playSound(loc, Sound.ITEM_CROSSBOW_SHOOT, 1, 1);
 
@@ -145,7 +147,7 @@ public class BossFireWorker implements CommandExecutor {
         BukkitRunnable runnable = new BukkitRunnable() {
 
             int runs = 0;
-            Location l = bouncer.getEyeLocation();
+            Location loc = bouncer.getEyeLocation();
 
             @Override
             public void run() {
@@ -155,23 +157,24 @@ public class BossFireWorker implements CommandExecutor {
                     return;
                 }
 
-                Firework f = (Firework) bouncer.getWorld().spawnEntity(l, EntityType.FIREWORK);
-                f.setShotAtAngle(true);
-                f.getLocation().setDirection(l.getDirection().normalize());
-                f.setVelocity(l.getDirection().multiply(2));
-                f.setBounce(true);
-                f.setShooter(bouncer);
+                bouncer.getWorld().spawn(loc, Firework.class, (f) -> {
+                    f.setShotAtAngle(true);
+                    f.getLocation().setDirection(loc.getDirection().normalize());
+                    f.setVelocity(loc.getDirection().multiply(2));
+                    f.setBounce(true);
+                    f.setShooter(bouncer);
 
-                FireworkMeta meta = f.getFireworkMeta();
+                    FireworkMeta meta = f.getFireworkMeta();
 
-                meta.addEffect(buildFirework());
-                meta.setPower(4);
+                    meta.addEffect(buildFirework());
+                    meta.setPower(4);
 
-                f.setFireworkMeta(meta);
+                    f.setFireworkMeta(meta);
+                });
 
-                l.setYaw(l.getYaw() + 45);
+                loc.setYaw(loc.getYaw() + 45);
 
-                l.getWorld().playSound(l, Sound.BLOCK_DISPENSER_DISPENSE, 1, 1);
+                loc.getWorld().playSound(loc, Sound.BLOCK_DISPENSER_DISPENSE, 1, 1);
 
                 runs++;
 

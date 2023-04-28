@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Dash implements CommandExecutor {
 
-     public static final String DASH_LORE = "Right-Click to Dash";
+    public static final String DASH_LORE = "Right-Click to Dash";
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, String[] args) {

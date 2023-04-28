@@ -28,21 +28,23 @@ public class BossJawn implements CommandExecutor {
             return false;
 
         // spawn jawn with name
-        Zombie jawn = (Zombie) player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);
-        jawn.setCustomName(ChatColor.DARK_RED + "Jawn The Almighty");
-        jawn.setCustomNameVisible(true);
-        jawn.setPersistent(true);
+        Zombie jawn = player.getWorld().spawn(player.getLocation(), Zombie.class, (zombie) -> {
+            zombie.setCustomName(ChatColor.DARK_RED + "Jawn The Almighty");
+            zombie.setCustomNameVisible(true);
+            zombie.setPersistent(true);
+
+            // armor
+            EntityEquipment equipment = zombie.getEquipment();
+            equipment.setChestplate(new ItemStack(Material.IRON_CHESTPLATE)); // my nuts may produce 'NullPointerException'
+            equipment.setHelmet(new ItemStack(Material.NETHERITE_HELMET));
+            // I guess I don't have to update inventory or nothin
+
+            zombie.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(300); // dont listen to it, null pointers are fake and made up by the Jet brains conspiracy
+            zombie.setHealth(300);
+
+        });
 
         World w = jawn.getWorld();
-
-        // armor
-        EntityEquipment equipment = jawn.getEquipment();
-        equipment.setChestplate(new ItemStack(Material.IRON_CHESTPLATE)); // my nuts may produce 'NullPointerException'
-        equipment.setHelmet(new ItemStack(Material.NETHERITE_HELMET));
-        // I guess I don't have to update inventory or nothin
-
-        jawn.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(300); // dont listen to it, null ponters are fake and made up by the Jet brains conspiracy
-        jawn.setHealth(300);
 
         // ai / attacks?!?!
         BukkitRunnable runnable = new BukkitRunnable() {
