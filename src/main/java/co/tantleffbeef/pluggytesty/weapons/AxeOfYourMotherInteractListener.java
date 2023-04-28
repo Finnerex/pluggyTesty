@@ -88,6 +88,7 @@ public class AxeOfYourMotherInteractListener implements Listener {
                 for (int j = 0; j < 5; j++) {
                     location.getWorld().spawnParticle(Particle.BLOCK_DUST, location, 5, location.getBlock().getType().createBlockData());
                     location.setX(location.getX() - 1);
+                    Bukkit.broadcastMessage("particle" + location.toString());
                 }
                 location.setY(location.getY() - 1);
             }
