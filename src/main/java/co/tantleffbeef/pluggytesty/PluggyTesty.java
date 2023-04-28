@@ -137,7 +137,7 @@ public final class PluggyTesty extends JavaPlugin {
         ItemStack leatherHelmet = new ItemStack(Material.LEATHER_HELMET);
         ItemMeta helmetMeta = leatherHelmet.getItemMeta();
 
-        helmetMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+        helmetMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
         var key = NamespacedKey.minecraft("Leather_Helmet");
         getServer().addRecipe(getServer().getRecipe(key));
     }
