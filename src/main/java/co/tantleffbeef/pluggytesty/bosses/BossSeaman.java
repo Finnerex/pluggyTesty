@@ -91,9 +91,7 @@ public class BossSeaman implements CommandExecutor {
                 } else if (attack == 4) { // 8 tridents in 45 degree increments.
                     Vector summonDir = dir.clone();
                     for(int i = 0; i < 8; i++) {
-                        w.spawn(loc, Trident.class, (trident) -> {
-                            trident.setVelocity(summonDir.rotateAroundY(45).setY(30));
-                        });
+                        w.spawn(loc, Trident.class, (trident) -> trident.setVelocity(summonDir.rotateAroundY(45).setY(30)));
                     }
                 } else if (attack == 5) { // Lightning strikes around him and summons normal drowned with turtle shells and speed.
                     Location summonHere = loc.clone().add(new Random().nextInt(10)-5, 0, new Random().nextInt(10)-5);

@@ -47,19 +47,19 @@ public class MagicStickInteractListener implements Listener {
         // get player direction
 
         // summon a fireball in correct direction
-        World fireballWorld = Objects.requireNonNull(playerLocation.getWorld());
-        Fireball fireball = (Fireball) fireballWorld.spawnEntity(
-                playerLocation.add(playerDirection), EntityType.FIREBALL);
+        final World fireballWorld = Objects.requireNonNull(playerLocation.getWorld());
 
-        //change fireballyness
-        fireball.setYield(FIREBALL_STRENGTH);
-        fireball.setIsIncendiary(true);
+        fireballWorld.spawn(playerLocation.add(playerDirection), Fireball.class, (fireball) -> {
+            //change fireballyness
+            fireball.setYield(FIREBALL_STRENGTH);
+            fireball.setIsIncendiary(true);
 
-        float speed = FIREBALL_MINSPEED + new Random().nextFloat() * (FIREBALL_MAXSPEED - FIREBALL_MINSPEED);
-        float spreadY = -0.1f + new Random().nextFloat() * 0.2f;
-        float spreadX = -0.1f + new Random().nextFloat() * 0.2f;
+            float speed = FIREBALL_MINSPEED + new Random().nextFloat() * (FIREBALL_MAXSPEED - FIREBALL_MINSPEED);
+            float spreadY = -0.1f + new Random().nextFloat() * 0.2f;
+            float spreadX = -0.1f + new Random().nextFloat() * 0.2f;
 
-        fireball.setDirection(playerDirection.rotateAroundY(spreadY).rotateAroundX(spreadX).multiply(speed));
+            fireball.setDirection(playerDirection.rotateAroundY(spreadY).rotateAroundX(spreadX).multiply(speed));
+        });
 
         player.setCooldown(Material.STICK, 20);
     }

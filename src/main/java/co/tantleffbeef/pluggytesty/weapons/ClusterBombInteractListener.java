@@ -51,10 +51,10 @@ public class ClusterBombInteractListener implements Listener {
 
         Location location = player.getEyeLocation();
 
-        EnderPearl pearl = (EnderPearl) player.getWorld().spawnEntity(location, EntityType.ENDER_PEARL);
-        pearl.setGravity(false);
-        pearl.setVelocity(location.getDirection().normalize());
-
+        EnderPearl pearl = player.getWorld().spawn(location, EnderPearl.class, (enderPearl) -> {
+            enderPearl.setGravity(false);
+            enderPearl.setVelocity(location.getDirection().normalize());
+        });
 
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> explode(pearl), 40);
 
@@ -66,8 +66,7 @@ public class ClusterBombInteractListener implements Listener {
         pearl.remove();
 
         for (int i = 0; i < 8; i++) {
-            Arrow arrow = (Arrow) location.getWorld().spawnEntity(location, EntityType.ARROW);
-            arrow.setVelocity(location.getDirection().normalize());
+            location.getWorld().spawn(location, Arrow.class, (arrow) -> arrow.setVelocity(location.getDirection().normalize()));
             location.setYaw(location.getYaw() + 45);
         }
 
