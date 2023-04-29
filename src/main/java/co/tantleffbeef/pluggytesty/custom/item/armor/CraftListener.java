@@ -12,11 +12,11 @@ import static org.bukkit.Bukkit.getRecipe;
 
 public class CraftListener implements Listener {
 
-    NamespacedKey key = NamespacedKey.minecraft("minecraft:leather_helmet");
+    NamespacedKey key = NamespacedKey.minecraft("leather_helmet");
 
     @EventHandler
     public void onCraft(CraftItemEvent event) {
-        Bukkit.broadcastMessage("Craft event");
+        Bukkit.broadcastMessage("Craft event" + event.getRecipe());
 
         if (event.getRecipe().equals(getRecipe(key))) {
             Bukkit.broadcastMessage("crafted");
