@@ -66,5 +66,6 @@ public class RandomEffectBowInteractListener implements Listener {
         if (arrow == 5)
             arrow1.addCustomEffect(PotionEffectType.SLOW.createEffect(60, 4), true);
 
+        event.setProjectile(arrow1);
     }
 }
