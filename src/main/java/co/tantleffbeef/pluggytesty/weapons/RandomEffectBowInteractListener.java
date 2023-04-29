@@ -48,23 +48,23 @@ public class RandomEffectBowInteractListener implements Listener {
         if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(RandomEffectBow.REB_LORE))
             return;
 
-        Arrow arrow1 = (Arrow) event.getConsumable();
+        Arrow arrow1 = (Arrow) event.getProjectile();
 
-        int arrow = new Random().nextInt(12);
+        int arrow = new Random().nextInt(6);
 
         // Gavin and Finn are Gonna Get Mad At Me For Hard Coding
         if (arrow == 0)
-            arrow1.addCustomEffect(PotionEffectType.BLINDNESS.createEffect(100, 1), true);
+            arrow1.addCustomEffect(PotionEffectType.BLINDNESS.createEffect(100, 1), false);
         if (arrow == 1)
-            arrow1.addCustomEffect(PotionEffectType.HARM.createEffect(1, 1), true);
+            arrow1.addCustomEffect(PotionEffectType.HARM.createEffect(1, 1), false);
         if (arrow == 2)
-            arrow1.addCustomEffect(PotionEffectType.HARM.createEffect(1, 2), true);
+            arrow1.addCustomEffect(PotionEffectType.HARM.createEffect(1, 2), false);
         if (arrow == 3)
-            arrow1.addCustomEffect(PotionEffectType.POISON.createEffect(100, 1), true);
+            arrow1.addCustomEffect(PotionEffectType.POISON.createEffect(100, 1), false);
         if (arrow == 4)
-            arrow1.addCustomEffect(PotionEffectType.POISON.createEffect(40, 2), true);
+            arrow1.addCustomEffect(PotionEffectType.POISON.createEffect(40, 2), false);
         if (arrow == 5)
-            arrow1.addCustomEffect(PotionEffectType.SLOW.createEffect(60, 4), true);
+            arrow1.addCustomEffect(PotionEffectType.SLOW.createEffect(60, 4), false);
 
         event.setProjectile(arrow1);
     }
