@@ -82,15 +82,17 @@ public class AxeOfYourMotherInteractListener implements Listener {
 
         }
 
-            location.setX(location.getX() + 2);
-            location.setZ(location.getZ() + 2);
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 5; j++) {
-                    location.getWorld().spawnParticle(Particle.BLOCK_DUST, location, 100, location.getBlock().getType().createBlockData());
-                    location.setX(location.getX() - 1);
-                }
-                location.setZ(location.getZ() - 1);
-                location.setX(location.getX()+5);
+        location.getWorld().playSound(location, Sound.BLOCK_ANVIL_LAND, 1, 1);
+
+        location.setX(location.getX() + 2);
+        location.setZ(location.getZ() + 2);
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                location.getWorld().spawnParticle(Particle.CRIT, location, 5);
+                location.setX(location.getX() - 1);
             }
+            location.setZ(location.getZ() - 1);
+            location.setX(location.getX()+5);
         }
     }
+}
