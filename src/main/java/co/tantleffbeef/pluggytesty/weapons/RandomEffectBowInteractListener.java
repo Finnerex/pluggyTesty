@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.weapons;
 
+import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,10 +10,21 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.Random;
 
+
 public class RandomEffectBowInteractListener implements Listener {
 
     @EventHandler
     private void onEntityShootBow(EntityShootBowEvent event) {
+
+        Entity entity = event.getEntity();
+
+        if(!(entity instanceof Player)) {
+            return;
+        }
+
+        Player player = (Player) event.getEntity();
+
+        event.setConsumeItem(false);
 
         if (event.isCancelled())
             return;
@@ -41,5 +53,6 @@ public class RandomEffectBowInteractListener implements Listener {
             arrow1.addCustomEffect(PotionEffectType.SLOW.createEffect(60, 4), false);
 
         event.setProjectile(arrow1);
+        player.getInventory().remove(Material.ARROW);
     }
 }
