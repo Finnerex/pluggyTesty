@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty.custom.item;
+package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
