@@ -6,6 +6,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
+import org.bukkit.inventory.CraftingInventory;
 
 import static org.bukkit.Bukkit.getRecipe;
 
@@ -16,12 +17,13 @@ public class CraftListener implements Listener {
 
     @EventHandler
     public void onCraft(PrepareItemCraftEvent event) {
-        Bukkit.broadcastMessage("Craft event" + getRecipe(key).equals(event.getRecipe()));
+        final CraftingInventory inventory = event.getInventory();
+        Bukkit.broadcastMessage("Craft event");
 
-//        if (event.getRecipe().equals(getRecipe(key))) {
-//            Bukkit.broadcastMessage("crafted");
+        if (inventory.getResult().equals(getRecipe(key).getResult())) {
+            Bukkit.broadcastMessage("crafted");
             event.getInventory().setResult(PluggyTesty.leatherHelmet());
-//        }
+        }
     }
 }
 
