@@ -18,7 +18,7 @@ public class AxeOfYourMotherItemType extends SimpleItemType implements Interacta
     private final Plugin schedulerPlugin;
 
     public AxeOfYourMotherItemType(Plugin namespace, String id, boolean customModel, String name) {
-        super(namespace, id, customModel, name);
+        super(namespace, id, customModel, name, Material.DIAMOND_AXE);
         this.schedulerPlugin = namespace;
     }
 
