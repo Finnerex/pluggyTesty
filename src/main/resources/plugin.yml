@@ -40,3 +40,5 @@ commands:
     description: Dashes on Right-Click (4 Second Cooldown)
   givemeAOYM:
     description: Launches user into the air and does AOE upon impact with the ground
+  givemeBow:
+    description: Random Negative Effect Bow
