@@ -11,6 +11,7 @@ import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.MagicStickItemType;
 import co.tantleffbeef.pluggytesty.custom.item.armor.CraftListener;
+import co.tantleffbeef.pluggytesty.custom.item.weapon.AxeOfYourMotherItemType;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
@@ -18,16 +19,11 @@ import co.tantleffbeef.pluggytesty.utility.*;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import co.tantleffbeef.pluggytesty.weapons.*;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.*;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.util.UUID;
 import java.util.jar.JarFile;
 
 @SuppressWarnings("unused")
@@ -131,6 +127,8 @@ public final class PluggyTesty extends JavaPlugin {
         // Weapons
         resourceManager.registerItem(new MagicStickItemType(this, "magic_stick", false,
                 "Magic Stick"));
+        resourceManager.registerItem(new AxeOfYourMotherItemType(this, "mother_axe", false,
+                ChatColor.AQUA + "Axe of Your Mother"));
     }
 
 
