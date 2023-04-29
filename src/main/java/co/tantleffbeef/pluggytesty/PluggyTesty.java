@@ -15,7 +15,7 @@ import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.utility.*;
-import co.tantleffbeef.pluggytesty.villagers.VillagerTrades;
+import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import co.tantleffbeef.pluggytesty.weapons.*;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.OfflinePlayer;
@@ -118,7 +118,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
 
-        getServer().getPluginManager().registerEvents(new VillagerTrades(), this);
+        getServer().getPluginManager().registerEvents(new VillagerTradesListener(), this);
         getServer().getPluginManager().registerEvents(new CraftListener(), this);
 
 
