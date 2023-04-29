@@ -16,7 +16,7 @@ public class CraftListener implements Listener {
 
     @EventHandler
     public void onCraft(CraftItemEvent event) {
-        Bukkit.broadcastMessage("Craft event" + getRecipe(key));
+        Bukkit.broadcastMessage("Craft event" + getRecipe(key).equals(event.getRecipe()));
 
         if (event.getRecipe().equals(getRecipe(key))) {
             Bukkit.broadcastMessage("crafted");
