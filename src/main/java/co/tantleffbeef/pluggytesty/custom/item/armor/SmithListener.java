@@ -13,17 +13,18 @@ import org.bukkit.inventory.SmithingInventory;
 import static org.bukkit.Bukkit.getRecipe;
 
 
-public class CraftListener implements Listener {
+public class SmithListener implements Listener {
 
-    NamespacedKey key = NamespacedKey.minecraft("diamond_chestplate");
+    NamespacedKey key = NamespacedKey.minecraft("netherite_chestplate");
 
     @EventHandler
     public void onCraft(PrepareItemCraftEvent event) {
-        final CraftingInventory inventory = event.getInventory();
+        final SmithingInventory inventory = (SmithingInventory) event.getInventory();
 
         if (inventory.getResult().equals(getRecipe(key).getResult())) {
-            event.getInventory().setResult(BaseArmor.dC());
+            event.getInventory().setResult(BaseArmor.nC());
         }
     }
 }
+
 
