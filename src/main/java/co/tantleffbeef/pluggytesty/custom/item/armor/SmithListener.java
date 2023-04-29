@@ -22,7 +22,7 @@ public class SmithListener implements Listener {
         final SmithingInventory inventory = (SmithingInventory) event.getInventory();
 
         if (inventory.getResult().equals(getRecipe(key).getResult())) {
-            event.getInventory().setResult(BaseArmor.nC());
+            ((SmithingInventory)event.getInventory()).setResult(BaseArmor.nC());
         }
     }
 }
