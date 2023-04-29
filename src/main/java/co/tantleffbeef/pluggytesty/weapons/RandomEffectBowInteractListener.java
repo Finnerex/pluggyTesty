@@ -5,6 +5,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 
@@ -53,6 +54,6 @@ public class RandomEffectBowInteractListener implements Listener {
             arrow1.addCustomEffect(PotionEffectType.SLOW.createEffect(60, 4), false);
 
         event.setProjectile(arrow1);
-        player.getInventory().remove(Material.ARROW);
+        player.getInventory().removeItem(new ItemStack(Material.ARROW, 1));
     }
 }
