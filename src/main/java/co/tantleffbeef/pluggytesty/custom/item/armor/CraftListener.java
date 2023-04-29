@@ -18,10 +18,10 @@ public class CraftListener implements Listener {
     public void onCraft(CraftItemEvent event) {
         Bukkit.broadcastMessage("Craft event" + getRecipe(key).equals(event.getRecipe()));
 
-        if (event.getRecipe().equals(getRecipe(key))) {
-            Bukkit.broadcastMessage("crafted");
+//        if (event.getRecipe().equals(getRecipe(key))) {
+//            Bukkit.broadcastMessage("crafted");
             event.getInventory().setResult(PluggyTesty.leatherHelmet());
-        }
+//        }
     }
 }
 
