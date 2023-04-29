@@ -15,6 +15,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
 import java.util.Random;
 
 import java.util.ArrayList;
@@ -125,7 +127,7 @@ public class BossJawn implements CommandExecutor {
                     //w.spawnFallingBlock(l2, Material.BEACON.createBlockData());
                     w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
 
-                    ArrayList<Entity> entities = (ArrayList<Entity>) w.getNearbyEntities(l2, 1, 3, 1); // 1b side, 2b height
+                    Collection<Entity> entities = w.getNearbyEntities(l2, 1, 3, 1); // 1b side, 2b height
                     for (Entity e : entities) { // damage all entities in that block space
                         if (!(e instanceof Zombie) && e instanceof Damageable damageable)
                             damageable.damage(4, jawn);

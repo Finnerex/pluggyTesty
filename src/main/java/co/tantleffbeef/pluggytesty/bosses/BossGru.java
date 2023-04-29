@@ -13,6 +13,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
 import java.util.Random;
 
 import java.util.ArrayList;
@@ -101,9 +103,7 @@ public class BossGru implements CommandExecutor {
 
     private LivingEntity getNearestEntity(Location l, Entity entity) {
 
-        ArrayList<Entity> entities = (ArrayList<Entity>) entity.getNearbyEntities(50, 10, 50);
-        if (entities.get(0) == null)
-            return null;
+        Collection<Entity> entities = entity.getNearbyEntities(50, 10, 50);
 
         LivingEntity closest = null;
         double closestDist = -1;
