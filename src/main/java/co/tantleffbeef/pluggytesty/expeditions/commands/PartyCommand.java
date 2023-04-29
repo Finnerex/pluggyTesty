@@ -210,20 +210,16 @@ public class PartyCommand extends BaseCommand {
                     .filter(party -> party.partyOwner().getUniqueId().equals(partyOwner.getUniqueId()))
                     .findAny();
 
-            if (invite.isPresent())
+            if (invite.isPresent()) {
                 acceptParty(caller, invite.get());
+                inviteList.remove(invite.get());
+            }
             else
-                caller.sendMessage(NO_INVITES_MSG);
+                caller.sendMessage(ChatColor.RED + "That player hasn't invited you to a party!");
         }
 
         private void acceptParty(Player accepter, Party partyToJoin) {
             partyToJoin.addPlayer(accepter);
-            partyToJoin.broadcastMessage(
-                    new ComponentBuilder("\n")
-                            .append(accepter.getDisplayName()).color(ChatColor.YELLOW)
-                            .append(" has joined the party!\n").color(ChatColor.GOLD)
-                            .create()
-            );
         }
     }
 
@@ -302,8 +298,9 @@ public class PartyCommand extends BaseCommand {
 
         // Loop through all players in the party and append to
         // the list message
+        final var partyOwnerUUID = party.partyOwner().getUniqueId();
         party.getAllPlayers().forEach(player -> {
-            if (player.getUniqueId().equals(caller.getUniqueId()))
+            if (player.getUniqueId().equals(partyOwnerUUID))
                 return;
 
             if (player.isOnline())
