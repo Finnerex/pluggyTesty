@@ -57,6 +57,7 @@ public class AxeOfYourMotherInteractListener implements Listener {
                 Location location = player.getLocation().add(new Vector(0, -1, 0)).clone();
                 if (!location.getBlock().getType().equals(Material.AIR)) {
                     AOE(player);
+                    player.setFallDistance(0);
                     cancel();
                 }
             }
