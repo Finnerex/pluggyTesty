@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class EntityEffectListener implements Listener {
@@ -22,7 +23,10 @@ public class EntityEffectListener implements Listener {
         if (ArmorEquipListener.effectMap.get(player.getUniqueId()) != ArmorEffectType.NIGHT_VISION)
             return;
 
-        Bukkit.broadcastMessage("has effect" + event.getNewEffect().toString());
+        PotionEffectType effect = event.getNewEffect().getType();
+        Bukkit.broadcastMessage("has effect");
+        Bukkit.broadcastMessage("blind " + (effect == PotionEffectType.BLINDNESS));
+        Bukkit.broadcastMessage("dark " + (effect == PotionEffectType.DARKNESS));
 
         if (event.getNewEffect().getType() == PotionEffectType.BLINDNESS || event.getNewEffect().getType() == PotionEffectType.DARKNESS) {
             Bukkit.broadcastMessage("blind or dark");
