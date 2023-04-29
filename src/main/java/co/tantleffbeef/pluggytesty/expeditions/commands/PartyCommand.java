@@ -152,6 +152,8 @@ public class PartyCommand extends BaseCommand {
                             .append(" has expired.\n").color(ChatColor.GOLD)
                             .create()
             );
+
+            partyCheck(inviteParty);
         }, 20L * expirationTimeSeconds);
     }
 
@@ -245,6 +247,7 @@ public class PartyCommand extends BaseCommand {
         final var party = partyManager.getPartyWith(caller);
         assert party != null;
         party.removePlayer(player, Party.RemovalReason.KICKED);
+        partyCheck(party);
     }
 
     @Subcommand("kickoffline")
@@ -263,6 +266,8 @@ public class PartyCommand extends BaseCommand {
 
         party.getOfflinePlayers()
                 .forEach(p -> party.removePlayer(p, Party.RemovalReason.KICKED_OFFLINE));
+
+        partyCheck(party);
     }
 
     @Subcommand("disband")
@@ -318,7 +323,25 @@ public class PartyCommand extends BaseCommand {
         );
     }
 
-    private void checkParty(@NotNull Party party) {
+    @Subcommand("leave")
+    public void onLeave(@NotNull Player caller) {
+        if (!checkIfSenderInParty(caller)) {
+            return;
+        }
+
+        final var party = partyManager.getPartyWith(caller);
+        assert party != null;
+
+        if (party.partyOwner().getUniqueId().equals(caller.getUniqueId())) {
+            caller.sendMessage(ChatColor.RED + "You can't leave your own party! Try /party leave");
+            return;
+        }
+
+        party.removePlayer(caller, Party.RemovalReason.PLAYER_LEFT);
+        partyCheck(party);
+    }
+
+    private void partyCheck(@NotNull Party party) {
         if (party.getAllPlayerIds().size() <= 1) {
             party.disband();
             partyManager.unregisterParty(party);
