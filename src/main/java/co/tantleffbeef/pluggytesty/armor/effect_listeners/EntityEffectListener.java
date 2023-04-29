@@ -22,7 +22,7 @@ public class EntityEffectListener implements Listener {
         if (ArmorEquipListener.effectMap.get(player.getUniqueId()) != ArmorEffectType.NIGHT_VISION)
             return;
 
-        Bukkit.broadcastMessage("has effect");
+        Bukkit.broadcastMessage("has effect" + event.getNewEffect().toString());
 
         if (event.getNewEffect().getType() == PotionEffectType.BLINDNESS || event.getNewEffect().getType() == PotionEffectType.DARKNESS) {
             Bukkit.broadcastMessage("blind or dark");
