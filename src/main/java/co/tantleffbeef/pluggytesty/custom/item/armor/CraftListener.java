@@ -12,7 +12,7 @@ import static org.bukkit.Bukkit.getRecipe;
 
 public class CraftListener implements Listener {
 
-    NamespacedKey key = NamespacedKey.minecraft("Leather_Helmet");
+    NamespacedKey key = NamespacedKey.minecraft("leather_helmet");
 
     @EventHandler
     public void onCraft(CraftItemEvent event) {
