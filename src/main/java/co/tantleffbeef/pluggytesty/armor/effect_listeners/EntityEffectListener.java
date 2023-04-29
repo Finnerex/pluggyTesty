@@ -29,9 +29,9 @@ public class EntityEffectListener implements Listener {
         Bukkit.broadcastMessage("dark " + (effect.equals(PotionEffectType.DARKNESS)) + player.hasPotionEffect(PotionEffectType.DARKNESS));
 
 //
-        if (event.getNewEffect().getType() == PotionEffectType.BLINDNESS || event.getNewEffect().getType() == PotionEffectType.DARKNESS) {
+        if (effect.equals(PotionEffectType.BLINDNESS) || effect.equals(PotionEffectType.DARKNESS)) {
             Bukkit.broadcastMessage("blind or dark");
-            //event.setCancelled(true);
+            event.setCancelled(true);
         }
     }
 
