@@ -131,23 +131,6 @@ public final class PluggyTesty extends JavaPlugin {
                 "Magic Stick"));
     }
 
-    public static ItemStack leatherHelmet(){
-        ItemStack leatherHelmet = new ItemStack(Material.LEATHER_HELMET);
-        ItemMeta helmetMeta = leatherHelmet.getItemMeta();
-        helmetMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
-        leatherHelmet.setItemMeta(helmetMeta);
-
-        return leatherHelmet;
-    }
-
-
-//    public void addRecipe(Material material, Material addedMaterial, String name){
-//        var key = NamespacedKey.minecraft(name);
-//        getServer().addRecipe((new ShapelessRecipe(key, resourceManager.getCustomItemStack(key))
-//                .addIngredient(1, material))
-//                .addIngredient(1, addedMaterial));
-//        recipeManager.registerUnlockableRecipe(key, material);
-//    }
 
     @Override
     public void onDisable() {
