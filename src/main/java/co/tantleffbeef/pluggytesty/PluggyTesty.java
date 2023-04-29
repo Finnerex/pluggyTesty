@@ -114,6 +114,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ExpChangeListener(), this);
         getServer().getPluginManager().registerEvents(new FallDamageListener(), this);
         getServer().getPluginManager().registerEvents(new DamageEffectListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityEffectListener(), this);
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
 
