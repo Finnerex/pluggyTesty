@@ -50,7 +50,7 @@ public class RandomEffectBowInteractListener implements Listener {
 
         Arrow arrow1 = (Arrow) event.getProjectile();
 
-        int arrow = new Random().nextInt(6);
+        int arrow = new Random().nextInt(12);
 
         // Gavin and Finn are Gonna Get Mad At Me For Hard Coding
         if (arrow == 0)
