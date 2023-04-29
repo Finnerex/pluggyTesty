@@ -6,21 +6,20 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.w3c.dom.events.Event;
 
 import static org.bukkit.Bukkit.getRecipe;
 
 
-public class ArmorCraft implements Listener {
+public class CraftListener implements Listener {
 
     NamespacedKey key = NamespacedKey.minecraft("Leather_Helmet");
 
     @EventHandler
-    public void OnCraft(CraftItemEvent event) {
+    public void onCraft(CraftItemEvent event) {
+        Bukkit.broadcastMessage("Craft event");
 
         if (event.getRecipe().equals(getRecipe(key))) {
-            event.getInventory().setResult(PluggyTesty.LeatherHelmet());
+            event.getInventory().setResult(PluggyTesty.leatherHelmet());
         }
     }
 }
