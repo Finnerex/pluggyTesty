@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.custom.item.armor;
 
+import co.tantleffbeef.pluggytesty.PluggyTesty;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
@@ -16,10 +17,10 @@ public class ArmorCraft implements Listener {
     NamespacedKey key = NamespacedKey.minecraft("Leather_Helmet");
 
     @EventHandler
-    public void Craft(PrepareItemCraftEvent event) {
+    public void OnCraft(CraftItemEvent event) {
 
         if (event.getRecipe().equals(getRecipe(key))) {
-            CraftItemEvent Item = new CraftItemEvent(getRecipe(key), event.getView(), InventoryType.SlotType.RESULT, 0, ClickType.LEFT, InventoryAction.PICKUP_ALL);
+            event.getInventory().setResult(PluggyTesty.LeatherHelmet());
         }
     }
 }
