@@ -15,7 +15,7 @@ public class CraftListener implements Listener {
     NamespacedKey key = NamespacedKey.minecraft("leather_helmet");
 
     @EventHandler
-    public void onCraft(CraftItemEvent event) {
+    public void onCraft(PrepareItemCraftEvent event) {
         Bukkit.broadcastMessage("Craft event" + getRecipe(key).equals(event.getRecipe()));
 
 //        if (event.getRecipe().equals(getRecipe(key))) {
