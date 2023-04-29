@@ -10,7 +10,7 @@ import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.MagicStickItemType;
-import co.tantleffbeef.pluggytesty.custom.item.armor.CustomItemArmorType;
+import co.tantleffbeef.pluggytesty.custom.item.armor.ArmorCraft;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
@@ -23,10 +23,8 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -124,6 +122,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
 
         getServer().getPluginManager().registerEvents(new VillagerTrades(), this);
+        getServer().getPluginManager().registerEvents(new ArmorCraft(), this);
 
 
         ArmorEquipEvent.registerListener(this);
@@ -141,7 +140,6 @@ public final class PluggyTesty extends JavaPlugin {
 
         helmetMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
         var key = NamespacedKey.minecraft("Leather_Helmet");
-        getServer().addRecipe(getServer().getRecipe(key));
     }
 
 //    public void addRecipe(Material material, Material addedMaterial, String name){
