@@ -47,7 +47,7 @@ public class AxeOfYourMotherInteractListener implements Listener {
 
         player.playSound(player, Sound.ENTITY_BAT_TAKEOFF, 1, 1);
 
-        player.setCooldown(Material.DIAMOND_AXE, 0);
+        player.setCooldown(Material.DIAMOND_AXE, 300);
 
         Dash(player);
 
