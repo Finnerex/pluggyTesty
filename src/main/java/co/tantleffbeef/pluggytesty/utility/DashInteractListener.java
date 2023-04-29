@@ -45,6 +45,6 @@ public class DashInteractListener implements Listener {
     private void Dash(Player player) {
         Vector direction = player.getEyeLocation().getDirection();
 
-        player.setVelocity(direction.normalize().multiply(3).add(player.getVelocity()));
+        player.setVelocity(direction.normalize().multiply(2).add(player.getVelocity()));
     }
 }

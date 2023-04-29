@@ -24,10 +24,13 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -96,6 +99,7 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("summonbouncer").setExecutor(new BossFireWorker(this));
         getCommand("givemeClusterBomb").setExecutor(new ClusterBomb());
         getCommand("givemedash").setExecutor(new Dash());
+        getCommand("givemeAOYB").setExecutor(new AxeOfYourMother());
 
 
         getServer().getPluginManager().registerEvents(new MagicStickInteractListener(), this);
@@ -109,6 +113,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GoerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new LauncherInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new ClusterBombInteractListener(this), this);
+        getServer().getPluginManager().registerEvents(new AxeOfYourMotherInteractListener(this), this);
 
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
         getServer().getPluginManager().registerEvents(new BowShootListener(), this);
@@ -128,29 +133,24 @@ public final class PluggyTesty extends JavaPlugin {
         // Weapons
         resourceManager.registerItem(new MagicStickItemType(this, "magic_stick", false,
                 "Magic Stick"));
-
-        // Armor
-        resourceManager.registerItem(new CustomItemArmorType(this, "buffed_leather_helmet",
-                Material.LEATHER_HELMET,
-                true,
-                "Buffed Leather Helmet",
-                itemMeta -> {
-            itemMeta.addAttributeModifier(
-                    Attribute.GENERIC_ARMOR,
-                    new AttributeModifier(UUID.randomUUID(), "pluggyTesty", 2,
-                            AttributeModifier.Operation.ADD_NUMBER,
-                        EquipmentSlot.HEAD));
-                }));
     }
 
-    public void addRecipe(Material material, Material addedMaterial, String name){
-        var key = new NamespacedKey(this, name);
-        getServer().addRecipe((new ShapelessRecipe(key, resourceManager.getCustomItemStack(key))
-                .addIngredient(1, material))
-                .addIngredient(1, addedMaterial));
-        recipeManager.registerUnlockableRecipe(key, material);
+    public void LeatherHelmet(){
+        ItemStack leatherHelmet = new ItemStack(Material.LEATHER_HELMET);
+        ItemMeta helmetMeta = leatherHelmet.getItemMeta();
+
+        helmetMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+        var key = NamespacedKey.minecraft("Leather_Helmet");
+        getServer().addRecipe(getServer().getRecipe(key));
     }
-//   addRecipe();
+
+//    public void addRecipe(Material material, Material addedMaterial, String name){
+//        var key = NamespacedKey.minecraft(name);
+//        getServer().addRecipe((new ShapelessRecipe(key, resourceManager.getCustomItemStack(key))
+//                .addIngredient(1, material))
+//                .addIngredient(1, addedMaterial));
+//        recipeManager.registerUnlockableRecipe(key, material);
+//    }
 
     @Override
     public void onDisable() {
