@@ -75,7 +75,6 @@ public final class PluggyTesty extends JavaPlugin {
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
 
-        getCommand("givemerod").setExecutor(new BoltRod());
         getCommand("givemepole").setExecutor(new FrostPole());
         getCommand("givemeheal").setExecutor(new HealingHeart());
         //getCommand("givemesummon").setExecutor(new Summon());
@@ -90,11 +89,9 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("summonbouncer").setExecutor(new BossFireWorker(this));
         getCommand("givemeClusterBomb").setExecutor(new ClusterBomb());
         getCommand("givemedash").setExecutor(new Dash());
-        //getCommand("givemeAOYM").setExecutor(new AxeOfYourMother());
         getCommand("givemeBow").setExecutor(new RandomEffectBow());
 
 
-        getServer().getPluginManager().registerEvents(new BoltRodInteractListener(), this);
         getServer().getPluginManager().registerEvents(new FrostPoleInteractListener(), this);
         getServer().getPluginManager().registerEvents(new HealingHeartInteractListener(this), this);
         //getServer().getPluginManager().registerEvents(new SummonInteractListener(this), this);
