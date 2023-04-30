@@ -15,11 +15,11 @@ public class SmithListener implements Listener {
     NamespacedKey key = NamespacedKey.minecraft("netherite_chestplate");
 
     @EventHandler
-    public void onCraft(PrepareItemCraftEvent event) {
-        final SmithingInventory inventory = (SmithingInventory) event.getInventory();
+    public void onCraft(PrepareSmithingEvent event) {
+        final SmithingInventory inventory = event.getInventory();
 
         if (inventory.getResult().equals(getRecipe(key).getResult())) {
-            ((SmithingInventory)event.getInventory()).setResult(BaseArmor.nC());
+            event.getInventory().setResult(BaseArmor.nC());
         }
     }
 }

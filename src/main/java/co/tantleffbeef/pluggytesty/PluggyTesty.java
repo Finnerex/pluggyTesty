@@ -9,6 +9,7 @@ import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.bosses.*;
+import co.tantleffbeef.pluggytesty.custom.item.armor.SmithListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.BoltRodItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.MagicStickItemType;
 import co.tantleffbeef.pluggytesty.custom.item.armor.CraftListener;
@@ -114,6 +115,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new VillagerTradesListener(), this);
         getServer().getPluginManager().registerEvents(new CraftListener(), this);
+        getServer().getPluginManager().registerEvents(new SmithListener(), this);
 
 
         ArmorEquipEvent.registerListener(this);
