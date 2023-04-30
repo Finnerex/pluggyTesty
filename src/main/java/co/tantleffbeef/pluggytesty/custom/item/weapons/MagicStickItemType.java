@@ -28,9 +28,9 @@ public final class MagicStickItemType extends SimpleItemType implements Interact
     }
 
     @Override
-    public void interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
+    public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
         if (player.hasCooldown(Material.STICK))
-            return;
+            return false;
 
         Location playerLocation = player.getEyeLocation();
         Vector playerDirection = playerLocation.getDirection().normalize();
@@ -52,5 +52,7 @@ public final class MagicStickItemType extends SimpleItemType implements Interact
         fireball.setDirection(playerDirection.rotateAroundY(spreadY).rotateAroundX(spreadX).multiply(speed));
 
         player.setCooldown(Material.STICK, 20);
+
+        return false;
     }
 }

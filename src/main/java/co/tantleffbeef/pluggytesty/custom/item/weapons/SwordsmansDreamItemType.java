@@ -26,8 +26,8 @@ public class SwordsmansDreamItemType extends SimpleItemType implements Interacta
     }
 
     @Override
-    public void interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
-        if (player.hasCooldown(Material.IRON_SWORD)) return;
+    public boolean interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
+        if (player.hasCooldown(Material.IRON_SWORD)) return false;
 
         final World world = player.getWorld();
 
@@ -67,5 +67,7 @@ public class SwordsmansDreamItemType extends SimpleItemType implements Interacta
 
             runnable.runTaskTimer(schedulerPlugin, 0, 1);
         }
+
+        return false;
     }
 }

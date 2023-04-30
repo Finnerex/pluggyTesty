@@ -37,9 +37,9 @@ public class BoltRodItemType extends SimpleItemType implements InteractableItemT
     }
 
     @Override
-    public void interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
+    public boolean interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
         if (player.hasCooldown(Material.BLAZE_ROD))
-            return;
+            return false;
 
         Damageable hitEntity = (Damageable) shootBolt(3.5f, player.getEyeLocation());
         if (hitEntity != null)
@@ -48,6 +48,8 @@ public class BoltRodItemType extends SimpleItemType implements InteractableItemT
         player.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
 
         player.setCooldown(Material.BLAZE_ROD, 5);
+
+        return false;
     }
 
     private Entity shootBolt(float range, Location location) {

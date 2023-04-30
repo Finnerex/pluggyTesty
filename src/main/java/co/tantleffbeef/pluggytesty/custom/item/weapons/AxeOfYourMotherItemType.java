@@ -23,9 +23,9 @@ public class AxeOfYourMotherItemType extends SimpleItemType implements Interacta
     }
 
     @Override
-    public void interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
+    public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
         if (player.hasCooldown(Material.DIAMOND_AXE))
-            return;
+            return false;
 
         player.playSound(player, Sound.ENTITY_BAT_TAKEOFF, 1, 1);
 
@@ -45,6 +45,8 @@ public class AxeOfYourMotherItemType extends SimpleItemType implements Interacta
             }
         };
         runnable.runTaskTimer(schedulerPlugin, 10, 0);
+
+        return false;
     }
 
     private void dash(Player player) {

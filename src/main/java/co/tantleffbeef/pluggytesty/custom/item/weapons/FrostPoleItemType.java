@@ -29,8 +29,8 @@ public class FrostPoleItemType extends SimpleItemType implements InteractableIte
     }
 
     @Override
-    public void interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
-        if (player.hasCooldown(Material.SOUL_TORCH)) return;
+    public boolean interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
+        if (player.hasCooldown(Material.SOUL_TORCH)) return true;
 
         player.setCooldown(Material.SOUL_TORCH, 5);
         player.playSound(player, Sound.ENTITY_PLAYER_HURT_FREEZE, 1, 1);
@@ -40,6 +40,8 @@ public class FrostPoleItemType extends SimpleItemType implements InteractableIte
 
         if (target != null)
             target.setFreezeTicks(260);
+
+        return true;
     }
 
     private Entity shootBolt(float r, Player p) {

@@ -22,9 +22,9 @@ public class HealingHeartItemType extends SimpleItemType implements Interactable
     }
 
     @Override
-    public void interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
+    public boolean interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
         if (player.hasCooldown(Material.REDSTONE))
-            return;
+            return true;
 
         int amount = item.getAmount();
         // make runnable at beginning, if charge has not incremented in x ticks, heal and reset
@@ -60,6 +60,8 @@ public class HealingHeartItemType extends SimpleItemType implements Interactable
 
         item.setAmount(Math.min(amount + 1, 10)); //every tick(s) it is held for, max 60
         player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 1, 1 + item.getAmount() * 0.01f);
+
+        return true;
     }
 
     private void heal(Player player, ItemStack item) {

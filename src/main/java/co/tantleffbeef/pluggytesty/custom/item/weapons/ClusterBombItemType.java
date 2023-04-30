@@ -25,10 +25,10 @@ public class ClusterBombItemType extends SimpleItemType implements InteractableI
     }
 
     @Override
-    public void interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
+    public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
 
         if (player.hasCooldown(Material.COAL_BLOCK))
-            return;
+            return true;
 
         player.playSound(player, Sound.ENTITY_ENDER_PEARL_THROW, 1, 1);
 
@@ -42,6 +42,8 @@ public class ClusterBombItemType extends SimpleItemType implements InteractableI
         });
 
         schedulerPlugin.getServer().getScheduler().runTaskLater(schedulerPlugin, () -> explode(pearl), 40);
+
+        return true;
     }
     private void explode(EnderPearl pearl) {
         Location location = pearl.getLocation();

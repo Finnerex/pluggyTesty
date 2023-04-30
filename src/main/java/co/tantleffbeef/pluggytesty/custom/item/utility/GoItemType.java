@@ -17,13 +17,15 @@ public class GoItemType extends SimpleItemType implements InteractableItemType {
     }
 
     @Override
-    public void interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
+    public boolean interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
         if (player.hasCooldown(Material.LEATHER))
-            return;
+            return false;
 
         Vector direction = player.getEyeLocation().getDirection().normalize();
         player.setVelocity(direction.multiply(2).add(player.getVelocity()));
 
         player.setCooldown(Material.LEATHER, 0);
+
+        return false;
     }
 }
