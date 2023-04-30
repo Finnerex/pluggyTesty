@@ -77,7 +77,6 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("givemeheal").setExecutor(new HealingHeart());
         //getCommand("givemesummon").setExecutor(new Summon());
         getCommand("givemed").setExecutor(new Digga());
-        getCommand("givemesword").setExecutor(new SwordsmansDream());
         getCommand("givemego").setExecutor(new Goer());
         getCommand("givemecock").setExecutor((new Launcher()));
         getCommand("summonjawn").setExecutor(new BossJawn(this));
@@ -93,7 +92,6 @@ public final class PluggyTesty extends JavaPlugin {
         //getServer().getPluginManager().registerEvents(new SummonInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new DashInteractListener(), this);
         getServer().getPluginManager().registerEvents(new DiggaInteractListener(), this);
-        getServer().getPluginManager().registerEvents(new SwordsmansDreamInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new GoerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new LauncherInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(), this);
@@ -122,6 +120,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new BoltRodItemType(this, "bolt_rod", false, "Bolt Rod"));
         resourceManager.registerItem(new ClusterBombItemType(this, "cluster_bomb", false, "Cluster Bomb"));
         resourceManager.registerItem(new FrostPoleItemType(this, "frost_pole", false, ChatColor.AQUA + "Frost Pole"));
+        resourceManager.registerItem(new SwordsmansDreamItemType(this, "swordsmans_dream", false, ChatColor.AQUA + "Swordsmans Dream"));
     }
 
 
