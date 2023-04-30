@@ -5,6 +5,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.SmithingInventory;
 
 import static org.bukkit.Bukkit.getRecipe;
@@ -17,6 +18,7 @@ public class SmithListener implements Listener {
     @EventHandler
     public void onCraft(PrepareSmithingEvent event) {
         final SmithingInventory inventory = event.getInventory();
+        final ItemStack result = inventory.getResult();
 
         if (result != null && result.equals(getRecipe(key).getResult())) {
             event.getInventory().setResult(BaseArmor.nC());
