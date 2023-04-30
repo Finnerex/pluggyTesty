@@ -66,9 +66,9 @@ public class CraftListener implements Listener {
 //        if (result.equals(getRecipe(NamespacedKey.minecraft("golden_leggings")).getResult())) {
 //            event.getInventory().setResult(BaseArmor.gL());
 //        }
-//        if (result.equals(getRecipe(NamespacedKey.minecraft("golden_boots")).getResult())) {
-//            event.getInventory().setResult(BaseArmor.gB());
-//        }
+        if (result.equals(getRecipe(NamespacedKey.minecraft("golden_boots")).getResult())) {
+            event.getInventory().setResult(BaseArmor.gB());
+        }
         if (result.equals(getRecipe(NamespacedKey.minecraft("diamond_helmet")).getResult())) {
             event.getInventory().setResult(BaseArmor.dH());
         }
