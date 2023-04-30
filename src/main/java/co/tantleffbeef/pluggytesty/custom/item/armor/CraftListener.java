@@ -35,27 +35,27 @@ public class CraftListener implements Listener {
 //        if (result.equals(getRecipe(NamespacedKey.minecraft("leather_boots")).getResult())) {
 //            event.getInventory().setResult(BaseArmor.lB());
 //        }
-//        if (result.equals(getRecipe(NamespacedKey.minecraft("chainmail_helmet")).getResult())) {
-//            event.getInventory().setResult(BaseArmor.cH());
-//        }
-//        if (result.equals(getRecipe(NamespacedKey.minecraft("chainmail_chestplate")).getResult())) {
-//            event.getInventory().setResult(BaseArmor.cC());
-//        }
-//        if (result.equals(getRecipe(NamespacedKey.minecraft("chainmail_leggings")).getResult())) {
-//            event.getInventory().setResult(BaseArmor.cL());
-//        }
-//        if (result.equals(getRecipe(NamespacedKey.minecraft("chainmail_boots")).getResult())) {
-//            event.getInventory().setResult(BaseArmor.cB());
-//        }
-//        if (result.equals(getRecipe(NamespacedKey.minecraft("iron_helmet")).getResult())) {
-//            event.getInventory().setResult(BaseArmor.iH());
-//        }
-//        if (result.equals(getRecipe(NamespacedKey.minecraft("iron_chestplate")).getResult())) {
-//            event.getInventory().setResult(BaseArmor.iC());
-//        }
-//        if (result.equals(getRecipe(NamespacedKey.minecraft("iron_leggings")).getResult())) {
-//            event.getInventory().setResult(BaseArmor.iL());
-//        }
+        if (result.equals(getRecipe(NamespacedKey.minecraft("chainmail_helmet")).getResult())) {
+            event.getInventory().setResult(BaseArmor.cH());
+        }
+        if (result.equals(getRecipe(NamespacedKey.minecraft("chainmail_chestplate")).getResult())) {
+            event.getInventory().setResult(BaseArmor.cC());
+        }
+        if (result.equals(getRecipe(NamespacedKey.minecraft("chainmail_leggings")).getResult())) {
+            event.getInventory().setResult(BaseArmor.cL());
+        }
+        if (result.equals(getRecipe(NamespacedKey.minecraft("chainmail_boots")).getResult())) {
+            event.getInventory().setResult(BaseArmor.cB());
+        }
+        if (result.equals(getRecipe(NamespacedKey.minecraft("iron_helmet")).getResult())) {
+            event.getInventory().setResult(BaseArmor.iH());
+        }
+        if (result.equals(getRecipe(NamespacedKey.minecraft("iron_chestplate")).getResult())) {
+            event.getInventory().setResult(BaseArmor.iC());
+        }
+        if (result.equals(getRecipe(NamespacedKey.minecraft("iron_leggings")).getResult())) {
+            event.getInventory().setResult(BaseArmor.iL());
+        }
         if (result.equals(Objects.requireNonNull(getRecipe(NamespacedKey.minecraft("iron_boots"))).getResult())) {
             event.getInventory().setResult(BaseArmor.iB());
         }
