@@ -38,6 +38,7 @@ public final class PluggyTesty extends JavaPlugin {
         getLogger().info("penis hahaha");
 
         getLogger().info("grabbing resource manager");
+        getLogger().info("poopie steam machine");
         final var rApiProvider = getServer().getServicesManager().getRegistration(ResourceApi.class);
         if (rApiProvider == null)
             throw new RuntimeException("Can't find ResourceApi!");
