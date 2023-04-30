@@ -1,5 +1,9 @@
-package co.tantleffbeef.pluggytesty.weapons;
+package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
+import co.tantleffbeef.mcplanes.CustomNbtKey;
+import co.tantleffbeef.mcplanes.KeyManager;
+import co.tantleffbeef.mcplanes.ResourceManager;
+import co.tantleffbeef.pluggytesty.weapons.RandomEffectBow;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -8,11 +12,20 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
 
 public class RandomEffectBowInteractListener implements Listener {
+
+    private final KeyManager<CustomNbtKey> keyManager;
+    private final ResourceManager resourceManager;
+
+    public RandomEffectBowInteractListener(@NotNull KeyManager<CustomNbtKey> keyManager, @NotNull ResourceManager resourceManager) {
+        this.keyManager = keyManager;
+        this.resourceManager = resourceManager;
+    }
 
     @EventHandler
     private void onEntityShootBow(EntityShootBowEvent event) {
@@ -32,8 +45,7 @@ public class RandomEffectBowInteractListener implements Listener {
 
         ItemMeta meta = event.getBow().getItemMeta();
 
-        if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(RandomEffectBow.REB_LORE))
-            return;
+
 
         Arrow arrow1 = (Arrow) event.getProjectile();
 
