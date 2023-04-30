@@ -1,32 +1,35 @@
-package co.tantleffbeef.pluggytesty.weapons;
+package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
+import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
+import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
+import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.util.RayTraceResult;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
-public class FrostPoleInteractListener implements Listener {
-    @EventHandler
-    private void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+public class FrostPoleItemType extends SimpleItemType implements InteractableItemType {
+    public FrostPoleItemType(Plugin namespace, String id, boolean customModel, String name) {
+        super(namespace, id, customModel, name, Material.SOUL_TORCH);
+    }
 
-        ItemStack item = event.getItem();
-        if (item == null || item.getType() != Material.SOUL_TORCH) return;
+    @Override
+    public void modifyItemMeta(@NotNull ItemMeta meta) {
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addEnchant(Enchantment.FROST_WALKER, 2, true);
+    }
 
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(FrostPole.POLE_LORE)) return;
-
-        event.setCancelled(true);
-
-        Player player = event.getPlayer();
+    @Override
+    public void interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
         if (player.hasCooldown(Material.SOUL_TORCH)) return;
 
         player.setCooldown(Material.SOUL_TORCH, 5);
@@ -37,7 +40,6 @@ public class FrostPoleInteractListener implements Listener {
 
         if (target != null)
             target.setFreezeTicks(260);
-
     }
 
     private Entity shootBolt(float r, Player p) {
@@ -62,4 +64,6 @@ public class FrostPoleInteractListener implements Listener {
 
         return entity;
     }
+
+
 }
