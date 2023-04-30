@@ -11,7 +11,7 @@ import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.SmithListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.BoltRodItemType;
-import co.tantleffbeef.pluggytesty.custom.item.weapons.FrostPoleItemType;
+import co.tantleffbeef.pluggytesty.custom.item.weapons.ClusterBombItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.MagicStickItemType;
 import co.tantleffbeef.pluggytesty.custom.item.armor.CraftListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.AxeOfYourMotherItemType;
@@ -77,6 +77,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
 
+        getCommand("givemepole").setExecutor(new FrostPole());
         getCommand("givemeheal").setExecutor(new HealingHeart());
         //getCommand("givemesummon").setExecutor(new Summon());
         getCommand("givemed").setExecutor(new Digga());
@@ -88,11 +89,11 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("giveheavyarmor").setExecutor(new HeavyArmor());
         getCommand("summongru").setExecutor(new BossGru(this));
         getCommand("summonbouncer").setExecutor(new BossFireWorker(this));
-        getCommand("givemeClusterBomb").setExecutor(new ClusterBomb());
         getCommand("givemedash").setExecutor(new Dash());
         getCommand("givemeBow").setExecutor(new RandomEffectBow());
 
 
+        getServer().getPluginManager().registerEvents(new FrostPoleInteractListener(), this);
         getServer().getPluginManager().registerEvents(new HealingHeartInteractListener(this), this);
         //getServer().getPluginManager().registerEvents(new SummonInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new DashInteractListener(), this);
@@ -100,7 +101,6 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SwordsmansDreamInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new GoerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new LauncherInteractListener(this), this);
-        getServer().getPluginManager().registerEvents(new ClusterBombInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(), this);
 
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
@@ -128,8 +128,7 @@ public final class PluggyTesty extends JavaPlugin {
                 ChatColor.AQUA + "Axe of Your Mother"));
         resourceManager.registerItem(new BoltRodItemType(this, "bolt_rod", false,
                 "Bolt Rod"));
-        resourceManager.registerItem(new FrostPoleItemType(this, "frost_pole", false,
-                "Frost Pole"));
+        resourceManager.registerItem(new ClusterBombItemType(this, "cluster_bomb", false, "Cluster Bomb"));
     }
 
 
