@@ -20,7 +20,7 @@ public class SmithListener implements Listener {
         final SmithingInventory inventory = event.getInventory();
         final ItemStack result = inventory.getResult();
 
-        if (result != null && result.equals(getRecipe(key).getResult())) {
+        if (result.equals(getRecipe(key).getResult())) {
             event.getInventory().setResult(BaseArmor.nC());
         }
     }
