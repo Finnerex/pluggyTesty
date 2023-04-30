@@ -10,11 +10,8 @@ import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.SmithListener;
-import co.tantleffbeef.pluggytesty.custom.item.weapons.BoltRodItemType;
-import co.tantleffbeef.pluggytesty.custom.item.weapons.ClusterBombItemType;
-import co.tantleffbeef.pluggytesty.custom.item.weapons.MagicStickItemType;
+import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.CraftListener;
-import co.tantleffbeef.pluggytesty.custom.item.weapons.AxeOfYourMotherItemType;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
@@ -77,7 +74,6 @@ public final class PluggyTesty extends JavaPlugin {
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
 
-        getCommand("givemepole").setExecutor(new FrostPole());
         getCommand("givemeheal").setExecutor(new HealingHeart());
         //getCommand("givemesummon").setExecutor(new Summon());
         getCommand("givemed").setExecutor(new Digga());
@@ -93,7 +89,6 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("givemeBow").setExecutor(new RandomEffectBow());
 
 
-        getServer().getPluginManager().registerEvents(new FrostPoleInteractListener(), this);
         getServer().getPluginManager().registerEvents(new HealingHeartInteractListener(this), this);
         //getServer().getPluginManager().registerEvents(new SummonInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new DashInteractListener(), this);
@@ -122,13 +117,11 @@ public final class PluggyTesty extends JavaPlugin {
 
     private void registerItems() {
         // Weapons
-        resourceManager.registerItem(new MagicStickItemType(this, "magic_stick", false,
-                "Magic Stick"));
-        resourceManager.registerItem(new AxeOfYourMotherItemType(this, "mother_axe", false,
-                ChatColor.AQUA + "Axe of Your Mother"));
-        resourceManager.registerItem(new BoltRodItemType(this, "bolt_rod", false,
-                "Bolt Rod"));
+        resourceManager.registerItem(new MagicStickItemType(this, "magic_stick", false, "Magic Stick"));
+        resourceManager.registerItem(new AxeOfYourMotherItemType(this, "mother_axe", false, ChatColor.AQUA + "Axe of Your Mother"));
+        resourceManager.registerItem(new BoltRodItemType(this, "bolt_rod", false, "Bolt Rod"));
         resourceManager.registerItem(new ClusterBombItemType(this, "cluster_bomb", false, "Cluster Bomb"));
+        resourceManager.registerItem(new FrostPoleItemType(this, "frost_pole", false, ChatColor.AQUA + "Frost Pole"));
     }
 
 
