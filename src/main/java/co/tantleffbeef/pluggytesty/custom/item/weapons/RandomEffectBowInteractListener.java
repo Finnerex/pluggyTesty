@@ -3,7 +3,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.ResourceManager;
-import co.tantleffbeef.pluggytesty.weapons.RandomEffectBow;
+import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -44,7 +44,19 @@ public class RandomEffectBowInteractListener implements Listener {
             return;
 
         ItemMeta meta = event.getBow().getItemMeta();
+        if (meta == null)
+            return;
 
+        final var data = meta.getPersistentDataContainer();
+
+        if (!CustomItemNbt.hasCustomItemNbt(data, keyManager))
+            return;
+
+        final var itemNbt = CustomItemNbt.fromPersistentDataContainer(data, keyManager);
+        final var itemType = resourceManager.getCustomItemType(itemNbt.id);
+
+        if (!(itemType instanceof RandomEffectBowItemType))
+            return;
 
 
         Arrow arrow1 = (Arrow) event.getProjectile();

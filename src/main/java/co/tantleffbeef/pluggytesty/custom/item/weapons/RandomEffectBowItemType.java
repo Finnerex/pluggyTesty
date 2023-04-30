@@ -5,11 +5,10 @@ import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 
-public class RandomEffectBowItemType extends SimpleItemType implements InteractableItemType {
+public class RandomEffectBowItemType extends SimpleItemType {
 
     public RandomEffectBowItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.BOW);
     }
-
 
 }

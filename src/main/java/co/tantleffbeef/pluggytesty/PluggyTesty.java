@@ -74,7 +74,6 @@ public final class PluggyTesty extends JavaPlugin {
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
 
         getCommand("givemeheal").setExecutor(new HealingHeart());
-        //getCommand("givemesummon").setExecutor(new Summon());
         getCommand("givemed").setExecutor(new Digga());
         getCommand("givemego").setExecutor(new Goer());
         getCommand("givemecock").setExecutor((new Launcher()));
@@ -84,16 +83,14 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("summongru").setExecutor(new BossGru(this));
         getCommand("summonbouncer").setExecutor(new BossFireWorker(this));
         getCommand("givemedash").setExecutor(new Dash());
-        getCommand("givemeBow").setExecutor(new RandomEffectBow());
 
 
         getServer().getPluginManager().registerEvents(new HealingHeartInteractListener(this), this);
-        //getServer().getPluginManager().registerEvents(new SummonInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new DashInteractListener(), this);
         getServer().getPluginManager().registerEvents(new DiggaInteractListener(), this);
         getServer().getPluginManager().registerEvents(new GoerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new LauncherInteractListener(this), this);
-        getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(), this);
+        getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
 
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
         getServer().getPluginManager().registerEvents(new BowShootListener(), this);
