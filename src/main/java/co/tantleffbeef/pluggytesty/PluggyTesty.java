@@ -9,6 +9,7 @@ import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.SmithListener;
 import co.tantleffbeef.pluggytesty.custom.item.utility.GoItemType;
+import co.tantleffbeef.pluggytesty.custom.item.utility.HealingHeartItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.CraftListener;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
@@ -74,7 +75,6 @@ public final class PluggyTesty extends JavaPlugin {
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
 
-        getCommand("givemeheal").setExecutor(new HealingHeart());
         getCommand("givemed").setExecutor(new Digga());
         getCommand("givemecock").setExecutor((new Launcher()));
         getCommand("summonjawn").setExecutor(new BossJawn(this));
@@ -85,7 +85,6 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("givemedash").setExecutor(new Dash());
 
 
-        getServer().getPluginManager().registerEvents(new HealingHeartInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new DashInteractListener(), this);
         getServer().getPluginManager().registerEvents(new DiggaInteractListener(), this);
         getServer().getPluginManager().registerEvents(new LauncherInteractListener(this), this);
@@ -120,6 +119,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         //Utility
         resourceManager.registerItem(new GoItemType(this, "go", false, "Go!"));
+        resourceManager.registerItem(new HealingHeartItemType(this, "healing_heart", false, ChatColor.RED + "Healing Heart"));
     }
 
 

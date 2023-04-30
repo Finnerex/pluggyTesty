@@ -1,45 +1,28 @@
-package co.tantleffbeef.pluggytesty.utility;
+package co.tantleffbeef.pluggytesty.custom.item.utility;
 
+import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
+import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
-public class HealingHeartInteractListener implements Listener {
-    private final Plugin plugin;
+public class HealingHeartItemType extends SimpleItemType implements InteractableItemType {
 
-    public HealingHeartInteractListener(Plugin plugin) {
-        this.plugin = plugin;
+    private final Plugin schedulerPlugin;
+
+    public HealingHeartItemType(Plugin namespace, String id, boolean customModel, String name) {
+        super(namespace, id, customModel, name, Material.REDSTONE);
+        this.schedulerPlugin = namespace;
     }
 
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
-
-        ItemStack item = event.getItem();
-
-        if (item == null || item.getType() != Material.REDSTONE)
-            return;
-
-        ItemMeta meta = item.getItemMeta();
-
-        if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(HealingHeart.HEART_LORE))
-            return;
-
-        event.setCancelled(true);
-
-        Player player = event.getPlayer();
-
+    @Override
+    public void interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
         if (player.hasCooldown(Material.REDSTONE))
             return;
 
@@ -71,16 +54,14 @@ public class HealingHeartInteractListener implements Listener {
 
             };
 
-            runnable.runTaskTimer(plugin, 0, 0);
+            runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
         }
 
         item.setAmount(Math.min(amount + 1, 10)); //every tick(s) it is held for, max 60
         player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 1, 1 + item.getAmount() * 0.01f);
-
     }
 
-    // when the player releases right click
     private void heal(Player player, ItemStack item) {
         if (player.isDead())
             return;
@@ -92,4 +73,5 @@ public class HealingHeartInteractListener implements Listener {
 
         item.setAmount(1);
     }
+
 }
