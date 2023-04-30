@@ -7,6 +7,8 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
+
 import static org.bukkit.Bukkit.getRecipe;
 
 
@@ -54,31 +56,31 @@ public class CraftListener implements Listener {
 //        if (result.equals(getRecipe(NamespacedKey.minecraft("iron_leggings")).getResult())) {
 //            event.getInventory().setResult(BaseArmor.iL());
 //        }
-//        if (result.equals(getRecipe(NamespacedKey.minecraft("iron_boots")).getResult())) {
-//            event.getInventory().setResult(BaseArmor.iB());
-//        }
-//        if (result.equals(getRecipe(NamespacedKey.minecraft("golden_helmet")).getResult())) {
-//            event.getInventory().setResult(BaseArmor.gH());
-//        }
-//        if (result.equals(getRecipe(NamespacedKey.minecraft("golden_chestplate")).getResult())) {
-//            event.getInventory().setResult(BaseArmor.gC());
-//        }
-//        if (result.equals(getRecipe(NamespacedKey.minecraft("golden_leggings")).getResult())) {
-//            event.getInventory().setResult(BaseArmor.gL());
-//        }
-        if (result.equals(getRecipe(NamespacedKey.minecraft("golden_boots")).getResult())) {
+        if (result.equals(Objects.requireNonNull(getRecipe(NamespacedKey.minecraft("iron_boots"))).getResult())) {
+            event.getInventory().setResult(BaseArmor.iB());
+        }
+        if (result.equals(Objects.requireNonNull(getRecipe(NamespacedKey.minecraft("golden_helmet"))).getResult())) {
+            event.getInventory().setResult(BaseArmor.gH());
+        }
+        if (result.equals(Objects.requireNonNull(getRecipe(NamespacedKey.minecraft("golden_chestplate"))).getResult())) {
+            event.getInventory().setResult(BaseArmor.gC());
+        }
+        if (result.equals(Objects.requireNonNull(getRecipe(NamespacedKey.minecraft("golden_leggings"))).getResult())) {
+            event.getInventory().setResult(BaseArmor.gL());
+        }
+        if (result.equals(Objects.requireNonNull(getRecipe(NamespacedKey.minecraft("golden_boots"))).getResult())) {
             event.getInventory().setResult(BaseArmor.gB());
         }
-        if (result.equals(getRecipe(NamespacedKey.minecraft("diamond_helmet")).getResult())) {
+        if (result.equals(Objects.requireNonNull(getRecipe(NamespacedKey.minecraft("diamond_helmet"))).getResult())) {
             event.getInventory().setResult(BaseArmor.dH());
         }
-        if (result.equals(getRecipe(NamespacedKey.minecraft("diamond_chestplate")).getResult())) {
+        if (result.equals(Objects.requireNonNull(getRecipe(NamespacedKey.minecraft("diamond_chestplate"))).getResult())) {
             event.getInventory().setResult(BaseArmor.dC());
         }
-        if (result.equals(getRecipe(NamespacedKey.minecraft("diamond_leggings")).getResult())) {
+        if (result.equals(Objects.requireNonNull(getRecipe(NamespacedKey.minecraft("diamond_leggings"))).getResult())) {
             event.getInventory().setResult(BaseArmor.dL());
         }
-        if (result.equals(getRecipe(NamespacedKey.minecraft("diamond_boots")).getResult())) {
+        if (result.equals(Objects.requireNonNull(getRecipe(NamespacedKey.minecraft("diamond_boots"))).getResult())) {
             event.getInventory().setResult(BaseArmor.dB());
         }
     }
