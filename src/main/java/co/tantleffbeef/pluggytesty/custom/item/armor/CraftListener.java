@@ -1,16 +1,10 @@
 package co.tantleffbeef.pluggytesty.custom.item.armor;
-
-import co.tantleffbeef.pluggytesty.BaseArmors.BaseArmor;
-import co.tantleffbeef.pluggytesty.PluggyTesty;
 import co.tantleffbeef.pluggytesty.armor.BaseArmor;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.SmithingInventory;
-
 import static org.bukkit.Bukkit.getRecipe;
 
 
@@ -57,16 +51,16 @@ public class CraftListener implements Listener {
         if (inventory.getResult().equals(getRecipe(NamespacedKey.minecraft("iron_boots")).getResult())) {
             event.getInventory().setResult(BaseArmor.iB());
         }
-        if (inventory.getResult().equals(getRecipe(NamespacedKey.minecraft("gold_helmet")).getResult())) {
+        if (inventory.getResult().equals(getRecipe(NamespacedKey.minecraft("golden_helmet")).getResult())) {
             event.getInventory().setResult(BaseArmor.gH());
         }
-        if (inventory.getResult().equals(getRecipe(NamespacedKey.minecraft("gold_chestplate")).getResult())) {
+        if (inventory.getResult().equals(getRecipe(NamespacedKey.minecraft("golden_chestplate")).getResult())) {
             event.getInventory().setResult(BaseArmor.gC());
         }
-        if (inventory.getResult().equals(getRecipe(NamespacedKey.minecraft("gold_leggings")).getResult())) {
+        if (inventory.getResult().equals(getRecipe(NamespacedKey.minecraft("golden_leggings")).getResult())) {
             event.getInventory().setResult(BaseArmor.gL());
         }
-        if (inventory.getResult().equals(getRecipe(NamespacedKey.minecraft("gold_boots")).getResult())) {
+        if (inventory.getResult().equals(getRecipe(NamespacedKey.minecraft("golden_boots")).getResult())) {
             event.getInventory().setResult(BaseArmor.gB());
         }
         if (inventory.getResult().equals(getRecipe(NamespacedKey.minecraft("diamond_helmet")).getResult())) {
