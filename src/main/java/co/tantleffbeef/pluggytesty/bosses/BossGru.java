@@ -35,8 +35,8 @@ public class BossGru implements CommandExecutor {
             villager.setCustomNameVisible(true);
             villager.setPersistent(true);
 
-            villager.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(500);
-            villager.setHealth(500);
+            villager.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10000);
+            villager.setHealth(10000);
         });
 
         final World w = gru.getWorld();
