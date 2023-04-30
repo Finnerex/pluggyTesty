@@ -9,6 +9,7 @@ import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.bosses.*;
+import co.tantleffbeef.pluggytesty.custom.item.weapons.BoltRodItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.MagicStickItemType;
 import co.tantleffbeef.pluggytesty.custom.item.armor.CraftListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.AxeOfYourMotherItemType;
@@ -127,6 +128,8 @@ public final class PluggyTesty extends JavaPlugin {
                 "Magic Stick"));
         resourceManager.registerItem(new AxeOfYourMotherItemType(this, "mother_axe", false,
                 ChatColor.AQUA + "Axe of Your Mother"));
+        resourceManager.registerItem(new BoltRodItemType(this, "bolt_rod", false,
+                "Bolt Rod"));
     }
 
 
