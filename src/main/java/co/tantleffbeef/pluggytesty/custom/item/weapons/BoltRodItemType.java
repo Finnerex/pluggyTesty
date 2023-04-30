@@ -43,7 +43,7 @@ public class BoltRodItemType extends SimpleItemType implements InteractableItemT
 
         Damageable hitEntity = (Damageable) shootBolt(3.5f, player.getEyeLocation());
         if (hitEntity != null)
-            hitEntity.damage(2, player);
+            hitEntity.damage(4, player);
 
         player.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
 
