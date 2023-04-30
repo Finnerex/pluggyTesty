@@ -73,7 +73,6 @@ public final class PluggyTesty extends JavaPlugin {
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
 
-        getCommand("givemewood").setExecutor(new MagicStick());
         getCommand("givemerod").setExecutor(new BoltRod());
         getCommand("givemepole").setExecutor(new FrostPole());
         getCommand("givemeheal").setExecutor(new HealingHeart());
@@ -93,7 +92,6 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("givemeBow").setExecutor(new RandomEffectBow());
 
 
-        getServer().getPluginManager().registerEvents(new MagicStickInteractListener(), this);
         getServer().getPluginManager().registerEvents(new BoltRodInteractListener(), this);
         getServer().getPluginManager().registerEvents(new FrostPoleInteractListener(), this);
         getServer().getPluginManager().registerEvents(new HealingHeartInteractListener(this), this);
