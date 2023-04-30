@@ -2,9 +2,7 @@ package co.tantleffbeef.pluggytesty;
 
 import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.PaperCommandManager;
-import co.tantleffbeef.mcplanes.RecipeManager;
-import co.tantleffbeef.mcplanes.ResourceApi;
-import co.tantleffbeef.mcplanes.ResourceManager;
+import co.tantleffbeef.mcplanes.*;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
@@ -32,6 +30,7 @@ public final class PluggyTesty extends JavaPlugin {
 
     private ResourceManager resourceManager;
     private RecipeManager recipeManager;
+    private KeyManager<CustomNbtKey> nbtKeyManager;
 
     @Override
     public void onEnable() {
@@ -44,9 +43,9 @@ public final class PluggyTesty extends JavaPlugin {
             throw new RuntimeException("Can't find ResourceApi!");
 
         final var rApi = rApiProvider.getProvider();
-        //final ResourceApi rApi = (ResourceApi) JavaPlugin.getProvidingPlugin(ResourceApi.class);
         resourceManager = rApi.getResourceManager();
         recipeManager = rApi.getRecipeManager();
+        nbtKeyManager = rApi.getNbtKeyManager();
 
         registerItems();
 //        registerRecipes();
