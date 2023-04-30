@@ -2,9 +2,7 @@ package co.tantleffbeef.pluggytesty;
 
 import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.PaperCommandManager;
-import co.tantleffbeef.mcplanes.RecipeManager;
-import co.tantleffbeef.mcplanes.ResourceApi;
-import co.tantleffbeef.mcplanes.ResourceManager;
+import co.tantleffbeef.mcplanes.*;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
@@ -32,6 +30,7 @@ public final class PluggyTesty extends JavaPlugin {
 
     private ResourceManager resourceManager;
     private RecipeManager recipeManager;
+    private KeyManager<CustomNbtKey> nbtKeyManager;
 
     @Override
     public void onEnable() {
@@ -44,9 +43,9 @@ public final class PluggyTesty extends JavaPlugin {
             throw new RuntimeException("Can't find ResourceApi!");
 
         final var rApi = rApiProvider.getProvider();
-        //final ResourceApi rApi = (ResourceApi) JavaPlugin.getProvidingPlugin(ResourceApi.class);
         resourceManager = rApi.getResourceManager();
         recipeManager = rApi.getRecipeManager();
+        nbtKeyManager = rApi.getNbtKeyManager();
 
         registerItems();
 //        registerRecipes();
@@ -75,7 +74,6 @@ public final class PluggyTesty extends JavaPlugin {
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
 
         getCommand("givemeheal").setExecutor(new HealingHeart());
-        //getCommand("givemesummon").setExecutor(new Summon());
         getCommand("givemed").setExecutor(new Digga());
         getCommand("givemego").setExecutor(new Goer());
         getCommand("givemecock").setExecutor((new Launcher()));
@@ -85,16 +83,14 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("summongru").setExecutor(new BossGru(this));
         getCommand("summonbouncer").setExecutor(new BossFireWorker(this));
         getCommand("givemedash").setExecutor(new Dash());
-        getCommand("givemeBow").setExecutor(new RandomEffectBow());
 
 
         getServer().getPluginManager().registerEvents(new HealingHeartInteractListener(this), this);
-        //getServer().getPluginManager().registerEvents(new SummonInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new DashInteractListener(), this);
         getServer().getPluginManager().registerEvents(new DiggaInteractListener(), this);
         getServer().getPluginManager().registerEvents(new GoerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new LauncherInteractListener(this), this);
-        getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(), this);
+        getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
 
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
         getServer().getPluginManager().registerEvents(new BowShootListener(), this);
@@ -121,6 +117,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new ClusterBombItemType(this, "cluster_bomb", false, "Cluster Bomb"));
         resourceManager.registerItem(new FrostPoleItemType(this, "frost_pole", false, ChatColor.AQUA + "Frost Pole"));
         resourceManager.registerItem(new SwordsmansDreamItemType(this, "swordsmans_dream", false, ChatColor.AQUA + "Swordsmans Dream"));
+        resourceManager.registerItem(new RandomEffectBowItemType(this, "random_bow", false, "Random Effect Bow"));
     }
 
 
