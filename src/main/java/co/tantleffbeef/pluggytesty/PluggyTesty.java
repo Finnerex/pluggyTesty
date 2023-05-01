@@ -7,17 +7,14 @@ import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.bosses.*;
-import co.tantleffbeef.pluggytesty.custom.item.armor.SmithListener;
-import co.tantleffbeef.pluggytesty.custom.item.utility.GoItemType;
-import co.tantleffbeef.pluggytesty.custom.item.utility.HealingHeartItemType;
+import co.tantleffbeef.pluggytesty.custom.item.utility.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
-import co.tantleffbeef.pluggytesty.custom.item.armor.CraftListener;
+import co.tantleffbeef.pluggytesty.custom.item.armor.*;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.utility.*;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
-import co.tantleffbeef.pluggytesty.weapons.*;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -81,10 +78,7 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("giveheavyarmor").setExecutor(new HeavyArmor());
         getCommand("summongru").setExecutor(new BossGru(this));
         getCommand("summonbouncer").setExecutor(new BossFireWorker(this));
-        getCommand("givemedash").setExecutor(new Dash());
 
-
-        getServer().getPluginManager().registerEvents(new DashInteractListener(), this);
         getServer().getPluginManager().registerEvents(new DiggaInteractListener(), this);
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
 
@@ -119,6 +113,7 @@ public final class PluggyTesty extends JavaPlugin {
         //Utility
         resourceManager.registerItem(new GoItemType(this, "go", false, "Go!"));
         resourceManager.registerItem(new HealingHeartItemType(this, "healing_heart", false, ChatColor.RED + "Healing Heart"));
+        resourceManager.registerItem(new DashItemType(this, "dash", false, "Dash"));
     }
 
 
