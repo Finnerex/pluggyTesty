@@ -82,6 +82,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DiggaInteractListener(), this);
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
 
+        // Trims / Armor effects
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
         getServer().getPluginManager().registerEvents(new BowShootListener(), this);
         getServer().getPluginManager().registerEvents(new ExpChangeListener(), this);
@@ -89,6 +90,8 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DamageEffectListener(), this);
         getServer().getPluginManager().registerEvents(new EntityEffectListener(this), this);
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
+
+        // Special Keepinventory
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
 
         getServer().getPluginManager().registerEvents(new VillagerTradesListener(), this);
