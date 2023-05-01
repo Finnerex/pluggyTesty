@@ -101,7 +101,7 @@ public class BossJawn implements CommandExecutor {
     private void quake(Location location, Zombie jawn) {
         BukkitRunnable runnable = new BukkitRunnable() {
             int runs = 0;
-            Location l = location;
+            final Location l = location;
             final BlockData blockParticle = Material.STONE.createBlockData();
 
             @Override
@@ -135,7 +135,7 @@ public class BossJawn implements CommandExecutor {
 
                 }
 
-                l = l.add(d);
+                l.add(d);
                 runs++;
             }
         };
