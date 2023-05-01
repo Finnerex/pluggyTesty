@@ -63,7 +63,7 @@ public class AxeOfYourMotherItemType extends SimpleItemType implements Interacta
 
         for (Entity entity : entities) {
             if (entity instanceof Damageable damageable && !entity.equals(player))
-                damageable.damage(7);
+                damageable.damage(7, player);
         }
 
         location.getWorld().playSound(location, Sound.BLOCK_ANVIL_LAND, 1, 1);
