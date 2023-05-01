@@ -8,8 +8,6 @@ depend: ["MCPlanes"]
 commands:
   givemed:
     description: suck my balls
-  givemecock:
-    description: grngage launchger
   summonjawn:
     description: summons jawn
   summonseaman:

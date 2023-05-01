@@ -76,7 +76,6 @@ public final class PluggyTesty extends JavaPlugin {
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
 
         getCommand("givemed").setExecutor(new Digga());
-        getCommand("givemecock").setExecutor((new Launcher()));
         getCommand("summonjawn").setExecutor(new BossJawn(this));
         getCommand("summonseaman").setExecutor(new BossSeaman(this));
         getCommand("giveheavyarmor").setExecutor(new HeavyArmor());
@@ -87,7 +86,6 @@ public final class PluggyTesty extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new DashInteractListener(), this);
         getServer().getPluginManager().registerEvents(new DiggaInteractListener(), this);
-        getServer().getPluginManager().registerEvents(new LauncherInteractListener(this), this);
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
 
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
@@ -116,6 +114,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new FrostPoleItemType(this, "frost_pole", false, ChatColor.AQUA + "Frost Pole"));
         resourceManager.registerItem(new SwordsmansDreamItemType(this, "swordsmans_dream", false, ChatColor.AQUA + "Swordsmans Dream"));
         resourceManager.registerItem(new RandomEffectBowItemType(this, "random_bow", false, "Random Effect Bow"));
+        resourceManager.registerItem(new LauncherItemType(this, "launcher", false, "Launcher"));
 
         //Utility
         resourceManager.registerItem(new GoItemType(this, "go", false, "Go!"));

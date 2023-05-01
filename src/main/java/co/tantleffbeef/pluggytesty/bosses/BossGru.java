@@ -35,8 +35,8 @@ public class BossGru implements CommandExecutor {
             villager.setCustomNameVisible(true);
             villager.setPersistent(true);
 
-            villager.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(5000);
-            villager.setHealth(5000);
+            villager.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(2047);
+            villager.setHealth(2047);
         });
 
         final World w = gru.getWorld();
@@ -44,8 +44,8 @@ public class BossGru implements CommandExecutor {
 
         BukkitRunnable runnable = new BukkitRunnable() {
 
-            double prevHealth = 5000;
-            double currHealth = 5000;
+            double prevHealth = 2047;
+            double currHealth = 2047;
             @Override
             public void run() {
 

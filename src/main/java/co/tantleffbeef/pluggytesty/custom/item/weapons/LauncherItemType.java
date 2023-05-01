@@ -1,48 +1,31 @@
-package co.tantleffbeef.pluggytesty.weapons;
+package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
-import org.bukkit.*;
+import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
+import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
+import org.jetbrains.annotations.NotNull;
 
-public class LauncherInteractListener implements Listener {
+public class LauncherItemType extends SimpleItemType implements InteractableItemType {
 
-    private final Plugin plugin;
+    private final Plugin schedulerPlugin;
 
-    public LauncherInteractListener(Plugin plugin) { this.plugin = plugin; }
+    public LauncherItemType(Plugin namespace, String id, boolean customModel, String name) {
+        super(namespace, id, customModel, name, Material.NETHER_BRICK);
+        this.schedulerPlugin = namespace;
+    }
 
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_AIR &&
-                event.getAction() != Action.RIGHT_CLICK_BLOCK)
-            return;
-
-        ItemStack item = event.getItem();
-
-        if (item == null || item.getType() != Material.NETHER_BRICK)
-            return;
-
-        ItemMeta meta = item.getItemMeta();
-
-        if (meta == null || meta.getLore() == null || !meta.getLore().get(0).equals(Launcher.LAUNCH_LORE))
-            return;
-
-        Player player = event.getPlayer();
-
+    public boolean interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
         if (player.hasCooldown(Material.NETHER_BRICK))
-            return;
-
-//        Damageable hitEntity = (Damageable) shootBolt(3.5f, player.getEyeLocation());
-//        if (hitEntity != null)
-//            hitEntity.damage(2, player);
+            return false;
 
         BukkitRunnable runnable = new BukkitRunnable() {
             Location location = player.getLocation();
@@ -68,11 +51,13 @@ public class LauncherInteractListener implements Listener {
             }
         };
 
-        runnable.runTaskTimer(plugin, 0, 1);
+        runnable.runTaskTimer(schedulerPlugin, 0, 1);
 
         //player.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
 
         player.setCooldown(Material.NETHER_BRICK, 5);
+
+        return false;
     }
 
     private Block shootBolt(float range, Location location) {
@@ -92,6 +77,4 @@ public class LauncherInteractListener implements Listener {
 
         return block;
     }
-
-
 }
