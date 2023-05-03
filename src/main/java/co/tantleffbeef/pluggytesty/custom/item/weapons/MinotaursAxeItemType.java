@@ -55,7 +55,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
                 Location location = axe.getLocation();
 
                 axe.teleport(location.add(direction));
-                axe.setRotation(location.getYaw(), location.getPitch() + 10);
+                axe.setRotation(location.getYaw(), location.getPitch());
 
                 distance ++;
             }
