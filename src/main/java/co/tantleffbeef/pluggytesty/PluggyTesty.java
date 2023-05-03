@@ -115,7 +115,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new GoItemType(this, "go", false, "Go!"));
         resourceManager.registerItem(new HealingHeartItemType(this, "healing_heart", false, ChatColor.RED + "Healing Heart"));
         resourceManager.registerItem(new DashItemType(this, "dash", false, "Dash"));
-        resourceManager.registerItem(new DashItemType(this, "digga", false, "Digga"));
+        resourceManager.registerItem(new DiggaItemType(this, "digga", false, "Digga"));
     }
 
 
