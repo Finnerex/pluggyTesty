@@ -6,8 +6,6 @@ api-version: 1.19
 depend: ["MCPlanes"]
 
 commands:
-  givemed:
-    description: suck my balls
   summonjawn:
     description: summons jawn
   summonseaman:

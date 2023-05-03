@@ -72,14 +72,13 @@ public final class PluggyTesty extends JavaPlugin {
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
 
-        getCommand("givemed").setExecutor(new Digga());
         getCommand("summonjawn").setExecutor(new BossJawn(this));
         getCommand("summonseaman").setExecutor(new BossSeaman(this));
         getCommand("giveheavyarmor").setExecutor(new HeavyArmor());
         getCommand("summongru").setExecutor(new BossGru(this));
         getCommand("summonbouncer").setExecutor(new BossFireWorker(this));
 
-        getServer().getPluginManager().registerEvents(new DiggaInteractListener(), this);
+
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
 
         // Trims / Armor effects
@@ -117,6 +116,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new GoItemType(this, "go", false, "Go!"));
         resourceManager.registerItem(new HealingHeartItemType(this, "healing_heart", false, ChatColor.RED + "Healing Heart"));
         resourceManager.registerItem(new DashItemType(this, "dash", false, "Dash"));
+        resourceManager.registerItem(new DashItemType(this, "digga", false, "Digga"));
     }
 
 
