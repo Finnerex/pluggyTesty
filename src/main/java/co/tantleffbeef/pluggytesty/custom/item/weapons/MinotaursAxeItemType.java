@@ -37,7 +37,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
         final ItemDisplay axe = player.getWorld().spawn(l, ItemDisplay.class, (display) -> {
             display.setItemStack(new ItemStack(Material.GOLDEN_AXE));
-            display.getLocation().setDirection(l.getDirection());
+            display.setRotation(l.getYaw(), l.getPitch());
         });
 
         final Vector direction = l.getDirection();
@@ -47,7 +47,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
             int distance = 0;
             @Override
             public void run() {
-                if (distance > 50) {
+                if (distance > 100) {
                     axe.remove();
                     cancel();
                     return;
@@ -55,7 +55,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
                 Location location = axe.getLocation();
 
-                axe.teleport(location.add(direction));
+                //axe.teleport(location.add(direction));
 //                axe.getLocation().getDirection().rotateAroundAxis(perpendicular, 10);
 
                 distance ++;
