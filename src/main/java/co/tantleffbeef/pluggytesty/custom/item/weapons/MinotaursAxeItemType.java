@@ -37,11 +37,11 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
         final ItemDisplay axe = player.getWorld().spawn(l, ItemDisplay.class, (display) -> {
             display.setItemStack(new ItemStack(Material.GOLDEN_AXE));
-            //display.setRotation(l.getDirection(l.getYaw() + 90));
+            display.getLocation().setDirection(l.getDirection());
         });
 
         final Vector direction = l.getDirection();
-        final Vector perpendicular = direction.clone().rotateAroundY(90);
+//        final Vector perpendicular = direction.clone().rotateAroundY(90);
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int distance = 0;
@@ -56,7 +56,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
                 Location location = axe.getLocation();
 
                 axe.teleport(location.add(direction));
-                axe.getLocation().getDirection().rotateAroundAxis(perpendicular, 10);
+//                axe.getLocation().getDirection().rotateAroundAxis(perpendicular, 10);
 
                 distance ++;
             }
