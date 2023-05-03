@@ -4,14 +4,17 @@ import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Rotation;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+
+
 
 public class MinotaursAxeItemType extends SimpleItemType implements InteractableItemType {
 
@@ -31,6 +34,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
         attacks ++;
 
         final ItemDisplay axe = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (display) -> display.setItemStack(new ItemStack(Material.GOLDEN_AXE)));
+        final Vector direction = player.getEyeLocation().getDirection();
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int distance = 0;
@@ -44,7 +48,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
                 Location location = axe.getLocation();
 
-                axe.teleport(location.add(location.getDirection()));
+                axe.teleport(location.add(direction));
                 axe.setRotation(location.getYaw(), location.getPitch() + 10);
 
                 distance ++;
