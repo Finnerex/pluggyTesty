@@ -41,6 +41,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
         });
 
         final Vector direction = l.getDirection();
+        Vector perpendicular = direction.rotateAroundY(90);
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int distance = 0;
@@ -55,7 +56,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
                 Location location = axe.getLocation();
 
                 axe.teleport(location.add(direction));
-                axe.setRotation(location.getYaw(), location.getPitch());
+                axe.getLocation().getDirection().rotateAroundAxis(perpendicular, 10);
 
                 distance ++;
             }
