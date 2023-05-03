@@ -89,7 +89,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityEffectListener(this), this);
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
 
-        // Special Keepinventory
+        // Special Keep-inventory
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
 
         getServer().getPluginManager().registerEvents(new VillagerTradesListener(), this);
@@ -107,9 +107,10 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new BoltRodItemType(this, "bolt_rod", false, "Bolt Rod"));
         resourceManager.registerItem(new ClusterBombItemType(this, "cluster_bomb", false, "Cluster Bomb"));
         resourceManager.registerItem(new FrostPoleItemType(this, "frost_pole", false, ChatColor.AQUA + "Frost Pole"));
-        resourceManager.registerItem(new SwordsmansDreamItemType(this, "swordsmans_dream", false, ChatColor.AQUA + "Swordsmans Dream"));
+        resourceManager.registerItem(new SwordsmansDreamItemType(this, "swordsmans_dream", false, ChatColor.AQUA + "Swordsman's Dream"));
         resourceManager.registerItem(new RandomEffectBowItemType(this, "random_bow", false, "Random Effect Bow"));
         resourceManager.registerItem(new LauncherItemType(this, "launcher", false, "Launcher"));
+        resourceManager.registerItem(new MinotaursAxeItemType(this, "minotaurs_axe", false, "Minotaur's Axe"));
 
         //Utility
         resourceManager.registerItem(new GoItemType(this, "go", false, "Go!"));
