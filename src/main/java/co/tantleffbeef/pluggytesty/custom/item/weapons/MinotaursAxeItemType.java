@@ -37,7 +37,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
         final ItemDisplay axe = player.getWorld().spawn(l, ItemDisplay.class, (display) -> {
             display.setItemStack(new ItemStack(Material.GOLDEN_AXE));
-            display.setRotation(l.getYaw() + 90, l.getPitch());
+            display.setRotation(l.getYaw() - 90, l.getPitch());
         });
 
         final Vector direction = l.getDirection();
