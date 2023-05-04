@@ -42,7 +42,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
             display.setRotation(l.getYaw(), 0/*l.getPitch()*/);
         });
 
-        final Vector direction = l.getDirection().rotateAroundY(90);
+        final Vector direction = l.getDirection()/*.rotateAroundY(90)*/;
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int distance = 0;
