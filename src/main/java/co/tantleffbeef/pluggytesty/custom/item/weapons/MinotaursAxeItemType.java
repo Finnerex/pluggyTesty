@@ -11,9 +11,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
-
+import org.joml.Vector3f;
 
 
 public class MinotaursAxeItemType extends SimpleItemType implements InteractableItemType {
@@ -41,7 +42,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
         });
 
         final Vector direction = l.getDirection();
-        final Vector perpendicular = direction.clone().rotateAroundY(90);
+        final Vector3f perpendicular = direction.clone().rotateAroundY(90).toVector3f();
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int distance = 0;
@@ -54,10 +55,12 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
                 }
 
                 Location location = axe.getLocation();
-
 //                axe.teleport(location.add(direction));
-                axe.getLocation().getDirection().rotateAroundAxis(perpendicular, 10);
-//                axe.setRotation(location.getYaw(), location.getPitch() + 10);
+
+                final Transformation t = axe.getTransformation();
+                t.getRightRotation().rotateAxis((float) Math.toRadians(10), perpendicular);
+                axe.setTransformation(t);
+
 
                 distance ++;
             }
