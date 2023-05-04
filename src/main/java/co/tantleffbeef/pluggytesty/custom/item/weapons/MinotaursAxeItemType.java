@@ -49,7 +49,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
             final int attack = attacks;
             @Override
             public void run() {
-                if (distance > 80) {
+                if (distance > 50) {
                     if (attacks == attack)
                         attacks = 0;
                     axe.remove();

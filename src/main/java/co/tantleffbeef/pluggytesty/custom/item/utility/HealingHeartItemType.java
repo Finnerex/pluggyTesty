@@ -29,7 +29,7 @@ public class HealingHeartItemType extends SimpleItemType implements Interactable
         int amount = item.getAmount();
         // make runnable at beginning, if charge has not incremented in x ticks, heal and reset
 
-        if(amount == 1) {
+        if(amount >= 1) {
             BukkitRunnable runnable = new BukkitRunnable() {
                 private int tickNum = 0;
                 private int lastAmount = 1;
