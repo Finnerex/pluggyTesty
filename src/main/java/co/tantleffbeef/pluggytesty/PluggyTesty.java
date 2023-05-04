@@ -115,7 +115,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new SwordsmansDreamItemType(this, "swordsmans_dream", false, ChatColor.AQUA + "Swordsman's Dream"));
         resourceManager.registerItem(new RandomEffectBowItemType(this, "random_bow", false, "Random Effect Bow"));
         resourceManager.registerItem(new LauncherItemType(this, "launcher", false, "Launcher"));
-        resourceManager.registerItem(new MinotaursAxeItemType(this, "minotaurs_axe", false, "Minotaur's Axe"));
+        resourceManager.registerItem(new MinotaursAxeItemType(this, "minotaurs_axe", false, ChatColor.DARK_GREEN + "Minotaur's Axe"));
 
         //Utility
         resourceManager.registerItem(new GoItemType(this, "go", false, "Go!"));
