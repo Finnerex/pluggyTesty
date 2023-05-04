@@ -5,8 +5,7 @@ import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ItemDisplay;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,6 +14,8 @@ import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
+
+import java.util.Collection;
 
 
 public class MinotaursAxeItemType extends SimpleItemType implements InteractableItemType {
@@ -42,26 +43,33 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
         });
 
         final Vector direction = l.getDirection();
-//        final Vector p = direction.clone().rotateAroundY(90);
-//        final Vector3f perpendicular = new Vector3f((float) p.getX(), (float) p.getY(), (float) p.getZ());
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int distance = 0;
+            final int attack = attacks;
             @Override
             public void run() {
                 if (distance > 100) {
+                    if (attacks == attack)
+                        attacks = 0;
                     axe.remove();
                     cancel();
                     return;
                 }
 
                 Location location = axe.getLocation();
-//                axe.teleport(location.add(direction));
 
                 final Transformation t = axe.getTransformation();
                 t.getRightRotation().rotateLocalZ((float) Math.toRadians(10));/*rotateAxis((float) Math.toRadians(10), perpendicular);*/
                 axe.setTransformation(t);
 
+                Collection<Entity> entities = player.getWorld().getNearbyEntities(location, 1, 1, 1);
+                for (Entity e : entities) { // damage all entities in that block space
+                    if (e instanceof Damageable damageable && !e.equals(player))
+                        damageable.damage(5, player);
+                }
+
+                axe.teleport(location.add(direction));
 
                 distance ++;
             }
