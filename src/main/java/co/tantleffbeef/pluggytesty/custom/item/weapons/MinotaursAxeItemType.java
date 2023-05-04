@@ -59,7 +59,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 //                axe.teleport(location.add(direction));
 
                 final Transformation t = axe.getTransformation();
-                t.getRightRotation().rotateLocalX(10);/*rotateAxis((float) Math.toRadians(10), perpendicular);*/
+                t.getRightRotation().rotateLocalZ((float) Math.toRadians(10));/*rotateAxis((float) Math.toRadians(10), perpendicular);*/
                 axe.setTransformation(t);
 
 
