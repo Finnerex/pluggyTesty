@@ -138,6 +138,7 @@ public final class PluggyTesty extends JavaPlugin {
                         "   ")
                 .setIngredient('c', Material.CHAIN);
         getServer().addRecipe(cHrecipe);
+        recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_helmet"), Material.CHAIN);
     }
 
 
