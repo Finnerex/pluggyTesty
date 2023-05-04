@@ -16,7 +16,10 @@ import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -98,6 +101,8 @@ public final class PluggyTesty extends JavaPlugin {
 
 
         ArmorEquipEvent.registerListener(this);
+
+        recipe();
     }
 
     private void registerItems() {
@@ -124,4 +129,17 @@ public final class PluggyTesty extends JavaPlugin {
     public void onDisable() {
         getLogger().info("no more");
     }
+
+    private void recipe() {
+        final ShapedRecipe cHrecipe = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), ChainHelmetItemType.Attributes())
+                .shape(
+                        "ccc",
+                        "c c",
+                        "   ")
+                .setIngredient('c', Material.CHAIN);
+        getServer().addRecipe(cHrecipe);
+        recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_helmet"), Material.CHAIN);
+    }
+
+
 }
