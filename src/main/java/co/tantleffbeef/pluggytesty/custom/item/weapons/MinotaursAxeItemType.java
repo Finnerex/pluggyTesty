@@ -37,19 +37,16 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
         Location l = player.getEyeLocation();
 
-        final ItemDisplay axe = player.getWorld().spawn(l, ItemDisplay.class, (display) -> {
-            display.setItemStack(new ItemStack(Material.GOLDEN_AXE));
-            display.setRotation(l.getYaw() - 90, l.getPitch());
-        });
+        final ItemDisplay axe = player.getWorld().spawn(l, ItemDisplay.class, (display) -> display.setItemStack(new ItemStack(Material.GOLDEN_AXE)));
 
-        final Vector direction = l.getDirection();
+        final Vector direction = l.getDirection().rotateAroundY(90);
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int distance = 0;
             final int attack = attacks;
             @Override
             public void run() {
-                if (distance > 100) {
+                if (distance > 80) {
                     if (attacks == attack)
                         attacks = 0;
                     axe.remove();
@@ -69,7 +66,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
                         damageable.damage(5, player);
                 }
 
-                axe.teleport(location.add(direction.clone().multiply(0.5)));
+                axe.teleport(location.add(direction.clone().multiply(0.9)));
 
                 distance ++;
             }
