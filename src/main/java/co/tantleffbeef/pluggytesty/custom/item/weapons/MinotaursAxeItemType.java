@@ -42,8 +42,8 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
         });
 
         final Vector direction = l.getDirection();
-        final Vector p = direction.clone().rotateAroundY(90);
-        final Vector3f perpendicular = new Vector3f((float) p.getX(), (float) p.getY(), (float) p.getZ());
+//        final Vector p = direction.clone().rotateAroundY(90);
+//        final Vector3f perpendicular = new Vector3f((float) p.getX(), (float) p.getY(), (float) p.getZ());
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int distance = 0;
@@ -59,7 +59,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 //                axe.teleport(location.add(direction));
 
                 final Transformation t = axe.getTransformation();
-                t.getRightRotation().rotateAxis((float) Math.toRadians(10), perpendicular);
+                t.getRightRotation().rotateLocalX(10);/*rotateAxis((float) Math.toRadians(10), perpendicular);*/
                 axe.setTransformation(t);
 
 
