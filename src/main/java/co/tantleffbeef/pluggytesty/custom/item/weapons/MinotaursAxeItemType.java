@@ -37,7 +37,10 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
         Location l = player.getEyeLocation();
 
-        final ItemDisplay axe = player.getWorld().spawn(l, ItemDisplay.class, (display) -> display.setItemStack(new ItemStack(Material.GOLDEN_AXE)));
+        final ItemDisplay axe = player.getWorld().spawn(l, ItemDisplay.class, (display) -> {
+            display.setItemStack(new ItemStack(Material.GOLDEN_AXE));
+            display.setRotation(l.getYaw(), 0/*l.getPitch()*/);
+        });
 
         final Vector direction = l.getDirection().rotateAroundY(90);
 
