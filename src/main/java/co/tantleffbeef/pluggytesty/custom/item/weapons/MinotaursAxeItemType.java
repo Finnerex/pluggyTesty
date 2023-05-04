@@ -69,13 +69,13 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
                         damageable.damage(5, player);
                 }
 
-                axe.teleport(location.add(direction));
+                axe.teleport(location.add(direction.clone().multiply(0.5)));
 
                 distance ++;
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 0, 1);
+        runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
 
         if (attacks >= 3) {
