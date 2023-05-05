@@ -59,6 +59,8 @@ public class SonicSwordItemType extends SimpleItemType implements InteractableIt
 
                 l.add(d.multiply(distance * 0.2));
 
+                distance ++;
+
             }
         };
 
