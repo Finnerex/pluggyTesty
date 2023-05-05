@@ -35,7 +35,7 @@ public class SonicSwordItemType extends SimpleItemType implements InteractableIt
 
         BukkitRunnable runnable = new BukkitRunnable() {
 
-            final Location l = player.getLocation().clone();
+            final Location l = player.getEyeLocation().clone();
             final Vector d = l.getDirection();
 
             int distance = 1;
@@ -46,13 +46,16 @@ public class SonicSwordItemType extends SimpleItemType implements InteractableIt
                     return;
                 }
 
-                final Vector pd = d.clone().rotateAroundY(90);
+
 
                 for (int i = -1; i < 2; i += 2) {
-                    Location l2 = l.clone();
+
+                    final Location l2 = l.clone();
+                    final Vector pd = d.clone().rotateAroundY(90);
+
                     for (int j = 0; j < distance * 2; j++) {
                         w.spawnParticle(Particle.WHITE_ASH, l2, 1);
-                        l2.add(pd.multiply(0.1 * i));
+                        l2.add(pd.multiply(2 * i));
                         pd.rotateAroundY(5 * i);
                     }
                 }
