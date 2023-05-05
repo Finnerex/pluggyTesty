@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.armor.effect_listeners;
 
 import co.tantleffbeef.pluggytesty.armor.ArmorEffectType;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,10 +16,11 @@ public class PlayerUnswimListener implements Listener {
             return;
 
         if(ArmorEquipListener.effectMap.get(player.getUniqueId()) != ArmorEffectType.CONDUIT_POWER
-                || event.isSwimming() || !player.isSneaking())
+                || event.isSwimming() /*|| !player.isSneaking()*/)
             return;
 
         player.setVelocity(player.getVelocity().add(player.getLocation().getDirection()));
+        player.playSound(player, Sound.ITEM_TRIDENT_RIPTIDE_2, 1, 2);
 
     }
 }
