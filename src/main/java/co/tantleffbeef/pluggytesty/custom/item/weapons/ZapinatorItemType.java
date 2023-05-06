@@ -43,8 +43,8 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
             case 3 -> attack4(location, player); // spread
         }
 
-        player.setCooldown(Material.GOLDEN_HOE, 50);
-        player.playSound(location, Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1, 0.01f);
+        player.setCooldown(Material.GOLDEN_HOE, 30);
+        player.playSound(location, Sound.BLOCK_AMETHYST_BLOCK_CHIME, 4, 0.1f);
 
         return false;
     }
@@ -156,7 +156,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
     private void attack4(Location l, Player player) {
         Random r = new Random();
 
-        l.setDirection(l.getDirection().add(new Vector(r.nextFloat(1) - 0.5f, r.nextFloat(1) - 0.5f, r.nextFloat(1) - 0.5f)).normalize());
+        l.setDirection(l.getDirection().add(new Vector(r.nextFloat(0.2f) - 0.1f, r.nextFloat(0.2f) - 0.1f, r.nextFloat(0.2f) - 0.1f)).normalize());
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int runs = 0;
