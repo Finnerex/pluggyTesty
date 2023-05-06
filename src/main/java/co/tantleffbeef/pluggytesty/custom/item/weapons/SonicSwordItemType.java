@@ -47,7 +47,6 @@ public class SonicSwordItemType extends SimpleItemType implements InteractableIt
                 }
 
 
-
                 for (int i = -1; i < 2; i += 2) {
 
                     final Location l2 = l.clone();
@@ -55,12 +54,12 @@ public class SonicSwordItemType extends SimpleItemType implements InteractableIt
 
                     for (int j = 0; j < distance * 2; j++) {
                         w.spawnParticle(Particle.SPELL_INSTANT, l2, 1);
-                        l2.add(pd.multiply(2 * i));
+                        l2.add(pd.multiply(i));
                         pd.rotateAroundY(5 * i);
                     }
                 }
 
-                l.add(d.multiply(distance * 0.2));
+                l.add(d);
 
                 distance ++;
 
