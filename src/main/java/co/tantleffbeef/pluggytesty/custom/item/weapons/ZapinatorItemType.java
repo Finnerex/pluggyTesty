@@ -44,7 +44,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
         }
 
         player.setCooldown(Material.GOLDEN_HOE, 30);
-        player.playSound(location, Sound.BLOCK_AMETHYST_BLOCK_BREAK, 4, 0.01f);
+        player.playSound(location, Sound.BLOCK_AMETHYST_BLOCK_BREAK, 4, -10);
 
         return false;
     }
@@ -84,7 +84,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
             int runs = 0;
             @Override
             public void run() {
-                if (runs > 50) {
+                if (runs > 55) {
                     cancel();
                     return;
                 }
