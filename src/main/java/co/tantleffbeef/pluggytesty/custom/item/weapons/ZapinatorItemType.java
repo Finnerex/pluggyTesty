@@ -29,7 +29,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
         if (player.hasCooldown(Material.GOLDEN_HOE))
-            return false;
+            return true;
 
         final int attackNum = new Random().nextInt(4);
 
@@ -46,7 +46,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
         player.setCooldown(Material.GOLDEN_HOE, 30);
         player.playSound(location, Sound.BLOCK_AMETHYST_BLOCK_BREAK, 4, -10);
 
-        return false;
+        return true;
     }
 
     private Entity shootBolt(float range, Location location) {
@@ -65,7 +65,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
 
         for(float i = 0.1f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
-            world.spawnParticle(Particle.FALLING_DRIPSTONE_LAVA, location, 4);
+            world.spawnParticle(Particle.FALLING_DRIPSTONE_LAVA, location, 1);
         }
 
         return entity;
