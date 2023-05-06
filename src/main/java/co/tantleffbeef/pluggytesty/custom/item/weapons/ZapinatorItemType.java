@@ -2,10 +2,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
@@ -45,6 +42,9 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
             case 2 -> attack3(location, player); // peirce
             case 3 -> attack4(location, player); // spread
         }
+
+        player.setCooldown(Material.GOLDEN_HOE, 50);
+        player.playSound(location, Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1, 0.01f);
 
         return false;
     }
@@ -156,7 +156,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
     private void attack4(Location l, Player player) {
         Random r = new Random();
 
-        l.setDirection(l.getDirection().add(new Vector(r.nextFloat(3) - 1, r.nextFloat(3) - 1, r.nextFloat(3) - 1)).normalize());
+        l.setDirection(l.getDirection().add(new Vector(r.nextFloat(1) - 0.5f, r.nextFloat(1) - 0.5f, r.nextFloat(1) - 0.5f)).normalize());
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int runs = 0;
