@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class ZapinatorItemType extends SimpleItemType implements InteractableItemType {
 
-    private Plugin schedulerPlugin;
+    private final Plugin schedulerPlugin;
 
     public ZapinatorItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.GOLDEN_HOE);
@@ -33,13 +33,14 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
         if (player.hasCooldown(Material.GOLDEN_HOE))
             return false;
 
-//        final int attackNum = new Random().nextInt(4);
-        int attackNum = 0;
+        final int attackNum = new Random().nextInt(2);
+
 
         final Location location = player.getEyeLocation();
 
         switch (attackNum) {
             case 0 -> attack1(location, player);
+            case 1 -> attack2(location, player);
         }
 
         return false;
@@ -47,7 +48,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
 
     private Entity shootBolt(float range, Location location) {
 
-        location.add(location.getDirection().multiply(2));
+        location.add(location.getDirection().multiply(1));
         final World world = location.getWorld();
 
         Entity entity = null;
@@ -61,7 +62,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
 
         for(float i = 0.1f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
-            world.spawnParticle(Particle.DRIP_LAVA, location, 1);
+            world.spawnParticle(Particle.FALLING_DRIPSTONE_LAVA, location, 4);
         }
 
         return entity;
@@ -87,7 +88,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
 
 //                l.add(l.getDirection().multiply(0.2));
 
-                Entity hit = shootBolt(1f, l);
+                Entity hit = shootBolt(0.3f, l);
                 if (hit instanceof Damageable damageable) {
                     damageable.damage(6, player);
                     cancel();
@@ -114,7 +115,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
 
 //                l.add(l.getDirection().multiply(0.2));
 
-                Entity hit = shootBolt(1.2f, l);
+                Entity hit = shootBolt(1f, l);
                 if (hit instanceof Damageable damageable) {
                     damageable.damage(2, player);
                     cancel();
