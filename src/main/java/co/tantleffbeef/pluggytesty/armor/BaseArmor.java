@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.UUID;
 
-public class BaseArmor {
+public abstract class BaseArmor {
 
     public static ItemStack lH(){
         ItemStack Item = new ItemStack(Material.LEATHER_HELMET);
