@@ -34,7 +34,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
         if (player.hasCooldown(Material.GOLDEN_HOE))
             return false;
 
-        final int attackNum = new Random().nextInt(2);
+        final int attackNum = new Random().nextInt(4);
 
 
         final Location location = player.getEyeLocation();
@@ -84,7 +84,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
             int runs = 0;
             @Override
             public void run() {
-                if (runs > 40) {
+                if (runs > 50) {
                     cancel();
                     return;
                 }
@@ -100,7 +100,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 0, 1);
+        runnable.runTaskTimer(schedulerPlugin, 0, 2);
 
     }
 
