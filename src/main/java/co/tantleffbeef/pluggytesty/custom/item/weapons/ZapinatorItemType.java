@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,8 +40,10 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
         final Location location = player.getEyeLocation();
 
         switch (attackNum) {
-            case 0 -> attack1(location, player);
-            case 1 -> attack2(location, player);
+            case 0 -> attack1(location, player); // slow
+            case 1 -> attack2(location, player); // normal
+            case 2 -> attack3(location, player); // peirce
+            case 3 -> attack4(location, player); // spread
         }
 
         return false;
@@ -81,16 +84,14 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
             int runs = 0;
             @Override
             public void run() {
-                if (runs > 20) {
+                if (runs > 40) {
                     cancel();
                     return;
                 }
 
-//                l.add(l.getDirection().multiply(0.2));
-
                 Entity hit = shootBolt(0.3f, l);
                 if (hit instanceof Damageable damageable) {
-                    damageable.damage(6, player);
+                    damageable.damage(8, player);
                     cancel();
                 }
 
@@ -113,13 +114,64 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
                     return;
                 }
 
-//                l.add(l.getDirection().multiply(0.2));
 
-                Entity hit = shootBolt(1f, l);
+                Entity hit = shootBolt(1.5f, l);
                 if (hit instanceof Damageable damageable) {
-                    damageable.damage(2, player);
+                    damageable.damage(4, player);
                     cancel();
                 }
+                runs++;
+
+            }
+        };
+
+        runnable.runTaskTimer(schedulerPlugin, 0, 0);
+
+    }
+
+    private void attack3(Location l, Player player) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            int runs = 0;
+            @Override
+            public void run() {
+                if (runs > 32) {
+                    cancel();
+                    return;
+                }
+
+
+                Entity hit = shootBolt(0.8f, l);
+                if (hit instanceof Damageable damageable)
+                    damageable.damage(3, player);
+
+                runs++;
+
+            }
+        };
+
+        runnable.runTaskTimer(schedulerPlugin, 0, 0);
+
+    }
+
+    private void attack4(Location l, Player player) {
+        Random r = new Random();
+
+        l.setDirection(l.getDirection().add(new Vector(r.nextFloat(3) - 1, r.nextFloat(3) - 1, r.nextFloat(3) - 1)).normalize());
+
+        BukkitRunnable runnable = new BukkitRunnable() {
+            int runs = 0;
+            @Override
+            public void run() {
+                if (runs > 30) {
+                    cancel();
+                    return;
+                }
+
+
+                Entity hit = shootBolt(1f, l);
+                if (hit instanceof Damageable damageable)
+                    damageable.damage(5, player);
+
                 runs++;
 
             }
