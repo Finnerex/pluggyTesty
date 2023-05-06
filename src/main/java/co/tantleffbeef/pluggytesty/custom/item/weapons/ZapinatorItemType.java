@@ -44,7 +44,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
         }
 
         player.setCooldown(Material.GOLDEN_HOE, 30);
-        player.playSound(location, Sound.BLOCK_AMETHYST_BLOCK_CHIME, 4, 0.1f);
+        player.playSound(location, Sound.BLOCK_AMETHYST_BLOCK_BREAK, 4, 0.01f);
 
         return false;
     }
