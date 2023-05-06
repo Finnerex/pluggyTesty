@@ -103,7 +103,12 @@ public final class PluggyTesty extends JavaPlugin {
 
         ArmorEquipEvent.registerListener(this);
 
-        recipe();
+        cHrecipe();
+        cHrecipe2();
+        cBrecipe();
+        cBrecipe2();
+        cCrecipe();
+        cLrecipe();
     }
 
     private void registerItems() {
@@ -132,7 +137,7 @@ public final class PluggyTesty extends JavaPlugin {
         getLogger().info("no more");
     }
 
-    private void recipe() {
+    private void cHrecipe() {
         final ShapedRecipe cHrecipe = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), ChainHelmetItemType.Attributes())
                 .shape(
                         "ccc",
@@ -141,7 +146,56 @@ public final class PluggyTesty extends JavaPlugin {
                 .setIngredient('c', Material.CHAIN);
         getServer().addRecipe(cHrecipe);
         recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_helmet"), Material.CHAIN);
+    }    private void cHrecipe2() {
+        final ShapedRecipe cHrecipe = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), ChainHelmetItemType.Attributes())
+                .shape(
+                        "   ",
+                        "ccc",
+                        "c c")
+                .setIngredient('c', Material.CHAIN);
+        getServer().addRecipe(cHrecipe);
+        recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_helmet"), Material.CHAIN);
     }
 
+
+    private void cBrecipe() {
+        final ShapedRecipe cHrecipe = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), ChainHelmetItemType.Attributes())
+                .shape(
+                        "c c",
+                        "c c",
+                        "   ")
+                .setIngredient('c', Material.CHAIN);
+        getServer().addRecipe(cHrecipe);
+        recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_helmet"), Material.CHAIN);
+    }    private void cBrecipe2() {
+    final ShapedRecipe cHrecipe = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), ChainHelmetItemType.Attributes())
+            .shape(
+                    "   ",
+                    "c c",
+                    "c c")
+            .setIngredient('c', Material.CHAIN);
+    getServer().addRecipe(cHrecipe);
+    recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_helmet"), Material.CHAIN);
+}
+    private void cCrecipe() {
+        final ShapedRecipe cHrecipe = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), ChainHelmetItemType.Attributes())
+                .shape(
+                        "c c",
+                        "ccc",
+                        "ccc")
+                .setIngredient('c', Material.CHAIN);
+        getServer().addRecipe(cHrecipe);
+        recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_helmet"), Material.CHAIN);
+    }
+    private void cLrecipe() {
+        final ShapedRecipe cHrecipe = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), ChainHelmetItemType.Attributes())
+                .shape(
+                        "ccc",
+                        "c c",
+                        "c c")
+                .setIngredient('c', Material.CHAIN);
+        getServer().addRecipe(cHrecipe);
+        recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_helmet"), Material.CHAIN);
+    }
 
 }

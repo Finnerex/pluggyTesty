@@ -112,6 +112,7 @@ public class BaseArmor {
         ItemStack Item = new ItemStack(Material.GOLDEN_HELMET);
         ItemMeta Meta = Item.getItemMeta();
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
         Item.setItemMeta(Meta);
 
         return Item;
@@ -120,6 +121,7 @@ public class BaseArmor {
         ItemStack Item = new ItemStack(Material.GOLDEN_CHESTPLATE);
         ItemMeta Meta = Item.getItemMeta();
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
         Item.setItemMeta(Meta);
 
         return Item;
@@ -128,6 +130,7 @@ public class BaseArmor {
         ItemStack Item = new ItemStack(Material.GOLDEN_LEGGINGS);
         ItemMeta Meta = Item.getItemMeta();
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
         Item.setItemMeta(Meta);
 
         return Item;
@@ -136,6 +139,7 @@ public class BaseArmor {
         ItemStack Item = new ItemStack(Material.GOLDEN_BOOTS);
         ItemMeta Meta = Item.getItemMeta();
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
         Item.setItemMeta(Meta);
 
         return Item;
@@ -144,6 +148,7 @@ public class BaseArmor {
         ItemStack Item = new ItemStack(Material.DIAMOND_HELMET);
         ItemMeta Meta = Item.getItemMeta();
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
         Item.setItemMeta(Meta);
 
         return Item;
@@ -152,6 +157,7 @@ public class BaseArmor {
         ItemStack Item = new ItemStack(Material.DIAMOND_CHESTPLATE);
         ItemMeta Meta = Item.getItemMeta();
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
         Item.setItemMeta(Meta);
 
         return Item;
@@ -160,6 +166,7 @@ public class BaseArmor {
         ItemStack Item = new ItemStack(Material.DIAMOND_LEGGINGS);
         ItemMeta Meta = Item.getItemMeta();
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
         Item.setItemMeta(Meta);
 
         return Item;
@@ -168,6 +175,7 @@ public class BaseArmor {
         ItemStack Item = new ItemStack(Material.DIAMOND_BOOTS);
         ItemMeta Meta = Item.getItemMeta();
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
         Item.setItemMeta(Meta);
 
         return Item;
@@ -176,6 +184,7 @@ public class BaseArmor {
         ItemStack Item = new ItemStack(Material.NETHERITE_BOOTS);
         ItemMeta Meta = Item.getItemMeta();
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 6, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
         Item.setItemMeta(Meta);
 
         return Item;
@@ -184,6 +193,7 @@ public class BaseArmor {
         ItemStack Item = new ItemStack(Material.NETHERITE_CHESTPLATE);
         ItemMeta Meta = Item.getItemMeta();
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 6, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
         Item.setItemMeta(Meta);
 
         return Item;
@@ -192,6 +202,7 @@ public class BaseArmor {
         ItemStack Item = new ItemStack(Material.NETHERITE_LEGGINGS);
         ItemMeta Meta = Item.getItemMeta();
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 6, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
         Item.setItemMeta(Meta);
 
         return Item;
@@ -200,6 +211,7 @@ public class BaseArmor {
         ItemStack Item = new ItemStack(Material.NETHERITE_BOOTS);
         ItemMeta Meta = Item.getItemMeta();
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 6, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
         Item.setItemMeta(Meta);
 
         return Item;
