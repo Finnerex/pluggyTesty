@@ -50,7 +50,7 @@ public class SonicSwordItemType extends SimpleItemType implements InteractableIt
                 for (int i = -1; i < 2; i += 2) {
 
                     final Location l2 = l.clone();
-                    final Vector pd = d.clone().rotateAroundY(90);
+                    final Vector pd = d.clone().setY(0).rotateAroundY(90);
 
                     for (int j = 0; j < distance * 2; j++) {
                         w.spawnParticle(Particle.SPELL_INSTANT, l2, 1);
