@@ -33,7 +33,8 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
         if (player.hasCooldown(Material.GOLDEN_HOE))
             return false;
 
-        final int attackNum = new Random().nextInt(4);
+//        final int attackNum = new Random().nextInt(4);
+        int attackNum = 0;
 
         final Location location = player.getEyeLocation();
 
@@ -87,8 +88,10 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
 //                l.add(l.getDirection().multiply(0.2));
 
                 Entity hit = shootBolt(1f, l);
-                if (hit instanceof Damageable damageable)
+                if (hit instanceof Damageable damageable) {
                     damageable.damage(6, player);
+                    cancel();
+                }
 
                 runs++;
 
@@ -96,6 +99,32 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
         };
 
         runnable.runTaskTimer(schedulerPlugin, 0, 1);
+
+    }
+
+    private void attack2(Location l, Player player) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            int runs = 0;
+            @Override
+            public void run() {
+                if (runs > 20) {
+                    cancel();
+                    return;
+                }
+
+//                l.add(l.getDirection().multiply(0.2));
+
+                Entity hit = shootBolt(1.2f, l);
+                if (hit instanceof Damageable damageable) {
+                    damageable.damage(2, player);
+                    cancel();
+                }
+                runs++;
+
+            }
+        };
+
+        runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
     }
 

@@ -119,6 +119,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new RandomEffectBowItemType(this, "random_bow", false, "Random Effect Bow"));
         resourceManager.registerItem(new LauncherItemType(this, "launcher", false, "Launcher"));
         resourceManager.registerItem(new MinotaursAxeItemType(this, "minotaurs_axe", false, ChatColor.DARK_GREEN + "Minotaur's Axe"));
+        resourceManager.registerItem(new ZapinatorItemType(this, "zapinator", false, ChatColor.GOLD + "Zapinator"));
 
         //Utility
         resourceManager.registerItem(new GoItemType(this, "go", false, "Go!"));
