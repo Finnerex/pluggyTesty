@@ -47,19 +47,18 @@ public class FlamelashItemType extends SimpleItemType implements InteractableIte
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int runs = 0;
-            final Player playerBalls = player;
             @Override
             public void run() {
-                if (runs > 200 || !playerBalls.isSneaking() || firework.isDetonated()) {
+                if (runs > 200 || !player.isSneaking() || firework.isDetonated()) {
                     if(!firework.isDetonated())
-                        firework.setVelocity(playerBalls.getLocation().getDirection().multiply(2));
+                        firework.setVelocity(player.getLocation().getDirection().multiply(2));
                     cancel();
                     return;
                 }
 
-                //firework.teleport(playerBalls.getLocation().add(playerBalls.getLocation().getDirection().multiply(runs)));
+//                firework.teleport(player.getLocation().add(player.getLocation().getDirection().multiply(runs)));
 //                Bukkit.broadcastMessage("location: " + firework.getLocation() + "runs: " + runs);
-//                firework.setVelocity(player.getLocation().getDirection());
+                firework.setVelocity(player.getLocation().getDirection());
 
                 runs ++;
             }
