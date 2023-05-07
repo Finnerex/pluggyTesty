@@ -36,10 +36,10 @@ public class LifeDrainItemType extends SimpleItemType implements InteractableIte
             if (e instanceof Damageable d) {
                 float prevHealth = (float) d.getHealth();
 
-                d.damage(0.5, player);
+                d.damage(1, player);
 
                 if (d.getHealth() < prevHealth)
-                    player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + 0.2)));
+                    player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + 0.3)));
 
                 final Location eLoc = e.getLocation();
                 final double dist = eLoc.distance(pLoc);
