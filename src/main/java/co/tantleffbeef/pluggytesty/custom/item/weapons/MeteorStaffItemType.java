@@ -5,6 +5,7 @@ import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -29,31 +30,29 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
 
         final World w = player.getWorld();
 
-        Location hitLocation = blockEntityCast(player.getEyeLocation());
+        Location hitLocation = blockEntityCast(player.getEyeLocation(), player);
 
-//        Random r = new Random();
-//        final float x = r.nextFloat(-1, 1);
-//        final float z = r.nextFloat(-1, 1);
+        Random r = new Random();
+        final float x = r.nextFloat(-1, 1);
+        final float z = r.nextFloat(-1, 1);
 
-        FallingBlock fallBlock = w.spawnFallingBlock(hitLocation.add(new Vector(0, 10, 0)), Material.DRIPSTONE_BLOCK.createBlockData());
+        FallingBlock fallBlock = w.spawnFallingBlock(hitLocation.add(new Vector(x, 10, z)), Material.DRIPSTONE_BLOCK.createBlockData());
 
-//        fallBlock.setVelocity(new Vector(-x / 2, -1, -z / 2));
+        fallBlock.setVelocity(new Vector(-x / 2, -1, -z / 2));
 
         return true;
     }
 
-    private Location blockEntityCast(Location location) {
+    private Location blockEntityCast(Location location, Player player) {
         RayTraceResult result = location.getWorld().rayTrace(location, location.getDirection(), 30, FluidCollisionMode.SOURCE_ONLY, true, 1.2, null);
 
         if (result != null) {
-            if (result.getHitEntity() != null) {
-                Bukkit.broadcastMessage("Entity" + result.getHitEntity());
-                return result.getHitEntity().getLocation();
-            }
-            if (result.getHitBlock() != null) {
-                Bukkit.broadcastMessage("Block" + result.getHitBlock());
+            Entity entity = result.getHitEntity();
+            if (entity != null && !entity.equals(player))
+                return entity.getLocation();
+
+            if (result.getHitBlock() != null)
                 return result.getHitBlock().getLocation();
-            }
         }
 
         return location.add(location.getDirection().multiply(10));
