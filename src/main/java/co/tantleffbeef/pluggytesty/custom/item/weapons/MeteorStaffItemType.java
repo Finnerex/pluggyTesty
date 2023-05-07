@@ -39,7 +39,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
         final float x = r.nextFloat(-3, 3);
         final float z = r.nextFloat(-3, 3);
 
-        BlockDisplay fallBlock = w.spawn(hitLocation.clone().add(new Vector(x, 20, z)), BlockDisplay.class, (display) -> {
+        BlockDisplay fallBlock = w.spawn(hitLocation.clone().add(new Vector(x, 30, z)), BlockDisplay.class, (display) -> {
             display.setBlock(Material.DRIPSTONE_BLOCK.createBlockData());
         });
 
@@ -49,7 +49,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
                 Collection<Entity> entities = fallBlock.getNearbyEntities(0.5, 0.5, 0.5);
                 entities.remove(fallBlock);
 
-                if (fallBlock.getLocation().getY() < hitLocation.getY() || !entities.isEmpty()) {
+                if (fallBlock.getLocation().getY() <= hitLocation.getY() || !entities.isEmpty()) {
                     if (!entities.isEmpty()) {
                         for (Entity e : entities) {
                             if (e instanceof Damageable d)
@@ -79,6 +79,8 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
     private Location blockEntityCast(Location location, Player player) {
         RayTraceResult result = location.getWorld().rayTraceEntities(location, location.getDirection(),40);
 
+        Bukkit.broadcastMessage("result: " + result);
+
         if (result != null) {
             Entity entity = result.getHitEntity();
             if (entity != null && !entity.equals(player)) {
@@ -91,7 +93,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
 
         if (result != null) {
             if (result.getHitBlock() != null) {
-                Bukkit.broadcastMessage("block: " + result.getHitBlock());
+                Bukkit.broadcastMessage("block: " + result.getHitBlock().getBlockData().getMaterial());
                 return result.getHitBlock().getLocation();
             }
         }
