@@ -59,13 +59,14 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
                     }
 
                     Location location = fallBlock.getLocation();
-                    fallBlock.teleport(location.add(location.subtract(hitLocation).toVector().normalize()));
+                    fallBlock.teleport(location.add(location.clone().subtract(hitLocation).toVector().normalize()));
+                    Bukkit.broadcastMessage("Diff: " + location.clone().subtract(hitLocation).toVector().normalize());
 
                 }
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 0, 10);
+        runnable.runTaskTimer(schedulerPlugin, 0, 3);
 
 
         return true;

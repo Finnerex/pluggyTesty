@@ -15,18 +15,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class FlamelashItemType extends SimpleItemType implements InteractableItemType {
+public class MagicMissileItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
 
-    public FlamelashItemType(Plugin namespace, String id, boolean customModel, String name) {
-        super(namespace, id, customModel, name, Material.ORANGE_CANDLE);
+    public MagicMissileItemType(Plugin namespace, String id, boolean customModel, String name) {
+        super(namespace, id, customModel, name, Material.BLUE_CANDLE);
         this.schedulerPlugin = namespace;
     }
 
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
-        if (player.hasCooldown(Material.ORANGE_CANDLE))
+        if (player.hasCooldown(Material.BLUE_CANDLE))
             return true;
 
         final Location location = player.getEyeLocation();
@@ -62,9 +62,9 @@ public class FlamelashItemType extends SimpleItemType implements InteractableIte
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 0, 2);
+        runnable.runTaskTimer(schedulerPlugin, 0, 1);
 
-        player.setCooldown(Material.ORANGE_CANDLE, 15);
+        player.setCooldown(Material.BLUE_CANDLE, 15);
 
         return true;
     }
@@ -72,11 +72,11 @@ public class FlamelashItemType extends SimpleItemType implements InteractableIte
     private FireworkEffect buildFirework(FireworkEffect.Type type) {
         FireworkEffect.Builder builder = FireworkEffect.builder();
 
-        final int color = new Random().nextInt(20);
+        final int color = new Random().nextInt(100);
 
         builder.flicker(true);
         builder.trail(false);
-        builder.withColor(Color.fromRGB(210 + color, 150, 43));
+        builder.withColor(Color.fromRGB(40 , 50 + color, 220));
 
         builder.with(type);
 
