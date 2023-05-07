@@ -27,7 +27,6 @@ public class LifeDrainItemType extends SimpleItemType implements InteractableIte
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
 
         final World w = player.getWorld();
-        final Location pLoc = player.getLocation();
 
         Collection<Entity> entities = player.getNearbyEntities(3.5, 2, 3.5);
 
@@ -41,15 +40,9 @@ public class LifeDrainItemType extends SimpleItemType implements InteractableIte
                 if (d.getHealth() < prevHealth)
                     player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + 0.3)));
 
-                final Location eLoc = e.getLocation();
-                final double dist = eLoc.distance(pLoc);
-                final Vector direction = eLoc.clone().subtract(pLoc).toVector().normalize();
+                w.spawnParticle(Particle.DAMAGE_INDICATOR, e.getLocation(), 1);
 
-                for (int i = 0; i < dist; i += 1) {
-                    w.spawnParticle(Particle.DAMAGE_INDICATOR, pLoc.add(direction), 1);
-                }
-
-                w.playSound(pLoc, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 50);
+                w.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 50);
             }
         }
 
