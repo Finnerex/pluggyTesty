@@ -59,7 +59,7 @@ public class FlamelashItemType extends SimpleItemType implements InteractableIte
                     return;
                 }
 
-                firework.getLocation(location.clone().add(location.getDirection().clone().multiply(runs)));
+                firework.teleport(location.add(location.getDirection().clone().multiply(runs)));
 
             }
         };
