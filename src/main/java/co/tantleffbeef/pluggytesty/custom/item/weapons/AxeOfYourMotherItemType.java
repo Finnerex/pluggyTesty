@@ -27,7 +27,7 @@ public class AxeOfYourMotherItemType extends SimpleItemType implements Interacta
         if (player.hasCooldown(Material.DIAMOND_AXE))
             return false;
 
-        player.playSound(player, Sound.ENTITY_BAT_TAKEOFF, 1, 1);
+        player.getWorld().playSound(player, Sound.ENTITY_BAT_TAKEOFF, 1, 1);
 
         player.setCooldown(Material.DIAMOND_AXE, 300);
 

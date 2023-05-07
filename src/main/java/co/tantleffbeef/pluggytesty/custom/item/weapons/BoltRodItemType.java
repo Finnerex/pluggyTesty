@@ -45,7 +45,7 @@ public class BoltRodItemType extends SimpleItemType implements InteractableItemT
         if (hitEntity != null)
             hitEntity.damage(3, player);
 
-        player.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
+        player.getWorld().playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
 
         player.setCooldown(Material.BLAZE_ROD, 5);
 

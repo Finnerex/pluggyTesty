@@ -33,7 +33,7 @@ public class FrostPoleItemType extends SimpleItemType implements InteractableIte
         if (player.hasCooldown(Material.SOUL_TORCH)) return true;
 
         player.setCooldown(Material.SOUL_TORCH, 5);
-        player.playSound(player, Sound.ENTITY_PLAYER_HURT_FREEZE, 1, 1);
+        player.getWorld().playSound(player, Sound.ENTITY_PLAYER_HURT_FREEZE, 1, 1);
 
         final float range = 2f;
         Entity target = shootBolt(range, player);

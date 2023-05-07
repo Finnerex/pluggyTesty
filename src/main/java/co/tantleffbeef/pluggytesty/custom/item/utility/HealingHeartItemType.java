@@ -60,7 +60,7 @@ public class HealingHeartItemType extends SimpleItemType implements Interactable
 
         item.setAmount(Math.min(amount + 1, 10)); //every tick(s) it is held for, max 60
 
-        player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 1, 1 + item.getAmount() * 0.01f);
+        player.getWorld().playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 1, 1 + item.getAmount() * 0.01f);
 
         return true;
     }
@@ -69,7 +69,7 @@ public class HealingHeartItemType extends SimpleItemType implements Interactable
         if (player.isDead())
             return;
 
-        player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+        player.getWorld().playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 
         player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + item.getAmount())));
         player.setCooldown(Material.REDSTONE, 60);

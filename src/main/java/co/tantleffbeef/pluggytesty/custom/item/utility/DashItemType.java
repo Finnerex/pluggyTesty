@@ -22,7 +22,7 @@ public class DashItemType extends SimpleItemType implements InteractableItemType
         if (player.hasCooldown(Material.FEATHER))
             return false;
 
-        player.playSound(player, Sound.ENTITY_EGG_THROW, 1, 1);
+        player.getWorld().playSound(player, Sound.ENTITY_EGG_THROW, 1, 1);
 
         Vector direction = player.getEyeLocation().getDirection();
 

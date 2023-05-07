@@ -53,7 +53,7 @@ public class LauncherItemType extends SimpleItemType implements InteractableItem
 
         runnable.runTaskTimer(schedulerPlugin, 0, 1);
 
-        //player.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
+        //world.playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
 
         player.setCooldown(Material.NETHER_BRICK, 5);
 

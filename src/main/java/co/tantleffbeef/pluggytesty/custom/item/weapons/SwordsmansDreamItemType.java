@@ -33,7 +33,7 @@ public class SwordsmansDreamItemType extends SimpleItemType implements Interacta
 
         if(player.isSneaking()) {
             player.setCooldown(Material.IRON_SWORD, 60);
-            player.playSound(player, Sound.BLOCK_GRINDSTONE_USE, 1, 1);
+            world.playSound(player, Sound.BLOCK_GRINDSTONE_USE, 1, 1);
             player.setGravity(false);
             player.setVelocity(new Vector(0, 0.2, 0));
 

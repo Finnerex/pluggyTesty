@@ -20,7 +20,7 @@ public class PlayerUnswimListener implements Listener {
             return;
 
         player.setVelocity(player.getVelocity().add(player.getLocation().getDirection()));
-        player.playSound(player, Sound.ITEM_TRIDENT_RIPTIDE_2, 1, 2);
+        player.getWorld().playSound(player, Sound.ITEM_TRIDENT_RIPTIDE_2, 1, 2);
 
     }
 }

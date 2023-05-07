@@ -41,7 +41,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
         final float z = r.nextFloat(-3, 3);
 
 
-        BlockDisplay fallBlock = w.spawn(hitLocation.clone().add(new Vector(x, 20, z)), BlockDisplay.class, (display) -> {
+        BlockDisplay fallBlock = w.spawn(hitLocation.clone().add(x, 20, z), BlockDisplay.class, (display) -> {
             display.setBlock(matList[r.nextInt(matList.length)].createBlockData());
         });
 

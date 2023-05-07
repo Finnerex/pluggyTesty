@@ -30,7 +30,7 @@ public class ClusterBombItemType extends SimpleItemType implements InteractableI
         if (player.hasCooldown(Material.COAL_BLOCK))
             return true;
 
-        player.playSound(player, Sound.ENTITY_ENDER_PEARL_THROW, 1, 1);
+        player.getWorld().playSound(player, Sound.ENTITY_ENDER_PEARL_THROW, 1, 1);
 
         player.setCooldown(Material.COAL_BLOCK, 10);
 
