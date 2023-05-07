@@ -73,7 +73,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
                 Location location = fallBlock.getLocation();
                 w.spawnParticle(Particle.FLAME, location, 1);
 
-                fallBlock.teleport(location.add(location.clone().subtract(hitLocation).toVector().multiply(-2)));
+                fallBlock.teleport(location.add(location.clone().subtract(hitLocation).toVector().normalize().multiply(-2)));
 
             }
         };
