@@ -13,6 +13,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Random;
+
 public class FlamelashItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
@@ -40,7 +42,7 @@ public class FlamelashItemType extends SimpleItemType implements InteractableIte
             meta.addEffect(buildFirework(FireworkEffect.Type.BURST));
             meta.addEffect(buildFirework(FireworkEffect.Type.BALL_LARGE));
             meta.addEffect(buildFirework(FireworkEffect.Type.BALL));
-            meta.setPower(6);
+            meta.setPower(4);
 
             f.setFireworkMeta(meta);
         });
@@ -68,9 +70,11 @@ public class FlamelashItemType extends SimpleItemType implements InteractableIte
     private FireworkEffect buildFirework(FireworkEffect.Type type) {
         FireworkEffect.Builder builder = FireworkEffect.builder();
 
+        final int color = new Random().nextInt(20);
+
         builder.flicker(true);
         builder.trail(false);
-        builder.withColor(Color.fromRGB(237, 150, 43));
+        builder.withColor(Color.fromRGB(210 + color, 150, 43));
 
         builder.with(type);
 
