@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty;
 import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.PaperCommandManager;
 import co.tantleffbeef.mcplanes.*;
+import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.BaseArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
@@ -16,7 +17,7 @@ import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
@@ -55,6 +56,7 @@ public final class PluggyTesty extends JavaPlugin {
         // Adds all the textures and models in the resources folder to the resource pack
         try (JarFile jar = new JarFile(getFile())) {
             resourceManager.addAssetsFolder(jar);
+            resourceManager.registerItemTextureAtlasDirectory("misc");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -129,6 +131,9 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new HealingHeartItemType(this, "healing_heart", false, ChatColor.RED + "Healing Heart"));
         resourceManager.registerItem(new DashItemType(this, "dash", false, "Dash"));
         resourceManager.registerItem(new DiggaItemType(this, "digga", false, "Digga"));
+
+        // armor
+        resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_armor", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Armor"));
     }
 
 
