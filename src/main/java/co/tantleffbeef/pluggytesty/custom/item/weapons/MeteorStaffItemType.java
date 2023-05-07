@@ -49,7 +49,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
                 Collection<Entity> entities = fallBlock.getNearbyEntities(0.5, 0.5, 0.5);
                 entities.remove(fallBlock);
 
-                if (fallBlock.getLocation().getBlock().getBlockData().getMaterial() != Material.AIR || !entities.isEmpty()) {
+                if (fallBlock.getLocation().getY() < hitLocation.getY() || !entities.isEmpty()) {
                     if (!entities.isEmpty()) {
                         for (Entity e : entities) {
                             if (e instanceof Damageable d)
@@ -65,14 +65,12 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
                 }
 
                 Location location = fallBlock.getLocation();
-                fallBlock.teleport(location.add(location.clone().subtract(hitLocation).toVector().multiply(-1).normalize()));
-                Bukkit.broadcastMessage("Diff: " + location.clone().subtract(hitLocation).toVector().normalize().getY());
-                Bukkit.broadcastMessage("hitLocation" + hitLocation.getY());
+                fallBlock.teleport(location.add(location.clone().subtract(hitLocation).toVector().setY(-1).normalize()));
 
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 0, 3);
+        runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
 
         return true;
