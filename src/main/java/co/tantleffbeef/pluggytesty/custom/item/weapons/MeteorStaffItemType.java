@@ -31,8 +31,6 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
 
         Location hitLocation = blockEntityCast(player.getEyeLocation());
 
-        Bukkit.broadcastMessage("loc: " + hitLocation);
-
 //        Random r = new Random();
 //        final float x = r.nextFloat(-1, 1);
 //        final float z = r.nextFloat(-1, 1);
@@ -48,10 +46,14 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
         RayTraceResult result = location.getWorld().rayTrace(location, location.getDirection(), 30, FluidCollisionMode.SOURCE_ONLY, true, 1.2, null);
 
         if (result != null) {
-            if (result.getHitEntity() != null)
+            if (result.getHitEntity() != null) {
+                Bukkit.broadcastMessage("Entity" + result.getHitEntity());
                 return result.getHitEntity().getLocation();
-            if (result.getHitBlock() != null)
+            }
+            if (result.getHitBlock() != null) {
+                Bukkit.broadcastMessage("Block" + result.getHitBlock());
                 return result.getHitBlock().getLocation();
+            }
         }
 
         return location.add(location.getDirection().multiply(10));
