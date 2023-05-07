@@ -57,7 +57,9 @@ public class FlamelashItemType extends SimpleItemType implements InteractableIte
                 }
 
                 firework.teleport(location.clone().add(location.getDirection().clone().multiply(runs)));
-                Bukkit.broadcastMessage("location: " + firework.getLocation() + "runs: " + runs);
+                //Bukkit.broadcastMessage("location: " + firework.getLocation() + "runs: " + runs);
+
+                runs ++;
 
             }
         };
