@@ -2,10 +2,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
-import org.bukkit.FluidCollisionMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.FallingBlock;
@@ -34,13 +31,15 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
 
         Location hitLocation = blockEntityCast(player.getEyeLocation());
 
-        Random r = new Random();
-        final float x = r.nextFloat(-1, 1);
-        final float z = r.nextFloat(-1, 1);
+        Bukkit.broadcastMessage("loc: " + hitLocation);
 
-        FallingBlock fallBlock = w.spawnFallingBlock(hitLocation.add(new Vector(x, 10, z)), Material.DRIPSTONE_BLOCK.createBlockData());
+//        Random r = new Random();
+//        final float x = r.nextFloat(-1, 1);
+//        final float z = r.nextFloat(-1, 1);
 
-        fallBlock.setVelocity(new Vector(-x / 2, -1, -z / 2));
+        FallingBlock fallBlock = w.spawnFallingBlock(hitLocation.add(new Vector(0, 10, 0)), Material.DRIPSTONE_BLOCK.createBlockData());
+
+//        fallBlock.setVelocity(new Vector(-x / 2, -1, -z / 2));
 
         return true;
     }
