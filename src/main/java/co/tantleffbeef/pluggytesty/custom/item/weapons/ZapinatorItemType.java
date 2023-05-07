@@ -156,7 +156,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
     private void attack4(Location l, Player player) {
         Random r = new Random();
 
-        l.setDirection(l.getDirection().add(new Vector(r.nextFloat(0.2f) - 0.1f, r.nextFloat(0.2f) - 0.1f, r.nextFloat(0.2f) - 0.1f)).normalize());
+        l.setDirection(l.getDirection().add(new Vector(r.nextFloat(-0.1f, 0.1f), r.nextFloat(-0.1f, 0.1f), r.nextFloat(-0.1f, 0.1f))).normalize());
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int runs = 0;

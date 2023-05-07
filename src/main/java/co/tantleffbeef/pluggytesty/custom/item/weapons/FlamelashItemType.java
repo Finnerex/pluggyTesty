@@ -64,6 +64,8 @@ public class FlamelashItemType extends SimpleItemType implements InteractableIte
 
         runnable.runTaskTimer(schedulerPlugin, 0, 2);
 
+        player.setCooldown(Material.ORANGE_CANDLE, 15);
+
         return true;
     }
 
