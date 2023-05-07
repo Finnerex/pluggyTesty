@@ -127,7 +127,7 @@ public class BossJawn implements CommandExecutor {
                     //w.spawnFallingBlock(l2, Material.BEACON.createBlockData());
                     w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
 
-                    Collection<Entity> entities = w.getNearbyEntities(l2, 1, 3, 1); // 1b side, 2b height
+                    Collection<Entity> entities = w.getNearbyEntities(l2, 0.5, 3, 0.5); // 1b side, 2b height
                     for (Entity e : entities) { // damage all entities in that block space
                         if (!(e instanceof Zombie) && e instanceof Damageable damageable)
                             damageable.damage(4, jawn);

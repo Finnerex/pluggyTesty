@@ -63,7 +63,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
                 t.getRightRotation().rotateLocalZ((float) Math.toRadians(10));/*rotateAxis((float) Math.toRadians(10), perpendicular);*/
                 axe.setTransformation(t);
 
-                Collection<Entity> entities = player.getWorld().getNearbyEntities(location, 1, 1, 1);
+                Collection<Entity> entities = player.getWorld().getNearbyEntities(location, 0.5, 0.5, 0.5);
                 for (Entity e : entities) { // damage all entities in that block space
                     if (e instanceof Damageable damageable && !e.equals(player))
                         damageable.damage(5, player);

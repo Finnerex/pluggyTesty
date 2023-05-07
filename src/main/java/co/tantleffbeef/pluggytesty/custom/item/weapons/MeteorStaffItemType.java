@@ -46,7 +46,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                Collection<Entity> entities = fallBlock.getNearbyEntities(1, 1, 1);
+                Collection<Entity> entities = fallBlock.getNearbyEntities(0.5, 0.5, 0.5);
                 entities.remove(fallBlock);
 
                 if (fallBlock.getLocation().getBlock().getBlockData().getMaterial() != Material.AIR || !entities.isEmpty()) {
@@ -55,19 +55,18 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
                             if (e instanceof Damageable d)
                                 d.damage(3, player);
                         }
-
-                        fallBlock.remove();
-                        Bukkit.broadcastMessage("removed");
-
-                        cancel();
-                        return;
                     }
 
-                    Location location = fallBlock.getLocation();
-                    fallBlock.teleport(location.add(location.clone().subtract(hitLocation).toVector().normalize()));
-                    Bukkit.broadcastMessage("Diff: " + location.clone().subtract(hitLocation).toVector().normalize());
+                    fallBlock.remove();
+                    Bukkit.broadcastMessage("removed");
 
+                    cancel();
+                    return;
                 }
+
+                Location location = fallBlock.getLocation();
+                fallBlock.teleport(location.add(location.clone().subtract(hitLocation).toVector().normalize()));
+                Bukkit.broadcastMessage("Diff: " + location.clone().subtract(hitLocation).toVector().normalize());
             }
         };
 
