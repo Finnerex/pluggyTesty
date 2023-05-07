@@ -106,7 +106,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         ArmorEquipEvent.registerListener(this);
 
-        registerRecipes();
+//        registerRecipes();
 
     }
 
