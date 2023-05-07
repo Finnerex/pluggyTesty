@@ -77,7 +77,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
     }
 
     private Location blockEntityCast(Location location, Player player) {
-        RayTraceResult result = location.getWorld().rayTrace(location, location.getDirection(), 40, FluidCollisionMode.SOURCE_ONLY, true, 1, null);
+        RayTraceResult result = location.getWorld().rayTraceEntities(location, location.getDirection(),40);
 
         if (result != null) {
             Entity entity = result.getHitEntity();
@@ -85,8 +85,13 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
                 Bukkit.broadcastMessage("entity: " + entity);
                 return entity.getLocation();
             }
+        }
+
+        result = location.getWorld().rayTraceBlocks(location, location.getDirection(),40);
+
+        if (result != null) {
             if (result.getHitBlock() != null) {
-                Bukkit.broadcastMessage("Block: " + result.getHitBlock());
+                Bukkit.broadcastMessage("block: " + result.getHitBlock());
                 return result.getHitBlock().getLocation();
             }
         }
