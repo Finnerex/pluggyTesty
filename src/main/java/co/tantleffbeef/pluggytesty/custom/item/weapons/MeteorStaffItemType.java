@@ -65,7 +65,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
                 }
 
                 Location location = fallBlock.getLocation();
-                fallBlock.teleport(location.add(location.clone().subtract(hitLocation).toVector().setY(-1).normalize()));
+                fallBlock.teleport(location.add(location.clone().subtract(hitLocation).toVector().multiply(-1).normalize()));
 
             }
         };
@@ -77,7 +77,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
     }
 
     private Location blockEntityCast(Location location, Player player) {
-        RayTraceResult result = location.getWorld().rayTrace(location, location.getDirection(), 40, FluidCollisionMode.SOURCE_ONLY, true, 1.2, null);
+        RayTraceResult result = location.getWorld().rayTrace(location, location.getDirection(), 40, FluidCollisionMode.SOURCE_ONLY, true, 1, null);
 
         if (result != null) {
             Entity entity = result.getHitEntity();
