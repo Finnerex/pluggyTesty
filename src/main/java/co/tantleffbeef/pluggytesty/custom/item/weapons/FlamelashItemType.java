@@ -13,17 +13,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
-
-public class FlameLashItemType extends SimpleItemType implements InteractableItemType {
+public class FlamelashItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
 
-    public FlameLashItemType(Plugin namespace, String id, boolean customModel, String name) {
+    public FlamelashItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.ORANGE_CANDLE);
         this.schedulerPlugin = namespace;
     }
