@@ -20,6 +20,7 @@ import java.util.Random;
 public class MeteorStaffItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
+    private final Material[] matList = {Material.DRIPSTONE_BLOCK, Material.BLACKSTONE, Material.COBBLED_DEEPSLATE, Material.GILDED_BLACKSTONE, Material.COBBLESTONE};
 
     public MeteorStaffItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.STONE_SHOVEL);
@@ -39,8 +40,9 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
         final float x = r.nextFloat(-3, 3);
         final float z = r.nextFloat(-3, 3);
 
-        BlockDisplay fallBlock = w.spawn(hitLocation.clone().add(new Vector(x, 30, z)), BlockDisplay.class, (display) -> {
-            display.setBlock(Material.DRIPSTONE_BLOCK.createBlockData());
+
+        BlockDisplay fallBlock = w.spawn(hitLocation.clone().add(new Vector(x, 20, z)), BlockDisplay.class, (display) -> {
+            display.setBlock(matList[r.nextInt(matList.length)].createBlockData());
         });
 
         BukkitRunnable runnable = new BukkitRunnable() {
@@ -57,14 +59,20 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
                         }
                     }
 
+                    w.playSound(hitLocation, Sound.ITEM_FIRECHARGE_USE, 1, 0.1f);
+                    w.spawnParticle(Particle.END_ROD, hitLocation, 4);
+
                     fallBlock.remove();
-                    Bukkit.broadcastMessage("removed");
 
                     cancel();
                     return;
                 }
 
+
+
                 Location location = fallBlock.getLocation();
+                w.spawnParticle(Particle.FLAME, location, 1);
+
                 fallBlock.teleport(location.add(location.clone().subtract(hitLocation).toVector().multiply(-1).normalize()));
 
             }
@@ -72,6 +80,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
 
         runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
+        player.setCooldown(Material.STONE_SHOVEL, 5);
 
         return true;
     }
@@ -79,23 +88,17 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
     private Location blockEntityCast(Location location, Player player) {
         RayTraceResult result = location.getWorld().rayTraceEntities(location.add(location.getDirection()), location.getDirection(),40);
 
-        Bukkit.broadcastMessage("result: " + result);
-
         if (result != null) {
             Entity entity = result.getHitEntity();
-            if (entity != null && !entity.equals(player)) {
-                Bukkit.broadcastMessage("entity: " + entity);
+            if (entity != null && !entity.equals(player))
                 return entity.getLocation();
-            }
         }
 
         result = location.getWorld().rayTraceBlocks(location, location.getDirection(),40);
 
         if (result != null) {
-            if (result.getHitBlock() != null) {
-                Bukkit.broadcastMessage("block: " + result.getHitBlock().getBlockData().getMaterial());
+            if (result.getHitBlock() != null)
                 return result.getHitBlock().getLocation();
-            }
         }
 
         return location.add(location.getDirection().multiply(10));
