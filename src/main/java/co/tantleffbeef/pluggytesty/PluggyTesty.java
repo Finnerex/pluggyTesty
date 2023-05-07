@@ -133,7 +133,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new DiggaItemType(this, "digga", false, "Digga"));
 
         // armor
-        resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_armor", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Armor"));
+        resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
     }
 
 
