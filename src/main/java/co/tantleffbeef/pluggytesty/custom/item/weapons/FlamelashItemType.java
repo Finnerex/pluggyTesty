@@ -2,10 +2,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -59,12 +56,13 @@ public class FlamelashItemType extends SimpleItemType implements InteractableIte
                     return;
                 }
 
-                firework.teleport(location.add(location.getDirection().clone().multiply(runs)));
+                firework.teleport(location.clone().add(location.getDirection().clone().multiply(runs)));
+                Bukkit.broadcastMessage("location: " + firework.getLocation() + "runs: " + runs);
 
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 0, 10);
+        runnable.runTaskTimer(schedulerPlugin, 0, 2);
 
         return true;
     }
