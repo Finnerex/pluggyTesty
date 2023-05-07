@@ -34,8 +34,12 @@ public class LifeDrainItemType extends SimpleItemType implements InteractableIte
         for (Entity e : entities) {
 
             if (e instanceof Damageable d) {
+                float prevHealth = (float) d.getHealth();
+
                 d.damage(0.5, player);
-                player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + 0.2)));
+
+                if (d.getHealth() < prevHealth)
+                    player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + 0.2)));
 
                 final Location eLoc = e.getLocation();
                 final double dist = eLoc.distance(pLoc);
@@ -45,7 +49,7 @@ public class LifeDrainItemType extends SimpleItemType implements InteractableIte
                     w.spawnParticle(Particle.DAMAGE_INDICATOR, pLoc.add(direction), 1);
                 }
 
-                w.playSound(pLoc, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 0.1f);
+                w.playSound(pLoc, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 50);
             }
         }
 
