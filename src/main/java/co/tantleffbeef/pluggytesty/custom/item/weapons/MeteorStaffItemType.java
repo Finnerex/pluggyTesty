@@ -77,7 +77,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
     }
 
     private Location blockEntityCast(Location location, Player player) {
-        RayTraceResult result = location.getWorld().rayTraceEntities(location, location.getDirection(),40);
+        RayTraceResult result = location.getWorld().rayTraceEntities(location.add(location.getDirection()), location.getDirection(),40);
 
         Bukkit.broadcastMessage("result: " + result);
 
