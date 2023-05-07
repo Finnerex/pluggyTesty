@@ -43,7 +43,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
             case 3 -> attack4(location, player); // spread
         }
 
-        player.setCooldown(Material.GOLDEN_HOE, 30);
+        player.setCooldown(Material.GOLDEN_HOE, 20);
         player.getWorld().playSound(location, Sound.BLOCK_AMETHYST_BLOCK_BREAK, 4, -10);
 
         return true;

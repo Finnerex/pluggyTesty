@@ -28,17 +28,17 @@ public class LifeDrainItemType extends SimpleItemType implements InteractableIte
 
         final World w = player.getWorld();
 
-        Collection<Entity> entities = player.getNearbyEntities(3.5, 2, 3.5);
+        Collection<Entity> entities = player.getNearbyEntities(4, 2, 4);
 
         for (Entity e : entities) {
 
             if (e instanceof Damageable d) {
                 float prevHealth = (float) d.getHealth();
 
-                d.damage(1, player);
+                d.damage(2, player);
 
                 if (d.getHealth() < prevHealth)
-                    player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + 0.3)));
+                    player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + 0.5)));
 
                 w.spawnParticle(Particle.DAMAGE_INDICATOR, e.getLocation(), 1);
 

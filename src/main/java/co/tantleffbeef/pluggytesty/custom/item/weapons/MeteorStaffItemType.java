@@ -48,7 +48,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                Collection<Entity> entities = fallBlock.getNearbyEntities(0.5, 0.5, 0.5);
+                Collection<Entity> entities = fallBlock.getNearbyEntities(1, 1, 1);
                 entities.remove(fallBlock);
 
                 if (fallBlock.getLocation().getY() <= hitLocation.getY() || !entities.isEmpty()) {
