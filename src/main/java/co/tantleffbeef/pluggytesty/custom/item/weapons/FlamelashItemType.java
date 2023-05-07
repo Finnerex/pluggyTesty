@@ -40,27 +40,23 @@ public class FlamelashItemType extends SimpleItemType implements InteractableIte
             meta.addEffect(buildFirework(FireworkEffect.Type.BURST));
             meta.addEffect(buildFirework(FireworkEffect.Type.BALL_LARGE));
             meta.addEffect(buildFirework(FireworkEffect.Type.BALL));
-            meta.setPower(4);
+            meta.setPower(6);
 
             f.setFireworkMeta(meta);
         });
 
         BukkitRunnable runnable = new BukkitRunnable() {
-            int runs = 0;
             @Override
             public void run() {
-                if (runs > 200 || !player.isSneaking() || firework.isDetonated()) {
+                if (!player.isSneaking() || firework.isDetonated()) {
                     if(!firework.isDetonated())
-                        firework.setVelocity(player.getLocation().getDirection().multiply(2));
+                        firework.setVelocity(player.getEyeLocation().getDirection().multiply(2));
                     cancel();
                     return;
                 }
 
-//                firework.teleport(player.getLocation().add(player.getLocation().getDirection().multiply(runs)));
-//                Bukkit.broadcastMessage("location: " + firework.getLocation() + "runs: " + runs);
-                firework.setVelocity(player.getLocation().getDirection());
+                firework.setVelocity(player.getEyeLocation().getDirection());
 
-                runs ++;
             }
         };
 
