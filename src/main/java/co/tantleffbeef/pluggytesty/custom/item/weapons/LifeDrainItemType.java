@@ -37,12 +37,12 @@ public class LifeDrainItemType extends SimpleItemType implements InteractableIte
                 d.damage(0.5, player);
                 player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + 0.2)));
 
-                Location eLoc = e.getLocation();
-                double dist = eLoc.distance(pLoc);
-                Vector direction = eLoc.clone().subtract(pLoc).toVector();
+                final Location eLoc = e.getLocation();
+                final double dist = eLoc.distance(pLoc);
+                final Vector direction = eLoc.clone().subtract(pLoc).toVector().normalize();
 
-                for (int i = 0; i < dist; i += 0.25) {
-                    w.spawnParticle(Particle.HEART, pLoc.add(direction.normalize().multiply(0.25)), 1);
+                for (int i = 0; i < dist; i += 1) {
+                    w.spawnParticle(Particle.DAMAGE_INDICATOR, pLoc.add(direction), 1);
                 }
 
                 w.playSound(pLoc, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 0.1f);
