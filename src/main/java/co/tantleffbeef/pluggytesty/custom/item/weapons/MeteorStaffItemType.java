@@ -47,6 +47,7 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
             @Override
             public void run() {
                 Collection<Entity> entities = fallBlock.getNearbyEntities(1, 1, 1);
+                entities.remove(fallBlock);
 
                 if (fallBlock.getLocation().getBlock().getBlockData().getMaterial() != Material.AIR || !entities.isEmpty()) {
                     if (!entities.isEmpty()) {
@@ -54,6 +55,10 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
                             if (e instanceof Damageable d)
                                 d.damage(3, player);
                         }
+
+                        fallBlock.remove();
+                        Bukkit.broadcastMessage("removed");
+
                         cancel();
                         return;
                     }

@@ -120,7 +120,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new LauncherItemType(this, "launcher", false, "Launcher"));
         resourceManager.registerItem(new MinotaursAxeItemType(this, "minotaurs_axe", false, ChatColor.DARK_GREEN + "Minotaur's Axe"));
         resourceManager.registerItem(new ZapinatorItemType(this, "zapinator", false, ChatColor.GOLD + "Zapinator"));
-        resourceManager.registerItem(new MagicMissileItemType(this, "magic_missile", false, ChatColor.GOLD + "Magic Missile"));
+        resourceManager.registerItem(new MagicMissileItemType(this, "magic_missile", false, ChatColor.BLUE + "Magic Missile"));
         resourceManager.registerItem(new MeteorStaffItemType(this, "meteor_staff", false, ChatColor.DARK_GRAY + "Meteor Staff"));
 
         //Utility
