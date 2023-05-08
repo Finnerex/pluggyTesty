@@ -16,14 +16,19 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 
 public class MinotaursAxeItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
+    private final Map<UUID, Integer> attacks;
 
     public MinotaursAxeItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.GOLDEN_AXE);
+        this.attacks = new HashMap<>();
         this.schedulerPlugin = namespace;
     }
 
@@ -32,6 +37,11 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
         if(player.hasCooldown(Material.GOLDEN_AXE))
             return true;
 
+        UUID uuid = player.getUniqueId();
+
+        attacks.putIfAbsent(uuid, 0);
+
+        attacks.put(uuid, attacks.get(uuid) + 1);
 
         Location l = player.getEyeLocation();
 
@@ -47,7 +57,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
             @Override
             public void run() {
-                if (distance > 50) {
+                if (distance > 30) {
                     axe.remove();
                     cancel();
                     return;
@@ -73,8 +83,10 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
         runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
-
-        player.setCooldown(Material.GOLDEN_AXE, 15);
+        if (attacks.get(uuid) > 2) {
+            player.setCooldown(Material.GOLDEN_AXE, 40);
+            attacks.putIfAbsent(uuid, 0);
+        }
 
         return true;
     }
