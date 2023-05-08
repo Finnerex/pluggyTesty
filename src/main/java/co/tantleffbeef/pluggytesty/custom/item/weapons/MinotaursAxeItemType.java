@@ -20,8 +20,7 @@ import java.util.Collection;
 
 public class MinotaursAxeItemType extends SimpleItemType implements InteractableItemType {
 
-    private int attacks = 0;
-    private Plugin schedulerPlugin;
+    private final Plugin schedulerPlugin;
 
     public MinotaursAxeItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.GOLDEN_AXE);
@@ -33,7 +32,6 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
         if(player.hasCooldown(Material.GOLDEN_AXE))
             return true;
 
-        attacks ++;
 
         Location l = player.getEyeLocation();
 
@@ -46,12 +44,10 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int distance = 0;
-            final int attack = attacks;
+
             @Override
             public void run() {
                 if (distance > 50) {
-                    if (attacks == attack)
-                        attacks = 0;
                     axe.remove();
                     cancel();
                     return;
@@ -78,11 +74,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
         runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
 
-        if (attacks >= 3) {
-            player.setCooldown(Material.GOLDEN_AXE, 40);
-            attacks = 0;
-        }
-
+        player.setCooldown(Material.GOLDEN_AXE, 15);
 
         return true;
     }

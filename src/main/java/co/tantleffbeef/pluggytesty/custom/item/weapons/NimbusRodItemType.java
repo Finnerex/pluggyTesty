@@ -18,12 +18,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 public class NimbusRodItemType extends SimpleItemType implements InteractableItemType {
 
     private int num = 0;
-    private int greatestRuns = 600;
+    private Map<UUID, Integer> greatestRuns;
     private final Plugin schedulerPlugin;
 
     public NimbusRodItemType(Plugin namespace, String id, boolean customModel, String name) {
@@ -35,6 +37,10 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
         if (player.hasCooldown(Material.DIAMOND_HOE))
             return false;
+
+        UUID uuid = player.getUniqueId();
+
+        greatestRuns.putIfAbsent(uuid, 0);
 
         num ++;
 
@@ -56,12 +62,12 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
             int runs = 0; // 1 run 2 ticks : 10 runs per sec
             @Override
             public void run() {
-                if (runs >= greatestRuns)
-                    greatestRuns = runs;
+                if (runs >= greatestRuns.get(uuid))
+                    greatestRuns.put(uuid, runs);
 
-                if (runs >= 600 || num > 2 && runs == greatestRuns) {
+                if (runs >= 600 || num > 2 && runs == greatestRuns.get(uuid)) {
                     num --;
-                    greatestRuns = 0;
+                    greatestRuns.put(uuid, 0);
                     cancel();
                     return;
                 }
