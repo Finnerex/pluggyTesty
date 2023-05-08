@@ -61,7 +61,7 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
 
                     for (int i = 0; i < 10; i ++) {
                         w.spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE, location.clone().add(
-                                r.nextDouble(-0.2, 0.2), r.nextDouble(0.2), r.nextDouble(-0.2, 0.2)), 2);
+                                r.nextDouble(-0.5, 0.5), r.nextDouble(0.5), r.nextDouble(-0.5, 0.5)), 2, 0, 0, 0, 0);
                     }
                 }
 
