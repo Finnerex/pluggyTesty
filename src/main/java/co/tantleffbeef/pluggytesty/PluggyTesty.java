@@ -106,7 +106,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         ArmorEquipEvent.registerListener(this);
 
-//        registerRecipes();
+        registerRecipes();
 
     }
 
@@ -126,6 +126,8 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new MeteorStaffItemType(this, "meteor_staff", false, ChatColor.DARK_GRAY + "Meteor Staff"));
         resourceManager.registerItem(new LifeDrainItemType(this, "life_drain", false, ChatColor.DARK_RED + "Life Drain"));
         resourceManager.registerItem(new NimbusRodItemType(this, "nimbus_rod", false, ChatColor.DARK_BLUE + "Nimbus Rod"));
+        resourceManager.registerItem(new YoyoItemType(this, "yoyo", false, ChatColor.DARK_BLUE + "Yoyo"));
+
 
         //Utility
         resourceManager.registerItem(new GoItemType(this, "go", false, "Go!"));
