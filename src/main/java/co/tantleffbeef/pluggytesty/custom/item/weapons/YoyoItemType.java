@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Damageable;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.Vector;
 
 public class YoyoItemType extends SimpleItemType implements InteractableItemType {
 
@@ -31,9 +33,11 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
         if (player.hasCooldown(Material.CHORUS_FRUIT))
             return true;
 
-        ItemDisplay fruit = player.getWorld().spawn(player.getLocation(), ItemDisplay.class, (display) -> {
+        ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (display) -> {
             display.setItemStack(itemStack);
         });
+
+        Location playerloc = player.getLocation();
 
 
 
@@ -41,7 +45,10 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             @Override
             public void run() {
 
-                fruit.teleport(player.getLocation().add(player.getLocation().getDirection().multiply(5)));
+                if (!(playerloc.equals(player.getLocation())))
+                    player.kickPlayer("L Bozo");
+
+                fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)));
 
                 Collection<Entity> entities = player.getWorld().getNearbyEntities(fruit.getLocation(), 0.7, 0.7, 0.7);
                 for (Entity e : entities) { // damage all entities in that block space
