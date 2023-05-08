@@ -41,7 +41,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             @Override
             public void run() {
 
-                fruit.teleport(player.getLocation().add(player.getLocation().getDirection().multiply(5));
+                fruit.teleport(player.getLocation().add(player.getLocation().getDirection().multiply(5)));
 
                 Collection<Entity> entities = player.getWorld().getNearbyEntities(fruit.getLocation(), 0.7, 0.7, 0.7);
                 for (Entity e : entities) { // damage all entities in that block space
