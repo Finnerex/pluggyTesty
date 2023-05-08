@@ -70,9 +70,9 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
 
                 if (runs % 50 == 0) { // 5 secs respawn cloud
 
-                    for (int i = 0; i < 10; i ++) {
+                    for (int i = 0; i < 14; i ++) {
                         w.spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE, location.clone().add( // goofy way to set velocity of that particle
-                                r.nextDouble(-0.8, 0.8), r.nextDouble(0.8), r.nextDouble(-0.8, 0.8)), 2, 0, 0, 0, 0);
+                                r.nextDouble(-0.7, 0.7), r.nextDouble(0.6), r.nextDouble(-0.7, 0.7)), 2, 0, 0, 0, 0);
                     }
                 }
 
@@ -86,7 +86,7 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
                 }
 
                 w.spawnParticle(Particle.FALLING_WATER, location.clone().add(
-                        r.nextDouble(-0.8, 0.8), 0, r.nextDouble(-0.8, 0.8)), 1);
+                        r.nextDouble(-0.7, 0.7), 0, r.nextDouble(-0.7, 0.7)), 1);
 
                 runs ++;
             }
