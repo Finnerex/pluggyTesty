@@ -23,9 +23,11 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
 
     private int num = 0;
     private int greatestRuns = 600;
+    private final Plugin schedulerPlugin;
 
     public NimbusRodItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.DIAMOND_HOE);
+        this.schedulerPlugin = namespace;
     }
 
     @Override
@@ -78,6 +80,8 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
                 runs ++;
             }
         };
+
+        runnable.runTaskTimer(schedulerPlugin, 0, 1);
 
 
         return false;
