@@ -21,6 +21,8 @@ import java.util.Vector;
 public class YoyoItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
+    private boolean in = true;
+
 
     public YoyoItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.CHORUS_FRUIT);
@@ -36,6 +38,15 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
         ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (display) -> {
             display.setItemStack(itemStack);
         });
+
+        if (in)
+            in = false;
+
+        else {
+            fruit.remove();
+            in = true;
+        }
+
 
 
 
