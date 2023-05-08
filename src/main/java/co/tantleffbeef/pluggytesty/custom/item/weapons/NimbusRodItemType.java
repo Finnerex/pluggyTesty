@@ -92,7 +92,7 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 0, 1);
+        runnable.runTaskTimer(schedulerPlugin, 0, 2);
 
 
         return false;
