@@ -75,7 +75,7 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
                 }
 
                 w.spawnParticle(Particle.FALLING_WATER, location.clone().add(
-                        r.nextDouble(-0.2, 0.2), 0, r.nextDouble(-0.2, 0.2)), 2);
+                        r.nextDouble(-0.5, 0.5), 0, r.nextDouble(-0.5, 0.5)), 2);
 
                 runs ++;
             }
