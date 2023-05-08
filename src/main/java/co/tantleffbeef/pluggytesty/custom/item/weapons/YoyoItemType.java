@@ -37,7 +37,6 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             display.setItemStack(itemStack);
         });
 
-        Location playerloc = player.getLocation();
 
 
 
@@ -45,8 +44,6 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             @Override
             public void run() {
 
-                if (!(playerloc.equals(player.getLocation())))
-                    player.kickPlayer("L Bozo");
 
                 fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)));
 
