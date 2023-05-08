@@ -35,7 +35,9 @@ public class LifeDrainItemType extends SimpleItemType implements InteractableIte
             if (e instanceof Damageable d) {
                 float prevHealth = (float) d.getHealth();
 
+                Vector vel = d.getVelocity();
                 d.damage(2, player);
+                d.setVelocity(vel); // no kb!!
 
                 if (d.getHealth() < prevHealth)
                     player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + 0.5)));

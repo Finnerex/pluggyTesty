@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,7 +38,17 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
 
         num ++;
 
-        final Location location = player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(15));
+        final Location location;
+
+        RayTraceResult result = player.rayTraceBlocks(15);
+
+        if (result != null && result.getHitBlock() != null)
+            location = result.getHitBlock().getLocation();
+        else
+            location = player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(15));
+
+
+
         final World w = player.getWorld();
 
         BukkitRunnable runnable = new BukkitRunnable() {
@@ -48,7 +59,7 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
                 if (runs >= greatestRuns)
                     greatestRuns = runs;
 
-                if (runs > 600 || num > 2 && runs == greatestRuns) {
+                if (runs >= 600 || num > 2 && runs == greatestRuns) {
                     num --;
                     greatestRuns = 0;
                     cancel();
@@ -57,16 +68,16 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
 
                 Random r = new Random();
 
-                if (runs % 50 == 0) {
+                if (runs % 50 == 0) { // 5 secs respawn cloud
 
                     for (int i = 0; i < 10; i ++) {
-                        w.spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE, location.clone().add(
-                                r.nextDouble(-0.5, 0.5), r.nextDouble(0.5), r.nextDouble(-0.5, 0.5)), 2, 0, 0, 0, 0);
+                        w.spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE, location.clone().add( // goofy way to set velocity of that particle
+                                r.nextDouble(-0.8, 0.8), r.nextDouble(0.8), r.nextDouble(-0.8, 0.8)), 2, 0, 0, 0, 0);
                     }
                 }
 
-                if (runs % 10 == 0) {
-                    Collection<Entity> entities = w.getNearbyEntities(location.clone().subtract(0, 10, 0), 1, 10, 1);
+                if (runs % 10 == 0) { // damage every second
+                    Collection<Entity> entities = w.getNearbyEntities(location.clone().subtract(0, 15, 0), 1, 14, 1);
                     for (Entity e : entities) {
                         if (e instanceof Damageable d) {
                             d.damage(3, player);
@@ -75,7 +86,7 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
                 }
 
                 w.spawnParticle(Particle.FALLING_WATER, location.clone().add(
-                        r.nextDouble(-0.5, 0.5), 0, r.nextDouble(-0.5, 0.5)), 2);
+                        r.nextDouble(-0.8, 0.8), 0, r.nextDouble(-0.8, 0.8)), 1);
 
                 runs ++;
             }
