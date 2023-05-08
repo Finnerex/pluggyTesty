@@ -85,7 +85,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
         if (attacks.get(uuid) > 2) {
             player.setCooldown(Material.GOLDEN_AXE, 40);
-            attacks.putIfAbsent(uuid, 0);
+            attacks.put(uuid, 0);
         }
 
         return true;
