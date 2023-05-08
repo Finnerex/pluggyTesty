@@ -17,19 +17,17 @@ import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class NimbusRodItemType extends SimpleItemType implements InteractableItemType {
 
     private int num = 0;
-    private Map<UUID, Integer> greatestRuns;
+    private final Map<UUID, Integer> greatestRuns;
     private final Plugin schedulerPlugin;
 
     public NimbusRodItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.DIAMOND_HOE);
+        greatestRuns = new HashMap<>();
         this.schedulerPlugin = namespace;
     }
 
