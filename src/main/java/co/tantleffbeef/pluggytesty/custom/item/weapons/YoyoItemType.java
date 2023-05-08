@@ -44,6 +44,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
         else {
             fruit.remove();
+            fruit.remove();
             in = true;
         }
 
