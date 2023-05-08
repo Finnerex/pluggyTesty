@@ -20,7 +20,7 @@ public class LifeDrainItemType extends SimpleItemType implements InteractableIte
 
 
     public LifeDrainItemType(Plugin namespace, String id, boolean customModel, String name) {
-        super(namespace, id, customModel, name, Material.SKELETON_SKULL);
+        super(namespace, id, customModel, name, Material.BONE);
     }
 
     @Override
