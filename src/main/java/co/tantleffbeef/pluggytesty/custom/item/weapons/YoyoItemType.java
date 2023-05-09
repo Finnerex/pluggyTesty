@@ -17,13 +17,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Vector;
+import java.util.*;
 
 public class YoyoItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
-    private boolean in = true;
+
+    private final Map<UUID, Boolean> myFirstHashMap = new HashMap<>();
 
     private PlayerInteractEvent event;
 
@@ -39,8 +39,13 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
         if (player.hasCooldown(Material.CHORUS_FRUIT))
             return true;
 
+        UUID uuid = player.getUniqueId();
+        myFirstHashMap.putIfAbsent(uuid, true);
 
-        if (in) {
+        if (myFirstHashMap.get(uuid)) {
+
+            myFirstHashMap.put(uuid, false);
+
             ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
                 display.setItemStack(itemStack);
             });
@@ -48,12 +53,12 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                 @Override
                 public void run() {
 
-                    if (!in) {
+                    if (myFirstHashMap.get(uuid)) {
                         fruit.remove();
-                        in = true;
                         this.cancel();
                         return;
                     }
+
 
                     fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)));
 
@@ -68,8 +73,8 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
             runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
-            in = false;
-        }
+        } else
+            myFirstHashMap.put(uuid, true);
 
 
         return true;
