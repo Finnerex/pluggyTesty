@@ -40,7 +40,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             return true;
 
 
-        ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (display) -> {
+        ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
             display.setItemStack(itemStack);
         });
 
@@ -60,10 +60,12 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
                 }
             };
+
             runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
             in = false;
         }
+
         else {
             for (Entity e : player.getWorld().getEntities()){
                 if(e.getLocation().equals(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)))) {
@@ -74,6 +76,10 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
             in = true;
         }
+
+
+
+
 
 
         return true;
