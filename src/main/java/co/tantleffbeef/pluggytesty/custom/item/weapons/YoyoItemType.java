@@ -45,6 +45,23 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
         });
 
         if (in) {
+            BukkitRunnable runnable = new BukkitRunnable() {
+                @Override
+                public void run() {
+
+
+                    fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)));
+
+                    Collection<Entity> entities = player.getWorld().getNearbyEntities(fruit.getLocation(), 0.7, 0.7, 0.7);
+                    for (Entity e : entities) { // damage all entities in that block space
+                        if (e instanceof Damageable damageable && !e.equals(player))
+                            damageable.damage(5, player);
+                    }
+
+                }
+            };
+            runnable.runTaskTimer(schedulerPlugin, 0, 0);
+
             in = false;
         }
         else {
@@ -57,29 +74,6 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
             in = true;
         }
-
-
-
-
-
-        BukkitRunnable runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-
-
-                fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)));
-
-                Collection<Entity> entities = player.getWorld().getNearbyEntities(fruit.getLocation(), 0.7, 0.7, 0.7);
-                for (Entity e : entities) { // damage all entities in that block space
-                    if (e instanceof Damageable damageable && !e.equals(player))
-                        damageable.damage(5, player);
-                }
-
-            }
-        };
-
-        runnable.runTaskTimer(schedulerPlugin, 0, 0);
-
 
 
         return true;
