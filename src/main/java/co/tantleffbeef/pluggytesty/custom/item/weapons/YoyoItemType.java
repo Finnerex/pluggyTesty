@@ -9,6 +9,7 @@ import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,6 +24,8 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
     private final Plugin schedulerPlugin;
     private boolean in = true;
 
+    private PlayerInteractEvent event;
+
 
     public YoyoItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.CHORUS_FRUIT);
@@ -35,16 +38,20 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
         if (player.hasCooldown(Material.CHORUS_FRUIT))
             return true;
 
+
         ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (display) -> {
             display.setItemStack(itemStack);
         });
 
-        if (in)
+        if (in) {
             in = false;
-
+        }
         else {
-            fruit.remove();
-            fruit.remove();
+            for (Entity e : player.getWorld().getEntities()){
+                if(e.getLocation().equals(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5))))
+                    e.remove();
+            }
+
             in = true;
         }
 
