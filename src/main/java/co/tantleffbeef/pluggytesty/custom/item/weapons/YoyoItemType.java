@@ -62,6 +62,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
                     if (myFirstHashMap.get(uuid)) {
                         fruit.remove();
+                        smallSlime.remove();
                         this.cancel();
                         return;
                     }
