@@ -49,9 +49,10 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
         }
         else {
             for (Entity e : player.getWorld().getEntities()){
-                if(e.getLocation().equals(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5))))
+                if(e.getLocation().equals(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)))) {
                     e.remove();
-                Bukkit.broadcastMessage("test");
+                    Bukkit.broadcastMessage("test");
+                }
             }
 
             in = true;
