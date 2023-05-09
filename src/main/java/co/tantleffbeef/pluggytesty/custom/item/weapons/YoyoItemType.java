@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -50,6 +51,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             for (Entity e : player.getWorld().getEntities()){
                 if(e.getLocation().equals(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5))))
                     e.remove();
+                Bukkit.broadcastMessage("test");
             }
 
             in = true;
