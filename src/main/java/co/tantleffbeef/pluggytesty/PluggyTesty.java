@@ -14,6 +14,7 @@ import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.*;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
+import co.tantleffbeef.pluggytesty.misc.AttributeManager;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
@@ -34,6 +35,7 @@ public final class PluggyTesty extends JavaPlugin {
     private ResourceManager resourceManager;
     private RecipeManager recipeManager;
     private KeyManager<CustomNbtKey> nbtKeyManager;
+    private AttributeManager attributeManager;
 
     @Override
     public void onEnable() {
@@ -49,6 +51,8 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager = rApi.getResourceManager();
         recipeManager = rApi.getRecipeManager();
         nbtKeyManager = rApi.getNbtKeyManager();
+
+        attributeManager = new AttributeManager(nbtKeyManager);
 
         registerItems();
 //        registerRecipes();
@@ -108,6 +112,16 @@ public final class PluggyTesty extends JavaPlugin {
 
         registerRecipes();
 
+        // After we know all custom items have been registered (hopefully)
+        // we can add them to the attribute manager
+        getServer().getScheduler().runTask(
+                this,
+                // Loop through all items in the resource manager
+                // and register them in the attribute manager
+                () -> resourceManager.getItemIdList().stream()
+                        .map(resourceManager::getCustomItemStack)
+                        .forEach(attributeManager::registerModifiedItem)
+        );
     }
 
     private void registerItems() {
