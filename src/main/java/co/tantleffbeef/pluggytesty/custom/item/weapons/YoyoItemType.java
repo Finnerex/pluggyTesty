@@ -53,7 +53,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             }
 
             in = true;
-        }//l
+        }
 
 
 
