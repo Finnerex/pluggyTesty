@@ -50,6 +50,8 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                 display.setItemStack(itemStack);
             });
             BukkitRunnable runnable = new BukkitRunnable() {
+
+                int distance = 5;
                 @Override
                 public void run() {
 
@@ -59,8 +61,13 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                         return;
                     }
 
+                    if (player.isSneaking())
+                        distance++;
+                    else if (distance > 5)
+                        distance--;
 
-                    fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)));
+
+                    fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(distance)));
 
                     Collection<Entity> entities = player.getWorld().getNearbyEntities(fruit.getLocation(), 0.7, 0.7, 0.7);
                     for (Entity e : entities) { // damage all entities in that block space
