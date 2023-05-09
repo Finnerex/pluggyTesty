@@ -40,11 +40,10 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             return true;
 
 
-        ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
-            display.setItemStack(itemStack);
-        });
-
         if (in) {
+            ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
+                display.setItemStack(itemStack);
+            });
             BukkitRunnable runnable = new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -76,10 +75,6 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
             in = true;
         }
-
-
-
-
 
 
         return true;
