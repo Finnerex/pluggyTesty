@@ -48,6 +48,12 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                 @Override
                 public void run() {
 
+                    if (!in) {
+                        fruit.remove();
+                        in = true;
+                        this.cancel();
+                        return;
+                    }
 
                     fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)));
 
@@ -63,17 +69,6 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
             in = false;
-        }
-
-        else {
-            for (Entity e : player.getWorld().getEntities()){
-                if(e.getLocation().equals(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)))) {
-                    e.remove();
-                    Bukkit.broadcastMessage("test");
-                }
-            }
-
-            in = true;
         }
 
 
