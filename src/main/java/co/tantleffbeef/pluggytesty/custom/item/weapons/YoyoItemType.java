@@ -52,7 +52,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             LivingEntity smallSlime = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), Slime.class, (slime) -> {
 //                slime.setSize(1);
 //                slime.setInvisible(true);
-//                slime.setInvulnerable(true);
+                slime.setInvulnerable(true);
 //                slime.setLeashHolder(player);
             });
 
@@ -91,7 +91,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
                     Collection<Entity> entities = player.getWorld().getNearbyEntities(fruit.getLocation(), 0.7, 0.7, 0.7);
                     for (Entity e : entities) { // damage all entities in that block space
-                        if (e instanceof Damageable damageable && !e.equals(player))
+                        if (e instanceof Damageable damageable && !e.equals(player) /*&& !e.equals(smallSlime)*/)
                             damageable.damage(5, player);
                     }
 
