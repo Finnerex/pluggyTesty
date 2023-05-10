@@ -24,8 +24,6 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
     private final Map<UUID, Boolean> myFirstHashMap = new HashMap<>();
 
-    private PlayerInteractEvent event;
-
     private YoyoItemType yoyo;
 
 
