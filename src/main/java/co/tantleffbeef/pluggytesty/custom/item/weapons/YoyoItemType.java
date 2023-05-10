@@ -46,6 +46,8 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
             myFirstHashMap.put(uuid, false);
 
+            int slot = player.getInventory().getHeldItemSlot();
+
 
             ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
                 display.setItemStack(itemStack);
@@ -66,7 +68,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                 @Override
                 public void run() {
 
-                    if (!(player.getInventory().getItemInMainHand().getItemMeta().equals(yoyo))) {
+                    if (myFirstHashMap.get(uuid) || !(player.getInventory().getHeldItemSlot() == slot)) {
                         fruit.remove();
                         smallSlime.remove();
                         this.cancel();
