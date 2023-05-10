@@ -48,8 +48,6 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
             myFirstHashMap.put(uuid, false);
 
-            int slot = player.getInventory().getHeldItemSlot();
-
             ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
                 display.setItemStack(itemStack);
                 Transformation transforms = display.getTransformation();
@@ -68,19 +66,16 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             BukkitRunnable runnable = new BukkitRunnable() {
 
                 int distance = 5;
+                final PlayerInventory inventory = player.getInventory();
                 @Override
                 public void run() {
 
+                    if(inventory.getItemInMainHand().equals(itemStack))
+                        myFirstHashMap.put(uuid, true);
+                    
                     if (myFirstHashMap.get(uuid)) {
                         fruit.remove();
                         smallSlime.remove();
-                        this.cancel();
-                        return;
-                    }
-                    else if(!(player.getInventory().getHeldItemSlot() == slot)){
-                        fruit.remove();
-                        smallSlime.remove();
-                        myFirstHashMap.put(uuid, true);
                         this.cancel();
                         return;
                     }
