@@ -66,14 +66,14 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                 @Override
                 public void run() {
 
-                    if (myFirstHashMap.get(uuid)) {
+                    if (myFirstHashMap.get(uuid) || !(player.getInventory().getItemInMainHand().equals(yoyo))) {
                         fruit.remove();
                         smallSlime.remove();
                         this.cancel();
                         return;
                     }
 
-                    if (player.isSneaking() || !(player.getItemInUse().equals(yoyo)))
+                    if (player.isSneaking())
                         distance++;
                     else if (distance > 5)
                         distance--;
