@@ -44,8 +44,12 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
             myFirstHashMap.put(uuid, false);
 
+
             ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
                 display.setItemStack(itemStack);
+                Transformation transform = display.getTransformation();
+                transform.getLeftRotation().rotateLocalX(90);
+                display.setTransformation(transform);
             });
 
             LivingEntity smallSlime = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), Slime.class, (slime) -> {
