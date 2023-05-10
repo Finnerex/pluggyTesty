@@ -68,7 +68,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                 @Override
                 public void run() {
 
-                    if(inventory.getItemInMainHand().equals(itemStack))
+                    if(!inventory.getItemInMainHand().equals(itemStack))
                         myFirstHashMap.put(uuid, true);
                     
                     if (myFirstHashMap.get(uuid)) {
