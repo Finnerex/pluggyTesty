@@ -65,7 +65,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                 @Override
                 public void run() {
 
-                    if(!inventory.getItemInMainHand().equals(itemStack))
+                    if(!inventory.getItemInMainHand().equals(itemStack) || !player.isOnline() || player.isDead())
                         myFirstHashMap.put(uuid, true);
                     
                     if (myFirstHashMap.get(uuid)) {
@@ -84,7 +84,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                     fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(distance)));
 
                     Transformation transform = fruit.getTransformation();
-                    transform.getLeftRotation().rotateLocalX((float) Math.toRadians(10));
+                    transform.getLeftRotation().rotateLocalX((float) Math.toRadians(15));
                     fruit.setTransformation(transform);
 
                     smallSlime.teleport(fruit.getLocation());
