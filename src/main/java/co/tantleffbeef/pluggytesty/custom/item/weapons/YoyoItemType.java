@@ -81,9 +81,9 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
                     fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(distance)));
 
-                    Transformation transform = fruit.getTransformation();
-                    transform.getLeftRotation().rotateLocalX(15);
-                    fruit.setTransformation(transform);
+//                    Transformation transform = fruit.getTransformation();
+//                    transform.getLeftRotation().rotateLocalX(15);
+//                    fruit.setTransformation(transform);
 
                     smallSlime.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(distance)));
 
