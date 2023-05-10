@@ -27,31 +27,32 @@ public class VillagerTradesListener implements Listener {
             }
         }
 
-        if(prof == Villager.Profession.UNEMPLOYED || prof == Villager.Profession.NITWIT) return;
-
-        int numExpectedTrades = 0;
-        for(int i = 0; i < exp; i++) {
-            numExpectedTrades += TradeSilo.tradeAmts[tradeAmts.get(prof)][i];
-        }
-
-        if(numExpectedTrades != trades.size() - 1) { // if the number of expected trades doesn't match up with the number of trades (excluding upgrade one)...
-            if(trades.size() > 0) trades.remove(trades.size() - 1); // we assume that the villager levelled up and so remove the ending trade.
-            List<MerchantRecipe> options;
-            switch(prof) {
-                    case ARMORER -> options = armorerTrades.get(exp).clone();
-                    case BUTCHER -> options = butcherTrades.get(exp).clone();
-                    case CLERIC -> options = armorerTrades.get(exp).clone();
-                    case FARMER -> options = butcherTrades.get(exp).clone();
-                    case FISHERMAN -> options = armorerTrades.get(exp).clone();
-                    case LIBRARIAN -> options = butcherTrades.get(exp).clone();
-                    case MASON -> options = armorerTrades.get(exp).clone();
-                    case TOOLSMITH -> options = butcherTrades.get(exp).clone();
-                    case WEAPONSMITH -> options = armorerTrades.get(exp).clone();
-            }
+//        if(prof == Villager.Profession.UNEMPLOYED || prof == Villager.Profession.NITWIT) return;
+//
+//        int numExpectedTrades = 0;
+//        for(int i = 0; i < exp; i++) {
+//            numExpectedTrades += TradeSilo.tradeAmts[tradeAmts.get(prof)][i];
+//        }
+//
+//        if(numExpectedTrades != trades.size() - 1) { // if the number of expected trades doesn't match up with the number of trades (excluding upgrade one)...
+//            if(trades.size() > 0) trades.remove(trades.size() - 1); // we assume that the villager levelled up and so remove the ending trade.
+//            List<MerchantRecipe> options;
+//            switch(prof) {
+//                    case ARMORER -> options = armorerTrades.get(exp).clone();
+//                    case BUTCHER -> options = butcherTrades.get(exp).clone();
+//                    case CLERIC -> options = armorerTrades.get(exp).clone();
+//                    case FARMER -> options = butcherTrades.get(exp).clone();
+//                    case FISHERMAN -> options = armorerTrades.get(exp).clone();
+//                    case LIBRARIAN -> options = butcherTrades.get(exp).clone();
+//                    case MASON -> options = armorerTrades.get(exp).clone();
+//                    case TOOLSMITH -> options = butcherTrades.get(exp).clone();
+//                    case WEAPONSMITH -> options = armorerTrades.get(exp).clone();
+//            }
             
             trades.add(TradeSilo.upgradeRecipe(exp));
             // add new trades
         }
+//    }
 // At this point, I have the villager's profession, trades, and exp
 // Next, I should remove all vanilla trades (those that involve emeralds) - DONE
 // Then, check if trades.size() - 1 is the expected value in tradeAmts to see if it has the correct number of trades for its villager level. - DONE
@@ -59,7 +60,7 @@ public class VillagerTradesListener implements Listener {
 // Seperately, check if the player is lower levelled than the villager.
 // If so, cause all of that villager's trades to have a maxUses of their current uses.
 // If not, cause the villager's trades to have a maxUses of 10.
-    }
+
 
 
     private boolean isVanillaTrade(MerchantRecipe trade) {
