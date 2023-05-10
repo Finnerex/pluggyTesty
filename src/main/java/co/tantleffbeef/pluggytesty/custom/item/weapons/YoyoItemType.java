@@ -53,7 +53,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                 slime.setSize(1);
 //                slime.setInvisible(true);
 //                slime.setInvulnerable(true);
-                slime.setLeashHolder(player);
+//                slime.setLeashHolder(player);
             });
 
 
@@ -81,6 +81,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
 
                     fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(distance)));
+                    fruit.setRotation(player.getEyeLocation().getYaw() - 90, player.getEyeLocation().getPitch() - 90);
 
                     Transformation transform = fruit.getTransformation();
                     transform.getLeftRotation().rotateLocalZ(10);
