@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -39,6 +40,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
         if (player.hasCooldown(Material.CHORUS_FRUIT))
             return true;
 
+
         UUID uuid = player.getUniqueId();
         myFirstHashMap.putIfAbsent(uuid, true);
 
@@ -48,6 +50,8 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
             int slot = player.getInventory().getHeldItemSlot();
 
+            ItemStack shield = new ItemStack(Material.SHIELD);
+            player.getInventory().setItemInOffHand(shield);
 
             ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
                 display.setItemStack(itemStack);
@@ -62,18 +66,27 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                 slime.setInvulnerable(true);
                 slime.setLeashHolder(player);
             });
+
+
             BukkitRunnable runnable = new BukkitRunnable() {
 
                 int distance = 5;
                 @Override
                 public void run() {
 
-                    if (myFirstHashMap.get(uuid)) {
+                    if (!(player.isBlocking())) {
                         fruit.remove();
                         smallSlime.remove();
+                        myFirstHashMap.put(uuid, true);
                         this.cancel();
                         return;
                     }
+//                    if (myFirstHashMap.get(uuid)) {
+//                        fruit.remove();
+//                        smallSlime.remove();
+//                        this.cancel();
+//                        return;
+//                    }
                     else if(!(player.getInventory().getHeldItemSlot() == slot)){
                         fruit.remove();
                         smallSlime.remove();
