@@ -53,7 +53,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
                 display.setItemStack(itemStack);
                 Transformation transforms = display.getTransformation();
-                transforms.getLeftRotation().rotateLocalY(25);
+                transforms.getLeftRotation().rotateLocalY(90);
                 display.setTransformation(transforms);
             });
 
