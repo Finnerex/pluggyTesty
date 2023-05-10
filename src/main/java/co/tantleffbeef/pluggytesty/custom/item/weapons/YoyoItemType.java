@@ -24,9 +24,6 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
     private final Map<UUID, Boolean> myFirstHashMap = new HashMap<>();
 
-    private YoyoItemType yoyo;
-
-
     public YoyoItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.CHORUS_FRUIT);
         this.schedulerPlugin = namespace;
@@ -49,7 +46,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
                 display.setItemStack(itemStack);
                 Transformation transforms = display.getTransformation();
-                transforms.getLeftRotation().rotateLocalY(94);
+                transforms.getLeftRotation().rotateLocalY(93);
                 display.setTransformation(transforms);
             });
 
