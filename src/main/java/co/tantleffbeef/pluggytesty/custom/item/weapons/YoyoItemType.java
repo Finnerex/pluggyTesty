@@ -50,14 +50,9 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
             int slot = player.getInventory().getHeldItemSlot();
 
-            ItemStack shield = new ItemStack(Material.SHIELD);
-            player.getInventory().setItemInOffHand(shield);
-
             ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
                 display.setItemStack(itemStack);
-                Transformation transform = display.getTransformation();
-                transform.getLeftRotation().rotateLocalY(100);
-                display.setTransformation(transform);
+                display.setRotation(display.getLocation().getYaw(), 90);
             });
 
             LivingEntity smallSlime = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), Slime.class, (slime) -> {
@@ -74,19 +69,12 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                 @Override
                 public void run() {
 
-                    if (!(player.isBlocking())) {
+                    if (myFirstHashMap.get(uuid)) {
                         fruit.remove();
                         smallSlime.remove();
-                        myFirstHashMap.put(uuid, true);
                         this.cancel();
                         return;
                     }
-//                    if (myFirstHashMap.get(uuid)) {
-//                        fruit.remove();
-//                        smallSlime.remove();
-//                        this.cancel();
-//                        return;
-//                    }
                     else if(!(player.getInventory().getHeldItemSlot() == slot)){
                         fruit.remove();
                         smallSlime.remove();
@@ -103,9 +91,9 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
                     fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(distance)));
 
-                    Transformation transform = fruit.getTransformation();
-                    transform.getLeftRotation().rotateLocalZ(15);
-                    fruit.setTransformation(transform);
+//                    Transformation transform = fruit.getTransformation();
+//                    transform.getLeftRotation().rotateLocalZ(15);
+//                    fruit.setTransformation(transform);
 
                     smallSlime.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(distance)));
 
