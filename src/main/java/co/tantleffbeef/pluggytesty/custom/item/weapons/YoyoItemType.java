@@ -25,6 +25,8 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
 
     private PlayerInteractEvent event;
 
+    private YoyoItemType yoyo;
+
 
     public YoyoItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.CHORUS_FRUIT);
@@ -71,7 +73,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                         return;
                     }
 
-                    if (player.isSneaking())
+                    if (player.isSneaking() || !(player.getItemInUse().equals(yoyo)))
                         distance++;
                     else if (distance > 5)
                         distance--;
