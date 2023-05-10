@@ -47,7 +47,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
                 display.setItemStack(itemStack);
                 Transformation transform = display.getTransformation();
-                transform.getLeftRotation().rotateLocalY((float) Math.toRadians(90));
+                transform.getLeftRotation().rotateLocalZ((float) Math.toRadians(90));
                 display.setTransformation(transform);
             });
 
@@ -84,10 +84,10 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                     fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(distance)));
 
                     Transformation transform = fruit.getTransformation();
-                    transform.getLeftRotation().rotateLocalZ((float) Math.toRadians(10));
+                    transform.getLeftRotation().rotateLocalY((float) Math.toRadians(10));
                     fruit.setTransformation(transform);
 
-                    smallSlime.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(distance)));
+                    smallSlime.teleport(fruit.getLocation());
 
                     Collection<Entity> entities = player.getWorld().getNearbyEntities(fruit.getLocation(), 0.7, 0.7, 0.7);
                     for (Entity e : entities) { // damage all entities in that block space
