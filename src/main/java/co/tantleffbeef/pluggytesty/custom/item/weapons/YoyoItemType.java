@@ -47,17 +47,16 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
             ItemDisplay fruit = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), ItemDisplay.class, (display) -> {
                 display.setItemStack(itemStack);
                 Transformation transform = display.getTransformation();
-                transform.getLeftRotation().rotateLocalY(90);
+                transform.getLeftRotation().rotateLocalY((float) Math.toRadians(90));
                 display.setTransformation(transform);
             });
 
             LivingEntity smallSlime = player.getWorld().spawn(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(5)), Slime.class, (slime) -> {
                 slime.setSize(1);
                 slime.setInvisible(true);
+                slime.setInvulnerable(true);
                 slime.setLeashHolder(player);
             });
-
-            smallSlime.setInvulnerable(true);
 
             BukkitRunnable runnable = new BukkitRunnable() {
 
@@ -76,17 +75,16 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                         return;
                     }
 
-                    if (player.isSneaking())
+                    if (player.isSneaking() && distance < 25)
                         distance++;
                     else if (distance > 5)
                         distance--;
 
 
                     fruit.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(distance)));
-                    fruit.setRotation(0, player.getEyeLocation().getPitch() - 90);
 
                     Transformation transform = fruit.getTransformation();
-                    transform.getLeftRotation().rotateLocalZ(10);
+                    transform.getLeftRotation().rotateLocalZ((float) Math.toRadians(10));
                     fruit.setTransformation(transform);
 
                     smallSlime.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(distance)));
