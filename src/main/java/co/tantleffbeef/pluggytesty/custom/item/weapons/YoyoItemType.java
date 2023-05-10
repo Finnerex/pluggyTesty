@@ -68,9 +68,16 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                 @Override
                 public void run() {
 
-                    if (myFirstHashMap.get(uuid) || !(player.getInventory().getHeldItemSlot() == slot)) {
+                    if (myFirstHashMap.get(uuid)) {
                         fruit.remove();
                         smallSlime.remove();
+                        this.cancel();
+                        return;
+                    }
+                    else if(!(player.getInventory().getHeldItemSlot() == slot)){
+                        fruit.remove();
+                        smallSlime.remove();
+                        myFirstHashMap.put(uuid, true);
                         this.cancel();
                         return;
                     }
