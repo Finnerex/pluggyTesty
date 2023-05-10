@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import static java.util.Map.entry;
 
 public class TradeSilo {
 
@@ -43,21 +44,21 @@ public class TradeSilo {
 
         return res;
     }
-    public final static int[][] tradeAmts = {
-            {2, 1, 1, 1, 2}, // Armorer
-            {2, 2, 1, 2, 1}, // Butcher
-            {0, 0, 0, 0, 0}, // Cartographer
-            {3, 2, 1, 1, 3}, // Cleric
-            {2, 2, 1, 1, 1}, // Farmer
-            {2, 1, 1, 1, 1}, // Fisherman
-            {0, 0, 0, 0, 0}, // Fletcher
-            {0, 0, 0, 0, 0}, // Leatherworker
-            {2, 2, 2, 2, 2}, // Librarian
-            {2, 2, 2, 1, 2}, // Mason
-            {0, 0, 0, 0, 0}, // Shepherd
-            {2, 2, 2, 2, 2}, // Toolsmith
-            {1, 1, 1, 1, 1}, // Weaponsmith
-    };
+    public final static HashMap<Villager.Profession, int[]> tradeAmts = Map.ofEntries(
+            entry(Villager.Profession.ARMORER, {2, 1, 1, 1, 2}), // Armorer
+            entry(Villager.Profession.BUTCHER, {2, 2, 1, 2, 1}), // Butcher
+            entry(Villager.Profession.CARTOGRAPHER, {0, 0, 0, 0, 0}), // Cartographer
+            entry(Villager.Profession.CLERIC, {3, 2, 1, 1, 3}), // Cleric
+            entry(Villager.Profession.FARMER, {2, 2, 1, 1, 1}), // Farmer
+            entry(Villager.Profession.FISHERMAN, {2, 1, 1, 1, 1}), // Fisherman
+            entry(Villager.Profession.FLETCHER, {0, 0, 0, 0, 0}), // Fletcher
+            entry(Villager.Profession.LEATHERWORKER, {0, 0, 0, 0, 0}), // Leatherworker
+            entry(Villager.Profession.LIBRARIAN, {2, 2, 2, 2, 2}), // Librarian
+            entry(Villager.Profession.MASON, {2, 2, 2, 1, 2}), // Mason
+            entry(Villager.Profession.SHEPHERD, {0, 0, 0, 0, 0}), // Shepherd
+            entry(Villager.Profession.TOOLSMITH, {2, 2, 2, 2, 2}), // Toolsmith
+            entry(Villager.Profession.WEAPONSMITH, {1, 1, 1, 1, 1}), // Weaponsmith
+    );
 
     public final static List<List<MerchantRecipe>> armorerTrades = Arrays.asList( // CHANGE THESE TO BE THE CORRECT TRIMS YOU BUFFOON
             Arrays.asList(createRecipe(1, new ItemStack(Material.WILD_ARMOR_TRIM_SMITHING_TEMPLATE, 1), new ItemStack(Material.WILD_ARMOR_TRIM_SMITHING_TEMPLATE, 2)), createRecipe(1, new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, 1), new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, 2))), // Novice tier,
