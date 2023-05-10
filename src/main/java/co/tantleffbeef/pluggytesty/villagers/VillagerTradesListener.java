@@ -21,39 +21,36 @@ public class VillagerTradesListener implements Listener {
         trades = vil.getRecipes();
         int exp = vil.getVillagerLevel();
         Villager.Profession prof = vil.getProfession();
-        int profInt = -1;
         for(int i = 0; i < trades.size(); i++) {
             if(isVanillaTrade(trades.get(i))) {
                 trades.remove(i);
             }
         }
 
-        switch (prof) {
-            case ARMORER -> profInt = 0;
-            case BUTCHER -> profInt = 1;
-            case CARTOGRAPHER -> profInt = 2;
-            case CLERIC -> profInt = 3;
-            case FARMER -> profInt = 4;
-            case FISHERMAN -> profInt = 5;
-            case LEATHERWORKER -> profInt = 6;
-            case LIBRARIAN -> profInt = 7;
-            case MASON -> profInt = 8;
-            case SHEPHERD -> profInt = 9;
-            case TOOLSMITH -> profInt = 10;
-            case WEAPONSMITH -> profInt = 11;
-        }
-        if(profInt == -1) return;
+        if(prof == Villager.Profession.UNEMPLOYED || prof == Villager.Profession.NITWIT) return;
 
         int numExpectedTrades = 0;
         for(int i = 0; i < exp; i++) {
-            numExpectedTrades += TradeSilo.tradeAmts[profInt][i];
+            numExpectedTrades += TradeSilo.tradeAmts[tradeAmts.get(prof)][i];
         }
 
         if(numExpectedTrades != trades.size() - 1) { // if the number of expected trades doesn't match up with the number of trades (excluding upgrade one)...
             if(trades.size() > 0) trades.remove(trades.size() - 1); // we assume that the villager levelled up and so remove the ending trade.
-
+            List<MerchantRecipe> options;
+            switch(prof) {
+                    case ARMORER -> options = armorerTrades.get(exp).clone();
+                    case BUTCHER -> options = butcherTrades.get(exp).clone();
+                    case CLERIC -> options = armorerTrades.get(exp).clone();
+                    case FARMER -> options = butcherTrades.get(exp).clone();
+                    case FISHERMAN -> options = armorerTrades.get(exp).clone();
+                    case LIBRARIAN -> options = butcherTrades.get(exp).clone();
+                    case MASON -> options = armorerTrades.get(exp).clone();
+                    case TOOLSMITH -> options = butcherTrades.get(exp).clone();
+                    case WEAPONSMITH -> options = armorerTrades.get(exp).clone();
+            }
+            
+            trades.add(TradeSilo.upgradeRecipe(exp));
             // add new trades
-            // add new final trade
         }
 // At this point, I have the villager's profession, trades, and exp
 // Next, I should remove all vanilla trades (those that involve emeralds) - DONE
