@@ -31,6 +31,7 @@ public class MagicMissileItemType extends SimpleItemType implements Interactable
 
         final Location location = player.getEyeLocation();
 
+        // create a new firework with 3 effects (fewer for less dmg)
         Firework firework = player.getWorld().spawn(location, Firework.class, (f) -> {
             f.setShotAtAngle(true);
             f.getLocation().setDirection(location.getDirection().normalize());
@@ -50,6 +51,7 @@ public class MagicMissileItemType extends SimpleItemType implements Interactable
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
+                // end if explodes or player stops sneaking
                 if (!player.isSneaking() || firework.isDetonated()) {
                     if(!firework.isDetonated())
                         firework.setVelocity(player.getEyeLocation().getDirection().multiply(2));
@@ -57,6 +59,7 @@ public class MagicMissileItemType extends SimpleItemType implements Interactable
                     return;
                 }
 
+                // follow player turning
                 firework.setVelocity(player.getEyeLocation().getDirection());
 
             }
@@ -76,6 +79,7 @@ public class MagicMissileItemType extends SimpleItemType implements Interactable
 
         builder.flicker(true);
         builder.trail(false);
+        // different shades of blue
         builder.withColor(Color.fromRGB(40 , 50 + color, 220));
 
         builder.with(type);

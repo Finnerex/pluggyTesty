@@ -21,36 +21,41 @@ import java.util.*;
 
 public class NimbusRodItemType extends SimpleItemType implements InteractableItemType {
 
-    private int num = 0;
-    private final Map<UUID, Integer> greatestRuns;
+
+    // stores the number of clouds spawned for each player
+    private final Map<UUID, Integer> numClouds = new HashMap<>();
+
+    // holds the greatest number of runs in any cloud per player
+    // used to determine which should be deleted when the player attempts to spawn a 3rd cloud
+    private final Map<UUID, Integer> greatestRuns = new HashMap<>();;
     private final Plugin schedulerPlugin;
 
     public NimbusRodItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.DIAMOND_HOE);
-        greatestRuns = new HashMap<>();
         this.schedulerPlugin = namespace;
     }
 
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
-        if (player.hasCooldown(Material.DIAMOND_HOE))
-            return false;
 
         UUID uuid = player.getUniqueId();
 
+        // init to no clouds and no runs
+        numClouds.putIfAbsent(uuid, 0);
         greatestRuns.putIfAbsent(uuid, 0);
 
-        num ++;
+        // new cloud spawned
+        numClouds.put(uuid, numClouds.get(uuid) + 1);
 
         final Location location;
 
+        // should be spawned 15 blocks away or the closest block on that line
         RayTraceResult result = player.rayTraceBlocks(15);
 
         if (result != null && result.getHitBlock() != null)
             location = result.getHitBlock().getLocation();
         else
             location = player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(15));
-
 
 
         final World w = player.getWorld();
@@ -63,8 +68,10 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
                 if (runs >= greatestRuns.get(uuid))
                     greatestRuns.put(uuid, runs);
 
-                if (runs >= 600 || num > 2 && runs == greatestRuns.get(uuid)) {
-                    num --;
+                // remove if try to spawn 3rd and this has the most run time
+                // or if time of 600 runs expires (should be 1 min)
+                if (runs >= 600 || numClouds.get(uuid) > 2 && runs == greatestRuns.get(uuid)) {
+                    numClouds.put(uuid, numClouds.get(uuid) - 1);
                     greatestRuns.put(uuid, 0);
                     cancel();
                     return;
@@ -98,8 +105,6 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
 
         runnable.runTaskTimer(schedulerPlugin, 0, 2);
 
-//this sucks
-        //8=======================================================================================================================================================================================================================================================================================================================================================================================D
         return false;
     }
 }

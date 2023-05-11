@@ -39,7 +39,7 @@ public class LifeDrainItemType extends SimpleItemType implements InteractableIte
                 d.damage(2, player);
                 d.setVelocity(vel); // no kb!!
 
-                if (d.getHealth() < prevHealth)
+                if (d.getHealth() < prevHealth) // don't heal the player if the target took no damage (i-frames)
                     player.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), (player.getHealth() + 0.5)));
 
                 w.spawnParticle(Particle.DAMAGE_INDICATOR, e.getLocation(), 1);

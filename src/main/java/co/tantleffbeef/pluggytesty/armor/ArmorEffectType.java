@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.armor;
 
+// an enum containing all possible unique effects a player can get from armor trims
 public enum ArmorEffectType {
     CONDUIT_POWER, // on equip
     DEBUFF_DAMAGE_IMMUNITY, // on effect given to player -> if wither/poison, remove
@@ -10,9 +11,9 @@ public enum ArmorEffectType {
     SPEED, // on equip
     EXP_BOOST, // on exp gained
     FIRE_RESISTANCE, // on equip
-    KNOCKBACK_RESIST, // on hunger reduced -> if not from healing !!Cant differentiate reason for food change!!
+    KNOCKBACK_RESIST, // on player damage -> set kb to false
     DAMAGE_INCREASE, // on entity damage -> if player has this, increase damage done by player
-    FALL_DAMAGE_IMMUNITY, // FIGURE OUT
+    FALL_DAMAGE_IMMUNITY, // on player damage -> check if from fall -> cancel
     WITHER_ATTACKS, // on entity damage -> give entity wither effect
     DASH, // FIGURE OUT
     HEALTH_BOOST, // on equip

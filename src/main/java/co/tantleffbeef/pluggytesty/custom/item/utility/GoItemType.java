@@ -18,9 +18,7 @@ public class GoItemType extends SimpleItemType implements InteractableItemType {
 
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
-        if (player.hasCooldown(Material.LEATHER))
-            return false;
-
+        // Go!!!
         Vector direction = player.getEyeLocation().getDirection().normalize();
         player.setVelocity(direction.multiply(2).add(player.getVelocity()));
 

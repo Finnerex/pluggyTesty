@@ -20,6 +20,8 @@ import java.util.Random;
 public class MeteorStaffItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
+
+    // different blocks that can fall
     private final Material[] matList = {Material.DRIPSTONE_BLOCK, Material.BLACKSTONE, Material.COBBLED_DEEPSLATE, Material.GILDED_BLACKSTONE, Material.COBBLESTONE};
 
     public MeteorStaffItemType(Plugin namespace, String id, boolean customModel, String name) {
@@ -34,8 +36,10 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
 
         final World w = player.getWorld();
 
+        // location of the closest block or entity on sight line
         Location hitLocation = blockEntityCast(player.getEyeLocation(), player);
 
+        // random starting position of the block, 20 above target
         Random r = new Random();
         final float x = r.nextFloat(-3, 3);
         final float z = r.nextFloat(-3, 3);
@@ -49,8 +53,9 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
             @Override
             public void run() {
                 Collection<Entity> entities = fallBlock.getNearbyEntities(1, 1, 1);
-                entities.remove(fallBlock);
+                entities.remove(fallBlock); // don't kill the block
 
+                // end if pasty target or hits entity
                 if (fallBlock.getLocation().getY() <= hitLocation.getY() || !entities.isEmpty()) {
                     if (!entities.isEmpty()) {
                         for (Entity e : entities) {
@@ -67,7 +72,6 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
                     cancel();
                     return;
                 }
-
 
 
                 Location location = fallBlock.getLocation();

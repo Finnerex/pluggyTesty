@@ -24,6 +24,8 @@ import java.util.UUID;
 public class MinotaursAxeItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
+
+    // number of axes that have been spawned since last cool down
     private final Map<UUID, Integer> attacks;
 
     public MinotaursAxeItemType(Plugin namespace, String id, boolean customModel, String name) {
@@ -39,18 +41,20 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
         UUID uuid = player.getUniqueId();
 
+        // initialize to zero axes
         attacks.putIfAbsent(uuid, 0);
 
+        // right-clicked, so another attack
         attacks.put(uuid, attacks.get(uuid) + 1);
 
         Location l = player.getEyeLocation();
 
         final ItemDisplay axe = player.getWorld().spawn(l, ItemDisplay.class, (display) -> {
             display.setItemStack(new ItemStack(Material.GOLDEN_AXE));
-            display.setRotation(l.getYaw() - 90, 0/*l.getPitch()*/);
+            display.setRotation(l.getYaw() - 90, 0);
         });
 
-        final Vector direction = l.getDirection()/*.rotateAroundY(90)*/;
+        final Vector direction = l.getDirection();
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int distance = 0;
@@ -65,8 +69,9 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
                 Location location = axe.getLocation();
 
+                // rotate so the axe spins as it moves forward
                 final Transformation t = axe.getTransformation();
-                t.getRightRotation().rotateLocalZ((float) Math.toRadians(10));/*rotateAxis((float) Math.toRadians(10), perpendicular);*/
+                t.getRightRotation().rotateLocalZ((float) Math.toRadians(10));
                 axe.setTransformation(t);
 
                 Collection<Entity> entities = player.getWorld().getNearbyEntities(location, 0.7, 0.7, 0.7);
@@ -83,6 +88,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
         runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
+        // 3 axes before cool down
         if (attacks.get(uuid) > 2) {
             player.setCooldown(Material.GOLDEN_AXE, 40);
             attacks.put(uuid, 0);

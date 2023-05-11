@@ -28,8 +28,11 @@ import static java.util.Map.entry;
 public class ArmorEquipListener implements Listener {
 
     private final Plugin plugin;
+
+    // holds which players have which effects
     public static Map<UUID, ArmorEffectType> effectMap = new HashMap<>();
 
+    // mapping each of the trim patterns to ArmorEffectTypes, so they can be used in switches and elsewhere
     private final static Map<TrimPattern, ArmorEffectType> trimMap = Map.ofEntries(
 
             entry(TrimPattern.COAST,    ArmorEffectType.CONDUIT_POWER),
@@ -55,6 +58,7 @@ public class ArmorEquipListener implements Listener {
         this.plugin = plugin;
     }
 
+    // check the player's trim on armor change, respawn, join, and leave
     @EventHandler
     public void onArmorChange(ArmorEquipEvent event) {
         plugin.getServer().getScheduler().runTask(plugin, () -> afterArmorChange(event.getPlayer()));
@@ -72,52 +76,24 @@ public class ArmorEquipListener implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        UUID playerUUID = player.getUniqueId();
-
-        ArmorEffectType effect = effectMap.get(playerUUID);
-
-        if (effect != null) {
-
-            switch (effect) {
-                case CONDUIT_POWER -> player.removePotionEffect(PotionEffectType.CONDUIT_POWER);
-                case NIGHT_VISION -> player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                case FIRE_RESISTANCE -> player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-                case HEALTH_BOOST -> player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
-                case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
-            }
-        }
-
-        effectMap.remove(playerUUID);
-
+        removeEffect(event.getPlayer());
     }
 
     private void afterArmorChange(Player player) {
-//        Player player = event.getPlayer();
+
         UUID playerUUID = player.getUniqueId();
 
         ItemStack[] armor = player.getInventory().getArmorContents();
-
+        // check if same trims
         TrimPattern trim = sameTrim(armor);
 
+        // remove the effect if not all trims are the same
         if (trim == null) {
-            ArmorEffectType effect = effectMap.get(playerUUID);
-
-            if (effect != null) {
-
-                switch (effect) {
-                    case CONDUIT_POWER -> player.removePotionEffect(PotionEffectType.CONDUIT_POWER);
-                    case NIGHT_VISION -> player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                    case FIRE_RESISTANCE -> player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-                    case HEALTH_BOOST -> player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
-                    case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
-                }
-            }
-
-            effectMap.remove(playerUUID);
+            removeEffect(player);
             return;
         }
 
+        // give the player the effect
         effectMap.put(playerUUID, trimMap.get(trim));
 
         switch (effectMap.get(playerUUID)) {
@@ -136,6 +112,8 @@ public class ArmorEquipListener implements Listener {
     private TrimPattern sameTrim(ItemStack[] armor) {
         TrimPattern lastPattern = null;
         int i = 0;
+
+        // check if all armor pieces have the same trim on
 
         do {
 
@@ -162,7 +140,28 @@ public class ArmorEquipListener implements Listener {
             i++;
         } while (i < armor.length);
 
+        // return that trim
         return lastPattern;
+    }
+
+    private void removeEffect(Player player) {
+        // remove potion effects and others from player
+        UUID playerUUID = player.getUniqueId();
+
+        ArmorEffectType effect = effectMap.get(playerUUID);
+
+        if (effect != null) {
+
+            switch (effect) {
+                case CONDUIT_POWER -> player.removePotionEffect(PotionEffectType.CONDUIT_POWER);
+                case NIGHT_VISION -> player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                case FIRE_RESISTANCE -> player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+                case HEALTH_BOOST -> player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
+                case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
+            }
+        }
+
+        effectMap.remove(playerUUID);
     }
 
 

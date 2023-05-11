@@ -23,7 +23,7 @@ public class BowShootListener implements Listener {
         if (ArmorEquipListener.effectMap.get(playerUUID) != ArmorEffectType.ARROW_CONSERVATION)
             return;
 
-        if (new Random().nextInt(2) == 1) {
+        if (new Random().nextBoolean()) {
             event.setConsumeItem(false);
             player.updateInventory();
         }
