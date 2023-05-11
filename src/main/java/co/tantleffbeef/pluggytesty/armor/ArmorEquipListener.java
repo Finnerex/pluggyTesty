@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty.armor;
 
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
@@ -104,7 +105,7 @@ public class ArmorEquipListener implements Listener {
             case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0.5f);
         }
 
-        // Bukkit.broadcastMessage("effect: " + effectMap.get(playerUUID));
+        player.sendMessage(ChatColor.LIGHT_PURPLE + "You have gained " + ChatColor.AQUA + effectMap.get(playerUUID).toString());
 
     }
 
