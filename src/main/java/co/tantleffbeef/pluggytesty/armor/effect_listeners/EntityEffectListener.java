@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class EntityEffectListener implements Listener {
@@ -23,12 +24,16 @@ public class EntityEffectListener implements Listener {
         if (ArmorEquipListener.effectMap.get(player.getUniqueId()) != ArmorEffectType.NIGHT_VISION)
             return;
 
-        PotionEffectType effect = event.getNewEffect().getType();
+        PotionEffect effect = event.getNewEffect();
+        if (effect == null)
+            return;
 
-        if (effect.equals(PotionEffectType.BLINDNESS))
+        PotionEffectType effectType = effect.getType();
+
+        if (effectType.equals(PotionEffectType.BLINDNESS))
             plugin.getServer().getScheduler().runTask(plugin, () -> player.removePotionEffect(PotionEffectType.BLINDNESS));
 
-        if (effect.equals(PotionEffectType.DARKNESS))
+        if (effectType.equals(PotionEffectType.DARKNESS))
             plugin.getServer().getScheduler().runTask(plugin, () -> player.removePotionEffect(PotionEffectType.DARKNESS));
 
     }
