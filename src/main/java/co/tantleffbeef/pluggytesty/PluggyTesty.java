@@ -163,8 +163,7 @@ public final class PluggyTesty extends JavaPlugin {
         final ShapedRecipe chainHelm = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), BaseArmor.cH())
                 .shape(
                         "ccc",
-                        "c c",
-                        "   ")
+                        "c c")
                 .setIngredient('c', Material.CHAIN);
         getServer().addRecipe(chainHelm);
         recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_helmet"), Material.CHAIN);
@@ -172,7 +171,6 @@ public final class PluggyTesty extends JavaPlugin {
 
         final ShapedRecipe chainBoots = new ShapedRecipe(NamespacedKey.minecraft("chainmail_boots"), BaseArmor.cB())
                 .shape(
-                        "   ",
                         "c c",
                         "c c")
                 .setIngredient('c', Material.CHAIN);
