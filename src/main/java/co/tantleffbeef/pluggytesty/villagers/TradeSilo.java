@@ -9,6 +9,7 @@ import org.bukkit.inventory.MerchantRecipe;
 import java.util.*;
 
 import static java.util.Map.entry;
+import static org.bukkit.entity.Villager.Profession.ARMORER;
 
 public class TradeSilo {
 
@@ -43,21 +44,21 @@ public class TradeSilo {
 
         return res;
     }
-//    public final static HashMap<Villager.Profession, int[]> tradeAmts = Map.ofEntries(
-//            entry(Villager.Profession.ARMORER, new int[] {2, 1, 1, 1, 2}), // Armorer
-//            entry(Villager.Profession.BUTCHER, new int[] {2, 2, 1, 2, 1}), // Butcher
-//            entry(Villager.Profession.CARTOGRAPHER, new int[] {0, 0, 0, 0, 0}), // Cartographer
-//            entry(Villager.Profession.CLERIC, new int[] {3, 2, 1, 1, 3}), // Cleric
-//            entry(Villager.Profession.FARMER, new int[] {2, 2, 1, 1, 1}), // Farmer
-//            entry(Villager.Profession.FISHERMAN, new int[] {2, 1, 1, 1, 1}), // Fisherman
-//            entry(Villager.Profession.FLETCHER, new int[] {0, 0, 0, 0, 0}), // Fletcher
-//            entry(Villager.Profession.LEATHERWORKER, new int[] {0, 0, 0, 0, 0}), // Leatherworker
-//            entry(Villager.Profession.LIBRARIAN, new int[] {2, 2, 2, 2, 2}), // Librarian
-//            entry(Villager.Profession.MASON, new int[] {2, 2, 2, 1, 2}), // Mason
-//            entry(Villager.Profession.SHEPHERD, new int[] {0, 0, 0, 0, 0}), // Shepherd
-//            entry(Villager.Profession.TOOLSMITH, new int[] {2, 2, 2, 2, 2}), // Toolsmith
-//            entry(Villager.Profession.WEAPONSMITH, new int[] {1, 1, 1, 1, 1}) // Weaponsmith
-//    );
+    public final static HashMap<Villager.Profession, int[]> tradeAmts = (HashMap<Villager.Profession, int[]>) Map.ofEntries(
+            Map.entry(Villager.Profession.ARMORER, new int[] {2, 1, 1, 1, 2}), // Armorer
+            Map.entry(Villager.Profession.BUTCHER, new int[] {2, 2, 1, 2, 1}), // Butcher
+            Map.entry(Villager.Profession.CARTOGRAPHER, new int[] {0, 0, 0, 0, 0}), // Cartographer
+            Map.entry(Villager.Profession.CLERIC, new int[] {3, 2, 1, 1, 3}), // Cleric
+            Map.entry(Villager.Profession.FARMER, new int[] {2, 2, 1, 1, 1}), // Farmer
+            Map.entry(Villager.Profession.FISHERMAN, new int[] {2, 1, 1, 1, 1}), // Fisherman
+            Map.entry(Villager.Profession.FLETCHER, new int[] {0, 0, 0, 0, 0}), // Fletcher
+            Map.entry(Villager.Profession.LEATHERWORKER, new int[] {0, 0, 0, 0, 0}), // Leatherworker
+            Map.entry(Villager.Profession.LIBRARIAN, new int[] {2, 2, 2, 2, 2}), // Librarian
+            Map.entry(Villager.Profession.MASON, new int[] {2, 2, 2, 1, 2}), // Mason
+            Map.entry(Villager.Profession.SHEPHERD, new int[] {0, 0, 0, 0, 0}), // Shepherd
+            Map.entry(Villager.Profession.TOOLSMITH, new int[] {2, 2, 2, 2, 2}), // Toolsmith
+            Map.entry(Villager.Profession.WEAPONSMITH, new int[] {1, 1, 1, 1, 1}) // Weaponsmith
+    );
 
     public final static List<List<MerchantRecipe>> armorerTrades = Arrays.asList( // CHANGE THESE TO BE THE CORRECT TRIMS YOU BUFFOON
             Arrays.asList(createRecipe(1, new ItemStack(Material.WILD_ARMOR_TRIM_SMITHING_TEMPLATE, 1), new ItemStack(Material.WILD_ARMOR_TRIM_SMITHING_TEMPLATE, 2)), createRecipe(1, new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, 1), new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, 2))), // Novice tier,
