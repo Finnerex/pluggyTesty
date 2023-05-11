@@ -128,7 +128,7 @@ public class ArmorEquipListener implements Listener {
             case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0.5f);
         }
 
-        Bukkit.broadcastMessage("effect: " + effectMap.get(playerUUID));
+        // Bukkit.broadcastMessage("effect: " + effectMap.get(playerUUID));
 
     }
 
