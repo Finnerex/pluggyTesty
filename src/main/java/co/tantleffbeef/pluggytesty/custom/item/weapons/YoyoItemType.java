@@ -55,7 +55,7 @@ public class YoyoItemType extends SimpleItemType implements InteractableItemType
                 slime.setSize(1);
                 slime.setInvisible(true);
                 slime.setInvulnerable(true);
-                slime.setLeashHolder(player);
+                player.setLeashHolder(slime);
             });
 
             BukkitRunnable runnable = new BukkitRunnable() {
