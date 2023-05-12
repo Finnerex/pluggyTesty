@@ -29,6 +29,8 @@ public class VillagerTradesListener implements Listener {
         int exp = vil.getVillagerLevel();
         Player player = event.getPlayer();
         Villager.Profession prof = vil.getProfession();
+        player.sendMessage(ChatColor.RED + "Trade size: " + trades.size());
+
         for(int i = 0; i < trades.size(); i++) {
             if(isVanillaTrade(trades.get(i))) {
                 trades.remove(i);
