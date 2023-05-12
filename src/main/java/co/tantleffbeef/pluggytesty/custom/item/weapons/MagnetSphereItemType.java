@@ -62,6 +62,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
         BukkitRunnable runnable = new BukkitRunnable() {
 
             int runs = 0; // period 2 ticks
+            final Vector vel = direction.clone().multiply(0.2);
 
             @Override
             public void run() {
@@ -96,7 +97,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
                 }
 
                 // teleport both
-                final Location newPos = location.add(direction.clone().multiply(0.2));
+                final Location newPos = location.add(vel);
                 newPos.setPitch(0);
                 newPos.setYaw(0);
                 glass.teleport(newPos);
@@ -106,7 +107,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 2, 2);
+        runnable.runTaskTimer(schedulerPlugin, 0, 1);
 
         return false;
     }
