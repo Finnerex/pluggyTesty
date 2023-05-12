@@ -5,7 +5,6 @@ import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Conduit;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -59,8 +58,9 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
                     tick++;
                 }
 
-                projectile.setVelocity(player.getEyeLocation().getDirection()); // Continuously updates velocity.
 
+
+                projectile.setVelocity(player.getEyeLocation().getDirection().multiply(5));
 
                 assert result != null;
                 if (projectile.getLocation().equals(Objects.requireNonNull(result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
