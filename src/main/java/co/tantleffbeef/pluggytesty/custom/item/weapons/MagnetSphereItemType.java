@@ -73,9 +73,9 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
                         // line of particles from "sphere" to dmgable
                         final Location dLocation = d.getLocation();
                         final double dist = location.distance(dLocation);
-                        final Vector dir = location.clone().subtract(dLocation).toVector().normalize();
+                        final Vector dir = location.clone().subtract(dLocation).toVector().normalize().multiply(0.1);
                         for (double i = 0; i < dist; i += 0.1) {
-                            w.spawnParticle(Particle.BUBBLE_POP, dLocation.add(dir.clone().multiply(0.1)), 2, 0, 0, 0, 0);
+                            w.spawnParticle(Particle.BUBBLE_POP, dLocation.add(dir), 2, 0, 0, 0, 0);
                         }
                     }
                 }
