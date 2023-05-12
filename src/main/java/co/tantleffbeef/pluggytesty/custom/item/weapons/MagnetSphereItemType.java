@@ -62,7 +62,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
         BukkitRunnable runnable = new BukkitRunnable() {
 
             int runs = 0; // period 2 ticks
-            final Vector vel = direction.clone().multiply(0.2);
+            final Vector vel = direction.clone().multiply(0.08);
 
             @Override
             public void run() {
@@ -86,7 +86,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
                     if (d.getHealth() < prevHealth) {
                         d.setVelocity(new Vector(0, 0, 0)); // stop that dawg in his tracks
 
-                        // line of particles from "sphere" to dmgable
+                        // line of particles from "sphere" to damageable
                         final Location dLocation = d.getLocation();
                         final double dist = location.distance(dLocation);
                         final Vector dir = location.clone().subtract(dLocation).toVector().normalize().multiply(0.1);
