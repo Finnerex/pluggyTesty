@@ -141,7 +141,8 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new LifeDrainItemType(this, "life_drain", false, ChatColor.DARK_RED + "Life Drain"));
         resourceManager.registerItem(new NimbusRodItemType(this, "nimbus_rod", false, ChatColor.DARK_BLUE + "Nimbus Rod"));
         resourceManager.registerItem(new YoyoItemType(this, "yoyo", false, ChatColor.DARK_BLUE + "Yoyo"));
-        resourceManager.registerItem(new MeowItemType(this, "Meow", false, ChatColor.DARK_BLUE + "Meowmere"));
+        resourceManager.registerItem(new MeowItemType(this, "meow", false, ChatColor.DARK_BLUE + "Meowmere"));
+        resourceManager.registerItem(new MagnetSphereItemType(this, "magnet_sphere", false, ChatColor.AQUA + "Magnet Sphere"));
 
 
         //Utility

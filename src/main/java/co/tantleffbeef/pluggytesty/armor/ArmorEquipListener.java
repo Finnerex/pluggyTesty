@@ -105,7 +105,7 @@ public class ArmorEquipListener implements Listener {
             case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0.5f);
         }
 
-        player.sendMessage(ChatColor.LIGHT_PURPLE + "You have gained " + ChatColor.AQUA + effectMap.get(playerUUID).toString());
+        player.sendMessage("You have gained " + ChatColor.AQUA + effectMap.get(playerUUID).toString());
 
     }
 
