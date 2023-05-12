@@ -28,7 +28,7 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
 
 
         LivingEntity Projectile = player.getWorld().spawn(player.getEyeLocation(), Slime.class, (proj) -> {
-            proj.setSize(5);
+            proj.setSize(1);
             proj.setInvulnerable(true);
             proj.setGravity(true);
             proj.setVelocity(player.getEyeLocation().getDirection());
@@ -50,7 +50,8 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
                     tick++;
                 }
 
-                projVelocity.setY(player.getEyeLocation().getDirection().getX() - 0.49d);
+                projVelocity.setY(player.getEyeLocation().getDirection().getY() - 0.49d);
+                projVelocity.setX(player.getEyeLocation().getDirection().getX() - 0.49d);
                 Projectile.setVelocity(projVelocity);
 
 
