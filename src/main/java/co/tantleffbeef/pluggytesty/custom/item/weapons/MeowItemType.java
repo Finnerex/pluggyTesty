@@ -59,7 +59,7 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
                     tick++;
                 }
 
-                projectile.setVelocity(player.getLocation().getDirection()); // Continuously updates velocity.
+                projectile.setVelocity(player.getEyeLocation().getDirection()); // Continuously updates velocity.
 
 
                 assert result != null;
