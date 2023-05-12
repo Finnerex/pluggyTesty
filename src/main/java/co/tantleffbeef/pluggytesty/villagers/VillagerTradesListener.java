@@ -39,32 +39,40 @@ public class VillagerTradesListener implements Listener {
 
         if(prof == Villager.Profession.NONE || prof == Villager.Profession.NITWIT) return; // this would mess things up later so we return now
 
-        int numExpectedTrades = 0;
+        int numExpectedTrades = 1; // starts at 1 due to ending trade
+
         for(int i = 0; i < exp; i++) {
             numExpectedTrades += TradeSilo.tradeAmts.get(prof)[i]; // calculate the number of trades we expect villager to have
         }
+
         player.sendMessage(ChatColor.RED + "Num Expected Trades: " + numExpectedTrades + ". Trades size: " + trades.size());
-        if(numExpectedTrades != trades.size() - 1) { // if the number of expected trades doesn't match up with the number of trades (excluding upgrade one)...
+
+        if(numExpectedTrades != trades.size()) { // if the number of expected trades doesn't match up with the number of trades (excluding upgrade one)...
             player.sendMessage(ChatColor.RED + "Size 1: " + trades.size());
-            if (trades.size() > 0)
-                trades.remove(trades.size() - 1); // we assume that the villager levelled up and so remove the ending trade.
-            player.sendMessage(ChatColor.RED + "Size 2: " + trades.size());
-            List<MerchantRecipe> options = new ArrayList<>(TradeSilo.librarianTrades.get(exp)); // establishing the list of trades we can choose from
-            switch (prof) {
-                case ARMORER -> options = new ArrayList(TradeSilo.armorerTrades.get(exp));
-                case BUTCHER -> options = new ArrayList(TradeSilo.butcherTrades.get(exp));
-                case CLERIC -> options = new ArrayList(TradeSilo.clericTrades.get(exp));
-                case FARMER -> options = new ArrayList(TradeSilo.farmerTrades.get(exp));
-                case FISHERMAN -> options = new ArrayList(TradeSilo.fishermanTrades.get(exp));
-                case LIBRARIAN -> options = new ArrayList<>(TradeSilo.librarianTrades.get(exp));
-                case MASON -> options = new ArrayList(TradeSilo.masonTrades.get(exp));
-                case TOOLSMITH -> options = new ArrayList(TradeSilo.toolsmithTrades.get(exp));
-                case WEAPONSMITH -> options = new ArrayList(TradeSilo.weaponsmithTrades.get(exp));
+
+            if (trades.size() > 0) {
+                MerchantRecipe e = trades.remove(trades.size() - 1); // we assume that the villager levelled up and so remove the ending trade.
+                player.sendMessage(ChatColor.RED + "Removed Trade: " + e.getIngredients().get(0).toString() + ", " + e.getResult().toString());
             }
+
+            player.sendMessage(ChatColor.RED + "Size 2: " + trades.size());
+            List<MerchantRecipe> options = new ArrayList<>(switch (prof) { // establishing the list of trades we can choose from
+                case ARMORER -> TradeSilo.armorerTrades.get(exp);
+                case BUTCHER -> TradeSilo.butcherTrades.get(exp);
+                case CLERIC -> TradeSilo.clericTrades.get(exp);
+                case FARMER -> TradeSilo.farmerTrades.get(exp);
+                case FISHERMAN -> TradeSilo.fishermanTrades.get(exp);
+                case LIBRARIAN -> TradeSilo.librarianTrades.get(exp);
+                case MASON -> TradeSilo.masonTrades.get(exp);
+                case TOOLSMITH -> TradeSilo.toolsmithTrades.get(exp);
+                case WEAPONSMITH -> TradeSilo.weaponsmithTrades.get(exp);
+                default -> TradeSilo.librarianTrades.get(exp);
+            });
 
             for(int i = 0; i < TradeSilo.tradeAmts.get(prof)[exp-1]; i++) {
                 trades.add(options.remove(new Random().nextInt(options.size()))); // Add new trades according to tradeAmts, use .remove() to prevent duplicates
             }
+
             player.sendMessage(ChatColor.RED + "Size 3: " + trades.size());
             trades.add(TradeSilo.upgradeRecipe(exp)); // adding new final trade
             player.sendMessage(ChatColor.RED + "Size 4: " + trades.size());
