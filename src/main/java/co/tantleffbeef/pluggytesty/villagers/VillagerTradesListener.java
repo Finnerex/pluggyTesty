@@ -32,8 +32,9 @@ public class VillagerTradesListener implements Listener {
         Villager.Profession prof = vil.getProfession();
         for(int i = 0; i < trades.size(); i++) {
             if(isVanillaTrade(trades.get(i))) {
-                trades.remove(i);
                 player.sendMessage(ChatColor.RED + "Flag1 triggered");
+                trades.remove(i);
+                player.sendMessage(ChatColor.RED + "Flag2 triggered");
             }
         }
         player.sendMessage(ChatColor.RED + "Flag triggered: " + trades);
