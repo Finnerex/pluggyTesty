@@ -1,6 +1,8 @@
 package co.tantleffbeef.pluggytesty.villagers;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,12 +14,11 @@ import java.util.*;
 
 
 public class VillagerTradesListener implements Listener {
-    private boolean isVanillaTrade(MerchantRecipe trade) {
+    private boolean isVanillaTrade(MerchantRecipe trade) { // returns true if any part of the trade involves emeralds, otherwise false
         for(ItemStack item : trade.getIngredients()) {
             if(item.getType() == Material.EMERALD) return true;
         }
         if(trade.getResult().getType() == Material.EMERALD) return true;
-
         return false;
     }
     @EventHandler
@@ -27,39 +28,65 @@ public class VillagerTradesListener implements Listener {
         List<MerchantRecipe> trades = new ArrayList<>();
         trades = vil.getRecipes();
         int exp = vil.getVillagerLevel();
+        Player player = event.getPlayer();
         Villager.Profession prof = vil.getProfession();
         for(int i = 0; i < trades.size(); i++) {
             if(isVanillaTrade(trades.get(i))) {
+                player.sendMessage(ChatColor.RED + "Flag1 triggered");
                 trades.remove(i);
+                player.sendMessage(ChatColor.RED + "Flag2 triggered");
             }
         }
-
-        if(prof == Villager.Profession.NONE || prof == Villager.Profession.NITWIT) return;
+        player.sendMessage(ChatColor.RED + "Flag triggered: " + trades);
+        if(prof == Villager.Profession.NONE || prof == Villager.Profession.NITWIT) return; // this would mess things up later so we return now
 
         int numExpectedTrades = 0;
-//        for(int i = 0; i < exp; i++) {
-//            numExpectedTrades += TradeSilo.tradeAmts[TradeSilo.tradeAmts.get(prof)][i];
-//        }
+        for(int i = 0; i < exp; i++) {
+            numExpectedTrades += TradeSilo.tradeAmts.get(prof)[i]; // calculate the number of trades we expect villager to have
+        }
 
         if(numExpectedTrades != trades.size() - 1) { // if the number of expected trades doesn't match up with the number of trades (excluding upgrade one)...
             if (trades.size() > 0)
                 trades.remove(trades.size() - 1); // we assume that the villager levelled up and so remove the ending trade.
-            List<MerchantRecipe> options;
+
+            List<MerchantRecipe> options = new ArrayList<>(TradeSilo.librarianTrades.get(exp)); // establishing the list of trades we can choose from
             switch (prof) {
                 case ARMORER -> options = new ArrayList(TradeSilo.armorerTrades.get(exp));
                 case BUTCHER -> options = new ArrayList(TradeSilo.butcherTrades.get(exp));
-                case CLERIC -> options = new ArrayList(TradeSilo.armorerTrades.get(exp));
-                case FARMER -> options = new ArrayList(TradeSilo.butcherTrades.get(exp));
-                case FISHERMAN -> options = new ArrayList(TradeSilo.armorerTrades.get(exp));
-                case LIBRARIAN -> options = new ArrayList(TradeSilo.butcherTrades.get(exp));
-                case MASON -> options = new ArrayList(TradeSilo.armorerTrades.get(exp));
-                case TOOLSMITH -> options = new ArrayList(TradeSilo.butcherTrades.get(exp));
-                case WEAPONSMITH -> options = new ArrayList(TradeSilo.armorerTrades.get(exp));
+                case CLERIC -> options = new ArrayList(TradeSilo.clericTrades.get(exp));
+                case FARMER -> options = new ArrayList(TradeSilo.farmerTrades.get(exp));
+                case FISHERMAN -> options = new ArrayList(TradeSilo.fishermanTrades.get(exp));
+                case LIBRARIAN -> options = new ArrayList<>(TradeSilo.librarianTrades.get(exp));
+                case MASON -> options = new ArrayList(TradeSilo.masonTrades.get(exp));
+                case TOOLSMITH -> options = new ArrayList(TradeSilo.toolsmithTrades.get(exp));
+                case WEAPONSMITH -> options = new ArrayList(TradeSilo.weaponsmithTrades.get(exp));
             }
 
-            trades.add(TradeSilo.upgradeRecipe(exp));
+            for(int i = 0; i < TradeSilo.tradeAmts.get(prof)[exp-1]; i++) {
+                trades.add(options.remove(new Random().nextInt(options.size()))); // Add new trades according to tradeAmts, use .remove() to prevent duplicates
+            }
+            trades.add(TradeSilo.upgradeRecipe(exp)); // adding new final trade
         }
-        // add new trades
+
+        int pLevel = (int) player.getHealth() / 10; // level of the player, not implemented yet so i assign it based on health
+        player.sendMessage(ChatColor.RED + "Your current health is " + player.getHealth()  + "and your player level is" + pLevel);
+
+        if(pLevel < exp - 1) { // pLevel goes from 0-5 and exp goes from 1-5
+            int l = 0;
+            for(int h = pLevel; h < exp - 1; h++) {
+                l += TradeSilo.tradeAmts.get(prof)[h]; // this determines how many trades the player should have access to so they don't become unavailable
+            }
+
+            for(int i = l; i < trades.size(); i++) {
+                trades.get(i).setMaxUses(trades.get(i).getUses()); // setting a trade's max uses to be its current uses will disable it
+            }
+        } else {
+            for(int i = 0; i < trades.size(); i++) { // set the trade's max uses to 10, fixing trades if they were previously opened by some low level person
+                trades.get(i).setMaxUses(10);
+            }
+        }
+
+        vil.setRecipes(trades);
     }
 // At this point, I have the villager's profession, trades, and exp
 // Next, I should remove all vanilla trades (those that involve emeralds) - DONE
@@ -73,32 +100,3 @@ public class VillagerTradesListener implements Listener {
 
 }
 
-// int numOfTrades = 0;
-//        for(int i = 0; i < exp; i++) {
-//            numOfTrades += tradeAmts[profInt][i];
-//        }
-//
-//        if(numOfTrades != trades.size() - 1) {
-//            trades.remove(trades.size() - 1);
-//
-//            // add new trades
-//            // add new final trade
-//        }
-//
-//
-//        if(pLevel < exp - 1) { // pLevel goes from 0-5 and exp goes from 1-5
-//            int l = 0;
-//            for(int h = pLevel; h < exp - 1; h++) {
-//                l += tradeAmts[profInt][h];
-//            }
-//
-//            for(int i = l; i < trades.size(); i++) {
-//                trades.get(i).setMaxUses(0); // see if having a maxUses below the Uses gives an error
-//            }
-//        } else {
-//            for(int i = 0; i < trades.size(); i++) {
-//                trades.get(i).setMaxUses(10);
-//            }
-//        }
-//
-//        return trades;
