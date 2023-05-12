@@ -1,8 +1,9 @@
-package co.tantleffbeef.pluggytesty.misc;
+package co.tantleffbeef.pluggytesty.attributes;
 
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
@@ -48,11 +49,19 @@ public class AttributeManager {
         else if (modified.getItemMeta() == null)
             throw new RuntimeException("Item registered with no item meta! id: " + id);
 
+        final var item = modified.clone();
+
+        // Clear stuff like durability
+        final var meta = item.getItemMeta();
+        assert meta != null;
+        clearUniqueMeta(meta, item.getType());
+        item.setItemMeta(meta);
+
         // Mark down the item as modified
         modifiedItemSet.add(id);
 
         // Save the modified version
-        itemModifications.put(id, modified.clone());
+        itemModifications.put(id, item);
     }
 
     /**
@@ -79,7 +88,9 @@ public class AttributeManager {
 
     /**
      * Checks if the itemstack requires an update and updates it if necessary
-     * @param itemStack the itemstack to check and update
+     *
+     * @param itemStack the itemstack to check and update; must be non-null and
+     *                  have item meta
      */
     public void updateItem(@NotNull ItemStack itemStack) {
         assert itemStack.getItemMeta() != null;
@@ -87,11 +98,15 @@ public class AttributeManager {
         // Grab the item's id
         final var id = CustomItemNbt.customItemIdOrVanilla(itemStack, keyManager);
 
+        Bukkit.broadcastMessage("[updateItem()] id: " + id);
+
         // If no modification is registered
         // for this item id then no need
         // to modify it
         if (!modifiedItemSet.contains(id))
             return;
+
+        Bukkit.broadcastMessage("[updateItem()] modifiedItemSet contains id");
 
         final var modification = itemModifications.get(id);
         assert modification != null;
@@ -99,6 +114,8 @@ public class AttributeManager {
         // If the item doesn't need modification return
         if (!needsModification(itemStack, modification))
             return;
+
+        Bukkit.broadcastMessage("[updateItem()] needs modification");
 
         assert modification.getItemMeta() != null;
 
@@ -119,7 +136,9 @@ public class AttributeManager {
         // Reset durability and enchantments
         clearUniqueMeta(clonedOriginalMeta, toModify.getType());
 
-        return modifiedMeta.equals(clonedOriginalMeta);
+        // If they are equal then they don't need to be modified
+        // but if they are different then they need it
+        return !modifiedMeta.equals(clonedOriginalMeta);
     }
 
     /**
