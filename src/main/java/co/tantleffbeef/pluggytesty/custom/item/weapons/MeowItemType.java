@@ -46,6 +46,7 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int tick = 0;
+            int num = 0;
             Vector projVelocity = projectile.getVelocity();
             @Override
             public void run() {
@@ -60,16 +61,16 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
                 }
 
 
+                num += 0.5;
+                projectile.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(num)));
 
-                projectile.setVelocity(player.getEyeLocation().getDirection().multiply(5));
+                assert result != null;
+                if (projectile.getLocation().equals(Objects.requireNonNull(result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
 
-//                assert result != null;
-//                if (projectile.getLocation().equals(Objects.requireNonNull(result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
-//
-//                    Vector newVelocity = result.getHitPosition().multiply(projVelocity.dot(result.getHitPosition())).multiply(-2);
-//                    projectile.setVelocity(newVelocity); // Reflects the projectile off the raytraced wall.
-//
-//                }
+                    Vector newVelocity = result.getHitPosition().multiply(projVelocity.dot(result.getHitPosition())).multiply(-2);
+                    projectile.setVelocity(newVelocity); // Reflects the projectile off the raytraced wall.
+
+                }
 
 
                 Collection<Entity> entities = player.getWorld().getNearbyEntities(projectile.getLocation(), 0.7, 0.7, 0.7);
