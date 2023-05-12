@@ -25,8 +25,7 @@ public class VillagerTradesListener implements Listener {
     public void onVillagerInteract(PlayerInteractEntityEvent event) {
         if (!(event.getRightClicked() instanceof Villager vil)) return;
 
-        List<MerchantRecipe> trades = new ArrayList<>();
-        trades = vil.getRecipes();
+        List<MerchantRecipe> trades = new ArrayList<>(vil.getRecipes());
         int exp = vil.getVillagerLevel();
         Player player = event.getPlayer();
         Villager.Profession prof = vil.getProfession();
