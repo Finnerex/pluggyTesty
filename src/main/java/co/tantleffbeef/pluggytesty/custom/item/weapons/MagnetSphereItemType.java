@@ -56,12 +56,13 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
             public void run() {
 
                 if (runs > 150) {
+                    glass.getPassengers().get(0).remove();
                     glass.remove();
                     cancel();
                     return;
                 }
 
-                glass.teleport(location.add(direction.normalize().multiply(0.1)));
+                glass.teleport(location.add(direction));
 
                 runs ++;
             }
