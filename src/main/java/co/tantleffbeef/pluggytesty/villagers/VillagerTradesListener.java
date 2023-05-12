@@ -34,6 +34,7 @@ public class VillagerTradesListener implements Listener {
         for(int i = 0; i < trades.size(); i++) {
             if(isVanillaTrade(trades.get(i))) {
                 trades.remove(i);
+                player.sendMessage(ChatColor.RED + "Trade size: " + trades.size());
             }
         }
 
