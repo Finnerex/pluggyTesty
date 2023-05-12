@@ -31,8 +31,8 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
 
 
-        BlockDisplay projectile = player.getWorld().spawn(player.getEyeLocation(), BlockDisplay.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
-            proj.setBlock(Material.CONDUIT.createBlockData());
+        ItemDisplay projectile = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
+            proj.setItemStack(new ItemStack(Material.CONDUIT));
         });
 
 
@@ -46,7 +46,6 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int tick = 0;
-            int num = 0;
             Vector projVelocity = projectile.getVelocity();
             @Override
             public void run() {
@@ -56,13 +55,13 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
                     cancel();
                     return;
                 }
-                else{
+                else {
                     tick++;
                 }
 
 
-                num += 0.5;
-                projectile.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(num)));
+
+                projectile.setVelocity(player.getEyeLocation().getDirection().multiply(5));
 
                 assert result != null;
                 if (projectile.getLocation().equals(Objects.requireNonNull(result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
