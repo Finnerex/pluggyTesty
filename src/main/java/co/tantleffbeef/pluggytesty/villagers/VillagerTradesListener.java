@@ -14,7 +14,7 @@ import java.util.*;
 
 
 public class VillagerTradesListener implements Listener {
-    private boolean isVanillaTrade(MerchantRecipe trade, Player player) { // returns true if any part of the trade involves emeralds, otherwise false
+    private boolean isVanillaTrade(MerchantRecipe trade) { // returns true if any part of the trade involves emeralds, otherwise false
         for(ItemStack item : trade.getIngredients()) {
             if(item.getType() == Material.EMERALD) return true;
         }
@@ -31,8 +31,9 @@ public class VillagerTradesListener implements Listener {
         Player player = event.getPlayer();
         Villager.Profession prof = vil.getProfession();
         for(int i = 0; i < trades.size(); i++) {
-            if(isVanillaTrade(trades.get(i), player)) {
+            if(isVanillaTrade(trades.get(i))) {
                 trades.remove(i);
+                player.sendMessage(ChatColor.RED + "Flag1 triggered");
             }
         }
         player.sendMessage(ChatColor.RED + "Flag triggered: " + trades);
