@@ -23,8 +23,8 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
 
     private final Plugin schedulerPlugin;
 
-    // is there a sphere in play for each player
-    private final Map<UUID, Boolean> sphereOut = new HashMap<>();
+    // number of spheres in play for each player (max of 1)
+    private final Map<UUID, Integer> sphereOut = new HashMap<>();
 
     public MagnetSphereItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.ENCHANTED_BOOK);
@@ -41,7 +41,9 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
         final UUID uuid = player.getUniqueId();
 
         // sphere is now out
-        sphereOut.put(uuid, true);
+        sphereOut.putIfAbsent(uuid, 0);
+
+        sphereOut.put(uuid, sphereOut.get(uuid) + 1);
 
         // blue glass with lantern inside
         final ItemDisplay glass = w.spawn(location, ItemDisplay.class, (display) -> {
@@ -64,10 +66,12 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
             @Override
             public void run() {
 
-                if (runs > 150 || sphereOut.get(uuid)) { // remove after 15 secs
+
+                if (runs > 150 || sphereOut.get(uuid) > 1) { // remove after 15 secs
                     lantern.remove();
                     glass.remove();
-                    sphereOut.put(uuid, false);
+                    sphereOut.put(uuid, sphereOut.get(uuid) - 1);
+
                     cancel();
                     return;
                 }
