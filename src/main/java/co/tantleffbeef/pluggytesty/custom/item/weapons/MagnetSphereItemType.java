@@ -64,9 +64,11 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
                 // damage the closest entity and particles
                 Damageable d = getNearestEntity(location, glass);
                 if (d != null && !d.equals(player)) {
-                    Bukkit.broadcastMessage(d.toString());
+                    final double prevHealth = d.getHealth();
+
                     d.damage(2, player);
-                    d.setVelocity(new Vector(0, 0, 0)); // stop that dawg in his tracks
+                    if (prevHealth < d.getHealth())
+                        d.setVelocity(new Vector(0, 0, 0)); // stop that dawg in his tracks
 
                     // line of particles from "sphere" to dmgable
                     final Location dLocation = d.getLocation();
@@ -79,7 +81,8 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
 
                 // teleport both
                 final Location newPos = location.add(direction.clone().multiply(0.2));
-                newPos.setDirection(new Vector(0, 0, 0));
+                newPos.setPitch(0);
+                newPos.setYaw(0);
                 glass.teleport(newPos);
                 lantern.teleport(newPos);
 
