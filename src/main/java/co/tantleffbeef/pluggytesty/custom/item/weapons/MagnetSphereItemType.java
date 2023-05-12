@@ -107,7 +107,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 0, 1);
+        runnable.runTaskTimer(schedulerPlugin, 1, 1);
 
         return false;
     }
