@@ -31,12 +31,11 @@ public class VillagerTradesListener implements Listener {
         Player player = event.getPlayer();
         Villager.Profession prof = vil.getProfession();
         for(int i = 0; i < trades.size(); i++) {
-            player.sendMessage(ChatColor.RED + "Flag triggered: " + trades.size());
             if(isVanillaTrade(trades.get(i), player)) {
                 trades.remove(i);
             }
         }
-
+        player.sendMessage(ChatColor.RED + "Flag triggered: " + trades);
         if(prof == Villager.Profession.NONE || prof == Villager.Profession.NITWIT) return; // this would mess things up later so we return now
 
         int numExpectedTrades = 0;
