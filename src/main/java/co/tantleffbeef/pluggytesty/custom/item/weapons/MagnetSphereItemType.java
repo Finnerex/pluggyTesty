@@ -2,10 +2,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
@@ -65,10 +62,11 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
                 }
 
                 // damage the closest entity and particles
-//                Damageable d = getNearestEntity(location, glass);
-//                if (d != null && !d.equals(player)) {
-//                    d.damage(6, player);
-//                    d.setVelocity(new Vector(0, 0, 0)); // stop that dawg in his tracks
+                Damageable d = getNearestEntity(location, glass);
+                if (d != null && !d.equals(player)) {
+                    Bukkit.broadcastMessage(d.toString());
+                    d.damage(6, player);
+                    d.setVelocity(new Vector(0, 0, 0)); // stop that dawg in his tracks
 //
 //                    final Location dLocation = d.getLocation();
 //                    final double dist = location.distance(dLocation);
@@ -76,7 +74,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
 //                    for (double i = 0; i < dist; i += 0.1) {
 //                        w.spawnParticle(Particle.BUBBLE_POP, dLocation.add(dir.clone().multiply(0.1)), 2, 0, 0, 0, 0);
 //                    }
-//                }
+                }
 
                 // teleport both
                 final Location newPos = location.add(direction.clone().multiply(0.2));
