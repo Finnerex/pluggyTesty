@@ -30,7 +30,7 @@ public class VillagerTradesListener implements Listener {
         Player player = event.getPlayer();
         Villager.Profession prof = vil.getProfession();
 
-        for(int i = trades.size(); i < 0; i--) {
+        for(int i = trades.size(); i > 0; i--) {
 
             if(isVanillaTrade(trades.get(i))) {
                 trades.remove(i);
