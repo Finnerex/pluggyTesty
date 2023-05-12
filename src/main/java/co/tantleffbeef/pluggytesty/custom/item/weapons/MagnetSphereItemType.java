@@ -67,10 +67,10 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
                     Bukkit.broadcastMessage(d.toString());
                     d.damage(6, player);
                     d.setVelocity(new Vector(0, 0, 0)); // stop that dawg in his tracks
-//
-//                    final Location dLocation = d.getLocation();
-//                    final double dist = location.distance(dLocation);
-//                    final Vector dir = location.subtract(dLocation).toVector().normalize();
+
+                    final Location dLocation = d.getLocation();
+                    final double dist = location.distance(dLocation);
+                    final Vector dir = location.subtract(dLocation).toVector().normalize();
 //                    for (double i = 0; i < dist; i += 0.1) {
 //                        w.spawnParticle(Particle.BUBBLE_POP, dLocation.add(dir.clone().multiply(0.1)), 2, 0, 0, 0, 0);
 //                    }
