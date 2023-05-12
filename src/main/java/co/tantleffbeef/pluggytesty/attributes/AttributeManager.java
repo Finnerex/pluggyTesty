@@ -115,7 +115,7 @@ public class AttributeManager {
         if (!needsModification(itemStack, modification))
             return;
 
-        Bukkit.broadcastMessage("[updateItem()] doesn't need modification");
+        Bukkit.broadcastMessage("[updateItem()] needs modification");
 
         assert modification.getItemMeta() != null;
 
@@ -136,7 +136,9 @@ public class AttributeManager {
         // Reset durability and enchantments
         clearUniqueMeta(clonedOriginalMeta, toModify.getType());
 
-        return modifiedMeta.equals(clonedOriginalMeta);
+        // If they are equal then they don't need to be modified
+        // but if they are different then they need it
+        return !modifiedMeta.equals(clonedOriginalMeta);
     }
 
     /**
