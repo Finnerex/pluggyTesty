@@ -30,7 +30,9 @@ public class VillagerTradesListener implements Listener {
         Player player = event.getPlayer();
         Villager.Profession prof = vil.getProfession();
 
-        for(int i = 0; i <= trades.size(); i++) {
+        for(int i = 0; i < trades.size(); i++) {
+            MerchantRecipe e = trades.get(i);
+            player.sendMessage(ChatColor.RED + "Removed Trade: " + e.getIngredients().get(0).toString() + ", " + e.getResult().toString());
             if(isVanillaTrade(trades.get(i))) {
                 trades.remove(i);
 
@@ -51,8 +53,7 @@ public class VillagerTradesListener implements Listener {
             player.sendMessage(ChatColor.RED + "Size 1: " + trades.size());
 
             if (trades.size() > 0) {
-                MerchantRecipe e = trades.remove(trades.size() - 1); // we assume that the villager levelled up and so remove the ending trade.
-                player.sendMessage(ChatColor.RED + "Removed Trade: " + e.getIngredients().get(0).toString() + ", " + e.getResult().toString());
+                trades.remove(trades.size() - 1); // we assume that the villager levelled up and so remove the ending trade.
             }
 
             player.sendMessage(ChatColor.RED + "Size 2: " + trades.size());
