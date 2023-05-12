@@ -44,7 +44,7 @@ public class TradeSilo {
 
         return res;
     }
-    public final static HashMap<Villager.Profession, int[]> tradeAmts = (HashMap<Villager.Profession, int[]>) Map.ofEntries(
+    public final static Map<Villager.Profession, int[]> tradeAmts = Map.ofEntries(
             Map.entry(Villager.Profession.ARMORER, new int[] {2, 1, 1, 1, 2}), // Armorer
             Map.entry(Villager.Profession.BUTCHER, new int[] {2, 2, 1, 2, 1}), // Butcher
             Map.entry(Villager.Profession.CARTOGRAPHER, new int[] {0, 0, 0, 0, 0}), // Cartographer
