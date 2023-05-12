@@ -5,6 +5,7 @@ import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -30,8 +31,8 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
 
 
-        ItemDisplay projectile = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
-            proj.setItemStack(new ItemStack(Material.CONDUIT));
+        BlockDisplay projectile = player.getWorld().spawn(player.getEyeLocation(), BlockDisplay.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
+            proj.setBlock(Material.CONDUIT.createBlockData());
         });
 
 
