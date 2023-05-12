@@ -52,10 +52,11 @@ public class VillagerTradesListener implements Listener {
         if(numExpectedTrades != trades.size()) { // if the number of expected trades doesn't match up with the number of trades (excluding upgrade one)...
             player.sendMessage(ChatColor.RED + "Size 1: " + trades.size());
 
-            if (trades.size() > 0) {
-                trades.remove(trades.size() - 1); // we assume that the villager levelled up and so remove the ending trade.
+            for(int i = 0; i < trades.size(); i++) {
+                if (trades.get(i).getVillagerExperience() > 0) {
+                    trades.remove(trades.size() - 1); // we assume that the villager levelled up and so remove the ending trade.
+                }
             }
-
             player.sendMessage(ChatColor.RED + "Size 2: " + trades.size());
             List<MerchantRecipe> options = new ArrayList<>(switch (prof) { // establishing the list of trades we can choose from
                 case ARMORER -> TradeSilo.armorerTrades.get(exp);
