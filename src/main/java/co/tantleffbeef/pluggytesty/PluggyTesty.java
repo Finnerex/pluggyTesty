@@ -8,13 +8,14 @@ import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.BaseArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
+import co.tantleffbeef.pluggytesty.attributes.CraftListener;
 import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.utility.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.*;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
-import co.tantleffbeef.pluggytesty.misc.AttributeManager;
+import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
@@ -22,10 +23,14 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.jar.JarFile;
 
 @SuppressWarnings("unused")
@@ -104,7 +109,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
 
         getServer().getPluginManager().registerEvents(new VillagerTradesListener(), this);
-        getServer().getPluginManager().registerEvents(new CraftListener(), this);
+        getServer().getPluginManager().registerEvents(new CraftListener(attributeManager), this);
         getServer().getPluginManager().registerEvents(new SmithListener(), this);
 
 
@@ -122,6 +127,7 @@ public final class PluggyTesty extends JavaPlugin {
                         .map(resourceManager::getCustomItemStack)
                         .forEach(attributeManager::registerModifiedItem)
         );
+        addCustomAttributes();
     }
 
     private void registerItems() {
@@ -155,6 +161,12 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
     }
 
+    private void addCustomAttributes() {
+        final var ironHelmet = new ItemStack(Material.IRON_HELMET);
+        Objects.requireNonNull(ironHelmet.getItemMeta()).addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("pluggytesty", 10, AttributeModifier.Operation.ADD_SCALAR));
+        ironHelmet.setItemMeta(ironHelmet.getItemMeta());
+        attributeManager.registerModifiedItem(ironHelmet);
+    }
 
     @Override
     public void onDisable() {

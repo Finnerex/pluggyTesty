@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty.misc;
+package co.tantleffbeef.pluggytesty.attributes;
 
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
@@ -79,7 +79,9 @@ public class AttributeManager {
 
     /**
      * Checks if the itemstack requires an update and updates it if necessary
-     * @param itemStack the itemstack to check and update
+     *
+     * @param itemStack the itemstack to check and update; must be non-null and
+     *                  have item meta
      */
     public void updateItem(@NotNull ItemStack itemStack) {
         assert itemStack.getItemMeta() != null;
