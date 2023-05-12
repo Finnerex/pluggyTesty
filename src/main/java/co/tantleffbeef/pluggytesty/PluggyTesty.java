@@ -25,6 +25,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -128,6 +129,18 @@ public final class PluggyTesty extends JavaPlugin {
                         .forEach(attributeManager::registerModifiedItem)
         );
         addCustomAttributes();
+
+        Objects.requireNonNull(getCommand("testhelmetgive")).setExecutor((sender, command, label, args) -> {
+            if (!(sender instanceof Player player))
+                return false;
+
+            final var ironHelmet = new ItemStack(Material.IRON_HELMET);
+            Objects.requireNonNull(ironHelmet.getItemMeta()).addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("pluggytesty", 10, AttributeModifier.Operation.ADD_SCALAR));
+            ironHelmet.setItemMeta(ironHelmet.getItemMeta());
+            player.getInventory().addItem(ironHelmet);
+
+            return true;
+        });
     }
 
     private void registerItems() {
