@@ -19,7 +19,6 @@ public class VillagerTradesListener implements Listener {
             if(item.getType() == Material.EMERALD) return true;
         }
         if(trade.getResult().getType() == Material.EMERALD) return true;
-        player.sendMessage(ChatColor.RED + "Flag triggered");
         return false;
     }
     @EventHandler
@@ -32,6 +31,7 @@ public class VillagerTradesListener implements Listener {
         Player player = event.getPlayer();
         Villager.Profession prof = vil.getProfession();
         for(int i = 0; i < trades.size(); i++) {
+            player.sendMessage(ChatColor.RED + "Flag triggered: " + trades.size());
             if(isVanillaTrade(trades.get(i), player)) {
                 trades.remove(i);
             }
