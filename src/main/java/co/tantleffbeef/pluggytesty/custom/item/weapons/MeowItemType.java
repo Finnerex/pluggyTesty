@@ -10,6 +10,7 @@ import org.bukkit.entity.Slime;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,10 +28,13 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
 
 
         LivingEntity Projectile = player.getWorld().spawn(player.getEyeLocation(), Slime.class, (proj) -> {
-            proj.setSize(5);
+            proj.setSize(1);
             proj.setInvulnerable(true);
             proj.setGravity(true);
+            proj.setVelocity(player.getEyeLocation().getDirection());
         });
+
+        Vector projVelocity = Projectile.getVelocity();
 
 
         BukkitRunnable runnable = new BukkitRunnable() {
@@ -46,7 +50,10 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
                     tick++;
                 }
 
-               Projectile.setVelocity(player.getEyeLocation().getDirection());
+                projVelocity.setY(player.getEyeLocation().getDirection().getY() - 0.49d);
+                projVelocity.setX(player.getEyeLocation().getDirection().getX() - 0.49d);
+                Projectile.setVelocity(projVelocity);
+
 
             }
         };
