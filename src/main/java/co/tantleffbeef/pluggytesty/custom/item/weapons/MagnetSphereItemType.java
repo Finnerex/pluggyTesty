@@ -14,11 +14,17 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 
 public class MagnetSphereItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
+
+    // is there a sphere in play for each player
+    private final Map<UUID, Boolean> sphereOut = new HashMap<>();
 
     public MagnetSphereItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.ENCHANTED_BOOK);
@@ -32,6 +38,10 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
         final Location location = player.getEyeLocation();
         final Vector direction = location.getDirection();
 
+        final UUID uuid = player.getUniqueId();
+
+        // sphere is now out
+        sphereOut.put(uuid, true);
 
         // blue glass with lantern inside
         final ItemDisplay glass = w.spawn(location, ItemDisplay.class, (display) -> {
@@ -54,9 +64,10 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
             @Override
             public void run() {
 
-                if (runs > 150) { // remove after 15 secs
+                if (runs > 150 || sphereOut.get(uuid)) { // remove after 15 secs
                     lantern.remove();
                     glass.remove();
+                    sphereOut.put(uuid, false);
                     cancel();
                     return;
                 }
@@ -91,7 +102,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 0, 2);
+        runnable.runTaskTimer(schedulerPlugin, 2, 2);
 
         return false;
     }
