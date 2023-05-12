@@ -135,8 +135,9 @@ public final class PluggyTesty extends JavaPlugin {
                 return false;
 
             final var ironHelmet = new ItemStack(Material.IRON_HELMET);
-            Objects.requireNonNull(ironHelmet.getItemMeta()).addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("pluggytesty", 10, AttributeModifier.Operation.ADD_SCALAR));
-            ironHelmet.setItemMeta(ironHelmet.getItemMeta());
+            final var itemMeta = Objects.requireNonNull(ironHelmet.getItemMeta());
+            itemMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("pluggytesty", 10, AttributeModifier.Operation.ADD_SCALAR));
+            ironHelmet.setItemMeta(itemMeta);
             player.getInventory().addItem(ironHelmet);
 
             return true;
@@ -176,8 +177,9 @@ public final class PluggyTesty extends JavaPlugin {
 
     private void addCustomAttributes() {
         final var ironHelmet = new ItemStack(Material.IRON_HELMET);
-        Objects.requireNonNull(ironHelmet.getItemMeta()).addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("pluggytesty", 10, AttributeModifier.Operation.ADD_SCALAR));
-        ironHelmet.setItemMeta(ironHelmet.getItemMeta());
+        final var itemMeta = Objects.requireNonNull(ironHelmet.getItemMeta());
+        itemMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("pluggytesty", 10, AttributeModifier.Operation.ADD_SCALAR));
+        ironHelmet.setItemMeta(itemMeta);
         attributeManager.registerModifiedItem(ironHelmet);
     }
 
