@@ -114,7 +114,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
 
     private Damageable getNearestEntity(Location l, Entity entity) {
 
-        Collection<Entity> entities = entity.getNearbyEntities(6, 6, 6);
+        Collection<Entity> entities = entity.getNearbyEntities(7, 7, 7);
 
         Damageable closest = null;
         double closestDist = -1;

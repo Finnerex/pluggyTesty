@@ -58,6 +58,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int distance = 0;
+            final Vector vel = direction.clone().multiply(0.9);
 
             @Override
             public void run() {
@@ -80,7 +81,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
                         damageable.damage(5, player);
                 }
 
-                axe.teleport(location.add(direction.clone().multiply(0.9)));
+                axe.teleport(location.add(vel));
 
                 distance ++;
             }
