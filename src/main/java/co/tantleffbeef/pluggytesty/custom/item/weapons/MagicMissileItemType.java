@@ -54,7 +54,7 @@ public class MagicMissileItemType extends SimpleItemType implements Interactable
                 // end if explodes or player stops sneaking
                 if (!player.isSneaking() || firework.isDetonated()) {
                     if(!firework.isDetonated())
-                        firework.setVelocity(player.getEyeLocation().getDirection().multiply(2));
+                        firework.setVelocity(player.getEyeLocation().getDirection().multiply(10));
                     cancel();
                     return;
                 }

@@ -33,7 +33,6 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
 
         BlockDisplay projectile = player.getWorld().spawn(player.getEyeLocation(), BlockDisplay.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
             proj.setBlock(Material.CONDUIT.createBlockData());
-            proj.getLocation().setDirection(player.getEyeLocation().getDirection().normalize());
         });
 
 
@@ -63,7 +62,6 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
 
 
                 projectile.setVelocity(player.getEyeLocation().getDirection().multiply(5));
-                projectile.getVelocity();
 
                 assert result != null;
                 if (projectile.getLocation().equals(Objects.requireNonNull(result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
