@@ -29,25 +29,28 @@ public class VillagerTradesListener implements Listener {
         int exp = vil.getVillagerLevel();
         Player player = event.getPlayer();
         Villager.Profession prof = vil.getProfession();
+        player.sendMessage(ChatColor.RED + "Pre-Vanilla Purge: " + trades.size());
+
         for(int i = 0; i < trades.size(); i++) {
             if(isVanillaTrade(trades.get(i))) {
-                player.sendMessage(ChatColor.RED + "Flag1 triggered");
                 trades.remove(i);
-                player.sendMessage(ChatColor.RED + "Flag2 triggered");
+
             }
         }
-        player.sendMessage(ChatColor.RED + "Flag triggered: " + trades);
+
+        player.sendMessage(ChatColor.RED + "Post-Vanilla Purge: " + trades.size());
         if(prof == Villager.Profession.NONE || prof == Villager.Profession.NITWIT) return; // this would mess things up later so we return now
 
         int numExpectedTrades = 0;
         for(int i = 0; i < exp; i++) {
             numExpectedTrades += TradeSilo.tradeAmts.get(prof)[i]; // calculate the number of trades we expect villager to have
         }
-
+        player.sendMessage(ChatColor.RED + "Num Expected Trades: " + numExpectedTrades + ". Trades size: " + trades.size());
         if(numExpectedTrades != trades.size() - 1) { // if the number of expected trades doesn't match up with the number of trades (excluding upgrade one)...
+            player.sendMessage(ChatColor.RED + "Size 1: " + trades.size());
             if (trades.size() > 0)
                 trades.remove(trades.size() - 1); // we assume that the villager levelled up and so remove the ending trade.
-
+            player.sendMessage(ChatColor.RED + "Size 2: " + trades.size());
             List<MerchantRecipe> options = new ArrayList<>(TradeSilo.librarianTrades.get(exp)); // establishing the list of trades we can choose from
             switch (prof) {
                 case ARMORER -> options = new ArrayList(TradeSilo.armorerTrades.get(exp));
@@ -64,7 +67,9 @@ public class VillagerTradesListener implements Listener {
             for(int i = 0; i < TradeSilo.tradeAmts.get(prof)[exp-1]; i++) {
                 trades.add(options.remove(new Random().nextInt(options.size()))); // Add new trades according to tradeAmts, use .remove() to prevent duplicates
             }
+            player.sendMessage(ChatColor.RED + "Size 3: " + trades.size());
             trades.add(TradeSilo.upgradeRecipe(exp)); // adding new final trade
+            player.sendMessage(ChatColor.RED + "Size 4: " + trades.size());
         }
 
         int pLevel = (int) player.getHealth() / 10; // level of the player, not implemented yet so i assign it based on health
