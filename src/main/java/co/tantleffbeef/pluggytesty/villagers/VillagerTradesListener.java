@@ -30,9 +30,8 @@ public class VillagerTradesListener implements Listener {
         Player player = event.getPlayer();
         Villager.Profession prof = vil.getProfession();
 
-        for(int i = 0; i < trades.size(); i++) {
-            MerchantRecipe e = trades.get(i);
-            player.sendMessage(ChatColor.RED + "Removed Trade: " + e.getIngredients().get(0).toString() + ", " + e.getResult().toString());
+        for(int i = trades.size(); i < 0; i--) {
+
             if(isVanillaTrade(trades.get(i))) {
                 trades.remove(i);
 
