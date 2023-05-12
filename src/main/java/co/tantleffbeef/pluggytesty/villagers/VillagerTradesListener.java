@@ -29,7 +29,6 @@ public class VillagerTradesListener implements Listener {
         int exp = vil.getVillagerLevel();
         Player player = event.getPlayer();
         Villager.Profession prof = vil.getProfession();
-        player.sendMessage(ChatColor.RED + "Pre-Vanilla Purge: " + trades.size());
 
         for(int i = 0; i < trades.size(); i++) {
             if(isVanillaTrade(trades.get(i))) {
@@ -38,7 +37,6 @@ public class VillagerTradesListener implements Listener {
             }
         }
 
-        player.sendMessage(ChatColor.RED + "Post-Vanilla Purge: " + trades.size());
         if(prof == Villager.Profession.NONE || prof == Villager.Profession.NITWIT) return; // this would mess things up later so we return now
 
         int numExpectedTrades = 0;
@@ -72,8 +70,8 @@ public class VillagerTradesListener implements Listener {
             player.sendMessage(ChatColor.RED + "Size 4: " + trades.size());
         }
 
-        int pLevel = (int) player.getHealth() / 10; // level of the player, not implemented yet so i assign it based on health
-        player.sendMessage(ChatColor.RED + "Your current health is " + player.getHealth()  + "and your player level is" + pLevel);
+        int pLevel = (int) player.getHealth() / 4; // level of the player, not implemented yet so i assign it based on health
+        player.sendMessage(ChatColor.RED + "Your current health is " + player.getHealth()  + "and your player level is" + pLevel + ". Villager level: " + exp);
 
         if(pLevel < exp - 1) { // pLevel goes from 0-5 and exp goes from 1-5
             int l = 0;
