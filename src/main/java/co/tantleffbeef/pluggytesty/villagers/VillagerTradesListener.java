@@ -54,7 +54,7 @@ public class VillagerTradesListener implements Listener {
 
             for(int i = 0; i < trades.size(); i++) {
                 if (trades.get(i).getVillagerExperience() > 0) {
-                    trades.remove(trades.size() - 1); // we assume that the villager levelled up and so remove the ending trade.
+                    trades.remove(i); // we assume that the villager levelled up and so remove the ending trade.
                 }
             }
             player.sendMessage(ChatColor.RED + "Size 2: " + trades.size());
