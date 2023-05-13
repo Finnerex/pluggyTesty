@@ -40,12 +40,11 @@ public class LootTableTestCommand implements CommandExecutor {
         Block block = result.getHitBlock();
         Bukkit.broadcastMessage("block " + block);
 
-        if (block == null || block.getType() != Material.CHEST) {
+        /*block == null || block.getType() != Material.CHEST*/
+        if (!(block.getState() instanceof Chest chest)) {
             Bukkit.broadcastMessage("not a chest");
             return false;
         }
-
-        Chest chest = (Chest) block;
 
         Bukkit.broadcastMessage("set");
         chest.setLootTable(lootTable);
