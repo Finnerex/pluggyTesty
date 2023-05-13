@@ -16,11 +16,11 @@ import java.util.*;
 public class T1Low implements LootTable {
     private final Plugin namespace;
 
-    // weight, material, max amount
-    private final RandomCollection<Map.Entry<Material, Integer>> lootPool = new RandomCollection<Map.Entry<Material, Integer>>()
-            .add(200, entry(Material.CARROT, 5))
-            .add(40, entry(Material.BREAD, 60))
-            .add(1, entry(Material.DIAMOND, 1));
+    // weight, material, itemStack amount = max amount
+    private final RandomCollection<ItemStack> lootPool = new RandomCollection<ItemStack>()
+            .add(200, new ItemStack(Material.CARROT, 5))
+            .add(40, new ItemStack(Material.BREAD, 64))
+            .add(1, new ItemStack(Material.DIAMOND, 1));
     private int totalWeight;
 
     public T1Low(Plugin namespace) {
@@ -38,7 +38,7 @@ public class T1Low implements LootTable {
         int numSlots = random.nextInt(5, 15); // number of slots to be filled
 
         for (int i = 0; i < numSlots; i++) {
-
+            lootOut.
         }
     }
 
