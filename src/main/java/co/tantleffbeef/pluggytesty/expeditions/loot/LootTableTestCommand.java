@@ -1,8 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.loot;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -12,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.loot.LootContext;
 import org.bukkit.loot.LootTable;
-import org.bukkit.loot.LootTables;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
@@ -32,10 +29,10 @@ public class LootTableTestCommand implements CommandExecutor {
 
 
         // make the loot table (for real later)
-//        LootTable lootTable = Bukkit.getLootTable(new NamespacedKey("pluggy_testy", "chests/chest_test"));
+        LootTable lootTable = Bukkit.getLootTable(new NamespacedKey("pluggy_testy", "loot_tables/chests/chest_test"));
 //        LootTable lootTable = Bukkit.getLootTable(NamespacedKey.minecraft("chests/village/village_armorer"));
 //        LootTable lootTable = LootTables.VILLAGE_ARMORER.getLootTable();
-        LootTable lootTable = new T1Low(namespace);
+//        LootTable lootTable = new ExpeditionLootTable(namespace);
 
         if (lootTable == null) {
             Bukkit.broadcastMessage("that thang was null");

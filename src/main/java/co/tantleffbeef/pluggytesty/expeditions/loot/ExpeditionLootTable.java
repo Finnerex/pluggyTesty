@@ -1,41 +1,33 @@
 package co.tantleffbeef.pluggytesty.expeditions.loot;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootContext;
-import org.bukkit.loot.LootTable;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import static java.util.Map.entry;
 
 import java.util.*;
 
-public class T1Low implements LootTable {
-    private final Plugin namespace;
-
+public class ExpeditionLootTable {
     // weight, material, itemStack amount = max amount
-    private final RandomCollection<ItemStack> lootPool = new RandomCollection<ItemStack>()
-            .add(10, new ItemStack(Material.CARROT, 5))
-            .add(10, new ItemStack(Material.BREAD, 64))
-            .add(1, new ItemStack(Material.DIAMOND, 1));
+    private final RandomCollection<ItemStack> lootPool;
+    private final int minSlots;
+    private final int maxSlots;
 
-    public T1Low(Plugin namespace) {
-        this.namespace = namespace;
+    public ExpeditionLootTable(int minSlots, int maxSlots, RandomCollection<ItemStack> lootPool) {
+        this.minSlots = minSlots;
+        this.maxSlots = maxSlots;
+        this.lootPool = lootPool;
     }
 
     @NotNull
-    @Override
     public Collection<ItemStack> populateLoot(@Nullable Random random, @NotNull LootContext lootContext) {
         Collection<ItemStack> loot = new ArrayList<>();
 
         if (random == null)
             return loot;
 
-        int numSlots = random.nextInt(5, 15); // number of slots to be filled
+        int numSlots = random.nextInt(minSlots, maxSlots); // number of slots to be filled
 
         for (int i = 0; i < numSlots; i++) {
             ItemStack item = lootPool.next().clone();
@@ -46,7 +38,6 @@ public class T1Low implements LootTable {
         return loot;
     }
 
-    @Override
     public void fillInventory(@NotNull Inventory inventory, @Nullable Random random, @NotNull LootContext lootContext) {
         Collection<ItemStack> loot = populateLoot(random, lootContext);
 
@@ -54,6 +45,8 @@ public class T1Low implements LootTable {
             return;
 
         for (ItemStack i : loot) {
+
+            // find a random open slot for the item (will kill itself if the chest is full) (don't care)
             int slot;
             do {
                 slot = random.nextInt(inventory.getSize());
@@ -64,9 +57,4 @@ public class T1Low implements LootTable {
 
     }
 
-    @NotNull
-    @Override
-    public NamespacedKey getKey() {
-        return new NamespacedKey(namespace, "tier_1_low");
-    }
 }

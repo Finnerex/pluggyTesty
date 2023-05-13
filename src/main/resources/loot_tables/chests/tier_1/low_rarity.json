@@ -1,0 +1,16 @@
+{
+  "low_rarity": {
+    "min_slots": 5,
+    "max_slots": 15,
+    "loot_pool": [
+      {
+        "amount": 10,
+        "type": "minecraft:carrot"
+      },
+      {
+        "amount": 1,
+        "type": "pluggytesty:magic_stick"
+      }
+    ]
+  }
+}
