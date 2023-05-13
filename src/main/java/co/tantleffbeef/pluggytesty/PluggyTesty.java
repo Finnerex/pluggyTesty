@@ -137,7 +137,7 @@ public final class PluggyTesty extends JavaPlugin {
         addCustomAttributes();
 
         // Check every once in a while if player inventories need to be updated
-        new BukkitRunnable() {
+        /*new BukkitRunnable() {
             private int listIndex = 0;
             private List<? extends Player> playerList = null;
 
@@ -162,7 +162,7 @@ public final class PluggyTesty extends JavaPlugin {
 
                 listIndex++;
             }
-        }.runTaskTimer(this, 3, 7);
+        }.runTaskTimer(this, 3, 7);*/
     }
 
     private void registerItems() {
