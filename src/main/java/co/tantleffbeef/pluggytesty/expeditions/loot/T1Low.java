@@ -19,8 +19,8 @@ public class T1Low implements LootTable {
 
     // weight, material, itemStack amount = max amount
     private final RandomCollection<ItemStack> lootPool = new RandomCollection<ItemStack>()
-            .add(200, new ItemStack(Material.CARROT, 5))
-            .add(40, new ItemStack(Material.BREAD, 64))
+            .add(10, new ItemStack(Material.CARROT, 5))
+            .add(10, new ItemStack(Material.BREAD, 64))
             .add(1, new ItemStack(Material.DIAMOND, 1));
 
     public T1Low(Plugin namespace) {

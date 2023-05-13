@@ -50,7 +50,6 @@ public class LootTableTestCommand implements CommandExecutor {
         }
 
         Block block = result.getHitBlock();
-        Bukkit.broadcastMessage("block " + block);
 
         /*block == null || block.getType() != Material.CHEST*/
         if (!(block.getState() instanceof Chest chest)) {
@@ -59,7 +58,10 @@ public class LootTableTestCommand implements CommandExecutor {
         }
 
         Bukkit.broadcastMessage("set");
-        lootTable.fillInventory(chest.getInventory(), new Random(), buildContext(player));
+
+        Random r = new Random();
+
+        lootTable.fillInventory(chest.getInventory(), new Random(r.nextLong()), buildContext(player));
 
         return true;
     }
