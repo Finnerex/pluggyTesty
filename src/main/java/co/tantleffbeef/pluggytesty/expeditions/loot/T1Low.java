@@ -21,7 +21,6 @@ public class T1Low implements LootTable {
             .add(200, new ItemStack(Material.CARROT, 5))
             .add(40, new ItemStack(Material.BREAD, 64))
             .add(1, new ItemStack(Material.DIAMOND, 1));
-    private int totalWeight;
 
     public T1Low(Plugin namespace) {
         this.namespace = namespace;
@@ -30,21 +29,27 @@ public class T1Low implements LootTable {
     @NotNull
     @Override
     public Collection<ItemStack> populateLoot(@Nullable Random random, @NotNull LootContext lootContext) {
-        Collection<ItemStack> lootOut = new ArrayList<>();
+        Collection<ItemStack> loot = new ArrayList<>();
 
         if (random == null)
-            return lootOut;
+            return loot;
 
-        int numSlots = random.nextInt(5, 15); // number of slots to be filled
+        int looting = lootContext.getLootingModifier();
+
+        int numSlots = random.nextInt(5 + looting, 15 + looting); // number of slots to be filled
 
         for (int i = 0; i < numSlots; i++) {
-            lootOut.
+            ItemStack item = lootPool.next();
+            item.setAmount(random.nextInt(Math.min(item.getAmount() + 1 + looting, 64)));
+            loot.add(item);
         }
+
+        return loot;
     }
 
     @Override
     public void fillInventory(@NotNull Inventory inventory, @Nullable Random random, @NotNull LootContext lootContext) {
-
+        inventory.setContents(populateLoot(random, lootContext));
     }
 
     @NotNull
