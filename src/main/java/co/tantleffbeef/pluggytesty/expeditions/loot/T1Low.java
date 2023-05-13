@@ -56,7 +56,7 @@ public class T1Low implements LootTable {
             int slot;
             do {
                 slot = random.nextInt(inventory.getSize());
-            } while (inventory.getItem(slot) == null);
+            } while (inventory.getItem(slot) != null);
 
             loot.remove(i);
             inventory.addItem(i);
