@@ -25,13 +25,14 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.jar.JarFile;
 
 @SuppressWarnings("unused")
@@ -129,19 +130,6 @@ public final class PluggyTesty extends JavaPlugin {
                         .forEach(attributeManager::registerModifiedItem)
         );
         addCustomAttributes();
-
-        Objects.requireNonNull(getCommand("testhelmetgive")).setExecutor((sender, command, label, args) -> {
-            if (!(sender instanceof Player player))
-                return false;
-
-            final var ironHelmet = new ItemStack(Material.IRON_HELMET);
-            final var itemMeta = Objects.requireNonNull(ironHelmet.getItemMeta());
-            itemMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("pluggytesty", 10, AttributeModifier.Operation.ADD_SCALAR));
-            ironHelmet.setItemMeta(itemMeta);
-            player.getInventory().addItem(ironHelmet);
-
-            return true;
-        });
     }
 
     private void registerItems() {
@@ -176,11 +164,115 @@ public final class PluggyTesty extends JavaPlugin {
     }
 
     private void addCustomAttributes() {
-        final var ironHelmet = new ItemStack(Material.IRON_HELMET);
-        final var itemMeta = Objects.requireNonNull(ironHelmet.getItemMeta());
-        itemMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("pluggytesty", 10, AttributeModifier.Operation.ADD_SCALAR));
-        ironHelmet.setItemMeta(itemMeta);
-        attributeManager.registerModifiedItem(ironHelmet);
+        // modify a bunch of vanilla items
+
+        // Armor
+
+        // leather
+        addCustomAttributeToVanillaItem(Material.LEATHER_HELMET,
+                new AttributePair(Attribute.GENERIC_ARMOR, 4));
+        addCustomAttributeToVanillaItem(Material.LEATHER_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 4));
+        addCustomAttributeToVanillaItem(Material.LEATHER_LEGGINGS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 4));
+        addCustomAttributeToVanillaItem(Material.LEATHER_BOOTS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 4));
+
+        // chain
+        addCustomAttributeToVanillaItem(Material.CHAINMAIL_HELMET,
+                new AttributePair(Attribute.GENERIC_ARMOR, 8));
+        addCustomAttributeToVanillaItem(Material.CHAINMAIL_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 8));
+        addCustomAttributeToVanillaItem(Material.CHAINMAIL_LEGGINGS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 8));
+        addCustomAttributeToVanillaItem(Material.CHAINMAIL_BOOTS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 8));
+
+        // iron
+        addCustomAttributeToVanillaItem(Material.IRON_HELMET,
+                new AttributePair(Attribute.GENERIC_ARMOR, 12));
+        addCustomAttributeToVanillaItem(Material.IRON_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 12));
+        addCustomAttributeToVanillaItem(Material.IRON_LEGGINGS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 12));
+        addCustomAttributeToVanillaItem(Material.IRON_BOOTS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 12));
+
+        // gold
+        addCustomAttributeToVanillaItem(Material.GOLDEN_HELMET,
+                new AttributePair(Attribute.GENERIC_ARMOR, 16),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 4));
+        addCustomAttributeToVanillaItem(Material.GOLDEN_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 16),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 4));
+        addCustomAttributeToVanillaItem(Material.GOLDEN_LEGGINGS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 16),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 4));
+        addCustomAttributeToVanillaItem(Material.GOLDEN_BOOTS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 16),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 4));
+
+        // diamond
+        addCustomAttributeToVanillaItem(Material.DIAMOND_HELMET,
+                new AttributePair(Attribute.GENERIC_ARMOR, 20),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 8));
+        addCustomAttributeToVanillaItem(Material.DIAMOND_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 20),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 8));
+        addCustomAttributeToVanillaItem(Material.DIAMOND_LEGGINGS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 20),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 8));
+        addCustomAttributeToVanillaItem(Material.DIAMOND_BOOTS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 20),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 8));
+
+        // netherite
+        addCustomAttributeToVanillaItem(Material.NETHERITE_HELMET,
+                new AttributePair(Attribute.GENERIC_ARMOR, 24),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 12));
+        addCustomAttributeToVanillaItem(Material.NETHERITE_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 24),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 12));
+        addCustomAttributeToVanillaItem(Material.NETHERITE_LEGGINGS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 24),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 12));
+        addCustomAttributeToVanillaItem(Material.NETHERITE_BOOTS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 24),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 12));
+
+    }
+
+    private static final class AttributePair {
+        public final Attribute attribute;
+        public final double amount;
+        public final AttributeModifier.Operation operation;
+
+        public AttributePair(Attribute attribute, double amount, AttributeModifier.Operation operation) {
+            this.attribute = attribute;
+            this.amount = amount;
+            this.operation = operation;
+        }
+
+        public AttributePair(Attribute attribute, double amount) {
+            this(attribute, amount, AttributeModifier.Operation.ADD_NUMBER);
+        }
+    }
+
+    private void addCustomAttributeToVanillaItem(@NotNull Material vanillaMaterial, @NotNull AttributePair... pairs) {
+        // Create item object to hold the modifications
+        final var vanillaItem = new ItemStack(Material.IRON_HELMET);
+        final var itemMeta = Objects.requireNonNull(vanillaItem.getItemMeta());
+
+        // Loop through every pair passed into the method and add an attribute modifier
+        for (final var pair : pairs) {
+            itemMeta.addAttributeModifier(pair.attribute, new AttributeModifier(UUID.randomUUID(), "pluggyTesty", pair.amount, pair.operation));
+        }
+
+        // save the modified meta back
+        vanillaItem.setItemMeta(itemMeta);
+
+        // register the item
+        attributeManager.registerModifiedItem(vanillaItem);
     }
 
     @Override

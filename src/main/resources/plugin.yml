@@ -10,8 +10,6 @@ commands:
     description: summons jawn
   summonseaman:
     description: summons seaman
-  testhelmetgive:
-    description: jus testin
   giveheavyarmor:
     description: give you heavy armor!!
   summongru:
