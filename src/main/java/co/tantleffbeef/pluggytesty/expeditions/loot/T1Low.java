@@ -59,7 +59,6 @@ public class T1Low implements LootTable {
                 slot = random.nextInt(inventory.getSize());
             } while (inventory.getItem(slot) != null);
 
-            loot.remove(i);
             Bukkit.broadcastMessage("item: " + i + ", slot: " + slot);
             inventory.setItem(slot, i);
         }
