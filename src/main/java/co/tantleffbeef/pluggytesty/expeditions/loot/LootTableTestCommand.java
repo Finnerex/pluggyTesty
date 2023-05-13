@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty.expeditions.loot;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -9,6 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.loot.LootContext;
 import org.bukkit.loot.LootTable;
 import org.bukkit.loot.LootTables;
 import org.bukkit.util.RayTraceResult;
@@ -51,9 +53,15 @@ public class LootTableTestCommand implements CommandExecutor {
         }
 
         Bukkit.broadcastMessage("set");
-        chest.setLootTable(lootTable);
+        lootTable.fillInventory(chest.getInventory(), new Random(), buildContext(player));
 
         return true;
+    }
+
+    private LootContext buildContext(Player p) {
+        LootContext.Builder builder = new LootContext.Builder(p.getLocation());
+        builder.luck(100);
+        return builder.build();
     }
 
 }
