@@ -1,7 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.loot;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -9,7 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.loot.LootContext;
 import org.bukkit.loot.LootTable;
 import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +37,7 @@ public class LootTableTestCommand implements CommandExecutor {
         }
 
         Block block = result.getHitBlock();
+        Bukkit.broadcastMessage("block " + block);
 
         if (!(block instanceof Chest chest)) {
             Bukkit.broadcastMessage("not a chest");
