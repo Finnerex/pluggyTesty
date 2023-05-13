@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.loot.LootTable;
+import org.bukkit.loot.LootTables;
 import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +25,9 @@ public class LootTableTestCommand implements CommandExecutor {
 
         // make the loot table (for real later)
 //        LootTable lootTable = Bukkit.getLootTable(new NamespacedKey("pluggy_testy", "loot_tables/chests/chest_test"));
-        LootTable lootTable = Bukkit.getLootTable(NamespacedKey.minecraft("chests/village/village_armorer"));
+//        LootTable lootTable = Bukkit.getLootTable(NamespacedKey.minecraft("chests/village/village_armorer"));
+
+        LootTable lootTable = LootTables.VILLAGE_ARMORER.getLootTable();
 
         if (lootTable == null) {
             Bukkit.broadcastMessage("that thang was null");
