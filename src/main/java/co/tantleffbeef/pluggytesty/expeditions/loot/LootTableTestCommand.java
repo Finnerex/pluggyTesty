@@ -33,15 +33,19 @@ public class LootTableTestCommand implements CommandExecutor {
 
         RayTraceResult result = player.rayTraceBlocks(5);
 
-        if (result == null)
+        if (result == null) {
+            Bukkit.broadcastMessage("result null");
             return false;
+        }
 
         Block block = result.getHitBlock();
 
-        if (!(block instanceof Chest chest))
+        if (!(block instanceof Chest chest)) {
+            Bukkit.broadcastMessage("not a chest");
             return false;
+        }
 
-
+        Bukkit.broadcastMessage("set");
         chest.setLootTable(lootTable);
 
         return true;
