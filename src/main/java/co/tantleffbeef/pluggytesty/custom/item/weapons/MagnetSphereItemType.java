@@ -61,14 +61,14 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
 
         BukkitRunnable runnable = new BukkitRunnable() {
 
-            int runs = 0; // period 2 ticks
+            int runs = 0; // period 1 ticks
             final Vector vel = direction.clone().multiply(0.08);
 
             @Override
             public void run() {
 
 
-                if (runs > 150 || sphereOut.get(uuid) > 1) { // remove after 15 secs
+                if (runs > 300 || sphereOut.get(uuid) > 1) { // remove after 15 secs
                     lantern.remove();
                     glass.remove();
                     sphereOut.put(uuid, sphereOut.get(uuid) - 1);
