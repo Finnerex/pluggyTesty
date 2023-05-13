@@ -26,12 +26,18 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.jar.JarFile;
 
 @SuppressWarnings("unused")
@@ -130,18 +136,33 @@ public final class PluggyTesty extends JavaPlugin {
         );
         addCustomAttributes();
 
-        Objects.requireNonNull(getCommand("testhelmetgive")).setExecutor((sender, command, label, args) -> {
-            if (!(sender instanceof Player player))
-                return false;
+        // Check every once in a while if player inventories need to be updated
+        /*new BukkitRunnable() {
+            private int listIndex = 0;
+            private List<? extends Player> playerList = null;
 
-            final var ironHelmet = new ItemStack(Material.IRON_HELMET);
-            final var itemMeta = Objects.requireNonNull(ironHelmet.getItemMeta());
-            itemMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("pluggytesty", 10, AttributeModifier.Operation.ADD_SCALAR));
-            ironHelmet.setItemMeta(itemMeta);
-            player.getInventory().addItem(ironHelmet);
+            @Override
+            public void run() {
+                // If we're higher than the list then reset
+                if (playerList == null || listIndex >= playerList.size()) {
+                    listIndex = 0;
+                    playerList = getServer().getOnlinePlayers().stream().toList();
+                    return;
+                }
 
-            return true;
-        });
+                final var player = playerList.get(listIndex);
+
+                if (!player.isOnline())
+                    return;
+
+                final var inventory = player.getInventory();
+                attributeManager.checkInventory(inventory);
+
+                player.updateInventory();
+
+                listIndex++;
+            }
+        }.runTaskTimer(this, 3, 7);*/
     }
 
     private void registerItems() {
@@ -176,11 +197,133 @@ public final class PluggyTesty extends JavaPlugin {
     }
 
     private void addCustomAttributes() {
-        final var ironHelmet = new ItemStack(Material.IRON_HELMET);
-        final var itemMeta = Objects.requireNonNull(ironHelmet.getItemMeta());
-        itemMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier("pluggytesty", 10, AttributeModifier.Operation.ADD_SCALAR));
-        ironHelmet.setItemMeta(itemMeta);
-        attributeManager.registerModifiedItem(ironHelmet);
+        // modify a bunch of vanilla items
+
+        // Armor
+
+        // leather
+        addCustomAttributeToVanillaItem(Material.LEATHER_HELMET,
+                new AttributePair(Attribute.GENERIC_ARMOR, 4,
+                        EquipmentSlot.HEAD));
+        addCustomAttributeToVanillaItem(Material.LEATHER_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 4,
+                        EquipmentSlot.CHEST));
+        addCustomAttributeToVanillaItem(Material.LEATHER_LEGGINGS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 4,
+                        EquipmentSlot.LEGS));
+        addCustomAttributeToVanillaItem(Material.LEATHER_BOOTS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 4,
+                        EquipmentSlot.FEET));
+
+        // chain
+        addCustomAttributeToVanillaItem(Material.CHAINMAIL_HELMET,
+                new AttributePair(Attribute.GENERIC_ARMOR, 8,
+                        EquipmentSlot.HEAD));
+        addCustomAttributeToVanillaItem(Material.CHAINMAIL_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 8,
+                        EquipmentSlot.CHEST));
+        addCustomAttributeToVanillaItem(Material.CHAINMAIL_LEGGINGS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 8,
+                        EquipmentSlot.LEGS));
+        addCustomAttributeToVanillaItem(Material.CHAINMAIL_BOOTS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 8,
+                        EquipmentSlot.FEET));
+
+        // iron
+        addCustomAttributeToVanillaItem(Material.IRON_HELMET,
+                new AttributePair(Attribute.GENERIC_ARMOR, 12,
+                        EquipmentSlot.HEAD));
+        addCustomAttributeToVanillaItem(Material.IRON_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 12,
+                        EquipmentSlot.CHEST));
+        addCustomAttributeToVanillaItem(Material.IRON_LEGGINGS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 12,
+                        EquipmentSlot.LEGS));
+        addCustomAttributeToVanillaItem(Material.IRON_BOOTS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 12,
+                        EquipmentSlot.FEET));
+
+        // gold
+        addCustomAttributeToVanillaItem(Material.GOLDEN_HELMET,
+                new AttributePair(Attribute.GENERIC_ARMOR, 16, EquipmentSlot.HEAD),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 4, EquipmentSlot.HEAD));
+        addCustomAttributeToVanillaItem(Material.GOLDEN_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 16, EquipmentSlot.CHEST),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 4, EquipmentSlot.CHEST));
+        addCustomAttributeToVanillaItem(Material.GOLDEN_LEGGINGS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 16, EquipmentSlot.LEGS),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 4, EquipmentSlot.LEGS));
+        addCustomAttributeToVanillaItem(Material.GOLDEN_BOOTS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 16, EquipmentSlot.FEET),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 4, EquipmentSlot.FEET));
+
+        // diamond
+        addCustomAttributeToVanillaItem(Material.DIAMOND_HELMET,
+                new AttributePair(Attribute.GENERIC_ARMOR, 20, EquipmentSlot.HEAD),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 8, EquipmentSlot.HEAD));
+        addCustomAttributeToVanillaItem(Material.DIAMOND_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 20, EquipmentSlot.CHEST),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 8));
+        addCustomAttributeToVanillaItem(Material.DIAMOND_LEGGINGS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 20, EquipmentSlot.LEGS),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 8, EquipmentSlot.LEGS));
+        addCustomAttributeToVanillaItem(Material.DIAMOND_BOOTS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 20, EquipmentSlot.FEET),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 8, EquipmentSlot.FEET));
+
+        // netherite
+        addCustomAttributeToVanillaItem(Material.NETHERITE_HELMET,
+                new AttributePair(Attribute.GENERIC_ARMOR, 24, EquipmentSlot.HEAD),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 12, EquipmentSlot.HEAD));
+        addCustomAttributeToVanillaItem(Material.NETHERITE_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 24, EquipmentSlot.CHEST),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 12, EquipmentSlot.CHEST));
+        addCustomAttributeToVanillaItem(Material.NETHERITE_LEGGINGS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 24, EquipmentSlot.LEGS),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 12, EquipmentSlot.LEGS));
+        addCustomAttributeToVanillaItem(Material.NETHERITE_BOOTS,
+                new AttributePair(Attribute.GENERIC_ARMOR, 24, EquipmentSlot.FEET),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 12, EquipmentSlot.FEET));
+
+    }
+
+    private static final class AttributePair {
+        public final Attribute attribute;
+        public final double amount;
+        public final AttributeModifier.Operation operation;
+        public final EquipmentSlot slot;
+
+        public AttributePair(Attribute attribute, double amount, AttributeModifier.Operation operation, @Nullable EquipmentSlot slot) {
+            this.attribute = attribute;
+            this.amount = amount;
+            this.operation = operation;
+            this.slot = slot;
+        }
+
+        public AttributePair(Attribute attribute, double amount, @Nullable EquipmentSlot slot) {
+            this(attribute, amount, AttributeModifier.Operation.ADD_NUMBER, slot);
+        }
+
+        public AttributePair(Attribute attribute, double amount) {
+            this(attribute, amount, null);
+        }
+    }
+
+    private void addCustomAttributeToVanillaItem(@NotNull Material vanillaMaterial, @NotNull AttributePair... pairs) {
+        // Create item object to hold the modifications
+        final var vanillaItem = new ItemStack(vanillaMaterial);
+        final var itemMeta = Objects.requireNonNull(vanillaItem.getItemMeta());
+
+        // Loop through every pair passed into the method and add an attribute modifier
+        for (final var pair : pairs) {
+            itemMeta.addAttributeModifier(pair.attribute, new AttributeModifier(UUID.randomUUID(), "pluggyTesty", pair.amount, pair.operation, pair.slot));
+        }
+
+        // save the modified meta back
+        vanillaItem.setItemMeta(itemMeta);
+
+        // register the item
+        attributeManager.registerModifiedItem(vanillaItem);
     }
 
     @Override
