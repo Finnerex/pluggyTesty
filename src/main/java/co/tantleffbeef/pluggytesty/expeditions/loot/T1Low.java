@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.loot;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
@@ -59,7 +60,8 @@ public class T1Low implements LootTable {
             } while (inventory.getItem(slot) != null);
 
             loot.remove(i);
-            inventory.addItem(i);
+            Bukkit.broadcastMessage("item: " + i + ", slot: " + slot);
+            inventory.setItem(slot, i);
         }
 
     }
