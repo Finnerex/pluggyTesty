@@ -34,13 +34,11 @@ public class T1Low implements LootTable {
         if (random == null)
             return loot;
 
-        int looting = lootContext.getLootingModifier();
-
-        int numSlots = random.nextInt(5 + looting, 15 + looting); // number of slots to be filled
+        int numSlots = random.nextInt(5, 15); // number of slots to be filled
 
         for (int i = 0; i < numSlots; i++) {
             ItemStack item = lootPool.next();
-            item.setAmount(random.nextInt(Math.min(item.getAmount() + 1 + looting, 64)));
+            item.setAmount(random.nextInt(item.getAmount()) + 1);
             loot.add(item);
         }
 
