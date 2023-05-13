@@ -79,7 +79,7 @@ public class AttributeManager {
         // Loop through all items in the inventory
         for (final ItemStack content : contents) {
             // Update each element of contents
-            if (content.getItemMeta() == null)
+            if (content == null || content.getItemMeta() == null)
                 continue;
             updateItem(content);
         }
