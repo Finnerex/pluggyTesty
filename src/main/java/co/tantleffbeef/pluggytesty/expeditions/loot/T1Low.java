@@ -38,8 +38,8 @@ public class T1Low implements LootTable {
         int numSlots = random.nextInt(5, 15); // number of slots to be filled
 
         for (int i = 0; i < numSlots; i++) {
-            ItemStack item = lootPool.next();
-            item.setAmount(new Random().nextInt(item.getAmount()) + 1);
+            ItemStack item = lootPool.next().clone();
+            item.setAmount(random.nextInt(item.getAmount()) + 1);
             loot.add(item);
         }
 
