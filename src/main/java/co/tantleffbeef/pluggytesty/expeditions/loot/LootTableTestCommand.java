@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty.expeditions.loot;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -39,10 +40,12 @@ public class LootTableTestCommand implements CommandExecutor {
         Block block = result.getHitBlock();
         Bukkit.broadcastMessage("block " + block);
 
-        if (!(block instanceof Chest chest)) {
+        if (block == null || block.getType() != Material.CHEST) {
             Bukkit.broadcastMessage("not a chest");
             return false;
         }
+
+        Chest chest = (Chest) block;
 
         Bukkit.broadcastMessage("set");
         chest.setLootTable(lootTable);
