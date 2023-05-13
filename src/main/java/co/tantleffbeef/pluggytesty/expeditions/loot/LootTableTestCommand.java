@@ -23,7 +23,8 @@ public class LootTableTestCommand implements CommandExecutor {
 
 
         // make the loot table (for real later)
-        LootTable lootTable = Bukkit.getLootTable(new NamespacedKey("pluggy_testy", "loot_tables/chests/chest_test"));
+//        LootTable lootTable = Bukkit.getLootTable(new NamespacedKey("pluggy_testy", "loot_tables/chests/chest_test"));
+        LootTable lootTable = Bukkit.getLootTable(NamespacedKey.minecraft("chests/village/village_armorer"));
 
         if (lootTable == null) {
             Bukkit.broadcastMessage("that thang was null");
