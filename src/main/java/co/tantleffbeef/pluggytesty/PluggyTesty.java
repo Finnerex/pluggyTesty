@@ -260,7 +260,7 @@ public final class PluggyTesty extends JavaPlugin {
 
     private void addCustomAttributeToVanillaItem(@NotNull Material vanillaMaterial, @NotNull AttributePair... pairs) {
         // Create item object to hold the modifications
-        final var vanillaItem = new ItemStack(Material.IRON_HELMET);
+        final var vanillaItem = new ItemStack(vanillaMaterial);
         final var itemMeta = Objects.requireNonNull(vanillaItem.getItemMeta());
 
         // Loop through every pair passed into the method and add an attribute modifier
