@@ -39,7 +39,7 @@ public class T1Low implements LootTable {
 
         for (int i = 0; i < numSlots; i++) {
             ItemStack item = lootPool.next();
-            item.setAmount(random.nextInt(item.getAmount()) + 1);
+            item.setAmount(new Random().nextInt(item.getAmount()) + 1);
             loot.add(item);
         }
 
@@ -59,7 +59,6 @@ public class T1Low implements LootTable {
                 slot = random.nextInt(inventory.getSize());
             } while (inventory.getItem(slot) != null);
 
-            Bukkit.broadcastMessage("item: " + i + ", slot: " + slot);
             inventory.setItem(slot, i);
         }
 
