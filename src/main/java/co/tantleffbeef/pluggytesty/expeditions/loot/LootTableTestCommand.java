@@ -13,12 +13,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.loot.LootContext;
 import org.bukkit.loot.LootTable;
 import org.bukkit.loot.LootTables;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
 public class LootTableTestCommand implements CommandExecutor {
+
+    private final Plugin namespace;
+
+    public LootTableTestCommand(Plugin namespace) { this.namespace = namespace; }
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player player))
@@ -26,10 +32,10 @@ public class LootTableTestCommand implements CommandExecutor {
 
 
         // make the loot table (for real later)
-        LootTable lootTable = Bukkit.getLootTable(new NamespacedKey("pluggy_testy", "chests/chest_test"));
+//        LootTable lootTable = Bukkit.getLootTable(new NamespacedKey("pluggy_testy", "chests/chest_test"));
 //        LootTable lootTable = Bukkit.getLootTable(NamespacedKey.minecraft("chests/village/village_armorer"));
-
 //        LootTable lootTable = LootTables.VILLAGE_ARMORER.getLootTable();
+        LootTable lootTable = new T1Low(namespace);
 
         if (lootTable == null) {
             Bukkit.broadcastMessage("that thang was null");

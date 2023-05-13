@@ -49,7 +49,21 @@ public class T1Low implements LootTable {
 
     @Override
     public void fillInventory(@NotNull Inventory inventory, @Nullable Random random, @NotNull LootContext lootContext) {
-        inventory.setContents(populateLoot(random, lootContext));
+        Collection<ItemStack> loot = populateLoot(random, lootContext);
+
+        if (random == null)
+            return;
+
+        for (ItemStack i : loot) {
+            int slot;
+            do {
+                slot = random.nextInt(inventory.getSize());
+            } while (inventory.getItem(slot) == null);
+
+            loot.remove(i);
+            inventory.addItem(i);
+        }
+
     }
 
     @NotNull
