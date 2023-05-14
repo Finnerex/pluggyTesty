@@ -87,6 +87,7 @@ public class LootTableParser {
                                 throw new RuntimeException("Invalid item");
 
                             final ItemStack itemStack = attributeManager.defaultItemStack(itemKey);
+                            itemStack.setAmount(amount);
 
                             lootPool.add(weight, itemStack);
 
