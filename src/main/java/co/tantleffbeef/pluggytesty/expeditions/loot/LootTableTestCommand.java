@@ -1,7 +1,7 @@
 package co.tantleffbeef.pluggytesty.expeditions.loot;
 
+import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
@@ -9,7 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.loot.LootContext;
-import org.bukkit.loot.LootTable;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
@@ -19,8 +18,12 @@ import java.util.Random;
 public class LootTableTestCommand implements CommandExecutor {
 
     private final Plugin namespace;
+    private final LootTableManager lootTableManager;
 
-    public LootTableTestCommand(Plugin namespace) { this.namespace = namespace; }
+    public LootTableTestCommand(Plugin namespace, LootTableManager lootTableManager) {
+        this.namespace = namespace;
+        this.lootTableManager = lootTableManager;
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
@@ -33,7 +36,8 @@ public class LootTableTestCommand implements CommandExecutor {
 //        LootTable lootTable = Bukkit.getLootTable(NamespacedKey.minecraft("chests/village/village_armorer"));
 //        LootTable lootTable = LootTables.VILLAGE_ARMORER.getLootTable();
 //        LootTable lootTable = new ExpeditionLootTable(namespace);
-        ExpeditionLootTable lootTable = ExpeditionLootTables.TIER_1_LOW.getLootTable();
+//        ExpeditionLootTable lootTable = ExpeditionLootTables.TIER_1_LOW.getLootTable();
+        ExpeditionLootTable lootTable = lootTableManager.lootTables.get(ExpeditionLootTables.TIER_1_LOW);
 
         if (lootTable == null) {
             Bukkit.broadcastMessage("that thang was null");
