@@ -46,7 +46,7 @@ public class LootTableParser {
             reader.beginObject();
 
             // 2 because named with rarity, starting another object
-            reader.beginObject();
+//            reader.beginObject();
 
             // loop through whole file
             while (reader.hasNext()) {
@@ -95,7 +95,7 @@ public class LootTableParser {
 
             }
 
-            reader.endObject();
+//            reader.endObject();
             reader.endObject();
 
         } catch (IOException e) {
