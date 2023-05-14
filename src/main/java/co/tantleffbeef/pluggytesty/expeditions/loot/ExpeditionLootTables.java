@@ -8,6 +8,7 @@ public enum ExpeditionLootTables {
     TIER_1_LOW("chests/tier_1/low_rarity"),
 
     ;
+    //// https://discord.com/channels/@me/1089055393327611978/1107380228042534973
 
     private final ExpeditionLootTable lootTable;
 
