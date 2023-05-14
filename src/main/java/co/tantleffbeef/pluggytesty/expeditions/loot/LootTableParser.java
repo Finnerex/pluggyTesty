@@ -22,7 +22,8 @@ public class LootTableParser {
     public LootTableParser(String location) {
         // path to the loot table in question
         var path = JavaPlugin.getPlugin(PluggyTesty.class)
-                .getResource("data/pluggytesty/loot_tables/" + location + ".json");
+                .getResource(/*"data/pluggytesty/loot_tables/" + location + ".json"*/
+                "data/pluggytesty/loot_tables/chests/tier_1/low_rarity.json");
 
         lootPool = new RandomCollection<>();
 
