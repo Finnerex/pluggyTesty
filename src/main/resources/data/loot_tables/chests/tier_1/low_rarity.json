@@ -9,11 +9,6 @@
     },
     {
       "weight": 100,
-      "type": "pluggytesty:bolt_rod",
-      "amount": 1
-    },
-    {
-      "weight": 100,
       "type": "minecraft:bread",
       "amount": 12
     },
@@ -21,6 +16,11 @@
       "weight": 20,
       "type": "minecraft:iron_nugget",
       "amount": 5
+    },
+    {
+      "weight": 100,
+      "type": "pluggytesty:bolt_rod",
+      "amount": 1
     }
   ]
 }
