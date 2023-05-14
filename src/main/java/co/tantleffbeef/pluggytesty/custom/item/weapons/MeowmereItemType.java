@@ -35,7 +35,6 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
         ItemDisplay projectile = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
             proj.setItemStack(new ItemStack(Material.CONDUIT));
-            proj.getLocation().setDirection(player.getEyeLocation().getDirection());
         });
 
 
