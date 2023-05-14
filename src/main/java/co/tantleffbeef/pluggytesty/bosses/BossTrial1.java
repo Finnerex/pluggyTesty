@@ -51,8 +51,7 @@ public class BossTrial1 implements CommandExecutor {
         BossBar bossBar = Bukkit.createBossBar(
                 ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "The " + ChatColor.MAGIC + "Fallen" + ChatColor.RESET + "" + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + " Necromancer",
                 BarColor.GREEN,
-                BarStyle.SEGMENTED_6,
-                BarFlag.CREATE_FOG
+                BarStyle.SEGMENTED_6
         );
         bossBar.addPlayer(player);
 
@@ -64,7 +63,7 @@ public class BossTrial1 implements CommandExecutor {
             horse.setTamed(true);
         });
         Zombie zombRider = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() + 5, bossLoc.getY(), bossLoc.getZ()), Zombie.class, (zomb) ->{
-            zomb.getEquipment().setHelmet(new ItemStack(Material.PUMPKIN));
+            zomb.getEquipment().setHelmet(new ItemStack(Material.CARVED_PUMPKIN));
         });
 
         SkeletonHorse skeleHorse = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() - 5, bossLoc.getY(), bossLoc.getZ()), SkeletonHorse.class, (horse) ->{
@@ -76,6 +75,7 @@ public class BossTrial1 implements CommandExecutor {
 
         zombHorse.addPassenger(zombRider);
         skeleHorse.addPassenger(skeleRider);
+        player.sendMessage("Test: " + zombHorse.isAware() + skeleHorse.isAware() + zombRider.isAware() + skeleRider.isAware());
 
         // attacks
         BukkitRunnable runnable = new BukkitRunnable() {
