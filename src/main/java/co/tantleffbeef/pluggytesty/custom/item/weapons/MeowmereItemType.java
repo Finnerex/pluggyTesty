@@ -12,11 +12,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.Objects;
 
 public class MeowmereItemType extends SimpleItemType implements InteractableItemType {
 
@@ -49,6 +49,8 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int tick = 0;
+
+            Vector vec = playerLoc.getDirection().clone().multiply(0.5);
             @Override
             public void run() {
 
@@ -65,9 +67,9 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                 Location projLocation = projectile.getLocation();
 
                 if (first)
-                    projectile.teleport(projLocation.add(playerLoc.getDirection().clone().multiply(2)));
+                    projectile.teleport(projLocation.add(vec));
                 else
-                    projectile.teleport(projLocation.add(projLocation.getDirection().clone().multiply(2)));
+                    projectile.teleport(projLocation.add(projLocation.getDirection().clone().multiply(0.5)));
 
 
                 if (projLocation.equals(result.getHitBlock().getLocation())) { // Detects if the projectile has hit the raytraced block.
