@@ -55,6 +55,20 @@ public class BossTrial1 implements CommandExecutor {
                 BarFlag.CREATE_FOG
         );
         bossBar.addPlayer(player);
+
+        // summon the zombie and skeleton horse rider minions
+
+        Location bossLoc = boss.getLocation();
+
+        ZombieHorse zombHorse = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() + 5, bossLoc.getY(), bossLoc.getZ()), ZombieHorse.class);
+        Zombie zombRider = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() + 5, bossLoc.getY(), bossLoc.getZ()), Zombie.class);
+
+        SkeletonHorse skeleHorse = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() - 5, bossLoc.getY(), bossLoc.getZ()), SkeletonHorse.class);
+        Skeleton skeleRider = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() - 5, bossLoc.getY(), bossLoc.getZ()), Skeleton.class);
+
+        zombHorse.addPassenger(zombRider);
+        skeleHorse.addPassenger(skeleRider);
+
         // attacks
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
@@ -63,7 +77,7 @@ public class BossTrial1 implements CommandExecutor {
                 bossBar.setProgress(boss.getHealth() / boss.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 
                 if (boss.isDead()) {
-                    boss.getWorld().playSound(l, Sound.ENTITY_WITHER_DEATH, 20, 0.1f);
+                    boss.getWorld().playSound(l, Sound.ENTITY_ENDERMAN_DEATH, 20, 0.1f);
                     bossBar.removeAll();
                     bossBar.setVisible(false);
                     cancel();
@@ -81,77 +95,29 @@ public class BossTrial1 implements CommandExecutor {
                 int attack = new Random().nextInt(8);
                 Location targetLocation = target.getLocation();
 
-                if (attack == 1 && boss.hasLineOfSight(target) && l.distance(targetLocation) > 4) { // dash
-                    boss.setVelocity(d.multiply(3));
+                if (attack == 1) { // dash
+
                 }
 
                 if (attack == 2) { // invis
-                    boss.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 1));
-                    boss.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 3));
+
                 }
 
-                if (attack == 3 && l.distance(targetLocation) < 5) { // strength
-                    boss.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30, 3));
-                    boss.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30 , 2));
-                    world.playSound(l, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
+                if (attack == 3) { // strength
+
                 }
 
                 if (attack == 4 || attack == 5) { // quake
-                    quake(boss.getLocation(), boss);
+
                 }
 
             }
         };
 
-        // run that boss
+        // run that jawn
         runnable.runTaskTimer(plugin, 0, 20);
 
         return true;
-    }
-
-    private void quake(Location location, ZombieVillager boss) {
-        BukkitRunnable runnable = new BukkitRunnable() {
-            int runs = 0;
-            final Location l = location;
-            final BlockData blockParticle = Material.STONE.createBlockData();
-
-            @Override
-            public void run() {
-                if (runs > 20) {
-                    cancel();
-                    return;
-                }
-
-                final World w = l.getWorld();
-                Vector d = l.getDirection().setY(0).normalize();
-                Vector pd = d.clone().rotateAroundY(90);
-                Location l2 = l.clone().add(pd.clone().multiply(-4));
-
-                if (w == null)
-                    return;
-
-                w.playSound(l, Sound.BLOCK_COMPOSTER_FILL, 8, 0.1f);
-
-                for (int i = 0; i < 7; i++) {
-                    l2.add(pd); // should probably be normal
-
-                    //w.spawnFallingBlock(l2, Material.BEACON.createBlockData());
-                    w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
-
-                    Collection<Entity> entities = w.getNearbyEntities(l2, 0.5, 3, 0.5); // 1b side, 2b height
-                    for (Entity e : entities) { // damage all entities in that block space
-                        if (!(e instanceof Zombie) && e instanceof Damageable damageable)
-                            damageable.damage(4, boss);
-                    }
-
-                }
-
-                l.add(d);
-                runs++;
-            }
-        };
-
-        runnable.runTaskTimer(plugin, 0, 2);
     }
 
 }
