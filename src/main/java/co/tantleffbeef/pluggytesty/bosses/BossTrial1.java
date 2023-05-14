@@ -59,15 +59,15 @@ public class BossTrial1 implements CommandExecutor {
 
         Location bossLoc = boss.getLocation();
 
-        ZombieHorse zombHorse = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() + 5, bossLoc.getY(), bossLoc.getZ()), ZombieHorse.class, (horse) -> {
-            horse.setTamed(true);
+        Chicken zombHorse = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() + 5, bossLoc.getY(), bossLoc.getZ()), Chicken.class, (horse) -> {
+            // horse.setTamed(true);
         });
         Zombie zombRider = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() + 5, bossLoc.getY(), bossLoc.getZ()), Zombie.class, (zomb) ->{
             zomb.getEquipment().setHelmet(new ItemStack(Material.CARVED_PUMPKIN));
         });
 
-        SkeletonHorse skeleHorse = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() - 5, bossLoc.getY(), bossLoc.getZ()), SkeletonHorse.class, (horse) ->{
-            horse.setTamed(true);
+        Spider skeleHorse = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() - 5, bossLoc.getY(), bossLoc.getZ()), Spider.class, (horse) ->{
+            // horse.setTamed(true);
         });
         Skeleton skeleRider = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() - 5, bossLoc.getY(), bossLoc.getZ()), Skeleton.class, (skele) ->{
             skele.getEquipment().setHelmet(new ItemStack(Material.CARVED_PUMPKIN));
@@ -75,7 +75,6 @@ public class BossTrial1 implements CommandExecutor {
 
         zombHorse.addPassenger(zombRider);
         skeleHorse.addPassenger(skeleRider);
-        player.sendMessage("Test: " + zombHorse.isAware() + skeleHorse.isAware() + zombRider.isAware() + skeleRider.isAware());
 
         // attacks
         BukkitRunnable runnable = new BukkitRunnable() {
