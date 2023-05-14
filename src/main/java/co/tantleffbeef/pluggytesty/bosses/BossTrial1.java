@@ -31,7 +31,7 @@ public class BossTrial1 implements CommandExecutor {
 
         // spawn boss with name
         ZombieVillager boss = player.getWorld().spawn(player.getLocation(), ZombieVillager.class, (zombie) -> {
-            zombie.setCustomName(ChatColor.RED + "The" + ChatColor.MAGIC + "Fallen" + ChatColor.MAGIC + "Necromancer");
+            zombie.setCustomName(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "The" + ChatColor.MAGIC + "Fallen" + ChatColor.RESET + "" + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Necromancer");
             zombie.setCustomNameVisible(true);
             zombie.setPersistent(true);
 
