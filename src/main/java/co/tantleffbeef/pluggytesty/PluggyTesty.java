@@ -99,6 +99,11 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("summongru").setExecutor(new BossGru(this));
         getCommand("summonbouncer").setExecutor(new BossFireWorker(this));
         getCommand("chesttest").setExecutor(new LootTableTestCommand(this, lootTableManager));
+        getCommand("trial1boss").setExecutor(new BossTrial1(this));
+        getCommand("trial2boss").setExecutor(new BossTrial2(this));
+        getCommand("trial3boss").setExecutor(new BossTrial3(this));
+        getCommand("trial4boss").setExecutor(new BossTrial4(this));
+        getCommand("trial5boss").setExecutor(new BossTrial5(this));
 
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
