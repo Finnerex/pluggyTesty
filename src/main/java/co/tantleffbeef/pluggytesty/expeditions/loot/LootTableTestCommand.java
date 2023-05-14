@@ -37,9 +37,8 @@ public class LootTableTestCommand implements CommandExecutor {
 //        LootTable lootTable = LootTables.VILLAGE_ARMORER.getLootTable();
 //        LootTable lootTable = new ExpeditionLootTable(namespace);
 //        ExpeditionLootTable lootTable = ExpeditionLootTables.TIER_1_LOW.getLootTable();
-        ExpeditionLootTable lootTable = lootTableManager.lootTables.get(ExpeditionLootTables.TIER_1_LOW);
+        ExpeditionLootTable lootTable = lootTableManager.get(ExpeditionLootTables.TIER_1_LOW);
 
-        Bukkit.broadcastMessage("Namespace: " + namespace);
 
         if (lootTable == null) {
             Bukkit.broadcastMessage("that thang was null");
