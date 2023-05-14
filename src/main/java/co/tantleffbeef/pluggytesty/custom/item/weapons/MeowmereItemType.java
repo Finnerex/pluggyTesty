@@ -64,7 +64,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
 
                 if (first)
-                    projectile.teleport(projLocation.add(player.getEyeLocation().getDirection().clone().multiply(2)));
+                    projectile.teleport(projLocation.add(projLocation.clone().multiply(2)));
                 else
                     projectile.teleport(projLocation.add(projLocation.getDirection().clone().multiply(2)));
 
