@@ -35,7 +35,7 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
             proj.setItemStack(new ItemStack(Material.CONDUIT));
         });
 
-        projectile.setVelocity(player.getEyeLocation().getDirection().multiply(5));
+        projectile.setVelocity(player.getEyeLocation().getDirection().normalize().multiply(5));
 
 
         RayTraceResult result = player.getWorld().rayTraceBlocks(player.getEyeLocation(), // Creates a raytrace to detect the HitBlock.
