@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.boss.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
@@ -31,34 +32,44 @@ public class BossTrial1 implements CommandExecutor {
 
         // spawn boss with name
         ZombieVillager boss = player.getWorld().spawn(player.getLocation(), ZombieVillager.class, (zombie) -> {
-            zombie.setCustomName(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "The" + ChatColor.MAGIC + "Fallen" + ChatColor.RESET + "" + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Necromancer");
+            zombie.setCustomName(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "The " + ChatColor.MAGIC + "Fallen" + ChatColor.RESET + "" + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + " Necromancer");
             zombie.setCustomNameVisible(true);
             zombie.setPersistent(true);
 
-            // armor
             EntityEquipment equipment = zombie.getEquipment();
-            equipment.setChestplate(new ItemStack(Material.IRON_CHESTPLATE)); // my nuts may produce 'NullPointerException'
+            equipment.setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
             equipment.setHelmet(new ItemStack(Material.NETHERITE_HELMET));
-            // I guess I don't have to update inventory or nothin
 
-            zombie.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(300); // dont listen to it, null pointers are fake and made up by the Jet brains conspiracy
+            zombie.setVillagerProfession(Villager.Profession.CLERIC);
+            zombie.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(300);
             zombie.setHealth(300);
 
         });
 
-        final World w = boss.getWorld();
+        final World world = boss.getWorld();
 
-        // ai / attacks?!?!
+        BossBar bossBar = Bukkit.createBossBar(
+                ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "The " + ChatColor.MAGIC + "Fallen" + ChatColor.RESET + "" + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + " Necromancer",
+                BarColor.GREEN,
+                BarStyle.SEGMENTED_6,
+                BarFlag.CREATE_FOG
+        );
+        bossBar.addPlayer(player);
+        // attacks
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 Location l = boss.getEyeLocation();
+                bossBar.setProgress(boss.getHealth() / boss.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 
                 if (boss.isDead()) {
                     boss.getWorld().playSound(l, Sound.ENTITY_WITHER_DEATH, 20, 0.1f);
+                    bossBar.removeAll();
+                    bossBar.setVisible(false);
                     cancel();
                     return;
                 }
+
 
                 Entity target = boss.getTarget();
 
@@ -82,7 +93,7 @@ public class BossTrial1 implements CommandExecutor {
                 if (attack == 3 && l.distance(targetLocation) < 5) { // strength
                     boss.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30, 3));
                     boss.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30 , 2));
-                    w.playSound(l, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
+                    world.playSound(l, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
                 }
 
                 if (attack == 4 || attack == 5) { // quake
