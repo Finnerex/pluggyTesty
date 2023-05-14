@@ -1,6 +1,8 @@
 package co.tantleffbeef.pluggytesty.expeditions.loot;
 
 import co.tantleffbeef.pluggytesty.PluggyTesty;
+import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
+import co.tantleffbeef.pluggytesty.attributes.InvalidItemKeyException;
 import com.google.gson.stream.JsonReader;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -21,11 +23,10 @@ public class LootTableParser {
     private int maxSlots;
     private final RandomCollection<ItemStack> lootPool;
 
-    public LootTableParser(String location) {
+    public LootTableParser(String location, AttributeManager attributeManager) {
         // path to the loot table in question
         var path = JavaPlugin.getPlugin(PluggyTesty.class)
-                .getResource(/*"data/pluggytesty/loot_tables/" + location + ".json"*/
-                "data/loot_tables/chests/tier_1/low_rarity.json");
+                .getResource("data/loot_tables/" + location + ".json");
 
 
         lootPool = new RandomCollection<>();
@@ -45,16 +46,9 @@ public class LootTableParser {
             // chest are arrays where indices are the rarity
             reader.beginObject();
 
-            // 2 because named with rarity, starting another object
-//            reader.beginObject();
-
             // loop through whole file
             while (reader.hasNext()) {
                 String name = reader.nextName();
-
-                // ignore rarity name
-//                if (name.contains("rarity"))
-//                    continue;
 
                 switch (name) {
                     case "min_slots" -> {
@@ -76,18 +70,23 @@ public class LootTableParser {
                             Bukkit.broadcastMessage("\nloot pool item: ");
 
                             // this ignores the names, maybe it shouldn't?
-                            assert reader.nextName().equals("weight");
+                            // yeah, just don't put it in wrong
+                            checkName(reader.nextName(), "weight");
                             final int weight = reader.nextInt();
 
-                            assert reader.nextName().equals("type");
+                            checkName(reader.nextName(), "type");
                             final String type = reader.nextString();
 
-                            assert reader.nextName().equals("amount");
+                            checkName(reader.nextName(), "amount");
                             final int amount = reader.nextInt();
 
                             Bukkit.broadcastMessage("  weight: " + weight + "\n  type: " + type + "\n  amount: " + amount);
+                            final NamespacedKey itemKey = NamespacedKey.fromString(type);
 
-                            final ItemStack itemStack = new ItemStack(Material.ACACIA_FENCE, amount);
+                            if (itemKey == null)
+                                throw new RuntimeException("Invalid item");
+
+                            final ItemStack itemStack = attributeManager.defaultItemStack(itemKey);
 
                             lootPool.add(weight, itemStack);
 
@@ -100,13 +99,17 @@ public class LootTableParser {
 
             }
 
-//            reader.endObject();
             reader.endObject();
 
-        } catch (IOException e) {
+        } catch (IOException | InvalidItemKeyException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void checkName(String name, String valid) {
+        if (!name.equals(valid))
+            throw new RuntimeException("Invalid loot table format: '" + name + "', should be '" + valid + "'.");
     }
 
     public int getMinSlots() { return minSlots; }
