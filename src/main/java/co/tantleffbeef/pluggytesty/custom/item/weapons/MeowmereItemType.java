@@ -35,9 +35,6 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
             proj.setGravity(false);
         });
 
-        projectile.setVelocity(player.getEyeLocation().getDirection().normalize().multiply(5));
-        player.sendMessage("test");
-
 
         RayTraceResult result = player.getWorld().rayTraceBlocks(player.getEyeLocation(), // Creates a raytrace to detect the HitBlock.
                 player.getEyeLocation().getDirection(),
@@ -62,7 +59,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                 }
 
 
-                projectile.setVelocity(player.getEyeLocation().getDirection().normalize().multiply(5));
+                projectile.teleport(player.getEyeLocation().multiply(tick));
 
 
                 if(result != null)
