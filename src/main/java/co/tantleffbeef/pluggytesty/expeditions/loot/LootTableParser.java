@@ -67,10 +67,7 @@ public class LootTableParser {
                             // each element in the array is an object
                             reader.beginObject();
 
-                            Bukkit.broadcastMessage("\nloot pool item: ");
-
-                            // this ignores the names, maybe it shouldn't?
-                            // yeah, just don't put it in wrong
+                            // check to make sure correct syntax
                             checkName(reader.nextName(), "weight");
                             final int weight = reader.nextInt();
 
@@ -80,7 +77,6 @@ public class LootTableParser {
                             checkName(reader.nextName(), "amount");
                             final int amount = reader.nextInt();
 
-                            Bukkit.broadcastMessage("  weight: " + weight + "\n  type: " + type + "\n  amount: " + amount);
                             final NamespacedKey itemKey = NamespacedKey.fromString(type);
 
                             if (itemKey == null)
@@ -110,7 +106,7 @@ public class LootTableParser {
 
     private void checkName(String name, String valid) {
         if (!name.equals(valid))
-            throw new RuntimeException("Invalid loot table format: '" + name + "', should be '" + valid + "'.");
+            throw new RuntimeException("Invalid Loot Table Syntax, should '" + name + "' be '" + valid + "'?");
     }
 
     public int getMinSlots() { return minSlots; }
