@@ -34,7 +34,7 @@ public class LootTableParser {
 
         Bukkit.broadcastMessage("path not null");
 
-        try (JsonReader reader = new JsonReader(new FileReader("data/loot_tables/chests/tier_1/low_rarity.json"/*path.toString()*/))) {
+        try (JsonReader reader = new JsonReader(new FileReader("pluggytesty/data/loot_tables/chests/tier_1/low_rarity.json"/*path.toString()*/))) {
 
             Bukkit.broadcastMessage("try");
 
