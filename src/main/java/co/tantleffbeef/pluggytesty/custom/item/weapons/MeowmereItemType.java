@@ -8,12 +8,10 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,6 +21,8 @@ import java.util.Objects;
 public class MeowmereItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
+
+    private boolean first = true;
 
     public MeowmereItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.NETHERITE_SWORD);
@@ -45,6 +45,8 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
 
 
+        Location playerLoc = player.getEyeLocation();
+
         BukkitRunnable runnable = new BukkitRunnable() {
             int tick = 0;
             @Override
@@ -62,16 +64,19 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
                 Location projLocation = projectile.getLocation();
 
-                projectile.teleport(projLocation.add(projLocation.getDirection().clone().multiply(2)));
+                if (first)
+                    projectile.teleport(projLocation.add(playerLoc.getDirection().clone().multiply(2)));
+                else
+                    projectile.teleport(projLocation.add(projLocation.getDirection().clone().multiply(2)));
+
 
                 if(result != null) {
                     if (projLocation.equals((result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
 
-                        if (result.getHitBlockFace().equals(BlockFace.NORTH) || result.getHitBlockFace().equals(BlockFace.SOUTH))
+                        if (result.getHitBlockFace() == BlockFace.NORTH || result.getHitBlockFace() == BlockFace.SOUTH)
                             projLocation.getDirection().setY((projLocation.getDirection().getY()) * -1);
 
-//                        Vector newVelocity = result.getHitPosition().multiply(projVelocity.dot(result.getHitPosition())).multiply(-2);
-//                        projectile.setVelocity(newVelocity); // Reflects the projectile off the raytraced wall.
+                        first = false;
 
                     }
                 }
