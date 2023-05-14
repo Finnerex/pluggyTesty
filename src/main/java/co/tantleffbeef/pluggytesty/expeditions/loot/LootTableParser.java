@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.expeditions.loot;
 
 import co.tantleffbeef.pluggytesty.PluggyTesty;
 import com.google.gson.stream.JsonReader;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -43,33 +44,41 @@ public class LootTableParser {
 //                if (name.contains("rarity"))
 //                    continue;
 
-                if (name.equals("min_slots"))
-                    this.minSlots = reader.nextInt();
-
-                else if (name.equals("max_slots"))
-                    this.maxSlots = reader.nextInt();
-
-                else if (name.equals("loot_pool")) {
-                    reader.beginArray();
-
-                    while (reader.hasNext()) {
-                        // each element in the array is an object
-                        reader.beginObject();
-
-                        // this ignores the names, maybe it shouldn't?
-                        final int weight = reader.nextInt();
-                        final String type = reader.nextString();
-                        final int amount = reader.nextInt();
-
-                        final ItemStack itemStack = new ItemStack(Material.ACACIA_FENCE, amount);
-
-                        lootPool.add(weight, itemStack);
-
-                        reader.endObject();
+                switch (name) {
+                    case "min_slots" -> {
+                        this.minSlots = reader.nextInt();
+                        Bukkit.broadcastMessage("min slots: " + minSlots);
                     }
+                    case "max_slots" -> {
+                        this.maxSlots = reader.nextInt();
+                        Bukkit.broadcastMessage("max slots: " + maxSlots);
+                    }
+                    case "loot_pool" -> {
 
-                    reader.endArray(); // end of loot pool
+                        reader.beginArray();
 
+                        while (reader.hasNext()) {
+                            // each element in the array is an object
+                            reader.beginObject();
+
+                            Bukkit.broadcastMessage("\nloot pool item: ");
+
+                            // this ignores the names, maybe it shouldn't?
+                            final int weight = reader.nextInt();
+                            final String type = reader.nextString();
+                            final int amount = reader.nextInt();
+
+                            Bukkit.broadcastMessage("  weight: " + weight + "  \ntype: " + type + "  \namount: " + amount);
+
+                            final ItemStack itemStack = new ItemStack(Material.ACACIA_FENCE, amount);
+
+                            lootPool.add(weight, itemStack);
+
+                            reader.endObject();
+                        }
+
+                        reader.endArray(); // end of loot pool
+                    }
                 }
 
             }
