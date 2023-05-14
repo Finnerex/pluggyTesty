@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.loot;
 
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootContext;
@@ -27,6 +28,7 @@ public class ExpeditionLootTable {
         if (random == null)
             return loot;
 
+        Bukkit.broadcastMessage("min: " + minSlots + "\nmax: " + maxSlots);
         int numSlots = random.nextInt(minSlots, maxSlots); // number of slots to be filled
 
         for (int i = 0; i < numSlots; i++) {

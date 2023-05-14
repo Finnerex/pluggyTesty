@@ -68,7 +68,7 @@ public class LootTableParser {
                             final String type = reader.nextString();
                             final int amount = reader.nextInt();
 
-                            Bukkit.broadcastMessage("  weight: " + weight + "  \ntype: " + type + "  \namount: " + amount);
+                            Bukkit.broadcastMessage("  weight: " + weight + "\n  type: " + type + "\n  amount: " + amount);
 
                             final ItemStack itemStack = new ItemStack(Material.ACACIA_FENCE, amount);
 
