@@ -39,6 +39,8 @@ public class LootTableTestCommand implements CommandExecutor {
 //        ExpeditionLootTable lootTable = ExpeditionLootTables.TIER_1_LOW.getLootTable();
         ExpeditionLootTable lootTable = lootTableManager.lootTables.get(ExpeditionLootTables.TIER_1_LOW);
 
+        Bukkit.broadcastMessage("Namespace: " + namespace);
+
         if (lootTable == null) {
             Bukkit.broadcastMessage("that thang was null");
             return false;

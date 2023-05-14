@@ -9,7 +9,7 @@
     },
     {
       "weight": 100,
-      "type": "pluggytesty:magic_stick",
+      "type": "pluggyTesty:magic_stick",
       "amount": 1
     }
   ]
