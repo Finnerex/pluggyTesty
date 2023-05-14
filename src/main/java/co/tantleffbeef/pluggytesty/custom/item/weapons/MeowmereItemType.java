@@ -22,8 +22,6 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
     private final Plugin schedulerPlugin;
 
-    private boolean first = true;
-
     public MeowmereItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.NETHERITE_SWORD);
         this.schedulerPlugin = namespace;
@@ -49,6 +47,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int tick = 0;
+            boolean first = true;
 
             Vector vec = playerLoc.getDirection().clone().multiply(0.5);
             @Override
