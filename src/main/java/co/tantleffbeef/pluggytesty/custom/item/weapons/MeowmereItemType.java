@@ -32,6 +32,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
         Entity projectile = player.getWorld().spawn(player.getEyeLocation(), PufferFish.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
             proj.setInvulnerable(true);
+            proj.setGravity(false);
             proj.setVelocity(player.getEyeLocation().getDirection().multiply(2));
         });
 
