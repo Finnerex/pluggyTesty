@@ -60,10 +60,14 @@ public class BossTrial1 implements CommandExecutor {
 
         Location bossLoc = boss.getLocation();
 
-        ZombieHorse zombHorse = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() + 5, bossLoc.getY(), bossLoc.getZ()), ZombieHorse.class);
+        ZombieHorse zombHorse = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() + 5, bossLoc.getY(), bossLoc.getZ()), ZombieHorse.class, (horse) -> {
+            horse.setTamed(true);
+        });
         Zombie zombRider = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() + 5, bossLoc.getY(), bossLoc.getZ()), Zombie.class);
 
-        SkeletonHorse skeleHorse = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() - 5, bossLoc.getY(), bossLoc.getZ()), SkeletonHorse.class);
+        SkeletonHorse skeleHorse = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() - 5, bossLoc.getY(), bossLoc.getZ()), SkeletonHorse.class, (horse) ->{
+            horse.setTamed(true);
+        });
         Skeleton skeleRider = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() - 5, bossLoc.getY(), bossLoc.getZ()), Skeleton.class);
 
         zombHorse.addPassenger(zombRider);
