@@ -32,7 +32,8 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
         Entity projectile = player.getWorld().spawn(player.getEyeLocation(), ShulkerBullet.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
             proj.setInvulnerable(true);
-            proj.setVelocity(player.getEyeLocation().getDirection().multiply(5));
+            proj.setBounce(true);
+            proj.setVelocity(player.getEyeLocation().getDirection().multiply(2));
         });
 
 
