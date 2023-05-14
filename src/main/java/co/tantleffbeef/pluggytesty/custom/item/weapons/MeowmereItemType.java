@@ -30,9 +30,8 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
 
 
-        Entity projectile = player.getWorld().spawn(player.getEyeLocation(), WitherSkull.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
+        Entity projectile = player.getWorld().spawn(player.getEyeLocation(), PufferFish.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
             proj.setInvulnerable(true);
-            proj.setBounce(true);
             proj.setVelocity(player.getEyeLocation().getDirection().multiply(2));
         });
 
