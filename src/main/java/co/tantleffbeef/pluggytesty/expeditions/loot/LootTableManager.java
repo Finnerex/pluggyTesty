@@ -9,7 +9,7 @@ import java.util.Map;
 public class LootTableManager {
 
     private final AttributeManager attributeManager;
-    public final Map<ExpeditionLootTables, ExpeditionLootTable> lootTables;
+    private final Map<ExpeditionLootTables, ExpeditionLootTable> lootTables;
 
     public LootTableManager(AttributeManager attributeManager) {
         this.attributeManager = attributeManager;
@@ -24,6 +24,10 @@ public class LootTableManager {
     private ExpeditionLootTable getLootTable(String location) {
         LootTableParser parsedJSON = new LootTableParser(location, attributeManager);
         return new ExpeditionLootTable(parsedJSON.getMinSlots(), parsedJSON.getMaxSlots(), parsedJSON.getLootPool());
+    }
+
+    public ExpeditionLootTable get(ExpeditionLootTables table) {
+        return lootTables.get(table);
     }
 
 }
