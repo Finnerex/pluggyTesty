@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.FluidCollisionMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -21,6 +22,8 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
     private final Plugin schedulerPlugin;
 
+    private boolean first = true;
+
     public MeowmereItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.NETHERITE_SWORD);
         this.schedulerPlugin = namespace;
@@ -30,10 +33,8 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
 
 
-        Entity projectile = player.getWorld().spawn(player.getEyeLocation(), Slime.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
-            proj.setInvulnerable(true);
-            proj.setGravity(false);
-            proj.setVelocity(player.getEyeLocation().getDirection().normalize().multiply(2));
+        ItemDisplay projectile = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
+            proj.setItemStack(new ItemStack(Material.CONDUIT));
         });
 
 
@@ -46,7 +47,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int tick = 0;
-            Vector projVelocity = projectile.getVelocity();
+            Location projLocation = projectile.getLocation();
             @Override
             public void run() {
 
@@ -60,12 +61,20 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                 }
 
 
+                if (first)
+                    projectile.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().clone().multiply(2)));
+                else
+                    projectile.teleport(projLocation.add(projLocation.getDirection().clone().multiply(2)));
 
                 if(result != null) {
                     if (projectile.getLocation().equals((result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
 
-                        Vector newVelocity = result.getHitPosition().multiply(projVelocity.dot(result.getHitPosition())).multiply(-2);
-                        projectile.setVelocity(newVelocity); // Reflects the projectile off the raytraced wall.
+                        float angle = projectile.getLocation().getDirection().angle(result.getHitBlock().getLocation().getDirection());
+                        projectile.getLocation().setDirection(result.getHitBlock().getLocation().getDirection().multiply(angle));
+
+                        first = false;
+//                        Vector newVelocity = result.getHitPosition().multiply(projVelocity.dot(result.getHitPosition())).multiply(-2);
+//                        projectile.setVelocity(newVelocity); // Reflects the projectile off the raytraced wall.
 
                     }
                 }
