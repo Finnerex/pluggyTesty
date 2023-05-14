@@ -4,12 +4,14 @@
     "max_slots": 15,
     "loot_pool": [
       {
-        "amount": 10,
-        "type": "minecraft:carrot"
+        "weight": 50,
+        "type": "minecraft:carrot",
+        "amount": 10
       },
       {
-        "amount": 1,
-        "type": "pluggytesty:magic_stick"
+        "weight": 1,
+        "type": "pluggytesty:magic_stick",
+        "amount": 1
       }
     ]
   }

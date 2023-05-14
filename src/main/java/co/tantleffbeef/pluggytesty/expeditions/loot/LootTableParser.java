@@ -2,8 +2,10 @@ package co.tantleffbeef.pluggytesty.expeditions.loot;
 
 import co.tantleffbeef.pluggytesty.PluggyTesty;
 import com.google.gson.stream.JsonReader;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import co.tantleffbeef.mcplanes.Tools
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,10 +23,10 @@ public class LootTableParser {
         // path to the loot table in question
         var path = JavaPlugin.getPlugin(PluggyTesty.class).getResource("data/pluggytesty/loot_tables/" + location);
 
+        lootPool = new RandomCollection<>();
+
         if (path == null)
             return;
-
-        lootPool = new RandomCollection<>();
 
         try (JsonReader reader = new JsonReader(new FileReader(path.toString()))) {
 
@@ -55,17 +57,19 @@ public class LootTableParser {
                         // each element in the array is an object
                         reader.beginObject();
 
+                        // this ignores the names, maybe it shouldn't?
+                        final int weight = reader.nextInt();
+                        final String type = reader.nextString();
                         final int amount = reader.nextInt();
-                        String type = reader.nextString();
 
-//                        final ItemStack itemStack = NamespacedKey.fromString(reader.nextString());
+                        final ItemStack itemStack = new ItemStack(Material.ACACIA_FENCE, amount);
 
-                        lootPool.add(amount, itemStack);
+                        lootPool.add(weight, itemStack);
 
                         reader.endObject();
                     }
 
-                    reader.endArray();
+                    reader.endArray(); // end of loot pool
 
                 }
 
