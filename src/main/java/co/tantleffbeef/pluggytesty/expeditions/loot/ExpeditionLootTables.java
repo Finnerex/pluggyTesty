@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.loot;
 
+import org.bukkit.Bukkit;
 import org.bukkit.loot.LootTable;
 
 public enum ExpeditionLootTables {
@@ -10,8 +11,9 @@ public enum ExpeditionLootTables {
 
     private final ExpeditionLootTable lootTable;
 
-    private ExpeditionLootTables(String location) {
+    ExpeditionLootTables(String location) {
         LootTableParser parsedJSON = new LootTableParser(location);
+        Bukkit.broadcastMessage("This happened (it won't)");
         this.lootTable = new ExpeditionLootTable(parsedJSON.getMinSlots(), parsedJSON.getMaxSlots(), parsedJSON.getLootPool());
     }
 
