@@ -9,8 +9,10 @@ import org.bukkit.inventory.ItemStack;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class LootTableParser {
 
@@ -21,20 +23,22 @@ public class LootTableParser {
 
     public LootTableParser(String location) {
         // path to the loot table in question
-//        var path = JavaPlugin.getPlugin(PluggyTesty.class)
-//                .getResource(/*"data/pluggytesty/loot_tables/" + location + ".json"*/
-//                "pluggytesty/data/loot_tables/chests/tier_1/low_rarity.json");
+        var path = JavaPlugin.getPlugin(PluggyTesty.class)
+                .getResource(/*"data/pluggytesty/loot_tables/" + location + ".json"*/
+                "data/loot_tables/chests/tier_1/low_rarity.json");
+
 
         lootPool = new RandomCollection<>();
 
-//        Bukkit.broadcastMessage("path gotten");
-//
-//        if (path == null)
-//            return;
+        Bukkit.broadcastMessage("path gotten");
+
+        if (path == null)
+            return;
 
         Bukkit.broadcastMessage("path not null");
 
-        try (JsonReader reader = new JsonReader(new FileReader("pluggytesty/data/loot_tables/chests/tier_1/low_rarity.json"/*path.toString()*/))) {
+
+        try (JsonReader reader = new JsonReader(new InputStreamReader(path))) {
 
             Bukkit.broadcastMessage("try");
 
@@ -42,7 +46,7 @@ public class LootTableParser {
             reader.beginObject();
 
             // 2 because named with rarity, starting another object
-            reader.beginObject();
+//            reader.beginObject();
 
             // loop through whole file
             while (reader.hasNext()) {
@@ -91,7 +95,7 @@ public class LootTableParser {
 
             }
 
-            reader.endObject();
+//            reader.endObject();
             reader.endObject();
 
         } catch (IOException e) {
