@@ -6,6 +6,7 @@ import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
@@ -73,8 +74,8 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                 if(result != null) {
                     if (projectile.getLocation().equals((result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
 
-                        float angle = projectile.getLocation().getDirection().angle(result.getHitBlock().getLocation().getDirection());
-                        projectile.getLocation().setDirection(result.getHitBlock().getLocation().getDirection().multiply(angle));
+                        if (result.getHitBlockFace().equals(BlockFace.NORTH) || result.getHitBlockFace().equals(BlockFace.SOUTH))
+                            projLocation.getDirection().setY((projLocation.getDirection().getY()) * -1);
 
                         first = false;
 //                        Vector newVelocity = result.getHitPosition().multiply(projVelocity.dot(result.getHitPosition())).multiply(-2);
