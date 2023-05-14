@@ -33,9 +33,11 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
 
         ItemDisplay projectile = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
             proj.setItemStack(new ItemStack(Material.CONDUIT));
+            proj.setGravity(false);
         });
 
-        projectile.setVelocity(player.getEyeLocation().getDirection().multiply(5));
+        projectile.setVelocity(player.getEyeLocation().getDirection().normalize().multiply(5));
+        player.sendMessage("test");
 
 
         RayTraceResult result = player.getWorld().rayTraceBlocks(player.getEyeLocation(), // Creates a raytrace to detect the HitBlock.
@@ -61,10 +63,11 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
                 }
 
 
+                projectile.setVelocity(player.getEyeLocation().getDirection().normalize().multiply(5));
 
                 assert result != null;
                 if (projectile.getLocation().equals(Objects.requireNonNull(result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
-
+                    player.sendMessage("test");
                     Vector newVelocity = result.getHitPosition().multiply(projVelocity.dot(result.getHitPosition())).multiply(-2);
                     projectile.setVelocity(newVelocity); // Reflects the projectile off the raytraced wall.
 
