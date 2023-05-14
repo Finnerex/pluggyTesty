@@ -18,3 +18,13 @@ commands:
     description: summons gavvys special surprise
   chesttest:
     description: sets the loot table of a chest you are looking at
+  trial1boss:
+    description: summons the Necromancer, the boss of trial 1
+  trial2boss:
+    description: summons the Necromancer, the boss of trial 1
+  trial3boss:
+    description: summons the Necromancer, the boss of trial 1
+  trial4boss:
+    description: summons the Necromancer, the boss of trial 1
+  trial5boss:
+    description: summons the Necromancer, the boss of trial 1
