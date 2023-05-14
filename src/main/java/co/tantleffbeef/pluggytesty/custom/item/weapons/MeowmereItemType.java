@@ -30,8 +30,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
 
 
-        LivingEntity projectile = player.getWorld().spawn(player.getEyeLocation(), Slime.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
-            proj.setSize(1);
+        Entity projectile = player.getWorld().spawn(player.getEyeLocation(), ShulkerBullet.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
             proj.setInvulnerable(true);
             proj.setVelocity(player.getEyeLocation().getDirection().multiply(5));
         });
@@ -62,7 +61,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
 
                 if(result != null) {
-                    if (projectile.getLocation().equals(Objects.requireNonNull(result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
+                    if (projectile.getLocation().equals((result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
 
                         Vector newVelocity = result.getHitPosition().multiply(projVelocity.dot(result.getHitPosition())).multiply(-2);
                         projectile.setVelocity(newVelocity); // Reflects the projectile off the raytraced wall.
