@@ -32,6 +32,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
         LivingEntity projectile = player.getWorld().spawn(player.getEyeLocation(), Slime.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
             proj.setSize(1);
+            proj.setInvulnerable(true);
             proj.setGravity(false);
             proj.setVelocity(player.getEyeLocation().getDirection().multiply(5));
         });
