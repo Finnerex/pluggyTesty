@@ -21,20 +21,20 @@ public class LootTableParser {
 
     public LootTableParser(String location) {
         // path to the loot table in question
-        var path = JavaPlugin.getPlugin(PluggyTesty.class)
-                .getResource(/*"data/pluggytesty/loot_tables/" + location + ".json"*/
-                "/data/pluggytesty/loot_tables/chests/tier_1/low_rarity.json");
+//        var path = JavaPlugin.getPlugin(PluggyTesty.class)
+//                .getResource(/*"data/pluggytesty/loot_tables/" + location + ".json"*/
+//                "pluggytesty/data/loot_tables/chests/tier_1/low_rarity.json");
 
         lootPool = new RandomCollection<>();
 
-        Bukkit.broadcastMessage("path gotten");
-
-        if (path == null)
-            return;
+//        Bukkit.broadcastMessage("path gotten");
+//
+//        if (path == null)
+//            return;
 
         Bukkit.broadcastMessage("path not null");
 
-        try (JsonReader reader = new JsonReader(new FileReader(path.toString()))) {
+        try (JsonReader reader = new JsonReader(new FileReader("pluggytesty/data/loot_tables/chests/tier_1/low_rarity.json"/*path.toString()*/))) {
 
             Bukkit.broadcastMessage("try");
 

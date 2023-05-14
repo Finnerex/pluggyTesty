@@ -202,87 +202,87 @@ public final class PluggyTesty extends JavaPlugin {
 
         // leather
         addCustomAttributeToVanillaItem(Material.LEATHER_HELMET,
-                new AttributePair(Attribute.GENERIC_ARMOR, 4,
+                new AttributePair(Attribute.GENERIC_ARMOR, 1,
                         EquipmentSlot.HEAD));
         addCustomAttributeToVanillaItem(Material.LEATHER_CHESTPLATE,
-                new AttributePair(Attribute.GENERIC_ARMOR, 4,
+                new AttributePair(Attribute.GENERIC_ARMOR, 1,
                         EquipmentSlot.CHEST));
         addCustomAttributeToVanillaItem(Material.LEATHER_LEGGINGS,
-                new AttributePair(Attribute.GENERIC_ARMOR, 4,
+                new AttributePair(Attribute.GENERIC_ARMOR, 1,
                         EquipmentSlot.LEGS));
         addCustomAttributeToVanillaItem(Material.LEATHER_BOOTS,
-                new AttributePair(Attribute.GENERIC_ARMOR, 4,
+                new AttributePair(Attribute.GENERIC_ARMOR, 1,
                         EquipmentSlot.FEET));
 
         // chain
         addCustomAttributeToVanillaItem(Material.CHAINMAIL_HELMET,
-                new AttributePair(Attribute.GENERIC_ARMOR, 8,
+                new AttributePair(Attribute.GENERIC_ARMOR, 2,
                         EquipmentSlot.HEAD));
         addCustomAttributeToVanillaItem(Material.CHAINMAIL_CHESTPLATE,
-                new AttributePair(Attribute.GENERIC_ARMOR, 8,
+                new AttributePair(Attribute.GENERIC_ARMOR, 2,
                         EquipmentSlot.CHEST));
         addCustomAttributeToVanillaItem(Material.CHAINMAIL_LEGGINGS,
-                new AttributePair(Attribute.GENERIC_ARMOR, 8,
+                new AttributePair(Attribute.GENERIC_ARMOR, 2,
                         EquipmentSlot.LEGS));
         addCustomAttributeToVanillaItem(Material.CHAINMAIL_BOOTS,
-                new AttributePair(Attribute.GENERIC_ARMOR, 8,
+                new AttributePair(Attribute.GENERIC_ARMOR, 2,
                         EquipmentSlot.FEET));
 
         // iron
         addCustomAttributeToVanillaItem(Material.IRON_HELMET,
-                new AttributePair(Attribute.GENERIC_ARMOR, 12,
+                new AttributePair(Attribute.GENERIC_ARMOR, 3,
                         EquipmentSlot.HEAD));
         addCustomAttributeToVanillaItem(Material.IRON_CHESTPLATE,
-                new AttributePair(Attribute.GENERIC_ARMOR, 12,
+                new AttributePair(Attribute.GENERIC_ARMOR, 3,
                         EquipmentSlot.CHEST));
         addCustomAttributeToVanillaItem(Material.IRON_LEGGINGS,
-                new AttributePair(Attribute.GENERIC_ARMOR, 12,
+                new AttributePair(Attribute.GENERIC_ARMOR, 3,
                         EquipmentSlot.LEGS));
         addCustomAttributeToVanillaItem(Material.IRON_BOOTS,
-                new AttributePair(Attribute.GENERIC_ARMOR, 12,
+                new AttributePair(Attribute.GENERIC_ARMOR, 3,
                         EquipmentSlot.FEET));
 
         // gold
         addCustomAttributeToVanillaItem(Material.GOLDEN_HELMET,
-                new AttributePair(Attribute.GENERIC_ARMOR, 16, EquipmentSlot.HEAD),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 4, EquipmentSlot.HEAD));
+                new AttributePair(Attribute.GENERIC_ARMOR, 4, EquipmentSlot.HEAD),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 1, EquipmentSlot.HEAD));
         addCustomAttributeToVanillaItem(Material.GOLDEN_CHESTPLATE,
-                new AttributePair(Attribute.GENERIC_ARMOR, 16, EquipmentSlot.CHEST),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 4, EquipmentSlot.CHEST));
+                new AttributePair(Attribute.GENERIC_ARMOR, 4, EquipmentSlot.CHEST),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 1, EquipmentSlot.CHEST));
         addCustomAttributeToVanillaItem(Material.GOLDEN_LEGGINGS,
-                new AttributePair(Attribute.GENERIC_ARMOR, 16, EquipmentSlot.LEGS),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 4, EquipmentSlot.LEGS));
+                new AttributePair(Attribute.GENERIC_ARMOR, 4, EquipmentSlot.LEGS),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 1, EquipmentSlot.LEGS));
         addCustomAttributeToVanillaItem(Material.GOLDEN_BOOTS,
-                new AttributePair(Attribute.GENERIC_ARMOR, 16, EquipmentSlot.FEET),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 4, EquipmentSlot.FEET));
+                new AttributePair(Attribute.GENERIC_ARMOR, 4, EquipmentSlot.FEET),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 1, EquipmentSlot.FEET));
 
         // diamond
         addCustomAttributeToVanillaItem(Material.DIAMOND_HELMET,
-                new AttributePair(Attribute.GENERIC_ARMOR, 20, EquipmentSlot.HEAD),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 8, EquipmentSlot.HEAD));
+                new AttributePair(Attribute.GENERIC_ARMOR, 5, EquipmentSlot.HEAD),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.HEAD));
         addCustomAttributeToVanillaItem(Material.DIAMOND_CHESTPLATE,
-                new AttributePair(Attribute.GENERIC_ARMOR, 20, EquipmentSlot.CHEST),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 8));
+                new AttributePair(Attribute.GENERIC_ARMOR, 5, EquipmentSlot.CHEST),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2));
         addCustomAttributeToVanillaItem(Material.DIAMOND_LEGGINGS,
-                new AttributePair(Attribute.GENERIC_ARMOR, 20, EquipmentSlot.LEGS),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 8, EquipmentSlot.LEGS));
+                new AttributePair(Attribute.GENERIC_ARMOR, 5, EquipmentSlot.LEGS),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.LEGS));
         addCustomAttributeToVanillaItem(Material.DIAMOND_BOOTS,
-                new AttributePair(Attribute.GENERIC_ARMOR, 20, EquipmentSlot.FEET),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 8, EquipmentSlot.FEET));
+                new AttributePair(Attribute.GENERIC_ARMOR, 5, EquipmentSlot.FEET),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.FEET));
 
         // netherite
         addCustomAttributeToVanillaItem(Material.NETHERITE_HELMET,
-                new AttributePair(Attribute.GENERIC_ARMOR, 24, EquipmentSlot.HEAD),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 12, EquipmentSlot.HEAD));
+                new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.HEAD),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 3, EquipmentSlot.HEAD));
         addCustomAttributeToVanillaItem(Material.NETHERITE_CHESTPLATE,
-                new AttributePair(Attribute.GENERIC_ARMOR, 24, EquipmentSlot.CHEST),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 12, EquipmentSlot.CHEST));
+                new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.CHEST),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 3, EquipmentSlot.CHEST));
         addCustomAttributeToVanillaItem(Material.NETHERITE_LEGGINGS,
-                new AttributePair(Attribute.GENERIC_ARMOR, 24, EquipmentSlot.LEGS),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 12, EquipmentSlot.LEGS));
+                new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.LEGS),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 3, EquipmentSlot.LEGS));
         addCustomAttributeToVanillaItem(Material.NETHERITE_BOOTS,
-                new AttributePair(Attribute.GENERIC_ARMOR, 24, EquipmentSlot.FEET),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 12, EquipmentSlot.FEET));
+                new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.FEET),
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 3, EquipmentSlot.FEET));
 
     }
 
