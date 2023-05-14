@@ -71,8 +71,7 @@ public class BossTrial1 implements CommandExecutor {
             horse.setTamed(true);
         });
         Skeleton skeleRider = player.getWorld().spawn(new Location(player.getWorld(), bossLoc.getX() - 5, bossLoc.getY(), bossLoc.getZ()), Skeleton.class, (skele) ->{
-            skele.getEquipment().setHelmet(new ItemStack(Material.PUMPKIN));
-            skele.getEquipment().setItemInMainHand(new ItemStack(Material.BOW));
+            skele.getEquipment().setHelmet(new ItemStack(Material.CARVED_PUMPKIN));
         });
 
         zombHorse.addPassenger(zombRider);
