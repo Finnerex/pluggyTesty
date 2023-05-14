@@ -33,7 +33,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
 
 
-        ItemDisplay projectile = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (proj) -> { // Creates a Conduit projectile and sets its velocity.
+        ItemDisplay projectile = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (proj) -> { // Creates a Conduit projectile.
             proj.setItemStack(new ItemStack(Material.CONDUIT));
         });
 
@@ -71,10 +71,12 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
 
                 if(result != null) {
-                    if (projLocation.equals((result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
-
-                        if (result.getHitBlockFace() == BlockFace.NORTH || result.getHitBlockFace() == BlockFace.SOUTH)
+                    if (projLocation.equals(result.getHitBlock().getLocation())) { // Detects if the projectile has hit the raytraced block.
+                        player.sendMessage("test");
+                        if (result.getHitBlockFace() == BlockFace.UP || result.getHitBlockFace() == BlockFace.DOWN) {
+                            player.sendMessage("test");
                             projLocation.getDirection().setY((projLocation.getDirection().getY()) * -1);
+                        }
 
                         first = false;
 
