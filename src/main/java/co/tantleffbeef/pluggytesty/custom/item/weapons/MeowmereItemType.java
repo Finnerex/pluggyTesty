@@ -5,7 +5,6 @@ import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -18,11 +17,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.Objects;
 
-public class MeowItemType extends SimpleItemType implements InteractableItemType {
+public class MeowmereItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
 
-    public MeowItemType(Plugin namespace, String id, boolean customModel, String name) {
+    public MeowmereItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.NETHERITE_SWORD);
         this.schedulerPlugin = namespace;
     }
@@ -65,13 +64,14 @@ public class MeowItemType extends SimpleItemType implements InteractableItemType
 
                 projectile.setVelocity(player.getEyeLocation().getDirection().normalize().multiply(5));
 
-                assert result != null;
-                if (projectile.getLocation().equals(Objects.requireNonNull(result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
-                    player.sendMessage("test");
-                    Vector newVelocity = result.getHitPosition().multiply(projVelocity.dot(result.getHitPosition())).multiply(-2);
-                    projectile.setVelocity(newVelocity); // Reflects the projectile off the raytraced wall.
 
-                }
+                if(result != null)
+                    if (projectile.getLocation().equals(Objects.requireNonNull(result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
+                        player.sendMessage("test");
+                        Vector newVelocity = result.getHitPosition().multiply(projVelocity.dot(result.getHitPosition())).multiply(-2);
+                        projectile.setVelocity(newVelocity); // Reflects the projectile off the raytraced wall.
+
+                    }
 
 
                 Collection<Entity> entities = player.getWorld().getNearbyEntities(projectile.getLocation(), 0.7, 0.7, 0.7);
