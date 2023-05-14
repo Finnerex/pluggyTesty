@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty.attributes;
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
@@ -41,6 +42,8 @@ public class AttributeManager {
      */
     public void registerModifiedItem(@NotNull ItemStack modified) {
         final var id = CustomItemNbt.customItemIdOrVanilla(modified, keyManager);
+
+        Bukkit.broadcastMessage("[registerModifiedItem()] registering id: " + id);
 
         // Make sure this item hasn't already been registered
         if (modifiedItemSet.contains(id))
