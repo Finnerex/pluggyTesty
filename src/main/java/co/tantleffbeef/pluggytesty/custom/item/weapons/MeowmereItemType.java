@@ -59,7 +59,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                 }
 
 
-                projectile.teleport(player.getEyeLocation().multiply(tick));
+                projectile.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(tick)));
 
 
                 if(result != null)
