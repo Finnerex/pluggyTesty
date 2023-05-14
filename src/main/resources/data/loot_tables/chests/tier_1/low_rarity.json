@@ -1,6 +1,6 @@
 {
   "min_slots": 5,
-  "max_slots": 15,
+  "max_slots": 20,
   "loot_pool": [
     {
       "weight": 50,
@@ -11,6 +11,16 @@
       "weight": 100,
       "type": "pluggytesty:bolt_rod",
       "amount": 1
+    },
+    {
+      "weight": 100,
+      "type": "minecraft:bread",
+      "amount": 12
+    },
+    {
+      "weight": 20,
+      "type": "minecraft:iron_nugget",
+      "amount": 5
     }
   ]
 }
