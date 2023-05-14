@@ -25,10 +25,16 @@ public class LootTableParser {
 
         lootPool = new RandomCollection<>();
 
+        Bukkit.broadcastMessage("path gotten");
+
         if (path == null)
             return;
 
+        Bukkit.broadcastMessage("path not null");
+
         try (JsonReader reader = new JsonReader(new FileReader(path.toString()))) {
+
+            Bukkit.broadcastMessage("try");
 
             // chest are arrays where indices are the rarity
             reader.beginObject();

@@ -13,7 +13,7 @@ public enum ExpeditionLootTables {
 
     ExpeditionLootTables(String location) {
         LootTableParser parsedJSON = new LootTableParser(location);
-        Bukkit.broadcastMessage("This happened (it won't)");
+        Bukkit.broadcastMessage("This happened (it won't)"); ////// IT DID!!!
         this.lootTable = new ExpeditionLootTable(parsedJSON.getMinSlots(), parsedJSON.getMaxSlots(), parsedJSON.getLootPool());
     }
 
