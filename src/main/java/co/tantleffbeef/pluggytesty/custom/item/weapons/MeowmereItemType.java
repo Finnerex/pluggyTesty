@@ -47,7 +47,6 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int tick = 0;
-            Location projLocation = projectile.getLocation();
             @Override
             public void run() {
 
@@ -61,8 +60,11 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                 }
 
 
+                Location projLocation = projectile.getLocation();
+
+
                 if (first)
-                    projectile.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().clone().multiply(2)));
+                    projectile.teleport(projLocation.add(player.getEyeLocation().getDirection().clone().multiply(2)));
                 else
                     projectile.teleport(projLocation.add(projLocation.getDirection().clone().multiply(2)));
 
