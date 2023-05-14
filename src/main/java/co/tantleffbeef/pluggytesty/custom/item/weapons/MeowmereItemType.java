@@ -24,8 +24,6 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
     private final Plugin schedulerPlugin;
 
-    private boolean first = true;
-
     public MeowmereItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.NETHERITE_SWORD);
         this.schedulerPlugin = namespace;
@@ -65,19 +63,14 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
                 Location projLocation = projectile.getLocation();
 
-
-                if (first)
-                    projectile.teleport(projLocation.add(projLocation.getDirection().clone().multiply(2)));
-                else
-                    projectile.teleport(projLocation.add(projLocation.getDirection().clone().multiply(2)));
+                projectile.teleport(projLocation.add(projLocation.getDirection().clone().multiply(2)));
 
                 if(result != null) {
-                    if (projectile.getLocation().equals((result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
+                    if (projLocation.equals((result.getHitBlock()).getLocation())) { // Detects if the projectile has hit the raytraced block.
 
                         if (result.getHitBlockFace().equals(BlockFace.NORTH) || result.getHitBlockFace().equals(BlockFace.SOUTH))
                             projLocation.getDirection().setY((projLocation.getDirection().getY()) * -1);
 
-                        first = false;
 //                        Vector newVelocity = result.getHitPosition().multiply(projVelocity.dot(result.getHitPosition())).multiply(-2);
 //                        projectile.setVelocity(newVelocity); // Reflects the projectile off the raytraced wall.
 
