@@ -76,8 +76,13 @@ public class LootTableParser {
                             Bukkit.broadcastMessage("\nloot pool item: ");
 
                             // this ignores the names, maybe it shouldn't?
+                            assert reader.nextName().equals("weight");
                             final int weight = reader.nextInt();
+
+                            assert reader.nextName().equals("type");
                             final String type = reader.nextString();
+
+                            assert reader.nextName().equals("amount");
                             final int amount = reader.nextInt();
 
                             Bukkit.broadcastMessage("  weight: " + weight + "\n  type: " + type + "\n  amount: " + amount);
