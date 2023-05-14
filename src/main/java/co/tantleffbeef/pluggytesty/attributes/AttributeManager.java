@@ -3,7 +3,6 @@ package co.tantleffbeef.pluggytesty.attributes;
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
@@ -100,15 +99,11 @@ public class AttributeManager {
         // Grab the item's id
         final var id = CustomItemNbt.customItemIdOrVanilla(itemStack, keyManager);
 
-        Bukkit.broadcastMessage("[updateItem()] id: " + id);
-
         // If no modification is registered
         // for this item id then no need
         // to modify it
         if (!modifiedItemSet.contains(id))
             return;
-
-        Bukkit.broadcastMessage("[updateItem()] modifiedItemSet contains id");
 
         final var modification = itemModifications.get(id);
         assert modification != null;
@@ -116,8 +111,6 @@ public class AttributeManager {
         // If the item doesn't need modification return
         if (!needsModification(itemStack, modification))
             return;
-
-        Bukkit.broadcastMessage("[updateItem()] needs modification");
 
         assert modification.getItemMeta() != null;
 
@@ -176,5 +169,32 @@ public class AttributeManager {
         }
 
         return newMeta;
+    }
+
+    /**
+     * Tries to give the default item stack for this key
+     * @param key the id of the item
+     * @return the item stack if it exists
+     * @throws InvalidItemKeyException if an item can't be found that matches this key
+     */
+    public @NotNull ItemStack defaultItemStack(@NotNull NamespacedKey key) throws InvalidItemKeyException {
+        // If we've modified it here then return that version of it
+        if (modifiedItemSet.contains(key)) {
+            assert itemModifications.get(key) != null;
+            return itemModifications.get(key);
+        }
+
+        // Otherwise see if its a default minecraft item
+        if (key.getNamespace().equals(NamespacedKey.MINECRAFT)) {
+            final var material = Material.matchMaterial(key.getKey());
+            // If for some reason we can't get it then give up
+            if (material == null)
+                throw new InvalidItemKeyException(key);
+
+            return new ItemStack(material);
+        }
+
+        // and if we've made it here then obviously give up
+        throw new InvalidItemKeyException(key);
     }
 }
