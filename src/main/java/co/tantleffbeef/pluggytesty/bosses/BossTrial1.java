@@ -98,7 +98,7 @@ public class BossTrial1 implements CommandExecutor {
         return true;
     }
 
-    private void quake(Location location, Zombie jawn) {
+    private void quake(Location location, ZombieVillager boss) {
         BukkitRunnable runnable = new BukkitRunnable() {
             int runs = 0;
             final Location l = location;
@@ -130,7 +130,7 @@ public class BossTrial1 implements CommandExecutor {
                     Collection<Entity> entities = w.getNearbyEntities(l2, 0.5, 3, 0.5); // 1b side, 2b height
                     for (Entity e : entities) { // damage all entities in that block space
                         if (!(e instanceof Zombie) && e instanceof Damageable damageable)
-                            damageable.damage(4, jawn);
+                            damageable.damage(4, boss);
                     }
 
                 }
