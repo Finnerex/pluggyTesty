@@ -16,6 +16,7 @@ import co.tantleffbeef.pluggytesty.custom.item.armor.*;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
+import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableTestCommand;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
@@ -63,6 +64,7 @@ public final class PluggyTesty extends JavaPlugin {
         nbtKeyManager = rApi.getNbtKeyManager();
 
         attributeManager = new AttributeManager(nbtKeyManager);
+        final var lootTableManager = new LootTableManager(attributeManager);
 
         registerItems();
 //        registerRecipes();
@@ -96,12 +98,7 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("giveheavyarmor").setExecutor(new HeavyArmor());
         getCommand("summongru").setExecutor(new BossGru(this));
         getCommand("summonbouncer").setExecutor(new BossFireWorker(this));
-        getCommand("chesttest").setExecutor(new LootTableTestCommand(this));
-        getCommand("trial1boss").setExecutor(new BossTrial1(this));
-        getCommand("trial2boss").setExecutor(new BossTrial1(this));
-        getCommand("trial3boss").setExecutor(new BossTrial1(this));
-        getCommand("trial4boss").setExecutor(new BossTrial1(this));
-        getCommand("trial5boss").setExecutor(new BossTrial1(this));
+        getCommand("chesttest").setExecutor(new LootTableTestCommand(this, lootTableManager));
 
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);

@@ -8,8 +8,8 @@
       "amount": 10
     },
     {
-      "weight": 1,
-      "type": "pluggytesty:magic_stick",
+      "weight": 100,
+      "type": "pluggyTesty:magic_stick",
       "amount": 1
     }
   ]
