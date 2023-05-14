@@ -29,9 +29,9 @@ public class BossTrial1 implements CommandExecutor {
         if (!(commandSender instanceof Player player))
             return false;
 
-        // spawn jawn with name
-        Zombie jawn = player.getWorld().spawn(player.getLocation(), Zombie.class, (zombie) -> {
-            zombie.setCustomName(ChatColor.DARK_RED + "Jawn The Almighty");
+        // spawn boss with name
+        ZombieVillager boss = player.getWorld().spawn(player.getLocation(), ZombieVillager.class, (zombie) -> {
+            zombie.setCustomName(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "The" + ChatColor.MAGIC + "Fallen" + ChatColor.RESET + "" + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Necromancer");
             zombie.setCustomNameVisible(true);
             zombie.setPersistent(true);
 
@@ -46,21 +46,21 @@ public class BossTrial1 implements CommandExecutor {
 
         });
 
-        final World w = jawn.getWorld();
+        final World w = boss.getWorld();
 
         // ai / attacks?!?!
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                Location l = jawn.getEyeLocation();
+                Location l = boss.getEyeLocation();
 
-                if (jawn.isDead()) {
-                    jawn.getWorld().playSound(l, Sound.ENTITY_WITHER_DEATH, 20, 0.1f);
+                if (boss.isDead()) {
+                    boss.getWorld().playSound(l, Sound.ENTITY_WITHER_DEATH, 20, 0.1f);
                     cancel();
                     return;
                 }
 
-                Entity target = jawn.getTarget();
+                Entity target = boss.getTarget();
 
                 Vector d = l.getDirection();
 
@@ -70,29 +70,29 @@ public class BossTrial1 implements CommandExecutor {
                 int attack = new Random().nextInt(8);
                 Location targetLocation = target.getLocation();
 
-                if (attack == 1 && jawn.hasLineOfSight(target) && l.distance(targetLocation) > 4) { // dash
-                    jawn.setVelocity(d.multiply(3));
+                if (attack == 1 && boss.hasLineOfSight(target) && l.distance(targetLocation) > 4) { // dash
+                    boss.setVelocity(d.multiply(3));
                 }
 
                 if (attack == 2) { // invis
-                    jawn.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 1));
-                    jawn.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 3));
+                    boss.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 1));
+                    boss.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 3));
                 }
 
                 if (attack == 3 && l.distance(targetLocation) < 5) { // strength
-                    jawn.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30, 3));
-                    jawn.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30 , 2));
+                    boss.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30, 3));
+                    boss.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30 , 2));
                     w.playSound(l, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
                 }
 
                 if (attack == 4 || attack == 5) { // quake
-                    quake(jawn.getLocation(), jawn);
+                    quake(boss.getLocation(), boss);
                 }
 
             }
         };
 
-        // run that jawn
+        // run that boss
         runnable.runTaskTimer(plugin, 0, 20);
 
         return true;
