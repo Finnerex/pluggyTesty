@@ -21,14 +21,21 @@ public class LootTableParser {
 
     public LootTableParser(String location) {
         // path to the loot table in question
-        var path = JavaPlugin.getPlugin(PluggyTesty.class).getResource("data/pluggytesty/loot_tables/" + location);
+        var path = JavaPlugin.getPlugin(PluggyTesty.class)
+                .getResource("data/pluggytesty/loot_tables/" + location + ".json");
 
         lootPool = new RandomCollection<>();
+
+        Bukkit.broadcastMessage("path gotten");
 
         if (path == null)
             return;
 
+        Bukkit.broadcastMessage("path not null");
+
         try (JsonReader reader = new JsonReader(new FileReader(path.toString()))) {
+
+            Bukkit.broadcastMessage("try");
 
             // chest are arrays where indices are the rarity
             reader.beginObject();
