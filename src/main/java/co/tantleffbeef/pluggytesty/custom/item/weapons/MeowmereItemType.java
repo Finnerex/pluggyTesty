@@ -72,7 +72,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                     projectile.teleport(projLocation.add(projLocation.getDirection().clone().multiply(0.5)));
 
 
-                if (projLocation.equals(result.getHitBlock().getLocation())) { // Detects if the projectile has hit the raytraced block.
+                if (projLocation.distance(result.getHitBlock().getLocation()) <= 0.5) { // Detects if the projectile has hit the raytraced block.
                     player.sendMessage("test");
                     if (result.getHitBlockFace() == BlockFace.UP || result.getHitBlockFace() == BlockFace.DOWN) {
                         player.sendMessage("test");
