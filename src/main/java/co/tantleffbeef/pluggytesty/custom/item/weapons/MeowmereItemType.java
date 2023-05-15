@@ -6,6 +6,7 @@ import com.sun.source.tree.UsesTree;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
@@ -50,7 +51,6 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
 
 
-
         Location playerLoc = player.getEyeLocation();
 
         BukkitRunnable runnable = new BukkitRunnable() {
@@ -78,6 +78,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                 Location projLocation = projectile.getLocation();
 
                 projectile.teleport(projLocation.add(vel));
+                player.getWorld().spawnParticle(Particle.SPELL_INSTANT, projLocation, 10);
 
 
                 if (result == null || result.getHitBlock() == null)
