@@ -77,7 +77,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                     player.sendMessage("test");
                     if (result.getHitBlockFace() == BlockFace.UP || result.getHitBlockFace() == BlockFace.DOWN) {
                         player.sendMessage("test");
-                        projLocation.getDirection().setY((projLocation.getDirection().getY()) * -1);
+                        vel.setY((vel.getY()) * -1);
                     }
 
                     first = false;
