@@ -81,7 +81,6 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                 Location projLocation = projectile.getLocation();
 
                 projectile.teleport(projLocation.add(vel));
-                player.getWorld().spawnParticle(Particle.SPELL_INSTANT, projLocation, 1);
 
 
                 if (result == null || result.getHitBlock() == null)
@@ -124,7 +123,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
         };
         runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
-        player.setCooldown(Material.NETHERITE_SWORD, 8);
+        player.setCooldown(Material.NETHERITE_SWORD, 10);
 
         return true;
     }
