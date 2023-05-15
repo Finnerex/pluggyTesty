@@ -47,6 +47,7 @@ public final class PluggyTesty extends JavaPlugin {
     private RecipeManager recipeManager;
     private KeyManager<CustomNbtKey> nbtKeyManager;
     private AttributeManager attributeManager;
+    private LootTableManager lootTableManager;
 
     @Override
     public void onEnable() {
@@ -64,7 +65,7 @@ public final class PluggyTesty extends JavaPlugin {
         nbtKeyManager = rApi.getNbtKeyManager();
 
         attributeManager = new AttributeManager(nbtKeyManager);
-        final var lootTableManager = new LootTableManager(attributeManager);
+        lootTableManager = new LootTableManager(attributeManager);
 
         registerItems();
 //        registerRecipes();
@@ -136,9 +137,11 @@ public final class PluggyTesty extends JavaPlugin {
                 this,
                 // Loop through all items in the resource manager
                 // and register them in the attribute manager
-                () -> resourceManager.getItemIdList().stream()
+                () -> { resourceManager.getItemIdList().stream()
                         .map(resourceManager::getCustomItemStack)
-                        .forEach(attributeManager::registerModifiedItem)
+                        .forEach(attributeManager::registerModifiedItem);
+                    getServer().getScheduler().runTask(this, () -> lootTableManager.registerLootTables());
+                }
         );
         addCustomAttributes();
 
