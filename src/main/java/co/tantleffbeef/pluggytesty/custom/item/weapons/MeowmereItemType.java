@@ -36,10 +36,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
         });
 
 
-        RayTraceResult result = player.getWorld().rayTraceBlocks(player.getEyeLocation(), // Creates a raytrace to detect the HitBlock.
-                player.getEyeLocation().getDirection(),
-                100,
-                FluidCollisionMode.NEVER);
+
 
 
 
@@ -48,6 +45,11 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
         BukkitRunnable runnable = new BukkitRunnable() {
             int tick = 0;
             boolean first = true;
+
+            RayTraceResult result = player.getWorld().rayTraceBlocks(player.getEyeLocation(), // Creates a raytrace to detect the HitBlock.
+                    player.getEyeLocation().getDirection(),
+                    100,
+                    FluidCollisionMode.NEVER);
             final Vector vel = playerLoc.getDirection().clone().multiply(0.5);
             @Override
             public void run() {
@@ -78,14 +80,17 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                     if (result.getHitBlockFace() == BlockFace.UP || result.getHitBlockFace() == BlockFace.DOWN) {
 
                         vel.setY((vel.getY()) * -1);
+                        result = player.getWorld().rayTraceBlocks(projLocation, vel, 100, FluidCollisionMode.NEVER);
                     }
                     if (result.getHitBlockFace() == BlockFace.WEST || result.getHitBlockFace() == BlockFace.EAST) {
 
                         vel.setX((vel.getX()) * -1);
+                        result = player.getWorld().rayTraceBlocks(projLocation, vel, 100, FluidCollisionMode.NEVER);
                     }
                     if (result.getHitBlockFace() == BlockFace.NORTH || result.getHitBlockFace() == BlockFace.SOUTH) {
 
                         vel.setZ((vel.getZ()) * -1);
+                        result = player.getWorld().rayTraceBlocks(projLocation, vel, 100, FluidCollisionMode.NEVER);
                     }
 
                     first = false;
