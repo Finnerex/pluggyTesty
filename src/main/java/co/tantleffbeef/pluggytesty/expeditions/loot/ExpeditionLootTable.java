@@ -28,7 +28,6 @@ public class ExpeditionLootTable {
         if (random == null)
             return loot;
 
-        Bukkit.broadcastMessage("min: " + minSlots + "\nmax: " + maxSlots);
         int numSlots = random.nextInt(minSlots, maxSlots); // number of slots to be filled
 
         for (int i = 0; i < numSlots; i++) {
