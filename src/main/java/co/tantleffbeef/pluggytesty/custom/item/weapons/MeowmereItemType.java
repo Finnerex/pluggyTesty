@@ -48,8 +48,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
         BukkitRunnable runnable = new BukkitRunnable() {
             int tick = 0;
             boolean first = true;
-
-            Vector vec = playerLoc.getDirection().clone().multiply(0.5);
+            final Vector vel = playerLoc.getDirection().clone().multiply(0.5);
             @Override
             public void run() {
 
@@ -65,10 +64,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
                 Location projLocation = projectile.getLocation();
 
-                if (first)
-                    projectile.teleport(projLocation.add(vec));
-                else
-                    projectile.teleport(projLocation.add(projLocation.getDirection().clone().multiply(0.5)));
+                    projectile.teleport(projLocation.add(vel));
 
 
                 if (result == null || result.getHitBlock() == null)
