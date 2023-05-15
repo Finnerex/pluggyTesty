@@ -54,13 +54,13 @@ public class LootTableParser {
                             reader.beginObject();
 
                             // check to make sure correct syntax
-                            checkName(reader.nextName(), "weight");
+                            checkName(reader.nextName(), "weight", location);
                             final int weight = reader.nextInt();
 
-                            checkName(reader.nextName(), "type");
+                            checkName(reader.nextName(), "type", location);
                             final String type = reader.nextString();
 
-                            checkName(reader.nextName(), "amount");
+                            checkName(reader.nextName(), "amount", location);
                             final int amount = reader.nextInt();
 
                             final NamespacedKey itemKey = NamespacedKey.fromString(type);
@@ -90,9 +90,9 @@ public class LootTableParser {
 
     }
 
-    private void checkName(String name, String valid) {
+    private void checkName(String name, String valid, String location) {
         if (!name.equals(valid))
-            throw new RuntimeException("Invalid Loot Table Syntax, should '" + name + "' be '" + valid + "'?");
+            throw new RuntimeException("Invalid Loot Table Syntax, should '" + name + "' be '" + valid + "' in " + location + ".json ?");
     }
 
     public int getMinSlots() { return minSlots; }
