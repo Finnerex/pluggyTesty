@@ -179,7 +179,8 @@ public final class PluggyTesty extends JavaPlugin {
             if (!(commandSender instanceof Player player))
                 return false;
 
-            new TestExpedition(this).build(getServer().getScheduler(), player.getLocation(), rooms -> {});
+            new TestExpedition(this).build(getServer().getScheduler(), player.getLocation(), rooms ->
+                    player.sendMessage("expedition built or something"));
 
             return true;
         });
