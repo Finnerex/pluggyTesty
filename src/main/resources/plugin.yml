@@ -6,6 +6,9 @@ api-version: 1.19
 depend: ["MCPlanes"]
 
 commands:
+  testexpedition:
+    description: does some test expedition stuff
+    aliases: ["te"]
   summonjawn:
     description: summons jawn
   summonseaman:

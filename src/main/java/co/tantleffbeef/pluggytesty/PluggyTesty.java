@@ -14,6 +14,7 @@ import co.tantleffbeef.pluggytesty.custom.item.utility.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.*;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
+import co.tantleffbeef.pluggytesty.expeditions.TestExpedition;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableManager;
@@ -27,6 +28,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -169,6 +171,15 @@ public final class PluggyTesty extends JavaPlugin {
                 listIndex++;
             }
         }.runTaskTimer(this, 3, 7);*/
+
+        Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
+            if (!(commandSender instanceof Player player))
+                return false;
+
+            new TestExpedition(this).build(getServer().getScheduler(), player.getLocation(), rooms -> {});
+
+            return true;
+        });
     }
 
     private void registerItems() {
