@@ -13,9 +13,10 @@ public class LootTableManager {
 
     public LootTableManager(AttributeManager attributeManager) {
         this.attributeManager = attributeManager;
-
         lootTables = new HashMap<>();
+    }
 
+    public void registerLootTables() {
         for (ExpeditionLootTables table : ExpeditionLootTables.values()) {
             lootTables.put(table, getLootTable(table.getLocation()));
         }
