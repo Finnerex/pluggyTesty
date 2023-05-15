@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import com.sun.source.tree.UsesTree;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -46,8 +47,6 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
         ItemDisplay projectile = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (proj) -> { // Creates a Conduit projectile.
             proj.setItemStack(new ItemStack(Material.CONDUIT));
         });
-
-
 
 
 
@@ -121,6 +120,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
         };
         runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
+        player.setCooldown(Material.NETHERITE_SWORD, 8);
 
         return true;
     }
