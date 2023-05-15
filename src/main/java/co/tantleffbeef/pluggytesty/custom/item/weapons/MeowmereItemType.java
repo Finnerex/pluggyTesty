@@ -5,10 +5,13 @@ import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
@@ -25,6 +28,13 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
     public MeowmereItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.NETHERITE_SWORD);
         this.schedulerPlugin = namespace;
+    }
+
+    @Override
+    public void modifyItemMeta(@NotNull ItemMeta meta) {
+        super.modifyItemMeta(meta);
+
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier("dawg", 0, AttributeModifier.Operation.ADD_NUMBER));
     }
 
     @Override
