@@ -48,11 +48,7 @@ public class ExpeditionLootTable {
 
         for (ItemStack i : loot) {
 
-            // find a random open slot for the item (will kill itself if the chest is full) (don't care)
-            int slot;
-            do {
-                slot = random.nextInt(inventory.getSize());
-            } while (inventory.getItem(slot) != null);
+            int slot = random.nextInt(inventory.getSize());
 
             inventory.setItem(slot, i);
         }
