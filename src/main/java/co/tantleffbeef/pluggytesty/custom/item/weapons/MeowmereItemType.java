@@ -64,7 +64,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
                 Location projLocation = projectile.getLocation();
 
-                    projectile.teleport(projLocation.add(vel));
+                projectile.teleport(projLocation.add(vel));
 
 
                 if (result == null || result.getHitBlock() == null)
