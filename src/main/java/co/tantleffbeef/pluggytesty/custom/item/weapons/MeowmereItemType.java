@@ -43,6 +43,9 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
+        if(player.hasCooldown(Material.NETHERITE_SWORD))
+            return false;
+
 
 
         ItemDisplay projectile = player.getWorld().spawn(player.getEyeLocation(), ItemDisplay.class, (proj) -> { // Creates a Conduit projectile.
@@ -78,7 +81,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                 Location projLocation = projectile.getLocation();
 
                 projectile.teleport(projLocation.add(vel));
-                player.getWorld().spawnParticle(Particle.SPELL_INSTANT, projLocation, 10);
+                player.getWorld().spawnParticle(Particle.SPELL_INSTANT, projLocation, 1);
 
 
                 if (result == null || result.getHitBlock() == null)
