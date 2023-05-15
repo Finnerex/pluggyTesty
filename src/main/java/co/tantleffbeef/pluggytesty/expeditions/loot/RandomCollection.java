@@ -1,3 +1,5 @@
+// Copied from stackoverflow!!
+
 package co.tantleffbeef.pluggytesty.expeditions.loot;
 
 import java.util.NavigableMap;
