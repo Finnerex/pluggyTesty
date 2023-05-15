@@ -28,16 +28,10 @@ public class LootTableParser {
         var path = JavaPlugin.getPlugin(PluggyTesty.class)
                 .getResource("data/loot_tables/" + location + ".json");
 
-
         lootPool = new RandomCollection<>();
-
-        Bukkit.broadcastMessage("path gotten");
 
         if (path == null)
             return;
-
-        Bukkit.broadcastMessage("path not null");
-
 
         try (JsonReader reader = new JsonReader(new InputStreamReader(path))) {
 
@@ -51,14 +45,8 @@ public class LootTableParser {
                 String name = reader.nextName();
 
                 switch (name) {
-                    case "min_slots" -> {
-                        this.minSlots = reader.nextInt();
-                        Bukkit.broadcastMessage("min slots: " + minSlots);
-                    }
-                    case "max_slots" -> {
-                        this.maxSlots = reader.nextInt();
-                        Bukkit.broadcastMessage("max slots: " + maxSlots);
-                    }
+                    case "min_slots" -> this.minSlots = reader.nextInt();
+                    case "max_slots" -> this.maxSlots = reader.nextInt();
                     case "loot_pool" -> {
 
                         reader.beginArray();
