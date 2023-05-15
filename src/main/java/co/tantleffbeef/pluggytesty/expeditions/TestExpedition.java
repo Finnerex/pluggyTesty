@@ -28,7 +28,7 @@ public class TestExpedition implements Expedition {
         // Paste the schematic async
         scheduler.runTaskAsynchronously(schedulerPlugin, () -> {
             // Load the schematic using FaweAPI
-            try (final var schematic = FaweAPI.load(schedulerPlugin.getDataFolder().toPath().resolve("bruh.schematic").toFile())) {
+            try (final var schematic = FaweAPI.load(schedulerPlugin.getDataFolder().toPath().resolve("bruh.schem").toFile())) {
                 // Paste it once its loaded
                 schematic.paste(FaweAPI.getWorld(location.getWorld().getName()), BlockVector3Imp.at(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
 
