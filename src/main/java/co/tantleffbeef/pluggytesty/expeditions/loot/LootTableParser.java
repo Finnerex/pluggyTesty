@@ -35,8 +35,6 @@ public class LootTableParser {
 
         try (JsonReader reader = new JsonReader(new InputStreamReader(path))) {
 
-            Bukkit.broadcastMessage("try");
-
             // chest are arrays where indices are the rarity
             reader.beginObject();
 
