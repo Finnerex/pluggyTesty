@@ -3,7 +3,8 @@ package co.tantleffbeef.pluggytesty.expeditions.listeners;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import co.tantleffbeef.pluggytesty.expeditions.PartyManager;
+import org.bukkit.entity.Player;
+import co.tantleffbeef.pluggytesty.expeditions.*;
 
 public class PartyFriendlyFireListener implements Listener {
 
@@ -21,7 +22,9 @@ public class PartyFriendlyFireListener implements Listener {
     if (!(event.getEntity() instanceof Player damaged))
       return;
     
-    if (partyManager.getPartyWith(damager).containsPlayer(damaged))
+    Party party = partyManager.getPartyWith(damager);
+    
+    if (party.containsPlayer(damaged) && !party.getFriendlyFireEnabled())
       event.setCancelled(true);
     
   }
