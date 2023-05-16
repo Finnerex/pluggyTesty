@@ -16,11 +16,13 @@ public class Party {
     private final Server server;
     private final UUID owner;
     private final List<UUID> playerList;
+    private boolean friendlyFireEnabled;
 
     public Party(@NotNull Server server, @NotNull Player owner) {
         this.playerList = new ArrayList<>();
         this.server = server;
         this.owner = owner.getUniqueId();
+        friendlyFireEnabled = false;
 
         addPlayer(owner);
     }
@@ -172,4 +174,7 @@ public class Party {
         getOnlinePlayers()
                 .forEach(player -> player.spigot().sendMessage(components));
     }
+    
+    public boolean getFriendlyFireEnabled() { return friendlyFireEnabled; }
+    public void setFriendlyFireEnabled(boolean enabled) { friendlyFireEnabled = enabled; }
 }
