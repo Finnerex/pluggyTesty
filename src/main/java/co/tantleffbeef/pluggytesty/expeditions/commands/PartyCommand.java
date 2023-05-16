@@ -379,4 +379,36 @@ public class PartyCommand extends BaseCommand {
 
         return true;
     }
+    
+    @Subcommand("friendlyFire|ff")
+    public void onFriendlyFire(@NotNull Player caller, boolean enabled) {
+        // sender has to be a party owner
+        if (!checkIfSenderInParty(caller))
+            return;
+
+        if (!checkIfSenderPartyOwner(caller))
+            return;
+        
+        // grab the party
+        final var party = partyManager.getPartyWith(caller);
+        assert party != null;
+        
+        party.setFriendlyFireEnabled(enabled);
+    }
+    
+    @Subcommand("friendlyFire|ff")
+    public void onFriendlyFire(@NotNull Player caller) {
+        // sender has to be a party owner
+        if (!checkIfSenderInParty(caller))
+            return;
+
+        if (!checkIfSenderPartyOwner(caller))
+            return;
+        
+        // grab the party
+        final var party = partyManager.getPartyWith(caller);
+        assert party != null;
+        
+        party.setFriendlyFireEnabled(!party.getFriendlyFireEnabled());
+    }
 }
