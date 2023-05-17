@@ -17,12 +17,14 @@ public class Party {
     private final UUID owner;
     private final List<UUID> playerList;
     private boolean friendlyFireEnabled;
+    private boolean locked;
 
     public Party(@NotNull Server server, @NotNull Player owner) {
         this.playerList = new ArrayList<>();
         this.server = server;
         this.owner = owner.getUniqueId();
         friendlyFireEnabled = false;
+        locked = false;
 
         addPlayer(owner);
     }
@@ -179,5 +181,13 @@ public class Party {
     public void setFriendlyFireEnabled(boolean enabled) {
         friendlyFireEnabled = enabled;
         broadcastMessage(ChatColor.GOLD + "Friendly fire is now set to " + friendlyFireEnabled);
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public boolean isLocked() {
+        return locked;
     }
 }

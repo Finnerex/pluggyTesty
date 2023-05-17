@@ -13,7 +13,7 @@ public interface Expedition {
      * @param location where to build it
      * @param postBuildCallback a callback that runs once its finished
      */
-    void build(@NotNull BukkitScheduler scheduler, @NotNull Location location, @NotNull Consumer<Room[]> postBuildCallback);
+    void build(@NotNull BukkitScheduler scheduler, @NotNull Location location, @NotNull Consumer<Expedition> postBuildCallback);
 
     /**
      * Starts the expedition with this party's players
@@ -22,8 +22,15 @@ public interface Expedition {
     void start(@NotNull Party party);
 
     /**
-     * Clears all chunks that the expedition take up
-     * Precondition: this expedition has been built
+     * Returns whether this expedition has been built
+     * @return if this expedition is built
      */
-    void delete();
+    boolean isBuilt();
+
+    /**
+     * Returns the party of players that is in this expedition
+     *
+     * @return the party of players in this expedition
+     */
+    Party getParty();
 }
