@@ -17,11 +17,16 @@ public class PartyFriendlyFireListener implements Listener {
   
   @EventHandler
   public void onPlayerDamageByPlayer(EntityDamageByEntityEvent event) {
-    if(!(event.getDamager() instanceof Player damager))
-      return;
-
     if (!(event.getEntity() instanceof Player damaged))
       return;
+    
+    Player damager;
+    if(!(event.getDamager() instanceof Player damager)) {
+      if (!(event.getDamager() instanceof Projectile projectile))
+        return;
+      if (!(projectile.getShooter() instanceof Player damager))
+        return;
+    }
     
     Party party = partyManager.getPartyWith(damager);
     
@@ -30,22 +35,22 @@ public class PartyFriendlyFireListener implements Listener {
     
   }
 
-  @EventHandler
-  public void onPlayerDamageByProjectile(EntityDamageByEntityEvent event) {
-    if(!(event.getDamager() instanceof Projectile projectile))
-      return;
+//   @EventHandler
+//   public void onPlayerDamageByProjectile(EntityDamageByEntityEvent event) {
+//     if(!(event.getDamager() instanceof Projectile projectile))
+//       return;
 
-    if (!(event.getEntity() instanceof Player damaged))
-      return;
+//     if (!(event.getEntity() instanceof Player damaged))
+//       return;
 
-    if (!(projectile.getShooter() instanceof Player damager))
-      return;
+//     if (!(projectile.getShooter() instanceof Player damager))
+//       return;
 
-    Party party = partyManager.getPartyWith(damager);
+//     Party party = partyManager.getPartyWith(damager);
 
-    if (party.containsPlayer(damaged) && !party.getFriendlyFireEnabled())
-      event.setCancelled(true);
+//     if (party.containsPlayer(damaged) && !party.getFriendlyFireEnabled())
+//       event.setCancelled(true);
 
-  }
+//   }
 
 }
