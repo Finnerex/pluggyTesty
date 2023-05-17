@@ -20,11 +20,18 @@ public class PartyFriendlyFireListener implements Listener {
     if (!(event.getEntity() instanceof Player damaged))
       return;
     
-    if(!(event.getDamager() instanceof Player damager)) {
+    Player damager;
+    if(event.getDamager() instanceof Player) {
+      damager = (Player) event.getDamager();
+      
+    } else {
+      
       if (!(event.getDamager() instanceof Projectile projectile))
         return;
-      if (!(projectile.getShooter() instanceof Player damager))
+      if (!(projectile.getShooter() instanceof Player))
         return;
+      
+      damager = (Player) projectile.getShooter();
     }
     
     Party party = partyManager.getPartyWith(damager);
