@@ -177,7 +177,7 @@ public class Party {
     
     public boolean getFriendlyFireEnabled() { return friendlyFireEnabled; }
     public void setFriendlyFireEnabled(boolean enabled) {
-        broadcastMessage(ChatColor.GOLD + "Friendly fire is now set to " + friendlyFireEnabled);
         friendlyFireEnabled = enabled;
+        broadcastMessage(ChatColor.GOLD + "Friendly fire is now set to " + friendlyFireEnabled);
     }
 }
