@@ -92,20 +92,15 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                 if (projLocation.distance(loc) <= 1) { // Detects if the projectile has hit the raytraced block.
 
                     if (result.getHitBlockFace() == BlockFace.UP || result.getHitBlockFace() == BlockFace.DOWN) {
-
                         vel.setY((vel.getY()) * -1);
-                        result = player.getWorld().rayTraceBlocks(projLocation, vel, 100, FluidCollisionMode.NEVER);
                     }
-                    if (result.getHitBlockFace() == BlockFace.WEST || result.getHitBlockFace() == BlockFace.EAST) {
-
+                    else if (result.getHitBlockFace() == BlockFace.WEST || result.getHitBlockFace() == BlockFace.EAST) {
                         vel.setX((vel.getX()) * -1);
-                        result = player.getWorld().rayTraceBlocks(projLocation, vel, 100, FluidCollisionMode.NEVER);
                     }
-                    if (result.getHitBlockFace() == BlockFace.NORTH || result.getHitBlockFace() == BlockFace.SOUTH) {
-
+                    else if (result.getHitBlockFace() == BlockFace.NORTH || result.getHitBlockFace() == BlockFace.SOUTH) {
                         vel.setZ((vel.getZ()) * -1);
-                        result = player.getWorld().rayTraceBlocks(projLocation, vel, 100, FluidCollisionMode.NEVER);
                     }
+                    result = player.getWorld().rayTraceBlocks(projLocation, vel, 100, FluidCollisionMode.NEVER);
 
                     first = false;
 
