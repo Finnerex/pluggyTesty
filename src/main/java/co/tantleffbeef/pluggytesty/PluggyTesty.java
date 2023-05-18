@@ -20,6 +20,7 @@ import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableTestCommand;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PartyFriendlyFireListener;
+import co.tantleffbeef.pluggytesty.misc.Debug;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
@@ -58,6 +59,11 @@ public final class PluggyTesty extends JavaPlugin {
 
         getLogger().info("grabbing resource manager");
         getLogger().info("poopie steam machine");
+
+        Debug.setConsoleSender(getServer().getConsoleSender());
+        Debug.setDebugMessagesEnabled(true);
+        Debug.info("Debug messages enabled");
+
         final var rApiProvider = getServer().getServicesManager().getRegistration(ResourceApi.class);
         if (rApiProvider == null)
             throw new RuntimeException("Can't find ResourceApi!");

@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions;
 
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -22,4 +23,11 @@ public interface ExpeditionManager {
      *                          finishes building
      */
     void buildExpedition(@NotNull Expedition expedition, Consumer<Expedition> postBuildCallback);
+
+    /**
+     * Returns whether the player is in an expedition currently
+     * @param player the player to check
+     * @return whether they are in an expedition
+     */
+    boolean inExpedition(@NotNull Player player);
 }
