@@ -26,7 +26,7 @@ public class ExpeditionLootTable {
         Collection<ItemStack> loot = new ArrayList<>();
 
         if (random == null)
-            return loot;
+            random = new Random();
 
         int numSlots = random.nextInt(minSlots, maxSlots); // number of slots to be filled
 
@@ -40,10 +40,10 @@ public class ExpeditionLootTable {
     }
 
     public void fillInventory(@NotNull Inventory inventory, @Nullable Random random, @NotNull LootContext lootContext) {
-        Collection<ItemStack> loot = populateLoot(random, lootContext);
-
         if (random == null)
-            return;
+            random = new Random();
+        
+        Collection<ItemStack> loot = populateLoot(random, lootContext);
 
         for (ItemStack i : loot) {
 
