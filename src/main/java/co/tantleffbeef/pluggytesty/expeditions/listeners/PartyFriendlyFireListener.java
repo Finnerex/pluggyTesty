@@ -35,6 +35,9 @@ public class PartyFriendlyFireListener implements Listener {
     }
     
     Party party = partyManager.getPartyWith(damager);
+
+    if (party == null)
+      return;
     
     if (party.containsPlayer(damaged) && !party.getFriendlyFireEnabled())
       event.setCancelled(true);
