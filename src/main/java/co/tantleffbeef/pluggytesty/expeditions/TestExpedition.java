@@ -74,9 +74,11 @@ public class TestExpedition implements Expedition {
                         new RoomMetadata(
                                 new SimpleStartingRoom(
                                         new Location[] {
-                                                location.clone().add(7, 1, -12),
-                                                location.clone().add(8, 8, 9),
-                                                location.clone().add(23, 8, -85),
+                                                location.clone().add(23, 9, 16),
+                                                location.clone().add(13, 1, 13),
+                                                location.clone().add(7, 5, 19),
+                                                location.clone().add(7, 9, 8),
+                                                location.clone().add(21, 6, 6),
                                         }
                                 ),
                                 toBukkitBlockLoc(world, pasteSession.getMinimumPoint()),
