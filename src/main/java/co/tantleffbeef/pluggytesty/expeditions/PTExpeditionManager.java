@@ -86,7 +86,7 @@ public class PTExpeditionManager implements ExpeditionManager {
             // we need to add the expedition's corner
             // to figure out where we need to paste it
             // at
-            final var relativeX = -distance.x();
+            /*final var relativeX = -distance.x();
             final var relativeY = -distance.y();
             final var relativeZ = -distance.z();
             Debug.info("relativeX: " + relativeX);
@@ -98,7 +98,9 @@ public class PTExpeditionManager implements ExpeditionManager {
                     expeditionCorner.x + relativeX,
                     expeditionCorner.y + relativeY,
                     relativeZ
-            );
+            );*/
+
+            final var pasteLocation = new Location(world, expeditionCorner.x, 0, expeditionCorner.y);
 
             Debug.info("pasteLocation: " + pasteLocation);
 
