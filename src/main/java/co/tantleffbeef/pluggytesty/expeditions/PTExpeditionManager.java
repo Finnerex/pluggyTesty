@@ -8,6 +8,7 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
@@ -17,19 +18,22 @@ import java.util.function.Consumer;
 
 public class PTExpeditionManager implements ExpeditionManager {
     private final PartyManager partyManager;
+    private final BukkitScheduler scheduler;
+    private final LocationTraverser locationTraverser;
+    private final World world;
     private final Set<Player> expeditionPlayers;
     private final List<Expedition> expeditions;
     private final Map<Party, Expedition> partyExpeditionMap;
     private final Map<UUID, Party> playerPartyMap;
-    private final World world;
-    private final LocationTraverser locationTraverser;
     private final int maxExpeditionSize;
 
     public PTExpeditionManager(@NotNull PartyManager partyManager,
+                               @NotNull BukkitScheduler scheduler,
                                @NotNull Server server,
                                @NotNull String expeditionWorldName,
                                int maxExpeditionSize) {
         this.partyManager = partyManager;
+        this.scheduler = scheduler;
         this.expeditionPlayers = new HashSet<>();
         this.expeditions = new ArrayList<>();
         this.partyExpeditionMap = new HashMap<>();
@@ -69,10 +73,36 @@ public class PTExpeditionManager implements ExpeditionManager {
 
     @Override
     public void buildExpedition(@NotNull Expedition expedition, Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
+        // Grab a location
         final var assignedLocation = locationTraverser.assignNextAvailableLocation();
-        final var expeditionLocation = new Vector2i(assignedLocation).mul(maxExpeditionSize);
+        // Find the block the corner of the expedition should be at
+        final var expeditionCorner = new Vector2i(assignedLocation).mul(maxExpeditionSize);
 
-        // TODO
+        // calculate how far the paste location is from the minimum point of the schematic or whatever
+        expedition.calculateMinimumPointDistanceFromPasteLocation(scheduler, distance -> {
+            // flip all the distances to see how much
+            // we need to add the expedition's corner
+            // to figure out where we need to paste it
+            // at
+            final var relativeX = -distance.x();
+            final var relativeY = -distance.y();
+            final var relativeZ = -distance.z();
+
+            final var pasteLocation = new Location(
+                    world,
+                    expeditionCorner.x + relativeX,
+                    expeditionCorner.y + relativeY,
+                    relativeZ
+            );
+
+            expedition.build(
+                    scheduler,
+                    pasteLocation,
+                    postBuildCallback,
+                    errorCallback
+            );
+        });
+        // TODO: but I think this might actually work and be done maybe
     }
 
     private void registerExpedition(@NotNull Expedition expedition, @NotNull Party party) {

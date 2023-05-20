@@ -1,15 +1,23 @@
 package co.tantleffbeef.pluggytesty.expeditions;
 
-import co.tantleffbeef.pluggytesty.expeditions.rooms.Room;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3ic;
 
 import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public interface Expedition {
+    /**
+     * Asynchronously calculates the size of a box which contains the entire expedition.
+     * Does not have to be the minimum size although that is requested.
+     * @param scheduler used to run asynchronously
+     * @param postCalculationCallback called after the size is calculated
+     */
+    void calculateMinimumPointDistanceFromPasteLocation(@NotNull BukkitScheduler scheduler, @NotNull Consumer<Vector3ic> postCalculationCallback);
+
     /**
      * Builds an expedition of this type at location
      * @param location where to build it

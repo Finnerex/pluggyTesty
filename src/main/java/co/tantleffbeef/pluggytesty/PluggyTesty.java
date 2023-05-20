@@ -185,7 +185,13 @@ public final class PluggyTesty extends JavaPlugin {
             }
         }.runTaskTimer(this, 3, 7);*/
 
-        final var expeditionManager = new PTExpeditionManager(partyManager, getServer(), "expeditions");
+        final var expeditionManager = new PTExpeditionManager(
+                partyManager,
+                getServer().getScheduler(),
+                getServer(),
+                "expeditions",
+                256
+        );
 
         Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
             if (!(commandSender instanceof Player player))

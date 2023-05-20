@@ -4,6 +4,7 @@ import co.tantleffbeef.pluggytesty.expeditions.rooms.SimpleStartingRoom;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.StartingRoom;
 import com.fastasyncworldedit.core.FaweAPI;
 import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.BlockVector3Imp;
 import org.bukkit.Location;
@@ -12,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 
 import java.io.IOException;
 import java.util.*;
@@ -27,6 +30,20 @@ public class TestExpedition implements Expedition {
     public TestExpedition(@NotNull Plugin schedulerPlugin) {
         this.schedulerPlugin = schedulerPlugin;
         built = false;
+    }
+
+    @Override
+    public void calculateMinimumPointDistanceFromPasteLocation(@NotNull BukkitScheduler scheduler, @NotNull Consumer<Vector3ic> postCalculationCallback) {
+        scheduler.runTaskAsynchronously(schedulerPlugin, () -> {
+            // Load the schematic using FaweAPI
+            try (final var schematic = FaweAPI.load(schedulerPlugin.getDataFolder().toPath().resolve("testexpedition.schem").toFile())) {
+                // just return where the minimum point is relative to
+                final var minimum = schematic.getMinimumPoint();
+                scheduler.runTask(schedulerPlugin, () -> postCalculationCallback.accept(new Vector3i(minimum.getBlockX(), minimum.getBlockY(), minimum.getBlockZ())));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @Override
@@ -72,6 +89,10 @@ public class TestExpedition implements Expedition {
                 errorCallback.accept(e);
             }
         });
+    }
+
+    private void loadSchematic() {
+
     }
 
     /**
