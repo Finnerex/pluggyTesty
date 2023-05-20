@@ -15,24 +15,32 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class FrostPoleItemType extends SimpleItemType implements InteractableItemType {
+
+    private final int COOLDOWN_TICKS = 5;
+
     public FrostPoleItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.SOUL_TORCH);
     }
 
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
+        super.modifyItemMeta(meta);
+
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addEnchant(Enchantment.FROST_WALKER, 2, true);
+
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Freezing bolt", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f + "s"));
     }
 
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
         if (player.hasCooldown(Material.SOUL_TORCH)) return true;
 
-        player.setCooldown(Material.SOUL_TORCH, 5);
+        player.setCooldown(Material.SOUL_TORCH, COOLDOWN_TICKS);
         player.getWorld().playSound(player, Sound.ENTITY_PLAYER_HURT_FREEZE, 1, 1);
 
         final float range = 2f;

@@ -8,6 +8,7 @@ import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
@@ -15,15 +16,23 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class ZapinatorItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
+    private final int COOLDOWN_TICKS = 15;
 
     public ZapinatorItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.GOLDEN_HOE);
         this.schedulerPlugin = namespace;
+    }
+
+    @Override
+    public void modifyItemMeta(@NotNull ItemMeta meta) {
+        super.modifyItemMeta(meta);
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Randomized bolt of energy", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f + "s"));
     }
 
     @Override
@@ -43,7 +52,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
             case 3 -> attack4(location, player); // spread
         }
 
-        player.setCooldown(Material.GOLDEN_HOE, 20);
+        player.setCooldown(Material.GOLDEN_HOE, COOLDOWN_TICKS);
         player.getWorld().playSound(location, Sound.BLOCK_AMETHYST_BLOCK_BREAK, 4, -10);
 
         return true;

@@ -264,7 +264,7 @@ public final class PluggyTesty extends JavaPlugin {
         // Weapons
         resourceManager.registerItem(new MagicStickItemType(this, "magic_stick", false, "Magic Stick"));
         resourceManager.registerItem(new AxeOfYourMotherItemType(this, "mother_axe", false, ChatColor.AQUA + "Axe of Your Mother"));
-        resourceManager.registerItem(new BoltRodItemType(this, "bolt_rod", false, "Bolt Rod"));
+        resourceManager.registerItem(new BoltRodItemType(this, "bolt_rod", false, ChatColor.GOLD + "Bolt Rod"));
         resourceManager.registerItem(new ClusterBombItemType(this, "cluster_bomb", false, "Cluster Bomb"));
         resourceManager.registerItem(new FrostPoleItemType(this, "frost_pole", false, ChatColor.AQUA + "Frost Pole"));
         resourceManager.registerItem(new SwordsmansDreamItemType(this, "swordsmans_dream", false, ChatColor.AQUA + "Swordsman's Dream"));
@@ -277,7 +277,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new LifeDrainItemType(this, "life_drain", false, ChatColor.DARK_RED + "Life Drain"));
         resourceManager.registerItem(new NimbusRodItemType(this, "nimbus_rod", false, ChatColor.DARK_BLUE + "Nimbus Rod"));
         resourceManager.registerItem(new YoyoItemType(this, "yoyo", false, ChatColor.DARK_BLUE + "Yoyo"));
-        resourceManager.registerItem(new MeowmereItemType(this, "meow", false, ChatColor.DARK_BLUE + "Meowmere"));
+        resourceManager.registerItem(new MeowmereItemType(this, "meowmere", false, ChatColor.DARK_BLUE + "Meowmere"));
         resourceManager.registerItem(new MagnetSphereItemType(this, "magnet_sphere", false, ChatColor.AQUA + "Magnet Sphere"));
 
 

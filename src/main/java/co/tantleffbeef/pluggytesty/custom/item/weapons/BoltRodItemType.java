@@ -16,24 +16,25 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
 
 public class BoltRodItemType extends SimpleItemType implements InteractableItemType {
+
+    private final int COOLDOWN_TICKS = 5;
 
     public BoltRodItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.BLAZE_ROD);
     }
 
     @Override
-    public void modifyItemMeta(ItemMeta meta) {
-        int rarityNum = new Random().nextInt(10);
-        String rarity = rarityNum < 5 ? "§7Common" : (rarityNum < 8 ? "§9Rare" : "§6§lLegendary");
-        float speedBoost = rarity.equals("§7Common") ? 0f : (rarity.equals("§9Rare") ? 0.1f : 0.2f);
+    public void modifyItemMeta(@NotNull ItemMeta meta) {
+        super.modifyItemMeta(meta);
 
-        meta.setDisplayName(rarity + " §eBolt Rod");
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Bolt of energy", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f + "s"));
 
-        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(),"generic.movementSpeed", speedBoost, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(),"generic.movementSpeed", 0.1f, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
     }
 
     @Override
@@ -47,7 +48,7 @@ public class BoltRodItemType extends SimpleItemType implements InteractableItemT
 
         player.getWorld().playSound(player, Sound.ENTITY_BLAZE_HURT, 1, 1);
 
-        player.setCooldown(Material.BLAZE_ROD, 5);
+        player.setCooldown(Material.BLAZE_ROD, COOLDOWN_TICKS);
 
         return false;
     }
