@@ -57,8 +57,14 @@ public class SimpleStartingRoom implements StartingRoom {
         spreadPlayers();
     }
 
+    private boolean done = false;
+
     @Override
     public void onPlayerExitRoom(@NotNull Player player) {
+        if (done)
+            return;
+
+        done = true;
         ((PTExpeditionManager) manager).quitExpedition(player);
     }
 

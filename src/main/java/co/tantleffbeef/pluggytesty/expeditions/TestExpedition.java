@@ -70,6 +70,8 @@ public class TestExpedition implements Expedition {
                 // mark expedition as built
                 built = true;
 
+                final var dimensions = schematic.getDimensions();
+
                 // fill rooms array
                 // 7 1 -12, 8 8 9, 23 8 -85
                 rooms = new RoomMetadata[] {
@@ -84,8 +86,8 @@ public class TestExpedition implements Expedition {
                                         },
                                         manager
                                 ),
-                                toBukkitBlockLoc(world, pasteSession.getMinimumPoint()),
-                                toBukkitBlockLoc(world, pasteSession.getMaximumPoint())
+                                location.clone(),
+                                location.clone().add(dimensions.getBlockX(), dimensions.getBlockY(), dimensions.getBlockZ())
                         )
                 };
 
