@@ -8,20 +8,29 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class MagicMissileItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
+    private final int COOLDOWN_TICKS = 15;
 
     public MagicMissileItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.BLUE_CANDLE);
         this.schedulerPlugin = namespace;
+    }
+
+    @Override
+    public void modifyItemMeta(@NotNull ItemMeta meta) {
+        super.modifyItemMeta(meta);
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Shift + Right-Click : Guidable rocket", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f));
     }
 
     @Override
@@ -67,7 +76,7 @@ public class MagicMissileItemType extends SimpleItemType implements Interactable
 
         runnable.runTaskTimer(schedulerPlugin, 0, 1);
 
-        player.setCooldown(Material.BLUE_CANDLE, 15);
+        player.setCooldown(Material.BLUE_CANDLE, COOLDOWN_TICKS);
 
         return true;
     }

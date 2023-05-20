@@ -9,11 +9,13 @@ import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 public class LifeDrainItemType extends SimpleItemType implements InteractableItemType {
@@ -21,6 +23,12 @@ public class LifeDrainItemType extends SimpleItemType implements InteractableIte
 
     public LifeDrainItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.BONE);
+    }
+
+    @Override
+    public void modifyItemMeta(@NotNull ItemMeta meta) {
+        super.modifyItemMeta(meta);
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Life-steals nearby enemies", ChatColor.DARK_GREEN + "No Cooldown"));
     }
 
     @Override
