@@ -107,6 +107,7 @@ public class PTExpeditionManager implements ExpeditionManager {
             Debug.info("building expedition");
 
             expedition.build(
+                    this,
                     scheduler,
                     pasteLocation,
                     postBuildCallback,

@@ -3,7 +3,6 @@ package co.tantleffbeef.pluggytesty.expeditions;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.SimpleStartingRoom;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.StartingRoom;
 import com.fastasyncworldedit.core.FaweAPI;
-import com.google.common.collect.ImmutableList;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.BlockVector3Imp;
@@ -49,7 +48,7 @@ public class TestExpedition implements Expedition {
     }
 
     @Override
-    public void build(@NotNull BukkitScheduler scheduler, @NotNull Location location, @NotNull Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
+    public void build(@NotNull ExpeditionManager manager, @NotNull BukkitScheduler scheduler, @NotNull Location location, @NotNull Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
         assert location.getWorld() != null;
 
         final var world = location.getWorld();
@@ -82,7 +81,8 @@ public class TestExpedition implements Expedition {
                                                 location.clone().add(7, 5, 19),
                                                 location.clone().add(7, 9, 8),
                                                 location.clone().add(21, 6, 6),
-                                        }
+                                        },
+                                        manager
                                 ),
                                 toBukkitBlockLoc(world, pasteSession.getMinimumPoint()),
                                 toBukkitBlockLoc(world, pasteSession.getMaximumPoint())
@@ -133,6 +133,7 @@ public class TestExpedition implements Expedition {
         final var partyPlayers = party.getOnlinePlayers().toArray(new Player[0]);
         // Grab the potential locations they can be sent to
         startingRoom.addInitialPlayers(List.of(partyPlayers));
+        Arrays.stream(partyPlayers).forEach(player -> playerRoomMap.put(player.getUniqueId(), startingRoomMeta));
 
         // start the first room
         startingRoom.initialRoomStartup();

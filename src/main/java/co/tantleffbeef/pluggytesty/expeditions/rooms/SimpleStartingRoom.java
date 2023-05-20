@@ -1,5 +1,8 @@
 package co.tantleffbeef.pluggytesty.expeditions.rooms;
 
+import co.tantleffbeef.pluggytesty.expeditions.Expedition;
+import co.tantleffbeef.pluggytesty.expeditions.ExpeditionManager;
+import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -12,11 +15,13 @@ import java.util.Random;
 public class SimpleStartingRoom implements StartingRoom {
     private final Location[] startingLocations;
     private final List<Player> players;
+    private final ExpeditionManager manager;
 
-    public SimpleStartingRoom(@NotNull Location[] startingLocations) {
+    public SimpleStartingRoom(@NotNull Location[] startingLocations, @NotNull ExpeditionManager manager) {
         assert startingLocations.length > 0;
         this.startingLocations = startingLocations;
         this.players = new ArrayList<>();
+        this.manager = manager;
     }
 
     private void spreadPlayers() {
@@ -50,6 +55,11 @@ public class SimpleStartingRoom implements StartingRoom {
     @Override
     public void initialRoomStartup() {
         spreadPlayers();
+    }
+
+    @Override
+    public void onPlayerExitRoom(@NotNull Player player) {
+        ((PTExpeditionManager) manager).quitExpedition(player);
     }
 
     @Override
