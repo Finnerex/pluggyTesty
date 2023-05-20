@@ -6,6 +6,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Transformation;
@@ -13,10 +14,7 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 public class MagnetSphereItemType extends SimpleItemType implements InteractableItemType {
@@ -29,6 +27,12 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
     public MagnetSphereItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.ENCHANTED_BOOK);
         this.schedulerPlugin = namespace;
+    }
+
+    @Override
+    public void modifyItemMeta(@NotNull ItemMeta meta) {
+        super.modifyItemMeta(meta);
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Damaging orb", ChatColor.DARK_GREEN + "No Cooldown"));
     }
 
     @Override

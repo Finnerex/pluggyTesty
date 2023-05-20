@@ -3,10 +3,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import com.sun.source.tree.UsesTree;
-import org.bukkit.FluidCollisionMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
@@ -22,12 +19,14 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.UUID;
 
 public class MeowmereItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
+    private final int COOLDOWN_TICKS = 10;
 
     public MeowmereItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.NETHERITE_SWORD);
@@ -37,6 +36,8 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
+
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Bouncing projectile", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f + "s"));
 
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(),"dawg", 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
     }
@@ -118,7 +119,7 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
         };
         runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
-        player.setCooldown(Material.NETHERITE_SWORD, 10);
+        player.setCooldown(Material.NETHERITE_SWORD, COOLDOWN_TICKS);
 
         return true;
     }

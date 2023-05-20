@@ -32,7 +32,7 @@ public class BoltRodItemType extends SimpleItemType implements InteractableItemT
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
 
-        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Bolt of energy", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f));
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Bolt of energy", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f + "s"));
 
         meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(UUID.randomUUID(),"generic.movementSpeed", 0.1f, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
     }

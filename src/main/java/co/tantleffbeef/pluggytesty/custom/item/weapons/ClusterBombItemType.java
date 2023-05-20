@@ -32,7 +32,7 @@ public class ClusterBombItemType extends SimpleItemType implements InteractableI
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
-        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Projectile that explodes into arrows", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f));
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Projectile that explodes into arrows", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f + "s"));
     }
 
     @Override

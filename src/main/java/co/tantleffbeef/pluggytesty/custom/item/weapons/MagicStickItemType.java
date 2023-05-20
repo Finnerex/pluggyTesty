@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -10,11 +11,13 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -22,9 +25,16 @@ public final class MagicStickItemType extends SimpleItemType implements Interact
     private static final int FIREBALL_MAXSPEED = 7;
     private static final int FIREBALL_MINSPEED = 4;
     private static final float FIREBALL_STRENGTH = 2.0f;
+    private final int COOLDOWN_TICKS = 20;
 
     public MagicStickItemType(@NotNull Plugin namespace, @NotNull String id, boolean customModel, @NotNull String name) {
         super(namespace, id, customModel, name);
+    }
+
+    @Override
+    public void modifyItemMeta(@NotNull ItemMeta meta) {
+        super.modifyItemMeta(meta);
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Fireball", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f + "s"));
     }
 
     @Override
@@ -51,7 +61,7 @@ public final class MagicStickItemType extends SimpleItemType implements Interact
 
         fireball.setDirection(playerDirection.rotateAroundY(spreadY).rotateAroundX(spreadX).multiply(speed));
 
-        player.setCooldown(Material.STICK, 20);
+        player.setCooldown(Material.STICK, COOLDOWN_TICKS);
 
         return false;
     }

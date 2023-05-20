@@ -2,11 +2,13 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -15,15 +17,14 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 public class MinotaursAxeItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
+
+    private final int COOLDOWN_TICKS = 40;
 
     // number of axes that have been spawned since last cool down
     private final Map<UUID, Integer> attacks;
@@ -32,6 +33,12 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
         super(namespace, id, customModel, name, Material.GOLDEN_AXE);
         this.attacks = new HashMap<>();
         this.schedulerPlugin = namespace;
+    }
+
+    @Override
+    public void modifyItemMeta(@NotNull ItemMeta meta) {
+        super.modifyItemMeta(meta);
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Throw up to three axes", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f + "s"));
     }
 
     @Override
@@ -91,7 +98,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
 
         // 3 axes before cool down
         if (attacks.get(uuid) > 2) {
-            player.setCooldown(Material.GOLDEN_AXE, 40);
+            player.setCooldown(Material.GOLDEN_AXE, COOLDOWN_TICKS);
             attacks.put(uuid, 0);
         }
 

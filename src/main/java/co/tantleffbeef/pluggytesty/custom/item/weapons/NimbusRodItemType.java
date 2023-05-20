@@ -2,15 +2,13 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
@@ -33,6 +31,12 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
     public NimbusRodItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.DIAMOND_HOE);
         this.schedulerPlugin = namespace;
+    }
+
+    @Override
+    public void modifyItemMeta(@NotNull ItemMeta meta) {
+        super.modifyItemMeta(meta);
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Damaging rain cloud", ChatColor.DARK_GREEN + "No Cooldown"));
     }
 
     @Override

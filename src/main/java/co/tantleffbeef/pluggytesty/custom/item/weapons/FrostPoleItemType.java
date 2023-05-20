@@ -33,7 +33,7 @@ public class FrostPoleItemType extends SimpleItemType implements InteractableIte
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addEnchant(Enchantment.FROST_WALKER, 2, true);
 
-        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Freezing bolt", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f));
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Freezing bolt", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f + "s"));
     }
 
     @Override
