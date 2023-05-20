@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty.expeditions;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.SimpleStartingRoom;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.StartingRoom;
 import com.fastasyncworldedit.core.FaweAPI;
+import com.google.common.collect.ImmutableList;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.BlockVector3Imp;
@@ -20,6 +21,7 @@ import java.util.function.Consumer;
 
 public class TestExpedition implements Expedition {
     private final Plugin schedulerPlugin;
+    private final Map<UUID, RoomMetadata> playerRoomMap;
     private Location builtLocation;
     private RoomMetadata[] rooms;
     private Party party;
@@ -27,6 +29,7 @@ public class TestExpedition implements Expedition {
 
     public TestExpedition(@NotNull Plugin schedulerPlugin) {
         this.schedulerPlugin = schedulerPlugin;
+        this.playerRoomMap = new HashMap<>();
         built = false;
     }
 
@@ -129,35 +132,12 @@ public class TestExpedition implements Expedition {
         // Grab all the players that are in the expedition
         final var partyPlayers = party.getOnlinePlayers().toArray(new Player[0]);
         // Grab the potential locations they can be sent to
-        final var startingLocations = startingRoom.getStartingLocations();
+        startingRoom.addInitialPlayers(List.of(partyPlayers));
 
-        // Teleport all of the players to the starting locations
-        spreadPlayers(startingLocations, partyPlayers);
+        // start the first room
+        startingRoom.initialRoomStartup();
 
         // TODO: finish
-    }
-
-    private static void spreadPlayers(@NotNull Location[] locations, @NotNull Player[] players) {
-        assert locations.length > 0;
-
-        // Holds all potential locations a player could be sent to
-        final List<Location> remainingLocations = new ArrayList<>();
-
-        for (final var player : players) {
-            // If we've run out of locations
-            // then add them all back
-            if (remainingLocations.size() < 1)
-                remainingLocations.addAll(List.of(locations));
-
-            // Pick a random location
-            final var locationIndex = new Random().nextInt(remainingLocations.size());
-
-            // Send the player there
-            player.teleport(remainingLocations.get(locationIndex));
-
-            // Remove it from the list of locations
-            remainingLocations.remove(locationIndex);
-        }
     }
 
     @Override
@@ -177,16 +157,30 @@ public class TestExpedition implements Expedition {
 
     @Override
     public @NotNull RoomMetadata getRoomWithPlayerData(@NotNull Player player) {
-        return null;
+        assert playerRoomMap.containsKey(player.getUniqueId());
+
+        return playerRoomMap.get(player.getUniqueId());
     }
 
     @Override
-    public void setPlayerRoom(@NotNull RoomMetadata room, @NotNull Player player) {
-
+    public void setPlayerRoom(@NotNull Player player, @NotNull RoomMetadata room) {
+        playerRoomMap.remove(player.getUniqueId());
+        playerRoomMap.put(player.getUniqueId(), room);
     }
 
     @Override
     public void end() {
+        for (RoomMetadata r : rooms) {
+            final var room = r.room();
+            if (!room.hasPlayers())
+                continue;
 
+            final var playerList = new ArrayList<>(room.getPlayers());
+
+            playerList.forEach(room::onPlayerExitRoom);
+            room.onLastPlayerExitRoom(playerList.get(0));
+        }
+
+        party.broadcastMessage("exited expedition");
     }
 }

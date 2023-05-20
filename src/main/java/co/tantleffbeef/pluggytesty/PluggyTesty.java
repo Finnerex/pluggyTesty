@@ -19,6 +19,7 @@ import co.tantleffbeef.pluggytesty.expeditions.Party;
 import co.tantleffbeef.pluggytesty.expeditions.TestExpedition;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
+import co.tantleffbeef.pluggytesty.expeditions.listeners.PTExpeditionManagerListener;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableTestCommand;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PartyFriendlyFireListener;
@@ -194,6 +195,8 @@ public final class PluggyTesty extends JavaPlugin {
                 "expeditions",
                 256
         );
+
+        getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionManager), this);
 
         Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
             if (!(commandSender instanceof Player player))

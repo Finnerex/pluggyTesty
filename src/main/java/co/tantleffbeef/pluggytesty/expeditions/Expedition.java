@@ -59,7 +59,7 @@ public interface Expedition {
      */
     @NotNull RoomMetadata getRoomWithPlayerData(@NotNull Player player);
 
-    void setPlayerRoom(@NotNull RoomMetadata room, @NotNull Player player);
+    void setPlayerRoom(@NotNull Player player, @NotNull RoomMetadata room);
 
     /**
      * Ends an expedition
