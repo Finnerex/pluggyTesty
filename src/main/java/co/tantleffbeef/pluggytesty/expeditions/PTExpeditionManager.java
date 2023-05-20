@@ -75,8 +75,10 @@ public class PTExpeditionManager implements ExpeditionManager {
     public void buildExpedition(@NotNull Expedition expedition, Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
         // Grab a location
         final var assignedLocation = locationTraverser.assignNextAvailableLocation();
+        Debug.info("assignedLocation: " + assignedLocation);
         // Find the block the corner of the expedition should be at
         final var expeditionCorner = new Vector2i(assignedLocation).mul(maxExpeditionSize);
+        Debug.info("expeditionCorner: " + assignedLocation);
 
         // calculate how far the paste location is from the minimum point of the schematic or whatever
         expedition.calculateMinimumPointDistanceFromPasteLocation(scheduler, distance -> {
@@ -84,16 +86,25 @@ public class PTExpeditionManager implements ExpeditionManager {
             // we need to add the expedition's corner
             // to figure out where we need to paste it
             // at
-            final var relativeX = -distance.x();
+            /*final var relativeX = -distance.x();
             final var relativeY = -distance.y();
             final var relativeZ = -distance.z();
+            Debug.info("relativeX: " + relativeX);
+            Debug.info("relativeY: " + relativeY);
+            Debug.info("relativeZ: " + relativeZ);
 
             final var pasteLocation = new Location(
                     world,
                     expeditionCorner.x + relativeX,
                     expeditionCorner.y + relativeY,
                     relativeZ
-            );
+            );*/
+
+            final var pasteLocation = new Location(world, expeditionCorner.x, 0, expeditionCorner.y);
+
+            Debug.info("pasteLocation: " + pasteLocation);
+
+            Debug.info("building expedition");
 
             expedition.build(
                     scheduler,
@@ -116,7 +127,7 @@ public class PTExpeditionManager implements ExpeditionManager {
 
         // Loop through all players in the party
         for (final var player : party.getOnlinePlayers()) {
-            assert expeditionPlayers.contains(player);
+            assert !expeditionPlayers.contains(player);
 
             // Add the player to the set of players that are
             // currently in an expedition
@@ -189,5 +200,20 @@ public class PTExpeditionManager implements ExpeditionManager {
 
         // If we couldn't find one throw an exception
         throw new InvalidExpeditionStateException("unable to find the room that a player is in");
+    }
+
+    public void quitExpedition(@NotNull Player player) {
+        final var party = playerPartyMap.get(player.getUniqueId());
+        assert party != null;
+        final var expedition = partyExpeditionMap.get(party);
+        expedition.end();
+
+        for (Player p : party.getOnlinePlayers()) {
+            expeditionPlayers.remove(p);
+            playerPartyMap.remove(p.getUniqueId());
+        }
+
+        partyExpeditionMap.remove(party);
+        expeditions.remove(expedition);
     }
 }

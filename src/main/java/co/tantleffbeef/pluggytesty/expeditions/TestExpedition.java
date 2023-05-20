@@ -4,7 +4,6 @@ import co.tantleffbeef.pluggytesty.expeditions.rooms.SimpleStartingRoom;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.StartingRoom;
 import com.fastasyncworldedit.core.FaweAPI;
 import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.BlockVector3Imp;
 import org.bukkit.Location;
@@ -13,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3i;
 import org.joml.Vector3ic;
 
 import java.io.IOException;
@@ -34,16 +32,17 @@ public class TestExpedition implements Expedition {
 
     @Override
     public void calculateMinimumPointDistanceFromPasteLocation(@NotNull BukkitScheduler scheduler, @NotNull Consumer<Vector3ic> postCalculationCallback) {
-        scheduler.runTaskAsynchronously(schedulerPlugin, () -> {
+        /*scheduler.runTaskAsynchronously(schedulerPlugin, () -> {
             // Load the schematic using FaweAPI
             try (final var schematic = FaweAPI.load(schedulerPlugin.getDataFolder().toPath().resolve("testexpedition.schem").toFile())) {
                 // just return where the minimum point is relative to
-                final var minimum = schematic.getMinimumPoint();
+                final var minimum = schematic.getOrigin();
                 scheduler.runTask(schedulerPlugin, () -> postCalculationCallback.accept(new Vector3i(minimum.getBlockX(), minimum.getBlockY(), minimum.getBlockZ())));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        });
+        });*/
+        postCalculationCallback.accept(null);
     }
 
     @Override
@@ -58,6 +57,8 @@ public class TestExpedition implements Expedition {
         scheduler.runTaskAsynchronously(schedulerPlugin, () -> {
             // Load the schematic using FaweAPI
             try (final var schematic = FaweAPI.load(schedulerPlugin.getDataFolder().toPath().resolve("testexpedition.schem").toFile())) {
+                schematic.setOrigin(schematic.getMinimumPoint());
+
                 // Paste it once its loaded
                 final EditSession pasteSession = schematic.paste(
                         FaweAPI.getWorld(world.getName()),
@@ -73,9 +74,11 @@ public class TestExpedition implements Expedition {
                         new RoomMetadata(
                                 new SimpleStartingRoom(
                                         new Location[] {
-                                                location.clone().add(7, 1, -12),
-                                                location.clone().add(8, 8, 9),
-                                                location.clone().add(23, 8, -85),
+                                                location.clone().add(23, 9, 16),
+                                                location.clone().add(13, 1, 13),
+                                                location.clone().add(7, 5, 19),
+                                                location.clone().add(7, 9, 8),
+                                                location.clone().add(21, 6, 6),
                                         }
                                 ),
                                 toBukkitBlockLoc(world, pasteSession.getMinimumPoint()),
