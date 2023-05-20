@@ -26,6 +26,8 @@ import co.tantleffbeef.pluggytesty.misc.Debug;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
+import com.sk89q.worldedit.EmptyClipboardException;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -218,6 +220,29 @@ public final class PluggyTesty extends JavaPlugin {
                     // error callback
                     Throwable::printStackTrace
             );
+
+            return true;
+        });
+
+        Objects.requireNonNull(getCommand("selectioninfo")).setExecutor((sender, command, label, args) -> {
+            if (!(sender instanceof Player player))
+                return false;
+
+            final var wePlayer = BukkitAdapter.adapt(player);
+            try {
+                final var clipboards = wePlayer.getSession().getClipboard().getClipboards();
+                if (clipboards.size() < 1) {
+                    player.sendMessage("No clipboard!");
+                    return true;
+                }
+
+                final var clipboard = clipboards.get(0);
+
+                player.sendMessage("minimum: " + clipboard.getMinimumPoint());
+                player.sendMessage("maximum: " + clipboard.getMaximumPoint());
+            } catch (EmptyClipboardException e) {
+                player.sendMessage("No clipboard!");
+            }
 
             return true;
         });

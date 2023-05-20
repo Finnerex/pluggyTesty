@@ -31,3 +31,6 @@ commands:
     description: summons the Necromancer, the boss of trial 1
   trial5boss:
     description: summons the Necromancer, the boss of trial 1
+  selectioninfo:
+    description: bruh
+    aliases: ["si"]
