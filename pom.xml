@@ -43,15 +43,19 @@
                 <relocations>
                     <relocation>
                         <pattern>com.jeff_media.armorequipevent</pattern>
-                        <shadedPattern>co.tantleffbeef.pluggytesty.armorequipevent</shadedPattern>
+                        <shadedPattern>co.tantleffbeef.pluggytesty.lib.armorequipevent</shadedPattern>
                     </relocation>
                     <relocation>
                         <pattern>co.aikar.commands</pattern>
-                        <shadedPattern>co.tantleffbeef.pluggytesty.acf</shadedPattern>
+                        <shadedPattern>co.tantleffbeef.pluggytesty.lib.acf</shadedPattern>
                     </relocation>
                     <relocation>
                         <pattern>co.aikar.locales</pattern>
-                        <shadedPattern>co.tantleffbeef.pluggytesty.locales</shadedPattern>
+                        <shadedPattern>co.tantleffbeef.pluggytesty.lib.locales</shadedPattern>
+                    </relocation>
+                    <relocation>
+                        <pattern>io.papermc.lib</pattern>
+                        <shadedPattern>co.tantleffbeef.pluggytesty.lib.paperlib</shadedPattern>
                     </relocation>
                 </relocations>
             </configuration>
@@ -137,6 +141,12 @@
           <groupId>com.fastasyncworldedit</groupId>
           <artifactId>FastAsyncWorldEdit-Core</artifactId>
           <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>io.papermc</groupId>
+          <artifactId>paperlib</artifactId>
+          <version>1.0.7</version>
+          <scope>compile</scope>
       </dependency>
   </dependencies>
 </project>
