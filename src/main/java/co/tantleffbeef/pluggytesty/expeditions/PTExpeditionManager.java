@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector2i;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -22,8 +23,12 @@ public class PTExpeditionManager implements ExpeditionManager {
     private final Map<UUID, Party> playerPartyMap;
     private final World world;
     private final LocationTraverser locationTraverser;
+    private final int maxExpeditionSize;
 
-    public PTExpeditionManager(@NotNull PartyManager partyManager, @NotNull Server server, @NotNull String expeditionWorldName) {
+    public PTExpeditionManager(@NotNull PartyManager partyManager,
+                               @NotNull Server server,
+                               @NotNull String expeditionWorldName,
+                               int maxExpeditionSize) {
         this.partyManager = partyManager;
         this.expeditionPlayers = new HashSet<>();
         this.expeditions = new ArrayList<>();
@@ -31,6 +36,7 @@ public class PTExpeditionManager implements ExpeditionManager {
         this.playerPartyMap = new HashMap<>();
         this.world = setupExpeditionWorld(server, expeditionWorldName);
         this.locationTraverser = new LocationTraverser();
+        this.maxExpeditionSize = maxExpeditionSize;
     }
 
     /**
@@ -63,7 +69,8 @@ public class PTExpeditionManager implements ExpeditionManager {
 
     @Override
     public void buildExpedition(@NotNull Expedition expedition, Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
-
+        final var assignedLocation = locationTraverser.assignNextAvailableLocation();
+        final var expeditionLocation = new Vector2i(assignedLocation).mul(maxExpeditionSize);
 
         // TODO
     }
