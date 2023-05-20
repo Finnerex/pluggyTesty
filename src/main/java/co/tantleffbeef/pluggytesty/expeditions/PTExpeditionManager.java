@@ -75,8 +75,10 @@ public class PTExpeditionManager implements ExpeditionManager {
     public void buildExpedition(@NotNull Expedition expedition, Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
         // Grab a location
         final var assignedLocation = locationTraverser.assignNextAvailableLocation();
+        Debug.info("assignedLocation: " + assignedLocation);
         // Find the block the corner of the expedition should be at
         final var expeditionCorner = new Vector2i(assignedLocation).mul(maxExpeditionSize);
+        Debug.info("expeditionCorner: " + assignedLocation);
 
         // calculate how far the paste location is from the minimum point of the schematic or whatever
         expedition.calculateMinimumPointDistanceFromPasteLocation(scheduler, distance -> {
@@ -87,6 +89,9 @@ public class PTExpeditionManager implements ExpeditionManager {
             final var relativeX = -distance.x();
             final var relativeY = -distance.y();
             final var relativeZ = -distance.z();
+            Debug.info("relativeX: " + relativeX);
+            Debug.info("relativeY: " + relativeY);
+            Debug.info("relativeZ: " + relativeZ);
 
             final var pasteLocation = new Location(
                     world,
@@ -94,6 +99,10 @@ public class PTExpeditionManager implements ExpeditionManager {
                     expeditionCorner.y + relativeY,
                     relativeZ
             );
+
+            Debug.info("pasteLocation: " + pasteLocation);
+
+            Debug.info("building expedition");
 
             expedition.build(
                     scheduler,
@@ -116,7 +125,7 @@ public class PTExpeditionManager implements ExpeditionManager {
 
         // Loop through all players in the party
         for (final var player : party.getOnlinePlayers()) {
-            assert expeditionPlayers.contains(player);
+            assert !expeditionPlayers.contains(player);
 
             // Add the player to the set of players that are
             // currently in an expedition
