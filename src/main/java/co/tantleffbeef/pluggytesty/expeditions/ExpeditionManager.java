@@ -22,7 +22,7 @@ public interface ExpeditionManager {
      *                          run after the expedition
      *                          finishes building
      */
-    void buildExpedition(@NotNull Expedition expedition, Consumer<Expedition> postBuildCallback);
+    void buildExpedition(@NotNull Expedition expedition, Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback);
 
     /**
      * Returns whether the player is in an expedition currently

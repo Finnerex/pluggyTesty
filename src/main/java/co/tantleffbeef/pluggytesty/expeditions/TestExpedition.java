@@ -30,7 +30,7 @@ public class TestExpedition implements Expedition {
     }
 
     @Override
-    public void build(@NotNull BukkitScheduler scheduler, @NotNull Location location, @NotNull Consumer<Expedition> postBuildCallback) {
+    public void build(@NotNull BukkitScheduler scheduler, @NotNull Location location, @NotNull Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
         assert location.getWorld() != null;
 
         final var world = location.getWorld();
@@ -69,7 +69,7 @@ public class TestExpedition implements Expedition {
                 // After done pasting, run the callback on the main thread
                 scheduler.runTask(schedulerPlugin, () -> postBuildCallback.accept(this));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                errorCallback.accept(e);
             }
         });
     }
@@ -142,7 +142,27 @@ public class TestExpedition implements Expedition {
     }
 
     @Override
+    public @NotNull RoomMetadata[] getRooms() {
+        return rooms;
+    }
+
+    @Override
     public Party getParty() {
         return party;
+    }
+
+    @Override
+    public @NotNull RoomMetadata getRoomWithPlayerData(@NotNull Player player) {
+        return null;
+    }
+
+    @Override
+    public void setPlayerRoom(@NotNull RoomMetadata room, @NotNull Player player) {
+
+    }
+
+    @Override
+    public void end() {
+
     }
 }

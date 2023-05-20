@@ -13,7 +13,9 @@ import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.utility.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.*;
+import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionManager;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
+import co.tantleffbeef.pluggytesty.expeditions.Party;
 import co.tantleffbeef.pluggytesty.expeditions.TestExpedition;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
@@ -183,12 +185,33 @@ public final class PluggyTesty extends JavaPlugin {
             }
         }.runTaskTimer(this, 3, 7);*/
 
+        final var expeditionManager = new PTExpeditionManager(partyManager, getServer(), "expeditions");
+
         Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
             if (!(commandSender instanceof Player player))
                 return false;
 
-            new TestExpedition(this).build(getServer().getScheduler(), player.getLocation(), rooms ->
-                    player.sendMessage("expedition built or something"));
+            final var expedition = new TestExpedition(this);
+
+            expeditionManager.buildExpedition(
+                    // The expedition to build
+                    expedition,
+
+                    // post build callback
+                    rooms -> {
+                        var party = partyManager.getPartyWith(player);
+                        if (party == null) {
+                            party = new Party(getServer(), player);
+                            partyManager.registerParty(party);
+                        }
+
+                        player.sendMessage("expedition built or something");
+                        expeditionManager.startExpedition(expedition, party);
+                    },
+
+                    // error callback
+                    Throwable::printStackTrace
+            );
 
             return true;
         });

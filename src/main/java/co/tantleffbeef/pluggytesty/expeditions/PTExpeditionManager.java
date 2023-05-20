@@ -3,7 +3,11 @@ package co.tantleffbeef.pluggytesty.expeditions;
 import co.tantleffbeef.pluggytesty.misc.Debug;
 import co.tantleffbeef.pluggytesty.misc.ErrorCode;
 import org.bukkit.Location;
+import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,13 +20,34 @@ public class PTExpeditionManager implements ExpeditionManager {
     private final List<Expedition> expeditions;
     private final Map<Party, Expedition> partyExpeditionMap;
     private final Map<UUID, Party> playerPartyMap;
+    private final World world;
+    private final LocationTraverser locationTraverser;
 
-    public PTExpeditionManager(@NotNull PartyManager partyManager) {
+    public PTExpeditionManager(@NotNull PartyManager partyManager, @NotNull Server server, @NotNull String expeditionWorldName) {
         this.partyManager = partyManager;
         this.expeditionPlayers = new HashSet<>();
         this.expeditions = new ArrayList<>();
         this.partyExpeditionMap = new HashMap<>();
         this.playerPartyMap = new HashMap<>();
+        this.world = setupExpeditionWorld(server, expeditionWorldName);
+        this.locationTraverser = new LocationTraverser();
+    }
+
+    /**
+     * Tries to grab the world with worldName and if it doesn't exist
+     * then it creates a new one
+     * @param server the server object for creating the world with
+     * @param worldName the name of the world to grab
+     * @return the newly created world, hopefully
+     */
+    private static @NotNull World setupExpeditionWorld(@NotNull Server server, @NotNull String worldName) {
+        final var worldCreator = new WorldCreator(worldName);
+        // Make a new chunk generator that just returns void for everything
+        worldCreator.generator(new ChunkGenerator() {});
+
+        // This will either create a new world or just grab the world with this name
+
+        return Objects.requireNonNull(server.createWorld(worldCreator));
     }
 
     @Override
@@ -37,7 +62,9 @@ public class PTExpeditionManager implements ExpeditionManager {
     }
 
     @Override
-    public void buildExpedition(@NotNull Expedition expedition, Consumer<Expedition> postBuildCallback) {
+    public void buildExpedition(@NotNull Expedition expedition, Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
+
+
         // TODO
     }
 
