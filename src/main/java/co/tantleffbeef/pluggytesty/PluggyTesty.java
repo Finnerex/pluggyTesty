@@ -246,6 +246,15 @@ public final class PluggyTesty extends JavaPlugin {
 
             return true;
         });
+
+        Objects.requireNonNull(getCommand("leaveexpedition")).setExecutor((sender, command, label, args) -> {
+            if (!(sender instanceof Player player))
+                return false;
+
+            expeditionManager.quitExpedition(player);
+
+            return true;
+        });
     }
 
     private void registerItems() {

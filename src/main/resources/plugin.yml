@@ -34,3 +34,6 @@ commands:
   selectioninfo:
     description: bruh
     aliases: ["si"]
+  leaveexpedition:
+    description: removes you from being on whatever expedition
+    aliases: ["le"]

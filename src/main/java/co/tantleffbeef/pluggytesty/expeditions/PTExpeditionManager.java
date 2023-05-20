@@ -201,4 +201,19 @@ public class PTExpeditionManager implements ExpeditionManager {
         // If we couldn't find one throw an exception
         throw new InvalidExpeditionStateException("unable to find the room that a player is in");
     }
+
+    public void quitExpedition(@NotNull Player player) {
+        final var party = playerPartyMap.get(player.getUniqueId());
+        assert party != null;
+        final var expedition = partyExpeditionMap.get(party);
+        expedition.end();
+
+        for (Player p : party.getOnlinePlayers()) {
+            expeditionPlayers.remove(p);
+            playerPartyMap.remove(p.getUniqueId());
+        }
+
+        partyExpeditionMap.remove(party);
+        expeditions.remove(expedition);
+    }
 }
