@@ -29,12 +29,15 @@ public class GoatHornInteractListener implements Listener {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
 
-        Set<ItemFlag> flags = meta.getItemFlags();
+
+
+
 
 //        List<String> lore = meta.getLore();
 //        assert lore != null;
 
-        Bukkit.broadcastMessage(flags.toString());
+        Bukkit.broadcastMessage(item.toString());
+        Bukkit.broadcastMessage(meta.toString());
 
 //        player.addPotionEffect(switch (lore.get(0)) {
 //            case "Ponder" -> PotionEffectType.JUMP.createEffect(EFFECT_DURATION_TICKS, 4);
