@@ -6,11 +6,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
+import java.util.Set;
 
 public class GoatHornInteractListener implements Listener {
 
@@ -27,22 +29,24 @@ public class GoatHornInteractListener implements Listener {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
 
-        List<String> lore = meta.getLore();
-        assert lore != null;
+        Set<ItemFlag> flags = meta.getItemFlags();
 
-        Bukkit.broadcastMessage(lore.toString());
+//        List<String> lore = meta.getLore();
+//        assert lore != null;
 
-        player.addPotionEffect(switch (lore.get(0)) {
-            case "Ponder" -> PotionEffectType.JUMP.createEffect(EFFECT_DURATION_TICKS, 4);
-            case "Admire" -> PotionEffectType.FAST_DIGGING.createEffect(EFFECT_DURATION_TICKS, 2);
-            case "Seek" -> PotionEffectType.ABSORPTION.createEffect(EFFECT_DURATION_TICKS, 10);
-            case "Call" -> PotionEffectType.SPEED.createEffect(EFFECT_DURATION_TICKS, 3);
-            case "Dream" -> PotionEffectType.REGENERATION.createEffect(EFFECT_DURATION_TICKS, 3);
-            case "Feel" -> PotionEffectType.INCREASE_DAMAGE.createEffect(EFFECT_DURATION_TICKS, 1);
-            default -> PotionEffectType.LUCK.createEffect(0, 0);
-        });
+        Bukkit.broadcastMessage(flags.toString());
 
-        player.setCooldown(Material.GOAT_HORN, EFFECT_DURATION_TICKS * 2);
+//        player.addPotionEffect(switch (lore.get(0)) {
+//            case "Ponder" -> PotionEffectType.JUMP.createEffect(EFFECT_DURATION_TICKS, 4);
+//            case "Admire" -> PotionEffectType.FAST_DIGGING.createEffect(EFFECT_DURATION_TICKS, 2);
+//            case "Seek" -> PotionEffectType.ABSORPTION.createEffect(EFFECT_DURATION_TICKS, 10);
+//            case "Call" -> PotionEffectType.SPEED.createEffect(EFFECT_DURATION_TICKS, 3);
+//            case "Dream" -> PotionEffectType.REGENERATION.createEffect(EFFECT_DURATION_TICKS, 3);
+//            case "Feel" -> PotionEffectType.INCREASE_DAMAGE.createEffect(EFFECT_DURATION_TICKS, 1);
+//            default -> PotionEffectType.LUCK.createEffect(0, 0);
+//        });
+//
+//        player.setCooldown(Material.GOAT_HORN, EFFECT_DURATION_TICKS * 2);
 
     }
 }
