@@ -133,6 +133,8 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerUnswimListener(), this);
 
+        getServer().getPluginManager().registerEvents(new GoatHornInteractListener(), this);
+
         // Special Keep-inventory
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
 
