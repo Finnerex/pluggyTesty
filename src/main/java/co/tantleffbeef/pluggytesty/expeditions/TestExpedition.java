@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 
 public class TestExpedition implements Expedition {
     private final Plugin schedulerPlugin;
+    private final Map<UUID, RoomMetadata> playerRoomMap;
     private Location builtLocation;
     private RoomMetadata[] rooms;
     private Party party;
@@ -27,6 +28,7 @@ public class TestExpedition implements Expedition {
 
     public TestExpedition(@NotNull Plugin schedulerPlugin) {
         this.schedulerPlugin = schedulerPlugin;
+        this.playerRoomMap = new HashMap<>();
         built = false;
     }
 
@@ -46,7 +48,7 @@ public class TestExpedition implements Expedition {
     }
 
     @Override
-    public void build(@NotNull BukkitScheduler scheduler, @NotNull Location location, @NotNull Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
+    public void build(@NotNull ExpeditionManager manager, @NotNull BukkitScheduler scheduler, @NotNull Location location, @NotNull Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
         assert location.getWorld() != null;
 
         final var world = location.getWorld();
@@ -68,6 +70,8 @@ public class TestExpedition implements Expedition {
                 // mark expedition as built
                 built = true;
 
+                final var dimensions = schematic.getDimensions();
+
                 // fill rooms array
                 // 7 1 -12, 8 8 9, 23 8 -85
                 rooms = new RoomMetadata[] {
@@ -79,10 +83,11 @@ public class TestExpedition implements Expedition {
                                                 location.clone().add(7, 5, 19),
                                                 location.clone().add(7, 9, 8),
                                                 location.clone().add(21, 6, 6),
-                                        }
+                                        },
+                                        manager
                                 ),
-                                toBukkitBlockLoc(world, pasteSession.getMinimumPoint()),
-                                toBukkitBlockLoc(world, pasteSession.getMaximumPoint())
+                                location.clone(),
+                                location.clone().add(dimensions.getBlockX(), dimensions.getBlockY(), dimensions.getBlockZ())
                         )
                 };
 
@@ -129,35 +134,13 @@ public class TestExpedition implements Expedition {
         // Grab all the players that are in the expedition
         final var partyPlayers = party.getOnlinePlayers().toArray(new Player[0]);
         // Grab the potential locations they can be sent to
-        final var startingLocations = startingRoom.getStartingLocations();
+        startingRoom.addInitialPlayers(List.of(partyPlayers));
+        Arrays.stream(partyPlayers).forEach(player -> playerRoomMap.put(player.getUniqueId(), startingRoomMeta));
 
-        // Teleport all of the players to the starting locations
-        spreadPlayers(startingLocations, partyPlayers);
+        // start the first room
+        startingRoom.initialRoomStartup();
 
         // TODO: finish
-    }
-
-    private static void spreadPlayers(@NotNull Location[] locations, @NotNull Player[] players) {
-        assert locations.length > 0;
-
-        // Holds all potential locations a player could be sent to
-        final List<Location> remainingLocations = new ArrayList<>();
-
-        for (final var player : players) {
-            // If we've run out of locations
-            // then add them all back
-            if (remainingLocations.size() < 1)
-                remainingLocations.addAll(List.of(locations));
-
-            // Pick a random location
-            final var locationIndex = new Random().nextInt(remainingLocations.size());
-
-            // Send the player there
-            player.teleport(remainingLocations.get(locationIndex));
-
-            // Remove it from the list of locations
-            remainingLocations.remove(locationIndex);
-        }
     }
 
     @Override
@@ -177,16 +160,30 @@ public class TestExpedition implements Expedition {
 
     @Override
     public @NotNull RoomMetadata getRoomWithPlayerData(@NotNull Player player) {
-        return null;
+        assert playerRoomMap.containsKey(player.getUniqueId());
+
+        return playerRoomMap.get(player.getUniqueId());
     }
 
     @Override
-    public void setPlayerRoom(@NotNull RoomMetadata room, @NotNull Player player) {
-
+    public void setPlayerRoom(@NotNull Player player, @NotNull RoomMetadata room) {
+        playerRoomMap.remove(player.getUniqueId());
+        playerRoomMap.put(player.getUniqueId(), room);
     }
 
     @Override
     public void end() {
+        for (RoomMetadata r : rooms) {
+            final var room = r.room();
+            if (!room.hasPlayers())
+                continue;
 
+            final var playerList = new ArrayList<>(room.getPlayers());
+
+            playerList.forEach(room::onPlayerExitRoom);
+            room.onLastPlayerExitRoom(playerList.get(0));
+        }
+
+        party.broadcastMessage("exited expedition");
     }
 }

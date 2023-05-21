@@ -23,7 +23,7 @@ public interface Expedition {
      * @param location where to build it
      * @param postBuildCallback a callback that runs once its finished
      */
-    void build(@NotNull BukkitScheduler scheduler, @NotNull Location location, @NotNull Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback);
+    void build(@NotNull ExpeditionManager manager, @NotNull BukkitScheduler scheduler, @NotNull Location location, @NotNull Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback);
 
     /**
      * Starts the expedition with this party's players
@@ -59,7 +59,7 @@ public interface Expedition {
      */
     @NotNull RoomMetadata getRoomWithPlayerData(@NotNull Player player);
 
-    void setPlayerRoom(@NotNull RoomMetadata room, @NotNull Player player);
+    void setPlayerRoom(@NotNull Player player, @NotNull RoomMetadata room);
 
     /**
      * Ends an expedition

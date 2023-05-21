@@ -107,6 +107,7 @@ public class PTExpeditionManager implements ExpeditionManager {
             Debug.info("building expedition");
 
             expedition.build(
+                    this,
                     scheduler,
                     pasteLocation,
                     postBuildCallback,
@@ -167,7 +168,7 @@ public class PTExpeditionManager implements ExpeditionManager {
             final var newRoomData = findRoomWithPlayer(expedition, newPosition);
             final var newRoom = newRoomData.room();
             // Let the expedition know that it changed
-            expedition.setPlayerRoom(newRoomData, player);
+            expedition.setPlayerRoom(player, newRoomData);
             // Let the rooms know that it changed
             oldRoom.onPlayerExitRoom(player);
             if (oldRoom.getPlayers().size() < 1)

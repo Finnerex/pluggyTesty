@@ -1,13 +1,20 @@
 package co.tantleffbeef.pluggytesty.expeditions.rooms;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
 
 public interface StartingRoom extends Room {
     /**
-     * Returns an array of potential starting
-     * locations for players
-     * @return array of starting locations
+     * Adds the initial players to this room
+     * @param players the players to add
      */
-    @NotNull Location[] getStartingLocations();
+    void addInitialPlayers(@NotNull Collection<Player> players);
+
+    /**
+     * Spreads the players around the room and does other startup
+     */
+    void initialRoomStartup();
 }

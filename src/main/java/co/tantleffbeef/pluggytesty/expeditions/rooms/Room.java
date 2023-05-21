@@ -9,6 +9,10 @@ import java.util.Collection;
 public interface Room {
     @NotNull Collection<Player> getPlayers();
 
+    default boolean hasPlayers() {
+        return !getPlayers().isEmpty();
+    }
+
     default void onFirstPlayerEnterRoom(@NotNull Player player) {}
     default void onPlayerEnterRoom(@NotNull Player player) {}
     default void onPlayerExitRoom(@NotNull Player player) {}
