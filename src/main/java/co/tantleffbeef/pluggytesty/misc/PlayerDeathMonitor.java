@@ -12,8 +12,9 @@ public class PlayerDeathMonitor implements Listener {
 
     @EventHandler/*(priority = EventPriority.MONITOR)*/
     public void onDeath(PlayerDeathEvent event) {
-        if (!event.getKeepInventory())
-            return;
+//        if (!event.getKeepInventory())
+//            return;
+        event.setKeepInventory(true);
 
         Player victim = event.getEntity();
         ItemStack[] drops = victim.getInventory().getContents();
