@@ -427,13 +427,13 @@ public final class PluggyTesty extends JavaPlugin {
     }
 
     private void registerRecipes() {
-        final ShapedRecipe chains = new ShapedRecipe(NamespacedKey.minecraft("chain"), new ItemStack(Material.CHAIN))
-                .shape( "i",
-                        "i",
-                        "i")
-                .setIngredient('i', Material.IRON_NUGGET);
-        getServer().addRecipe(chains);
-        recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chain"), Material.IRON_NUGGET);
+//        final ShapedRecipe chains = new ShapedRecipe(NamespacedKey.minecraft("chain"), new ItemStack(Material.CHAIN))
+//                .shape( "i",
+//                        "i",
+//                        "i")
+//                .setIngredient('i', Material.IRON_NUGGET);
+//        getServer().addRecipe(chains);
+//        recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chain"), Material.IRON_NUGGET);
 
 
         final ShapedRecipe chainHelm = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), BaseArmor.cH())
