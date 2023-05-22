@@ -35,9 +35,10 @@ public class GoatHornInteractListener implements Listener {
         MusicInstrument instrument = meta.getInstrument();
         assert instrument != null;
 
-        String metaString = instrument.toString();
 
-        Bukkit.broadcastMessage(metaString);
+        String instrumentString = instrument.getKey().toString();
+
+        Bukkit.broadcastMessage(instrumentString);
 
 //        player.addPotionEffect(switch (metaString.substring(0, metaString.indexOf("_goat_horn"))) {
 //            case "ponder" -> PotionEffectType.JUMP.createEffect(EFFECT_DURATION_TICKS, 4);
