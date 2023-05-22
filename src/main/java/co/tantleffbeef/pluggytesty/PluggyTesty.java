@@ -24,6 +24,7 @@ import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableTestCommand;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PartyFriendlyFireListener;
 import co.tantleffbeef.pluggytesty.misc.Debug;
+import co.tantleffbeef.pluggytesty.misc.GoatHornInteractListener;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;

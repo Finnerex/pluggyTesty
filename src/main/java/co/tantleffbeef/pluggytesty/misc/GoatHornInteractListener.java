@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty.custom.item.utility;
+package co.tantleffbeef.pluggytesty.misc;
 
 import org.bukkit.Material;
 import org.bukkit.MusicInstrument;
