@@ -156,10 +156,13 @@ public class PTExpeditionManager implements ExpeditionManager {
         // Turn their new position into a vector so we can see if its inside the room
         final var newPosition = to.toVector();
         final var oldRoom = roomData.room();
+
         // check if they're inside the room
-        if (newPosition.isInAABB(roomData.minimum().toVector(), roomData.maximum().toVector())) {
-            oldRoom.onPlayerMove(player, to);
-            return;
+        for (RoomBoundingBox box : roomData.roomBoundingBoxes()) {
+            if (newPosition.isInAABB(box.minimum().toVector(), box.maximum().toVector())) {
+                oldRoom.onPlayerMove(player, to);
+                return;
+            }
         }
 
         // If not, figure out what room they're in now
@@ -193,10 +196,12 @@ public class PTExpeditionManager implements ExpeditionManager {
 
         // Loop through every room and find out which one the player is in
         for (final RoomMetadata roomData : rooms) {
-            if (!playerLocation.isInAABB(roomData.minimum().toVector(), roomData.maximum().toVector()))
-                continue;
+            for (RoomBoundingBox box : roomData.roomBoundingBoxes()) {
+                if (!playerLocation.isInAABB(box.minimum().toVector(), box.maximum().toVector()))
+                    continue;
 
-            return roomData;
+                return roomData;
+            }
         }
 
         // If we couldn't find one throw an exception
