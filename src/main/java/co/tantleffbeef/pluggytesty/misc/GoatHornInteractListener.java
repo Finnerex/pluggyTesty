@@ -33,17 +33,20 @@ public class GoatHornInteractListener implements Listener {
 
         String instrumentString = instrument.getKey().getKey();
 
-        player.addPotionEffect(switch (instrumentString.substring(0, instrumentString.indexOf("_goat_horn"))) {
-            case "ponder" -> PotionEffectType.JUMP.createEffect(EFFECT_DURATION_TICKS, 3);
-            case "admire" -> PotionEffectType.FAST_DIGGING.createEffect(EFFECT_DURATION_TICKS, 1);
-            case "seek" -> PotionEffectType.ABSORPTION.createEffect(EFFECT_DURATION_TICKS, 4);
-            case "call" -> PotionEffectType.SPEED.createEffect(EFFECT_DURATION_TICKS, 2);
-            case "dream" -> PotionEffectType.REGENERATION.createEffect(EFFECT_DURATION_TICKS, 2);
-            case "feel" -> PotionEffectType.INCREASE_DAMAGE.createEffect(EFFECT_DURATION_TICKS, 1);
-            default -> PotionEffectType.LUCK.createEffect(0, 0);
-        });
+        switch (instrumentString.substring(0, instrumentString.indexOf("_goat_horn"))) {
+            case "ponder" -> addEffect(player, PotionEffectType.JUMP, 3);
+            case "admire" -> addEffect(player, PotionEffectType.FAST_DIGGING, 1);
+            case "seek" -> addEffect(player, PotionEffectType.ABSORPTION, 4);
+            case "call" -> addEffect(player, PotionEffectType.SPEED, 2);
+            case "dream" -> addEffect(player, PotionEffectType.REGENERATION, 2);
+            case "feel" -> addEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
+            default -> {}
+        }
 
+    }
+
+    private void addEffect(Player player, PotionEffectType type, int amplifier) {
+        player.addPotionEffect(type.createEffect(EFFECT_DURATION_TICKS, amplifier));
         player.setCooldown(Material.GOAT_HORN, (int) (EFFECT_DURATION_TICKS * 1.4f));
-
     }
 }
