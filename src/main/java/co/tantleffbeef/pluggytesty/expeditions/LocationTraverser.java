@@ -54,7 +54,7 @@ public class LocationTraverser {
      * @return the next available location
      */
     public @NotNull Vector2ic assignNextAvailableLocation() {
-        // Check if there's any locations that are available
+        // Check if there's any roomBoundingBoxes that are available
         if (!availableLocations.isEmpty()) {
             final var location = availableLocations.poll();
             usedLocations.add(location);
@@ -101,7 +101,7 @@ public class LocationTraverser {
         assert location instanceof Vector2i;
         assert usedLocations.contains(location);
 
-        // Add it to the set of available locations
+        // Add it to the set of available roomBoundingBoxes
         availableLocations.add((Vector2i) location);
     }
 }

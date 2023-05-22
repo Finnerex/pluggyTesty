@@ -86,8 +86,10 @@ public class TestExpedition implements Expedition {
                                         },
                                         manager
                                 ),
-                                location.clone(),
-                                location.clone().add(dimensions.getBlockX(), dimensions.getBlockY(), dimensions.getBlockZ())
+                                new RoomBoundingBox(
+                                        location.clone(),
+                                        location.clone().add(dimensions.getBlockX(), dimensions.getBlockY(), dimensions.getBlockZ())
+                                )
                         )
                 };
 
@@ -133,7 +135,7 @@ public class TestExpedition implements Expedition {
 
         // Grab all the players that are in the expedition
         final var partyPlayers = party.getOnlinePlayers().toArray(new Player[0]);
-        // Grab the potential locations they can be sent to
+        // Grab the potential roomBoundingBoxes they can be sent to
         startingRoom.addInitialPlayers(List.of(partyPlayers));
         Arrays.stream(partyPlayers).forEach(player -> playerRoomMap.put(player.getUniqueId(), startingRoomMeta));
 

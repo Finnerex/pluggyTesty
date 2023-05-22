@@ -27,11 +27,11 @@ public class SimpleStartingRoom implements StartingRoom {
     private void spreadPlayers() {
         assert startingLocations.length > 0;
 
-        // Holds all potential locations a player could be sent to
+        // Holds all potential roomBoundingBoxes a player could be sent to
         final List<Location> remainingLocations = new ArrayList<>();
 
         for (final var player : players) {
-            // If we've run out of locations
+            // If we've run out of roomBoundingBoxes
             // then add them all back
             if (remainingLocations.size() < 1)
                 remainingLocations.addAll(List.of(startingLocations));
@@ -42,7 +42,7 @@ public class SimpleStartingRoom implements StartingRoom {
             // Send the player there
             player.teleport(remainingLocations.get(locationIndex));
 
-            // Remove it from the list of locations
+            // Remove it from the list of roomBoundingBoxes
             remainingLocations.remove(locationIndex);
         }
     }
@@ -55,17 +55,6 @@ public class SimpleStartingRoom implements StartingRoom {
     @Override
     public void initialRoomStartup() {
         spreadPlayers();
-    }
-
-    private boolean done = false;
-
-    @Override
-    public void onPlayerExitRoom(@NotNull Player player) {
-        if (done)
-            return;
-
-        done = true;
-        ((PTExpeditionManager) manager).quitExpedition(player);
     }
 
     @Override
