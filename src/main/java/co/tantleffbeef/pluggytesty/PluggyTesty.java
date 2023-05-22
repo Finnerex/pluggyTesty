@@ -24,6 +24,7 @@ import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableTestCommand;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PartyFriendlyFireListener;
 import co.tantleffbeef.pluggytesty.misc.Debug;
+import co.tantleffbeef.pluggytesty.misc.GoatHornInteractListener;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
@@ -132,6 +133,8 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityEffectListener(this), this);
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerUnswimListener(), this);
+
+        getServer().getPluginManager().registerEvents(new GoatHornInteractListener(), this);
 
         // Special Keep-inventory
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
@@ -427,6 +430,15 @@ public final class PluggyTesty extends JavaPlugin {
     }
 
     private void registerRecipes() {
+//        final ShapedRecipe chains = new ShapedRecipe(NamespacedKey.minecraft("chain"), new ItemStack(Material.CHAIN))
+//                .shape( "i",
+//                        "i",
+//                        "i")
+//                .setIngredient('i', Material.IRON_NUGGET);
+//        getServer().addRecipe(chains);
+//        recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chain"), Material.IRON_NUGGET);
+
+
         final ShapedRecipe chainHelm = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), BaseArmor.cH())
                 .shape(
                         "ccc",
