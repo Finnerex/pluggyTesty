@@ -40,15 +40,15 @@ public class GoatHornInteractListener implements Listener {
 
         Bukkit.broadcastMessage(instrumentString);
 
-//        player.addPotionEffect(switch (metaString.substring(0, metaString.indexOf("_goat_horn"))) {
-//            case "ponder" -> PotionEffectType.JUMP.createEffect(EFFECT_DURATION_TICKS, 4);
-//            case "admire" -> PotionEffectType.FAST_DIGGING.createEffect(EFFECT_DURATION_TICKS, 2);
-//            case "seek" -> PotionEffectType.ABSORPTION.createEffect(EFFECT_DURATION_TICKS, 10);
-//            case "call" -> PotionEffectType.SPEED.createEffect(EFFECT_DURATION_TICKS, 3);
-//            case "dream" -> PotionEffectType.REGENERATION.createEffect(EFFECT_DURATION_TICKS, 3);
-//            case "feel" -> PotionEffectType.INCREASE_DAMAGE.createEffect(EFFECT_DURATION_TICKS, 1);
-//            default -> PotionEffectType.LUCK.createEffect(0, 0);
-//        });
+        player.addPotionEffect(switch (instrumentString.substring(0, instrumentString.indexOf("_goat_horn"))) {
+            case "ponder" -> PotionEffectType.JUMP.createEffect(EFFECT_DURATION_TICKS, 4);
+            case "admire" -> PotionEffectType.FAST_DIGGING.createEffect(EFFECT_DURATION_TICKS, 2);
+            case "seek" -> PotionEffectType.ABSORPTION.createEffect(EFFECT_DURATION_TICKS, 10);
+            case "call" -> PotionEffectType.SPEED.createEffect(EFFECT_DURATION_TICKS, 3);
+            case "dream" -> PotionEffectType.REGENERATION.createEffect(EFFECT_DURATION_TICKS, 3);
+            case "feel" -> PotionEffectType.INCREASE_DAMAGE.createEffect(EFFECT_DURATION_TICKS, 1);
+            default -> PotionEffectType.LUCK.createEffect(0, 0);
+        });
 
         player.setCooldown(Material.GOAT_HORN, EFFECT_DURATION_TICKS * 2);
 
