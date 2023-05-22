@@ -7,6 +7,7 @@ import org.bukkit.MusicInstrument;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +27,8 @@ public class GoatHornInteractListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
 
-        if (item == null || item.getType() != Material.GOAT_HORN || player.hasCooldown(Material.GOAT_HORN))
+        if (item == null || item.getType() != Material.GOAT_HORN || player.hasCooldown(Material.GOAT_HORN)
+                || event.getAction() != Action.RIGHT_CLICK_AIR || event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 
         MusicInstrumentMeta meta = ((MusicInstrumentMeta) item.getItemMeta());
@@ -35,10 +37,7 @@ public class GoatHornInteractListener implements Listener {
         MusicInstrument instrument = meta.getInstrument();
         assert instrument != null;
 
-
-        String instrumentString = instrument.getKey().toString();
-
-        Bukkit.broadcastMessage(instrumentString);
+        String instrumentString = instrument.getKey().getKey();
 
         player.addPotionEffect(switch (instrumentString.substring(0, instrumentString.indexOf("_goat_horn"))) {
             case "ponder" -> PotionEffectType.JUMP.createEffect(EFFECT_DURATION_TICKS, 4);
