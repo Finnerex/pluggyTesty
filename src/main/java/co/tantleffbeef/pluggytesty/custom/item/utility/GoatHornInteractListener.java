@@ -1,7 +1,5 @@
 package co.tantleffbeef.pluggytesty.custom.item.utility;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Instrument;
 import org.bukkit.Material;
 import org.bukkit.MusicInstrument;
 import org.bukkit.entity.Player;
@@ -9,14 +7,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.MusicInstrumentMeta;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.List;
-import java.util.Set;
 
 public class GoatHornInteractListener implements Listener {
 
@@ -28,7 +22,7 @@ public class GoatHornInteractListener implements Listener {
         ItemStack item = event.getItem();
 
         if (item == null || item.getType() != Material.GOAT_HORN || player.hasCooldown(Material.GOAT_HORN)
-                || event.getAction() != Action.RIGHT_CLICK_AIR || event.getAction() != Action.RIGHT_CLICK_BLOCK)
+                || (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK))
             return;
 
         MusicInstrumentMeta meta = ((MusicInstrumentMeta) item.getItemMeta());
