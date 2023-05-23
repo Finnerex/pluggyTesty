@@ -54,11 +54,11 @@ public class LootTableParser {
                             reader.beginObject();
 
                             // check to make sure correct syntax
-                            checkName(reader.nextName(), "weight", location);
-                            final int weight = reader.nextInt();
-
                             checkName(reader.nextName(), "type", location);
                             final String type = reader.nextString();
+
+                            checkName(reader.nextName(), "weight", location);
+                            final int weight = reader.nextInt();
 
                             checkName(reader.nextName(), "amount", location);
                             final int amount = reader.nextInt();

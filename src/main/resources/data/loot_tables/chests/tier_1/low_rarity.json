@@ -1,26 +1,61 @@
 {
   "min_slots": 5,
-  "max_slots": 20,
+  "max_slots": 15,
   "loot_pool": [
     {
-      "weight": 50,
       "type": "minecraft:carrot",
-      "amount": 10
+      "weight": 40,
+      "amount": 3
     },
     {
-      "weight": 100,
       "type": "minecraft:bread",
-      "amount": 12
+      "weight": 50,
+      "amount": 2
     },
     {
-      "weight": 20,
-      "type": "minecraft:iron_nugget",
-      "amount": 5
-    },
-    {
-      "weight": 100,
-      "type": "pluggytesty:bolt_rod",
+      "type": "minecraft:leather",
+      "weight": 1,
       "amount": 1
+    },
+    {
+      "type": "minecraft:potato",
+      "weight": 40,
+      "amount": 3
+    },
+    {
+      "type": "minecraft:wheat_seeds",
+      "weight": 40,
+      "amount": 3
+    },
+    {
+      "type": "minecraft:apple",
+      "weight": 60,
+      "amount": 3
+    },
+    {
+      "type": "minecraft:beetroot_seeds",
+      "weight": 40,
+      "amount": 3
+    },
+    {
+      "type": "minecraft:melon_seeds",
+      "weight": 10,
+      "amount": 1
+    },
+    {
+      "type": "minecraft:pumpkin_seeds",
+      "weight": 15,
+      "amount": 2
+    },
+    {
+      "type": "minecraft:stick",
+      "weight": 50,
+      "amount": 4
+    },
+    {
+      "type": "minecraft:oak_log",
+      "weight": 20,
+      "amount": 2
     }
   ]
 }
