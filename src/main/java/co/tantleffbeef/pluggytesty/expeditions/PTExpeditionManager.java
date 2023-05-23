@@ -182,7 +182,7 @@ public class PTExpeditionManager implements ExpeditionManager {
             newRoom.onPlayerEnterRoom(player);
             newRoom.onPlayerMove(player, to);
         } catch (InvalidExpeditionStateException e) {
-            expedition.end();
+            quitExpedition(player);
             Debug.alwaysError(ErrorCode.PLAYER_ESCAPED_EXPEDITION_ROOM +
                     "an expedition had to be forcibly ended because a player was not in a room");
             throw new RuntimeException(e);
