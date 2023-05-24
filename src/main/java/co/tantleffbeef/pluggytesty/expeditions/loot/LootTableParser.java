@@ -87,14 +87,14 @@ public class LootTableParser {
 
         } catch (IOException | InvalidItemKeyException | InvalidJsonException e) {
             Debug.alwaysError("Error while parsing '" + location + ".json':");
-            Debug.alwaysError(e.getCause());
+            Debug.alwaysError(e.getMessage());
         }
 
     }
 
-    private void checkName(String name, String valid, String location) {
+    private void checkName(String name, String valid, String location) throws InvalidJsonException {
         if (!name.equals(valid))
-            throw new RuntimeException("Invalid Loot Table Syntax, should '" + name + "' be '" + valid + "'?");
+            throw new InvalidJsonException("Invalid Loot Table Syntax, should '" + name + "' be '" + valid + "'?");
     }
 
     public int getMinSlots() { return minSlots; }
