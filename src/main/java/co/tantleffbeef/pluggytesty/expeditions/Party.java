@@ -83,6 +83,9 @@ public class Party {
      * @param player the player to add
      */
     public void addPlayer(Player player) {
+        if (locked)
+            throw new PartyLockedException();
+        
         assert !playerList.contains(player.getUniqueId());
         playerList.add(player.getUniqueId());
 
@@ -101,6 +104,9 @@ public class Party {
      * @param player the player to remove
      */
     public void removePlayer(OfflinePlayer player, RemovalReason reason) {
+        if (locked)
+            throw new PartyLockedException();
+        
         assert playerList.contains(player.getUniqueId());
         assert !player.getUniqueId().equals(owner);
 
@@ -138,6 +144,9 @@ public class Party {
     }
 
     public void disband() {
+        if (locked)
+            throw new PartyLockedException;
+        
         broadcastMessage(
                 new ComponentBuilder("---\n").color(ChatColor.RED)
                         .append("You were removed from the party because it was disbanded.\n").color(ChatColor.GOLD)
@@ -178,10 +187,8 @@ public class Party {
     }
     
     public boolean getFriendlyFireEnabled() { return friendlyFireEnabled; }
-    public void setFriendlyFireEnabled(boolean enabled) {
-        friendlyFireEnabled = enabled;
-        broadcastMessage(ChatColor.GOLD + "Friendly fire is now set to " + friendlyFireEnabled);
-    }
+    
+    public void setFriendlyFireEnabled(boolean enabled) { friendlyFireEnabled = enabled; }
 
     public void setLocked(boolean locked) {
         this.locked = locked;
