@@ -1,1 +1,1 @@
-public class PartyLockedException extends RunTimeExeption {}
+public class PartyLockedException extends RuntimeException {}
