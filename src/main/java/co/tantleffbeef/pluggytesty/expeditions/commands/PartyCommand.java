@@ -245,7 +245,7 @@ public class PartyCommand extends BaseCommand {
 
         if (caller.getUniqueId().equals(player.getUniqueId())) {
             caller.spigot().sendMessage(
-                    new ComponentBuilder("You can't kick yourself from the party!\nTry /party disband")
+                    new ComponentBuilder("You can't kick yourself from the party!\nTry /party leave")
                             .color(ChatColor.RED)
                             .create()
             );
@@ -258,6 +258,11 @@ public class PartyCommand extends BaseCommand {
         
         if (party.isLocked()) {
             caller.sendMessage(ChatColor.RED + "You can't do that right now!");
+            return;
+        }
+
+        if (!party.containsPlayer(player)) {
+            caller.sendMessage(ChatColor.RED + "That player is not in the party!");
             return;
         }
         
@@ -362,9 +367,19 @@ public class PartyCommand extends BaseCommand {
             return;
         }
 
+        // if the leaver is the owner
         if (party.partyOwner().getUniqueId().equals(caller.getUniqueId())) {
-            caller.sendMessage(ChatColor.RED + "You can't leave your own party! Try /party disband");
-            return;
+            // transfer the party to a random online player
+            Collection<Player> players = party.getOnlinePlayers();
+            players.remove(caller);
+
+            // disband if owner is the only player
+            if (players.size() < 1) {
+                onDisband(caller);
+                return;
+            }
+
+            onTransfer(caller, (OfflinePlayer) players.toArray()[new Random().nextInt(players.size())]);
         }
 
         party.removePlayer(caller, Party.RemovalReason.PLAYER_LEFT);
@@ -442,5 +457,30 @@ public class PartyCommand extends BaseCommand {
         
         party.setFriendlyFireEnabled(!party.getFriendlyFireEnabled());
         party.broadcastMessage(ChatColor.GOLD + "Friendly fire is now set to " + party.getFriendlyFireEnabled());
+    }
+
+    @Subcommand("transfer|t")
+    public void onTransfer(@NotNull Player caller, @NotNull OfflinePlayer newOwner) {
+        // sender has to be a party owner
+        if (!checkIfSenderInParty(caller))
+            return;
+
+        if (!checkIfSenderPartyOwner(caller))
+            return;
+
+        if (caller.getUniqueId().equals(newOwner.getUniqueId())) {
+            caller.sendMessage(ChatColor.RED + "You can't transfer the party to yourself!");
+        }
+
+        // grab the party
+        final var party = partyManager.getPartyWith(caller);
+        assert party != null;
+
+        if (!party.containsPlayer(newOwner)) {
+            caller.sendMessage(ChatColor.RED + "That player is not in the party!");
+            return;
+        }
+
+        party.setOwner(newOwner);
     }
 }

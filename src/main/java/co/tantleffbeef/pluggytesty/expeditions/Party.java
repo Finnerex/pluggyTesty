@@ -14,7 +14,7 @@ import java.util.*;
 @SuppressWarnings("unused")
 public class Party {
     private final Server server;
-    private final UUID owner;
+    private UUID owner;
     private final List<UUID> playerList;
     private boolean friendlyFireEnabled;
     private boolean locked;
@@ -32,6 +32,7 @@ public class Party {
     public @NotNull OfflinePlayer partyOwner() {
         return server.getOfflinePlayer(owner);
     }
+    public void setOwner(@NotNull OfflinePlayer owner) { this.owner = owner.getUniqueId(); }
 
     /**
      * Returns all players in the party, online or not
