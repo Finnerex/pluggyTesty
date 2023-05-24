@@ -58,6 +58,9 @@ public class PartyCommand extends BaseCommand {
         }
 
         final var party = partyManager.getPartyWith(caller);
+        
+        if (party.isLocked)
+            caller.sendMessage(ChatColor.RED + "You can't do that right now!");
 
         // If player is not in a party, create one for them
         // and recall function
@@ -394,6 +397,7 @@ public class PartyCommand extends BaseCommand {
         assert party != null;
         
         party.setFriendlyFireEnabled(enabled);
+        broadcastMessage(ChatColor.GOLD + "Friendly fire is now set to " + enabled);
     }
     
     @Subcommand("friendlyFire|ff")
@@ -410,5 +414,6 @@ public class PartyCommand extends BaseCommand {
         assert party != null;
         
         party.setFriendlyFireEnabled(!party.getFriendlyFireEnabled());
+        broadcastMessage(ChatColor.GOLD + "Friendly fire is now set to " + party.getFriendlyFireEnabled());
     }
 }
