@@ -145,7 +145,7 @@ public class Party {
 
     public void disband() {
         if (locked)
-            throw new PartyLockedException;
+            throw new PartyLockedException();
         
         broadcastMessage(
                 new ComponentBuilder("---\n").color(ChatColor.RED)

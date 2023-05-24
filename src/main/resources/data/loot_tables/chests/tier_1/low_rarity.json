@@ -4,12 +4,12 @@
   "loot_pool": [
     {
       "type": "minecraft:carrot",
-      "weight": 40,
+      "weight": 60,
       "amount": 3
     },
     {
       "type": "minecraft:bread",
-      "weight": 50,
+      "weight": 70,
       "amount": 2
     },
     {
@@ -19,7 +19,7 @@
     },
     {
       "type": "minecraft:potato",
-      "weight": 40,
+      "weight": 60,
       "amount": 3
     },
     {
@@ -29,7 +29,7 @@
     },
     {
       "type": "minecraft:apple",
-      "weight": 60,
+      "weight": 100,
       "amount": 3
     },
     {
