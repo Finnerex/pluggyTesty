@@ -59,8 +59,10 @@ public class PartyCommand extends BaseCommand {
 
         final var party = partyManager.getPartyWith(caller);
         
-        if (party.isLocked)
+        if (party.isLocked) {
             caller.sendMessage(ChatColor.RED + "You can't do that right now!");
+            return;
+        }
 
         // If player is not in a party, create one for them
         // and recall function
@@ -200,7 +202,10 @@ public class PartyCommand extends BaseCommand {
             if (partyManager.getPartyWith(caller) != null) {
                 caller.sendMessage(ChatColor.RED + "You are already in a party!");
                 return;
-            }
+                
+            if (partyManager.getPartyWith(invitePlayer).isLocked())
+                caller.sendMessage(ChatColor.RED + "You can't do that right now!");
+        }
 
             final var uuid = caller.getUniqueId();
 
@@ -249,6 +254,10 @@ public class PartyCommand extends BaseCommand {
 
         final var party = partyManager.getPartyWith(caller);
         assert party != null;
+        
+        if (party.isLocked())
+            caller.sendMessage(ChatColor.RED + "You can't do that right now!");
+        
         party.removePlayer(player, Party.RemovalReason.KICKED);
         partyCheck(party);
     }
