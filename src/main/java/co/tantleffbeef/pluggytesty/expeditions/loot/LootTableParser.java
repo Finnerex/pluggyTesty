@@ -4,6 +4,7 @@ import co.tantleffbeef.pluggytesty.PluggyTesty;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.attributes.InvalidItemKeyException;
 import co.tantleffbeef.pluggytesty.misc.Debug;
+import co.tantleffbeef.pluggytesty.misc.InvalidJsonException;
 import com.google.gson.stream.JsonReader;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
