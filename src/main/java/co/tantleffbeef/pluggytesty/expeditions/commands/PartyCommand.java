@@ -58,11 +58,6 @@ public class PartyCommand extends BaseCommand {
         }
 
         final var party = partyManager.getPartyWith(caller);
-        
-        if (party.isLocked) {
-            caller.sendMessage(ChatColor.RED + "You can't do that right now!");
-            return;
-        }
 
         // If player is not in a party, create one for them
         // and recall function
@@ -75,6 +70,11 @@ public class PartyCommand extends BaseCommand {
         // Check if party owner
         if (!party.partyOwner().equals(caller)) {
             caller.spigot().sendMessage(NOT_OWNER_ERROR);
+            return;
+        }
+
+        if (party.isLocked()) {
+            caller.sendMessage(ChatColor.RED + "You can't do that right now!");
             return;
         }
 
@@ -227,7 +227,7 @@ public class PartyCommand extends BaseCommand {
 
         private void acceptParty(Player accepter, Party partyToJoin) {
             if (partyToJoin.isLocked()) {
-                caller.sendMessage(ChatColor.RED + "You can't do that right now!");
+                accepter.sendMessage(ChatColor.RED + "You can't do that right now!");
                 return;
             }
             partyToJoin.addPlayer(accepter);
@@ -424,7 +424,7 @@ public class PartyCommand extends BaseCommand {
         assert party != null;
         
         party.setFriendlyFireEnabled(enabled);
-        broadcastMessage(ChatColor.GOLD + "Friendly fire is now set to " + enabled);
+        party.broadcastMessage(ChatColor.GOLD + "Friendly fire is now set to " + enabled);
     }
     
     @Subcommand("friendlyFire|ff")
@@ -441,6 +441,6 @@ public class PartyCommand extends BaseCommand {
         assert party != null;
         
         party.setFriendlyFireEnabled(!party.getFriendlyFireEnabled());
-        broadcastMessage(ChatColor.GOLD + "Friendly fire is now set to " + party.getFriendlyFireEnabled());
+        party.broadcastMessage(ChatColor.GOLD + "Friendly fire is now set to " + party.getFriendlyFireEnabled());
     }
 }
