@@ -202,10 +202,7 @@ public class PartyCommand extends BaseCommand {
             if (partyManager.getPartyWith(caller) != null) {
                 caller.sendMessage(ChatColor.RED + "You are already in a party!");
                 return;
-                
-            if (partyManager.getPartyWith(invitePlayer).isLocked())
-                caller.sendMessage(ChatColor.RED + "You can't do that right now!");
-        }
+            }
 
             final var uuid = caller.getUniqueId();
 
@@ -229,6 +226,10 @@ public class PartyCommand extends BaseCommand {
         }
 
         private void acceptParty(Player accepter, Party partyToJoin) {
+            if (partyToJoin.isLocked()) {
+                caller.sendMessage(ChatColor.RED + "You can't do that right now!");
+                return;
+            }
             partyToJoin.addPlayer(accepter);
         }
     }
@@ -255,8 +256,10 @@ public class PartyCommand extends BaseCommand {
         final var party = partyManager.getPartyWith(caller);
         assert party != null;
         
-        if (party.isLocked())
+        if (party.isLocked()) {
             caller.sendMessage(ChatColor.RED + "You can't do that right now!");
+            return;
+        }
         
         party.removePlayer(player, Party.RemovalReason.KICKED);
         partyCheck(party);
@@ -275,7 +278,12 @@ public class PartyCommand extends BaseCommand {
         final var party = partyManager.getPartyWith(caller);
         assert party != null;
         assert party.partyOwner().equals(caller);
-
+    
+        if (party.isLocked()) {
+            caller.sendMessage(ChatColor.RED + "You can't do that right now!");
+            return;
+        }    
+        
         party.getOfflinePlayers()
                 .forEach(p -> party.removePlayer(p, Party.RemovalReason.KICKED_OFFLINE));
 
@@ -295,6 +303,11 @@ public class PartyCommand extends BaseCommand {
         final var party = partyManager.getPartyWith(caller);
         assert party != null;
         assert party.partyOwner().equals(caller);
+        
+        if (party.isLocked()) {
+            caller.sendMessage(ChatColor.RED + "You can't do that right now!");
+            return;
+        }
 
         party.disband();
         partyManager.unregisterParty(party);
@@ -343,9 +356,14 @@ public class PartyCommand extends BaseCommand {
 
         final var party = partyManager.getPartyWith(caller);
         assert party != null;
+        
+        if (party.isLocked()) {
+            caller.sendMessage(ChatColor.RED + "You can't do that right now!");
+            return;
+        }
 
         if (party.partyOwner().getUniqueId().equals(caller.getUniqueId())) {
-            caller.sendMessage(ChatColor.RED + "You can't leave your own party! Try /party leave");
+            caller.sendMessage(ChatColor.RED + "You can't leave your own party! Try /party disband");
             return;
         }
 
