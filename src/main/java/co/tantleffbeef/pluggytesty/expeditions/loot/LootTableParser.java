@@ -86,8 +86,8 @@ public class LootTableParser {
             reader.endObject();
 
         } catch (IOException | InvalidItemKeyException | InvalidJsonException e) {
-            Debug.errorAlways("Error while parsing '" + location + ".json':");
-            Debug.errorAlways(e.getCause());
+            Debug.alwaysError("Error while parsing '" + location + ".json':");
+            Debug.alwaysError(e.getCause());
         }
 
     }
