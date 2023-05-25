@@ -482,7 +482,7 @@ public class PartyCommand extends BaseCommand {
             return;
         }
 
-        party.broadcastMessage(ChatColor.GOLD + "---\n" + newOwner.getName() + " is now the party leader.\n---");
+        party.broadcastMessage(ChatColor.RED + "---\n" + ChatColor.YELLOW + newOwner.getName() + ChatColor.GOLD + " is now the party leader." + ChatColor.RED + "\n---");
         party.setOwner(newOwner);
     }
 }
