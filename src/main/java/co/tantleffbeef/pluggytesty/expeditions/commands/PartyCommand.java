@@ -370,7 +370,7 @@ public class PartyCommand extends BaseCommand {
         // if the leaver is the owner
         if (party.partyOwner().getUniqueId().equals(caller.getUniqueId())) {
             // transfer the party to a random online player
-            Collection<Player> players = party.getOnlinePlayers();
+            ArrayList<Player> players = new ArrayList<>(party.getOnlinePlayers());
             players.remove(caller);
 
             // disband if owner is the only player
@@ -379,7 +379,7 @@ public class PartyCommand extends BaseCommand {
                 return;
             }
 
-            onTransfer(caller, (OfflinePlayer) players.toArray()[new Random().nextInt(players.size())]);
+            onTransfer(caller, players.get(0));
         }
 
         party.removePlayer(caller, Party.RemovalReason.PLAYER_LEFT);
@@ -460,6 +460,7 @@ public class PartyCommand extends BaseCommand {
     }
 
     @Subcommand("transfer|t")
+    @CommandCompletion("@partyPlayers")
     public void onTransfer(@NotNull Player caller, @NotNull OfflinePlayer newOwner) {
         // sender has to be a party owner
         if (!checkIfSenderInParty(caller))
@@ -481,6 +482,7 @@ public class PartyCommand extends BaseCommand {
             return;
         }
 
+        party.broadcastMessage(ChatColor.GOLD + "---\n" + newOwner.getName() + " is now the party leader.\n---");
         party.setOwner(newOwner);
     }
 }
