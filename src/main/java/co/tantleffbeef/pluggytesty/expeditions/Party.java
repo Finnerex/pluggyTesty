@@ -90,6 +90,9 @@ public class Party {
         assert !playerList.contains(player.getUniqueId());
         playerList.add(player.getUniqueId());
 
+        if (player.getUniqueId().equals(owner))
+            return;
+
         broadcastMessage(
                 new ComponentBuilder("---\n").color(ChatColor.RED)
                         .append(player.getName()).color(ChatColor.YELLOW)
