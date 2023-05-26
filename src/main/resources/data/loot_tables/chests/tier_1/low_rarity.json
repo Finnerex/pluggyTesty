@@ -13,11 +13,6 @@
       "amount": 2
     },
     {
-      "type": "minecraft:leather",
-      "weight": 1,
-      "amount": 1
-    },
-    {
       "type": "minecraft:potato",
       "weight": 60,
       "amount": 3
@@ -38,22 +33,12 @@
       "amount": 3
     },
     {
-      "type": "minecraft:melon_seeds",
-      "weight": 10,
-      "amount": 1
-    },
-    {
-      "type": "minecraft:pumpkin_seeds",
-      "weight": 15,
-      "amount": 2
-    },
-    {
       "type": "minecraft:stick",
       "weight": 50,
       "amount": 4
     },
     {
-      "type": "minecraft:oak_log",
+      "type": "minecraft:oak_planks",
       "weight": 20,
       "amount": 2
     }
