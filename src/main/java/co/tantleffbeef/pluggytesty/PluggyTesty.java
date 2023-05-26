@@ -16,7 +16,6 @@ import co.tantleffbeef.pluggytesty.custom.item.armor.*;
 import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionManager;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.Party;
-import co.tantleffbeef.pluggytesty.expeditions.TestExpedition;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PTExpeditionManagerListener;
@@ -198,8 +197,6 @@ public final class PluggyTesty extends JavaPlugin {
         }.runTaskTimer(this, 3, 7);*/
 
         final var expeditionManager = new PTExpeditionManager(
-                partyManager,
-                getServer().getScheduler(),
                 getServer(),
                 "expeditions",
                 256

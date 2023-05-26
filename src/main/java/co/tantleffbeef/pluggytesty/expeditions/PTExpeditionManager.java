@@ -15,7 +15,6 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
@@ -26,8 +25,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class PTExpeditionManager implements ExpeditionManager {
-    private final PartyManager partyManager;
-    private final BukkitScheduler scheduler;
     private final RoomInformationCollection rooms;
     private final LocationTraverser locationTraverser;
     private final World world;
@@ -37,13 +34,9 @@ public class PTExpeditionManager implements ExpeditionManager {
     private final Map<UUID, Party> playerPartyMap;
     private final int maxExpeditionSize;
 
-    public PTExpeditionManager(@NotNull PartyManager partyManager,
-                               @NotNull BukkitScheduler scheduler,
-                               @NotNull Server server,
+    public PTExpeditionManager(@NotNull Server server,
                                @NotNull String expeditionWorldName,
                                int maxExpeditionSize) {
-        this.partyManager = partyManager;
-        this.scheduler = scheduler;
         this.expeditionPlayers = new HashSet<>();
         this.expeditions = new ArrayList<>();
         this.partyExpeditionMap = new HashMap<>();
