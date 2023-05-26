@@ -142,22 +142,22 @@ public class PTExpeditionManager implements ExpeditionManager {
 
                     // Paste the room's schematic
                     final var pasteSession = schem.paste(weWorld, pasteLocation);
+                    pasteSession.close();
 
-                    final var minimumPoint = pasteSession.getMinimumPoint();
-                    final var maximumPoint = pasteSession.getMaximumPoint();
+                    final var maximumPoint = pasteLocation.add(schem.getDimensions());
 
-                    Debug.log("minimumPoint: " + minimumPoint);
+                    Debug.log("minimumPoint: " + pasteLocation);
                     Debug.log("maximumPoint: " + maximumPoint);
 
                     // store the room's data
                     final var roomObject =
-                            info.roomType.getConstructor().construct(bukkitLocationFromWE(world, minimumPoint));
+                            info.roomType.getConstructor().construct(bukkitLocationFromWE(world, pasteLocation));
 
                     roomData = new RoomMetadata(
                             roomObject,
                             // Give the room a bounding box based solely on its schematic
                             new RoomBoundingBox(
-                                    bukkitLocationFromWE(world, minimumPoint),
+                                    bukkitLocationFromWE(world, pasteLocation),
                                     bukkitLocationFromWE(world, maximumPoint)
                             )
                     );
