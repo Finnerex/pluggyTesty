@@ -22,6 +22,9 @@ public class TestExpedition implements Expedition {
         this.rooms = rooms;
 
         this.playerRoomMap = new HashMap<>();
+
+        for (var roomData : rooms)
+            roomData.room().setExpedition(this);
     }
 
     //@Override
