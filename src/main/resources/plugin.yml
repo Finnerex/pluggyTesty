@@ -37,3 +37,6 @@ commands:
   leaveexpedition:
     description: removes you from being on whatever expedition
     aliases: ["le"]
+  visualize:
+    description: just does a little test thing
+    aliases: ["v"]

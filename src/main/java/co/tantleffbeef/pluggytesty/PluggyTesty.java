@@ -29,6 +29,7 @@ import co.tantleffbeef.pluggytesty.expeditions.listeners.PartyFriendlyFireListen
 import co.tantleffbeef.pluggytesty.misc.Debug;
 import co.tantleffbeef.pluggytesty.misc.GoatHornInteractListener;
 import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
+import co.tantleffbeef.pluggytesty.misc.RandomGenTestCommand;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.sk89q.worldedit.EmptyClipboardException;
@@ -125,6 +126,7 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("trial3boss").setExecutor(new BossTrial3(this));
         getCommand("trial4boss").setExecutor(new BossTrial4(this));
         getCommand("trial5boss").setExecutor(new BossTrial5(this));
+        getCommand("visualize").setExecutor(new RandomGenTestCommand());
 
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
