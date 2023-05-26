@@ -179,6 +179,7 @@ public class PTExpeditionManager implements ExpeditionManager {
             Debug.log("expeditionLocationAsBukkitLocation: " + expeditionLocationAsBukkitLocation);
 
             return buildInfo.expeditionType.getConstructor().construct(
+                    this,
                     expeditionLocationAsBukkitLocation,
                     roomMetadataList.toArray(new RoomMetadata[0])
             );
