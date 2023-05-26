@@ -1,7 +1,7 @@
 {
-  "min_slots": 6
-  "max_slots": 16
-  "loot_pool":[
+  "min_slots": 6,
+  "max_slots": 16,
+  "loot_pool": [
     {
       "type": "minecraft:leather",
       "weight": 10,
