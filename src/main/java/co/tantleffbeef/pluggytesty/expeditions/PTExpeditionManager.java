@@ -106,6 +106,8 @@ public class PTExpeditionManager implements ExpeditionManager {
                     minimumPos.z = offset.z;
             }
 
+            Debug.log("minimum pos: " + minimumPos);
+
             // This offset is used so that the expedition's minimum position is put at the position
             // its given to build at
             final var expeditionLocationWithOffset = minimumPos.mul(-1, new Vector3i()).add(expeditionCorner.x, 0, expeditionCorner.y);
@@ -120,6 +122,8 @@ public class PTExpeditionManager implements ExpeditionManager {
                 final var info = room.roomInformation;
                 final var roomOffset = room.offset;
                 final var schemPath = info.schematicPath;
+
+                Debug.log("pasteLocation: " + expeditionLocationWithOffset.add(roomOffset, new Vector3i()));
 
                 // figure out where to paste the room
                 final var pasteLocation = BlockVector3Imp.at(
@@ -141,6 +145,9 @@ public class PTExpeditionManager implements ExpeditionManager {
 
                     final var minimumPoint = pasteSession.getMinimumPoint();
                     final var maximumPoint = pasteSession.getMaximumPoint();
+
+                    Debug.log("minimumPoint: " + minimumPoint);
+                    Debug.log("maximumPoint: " + maximumPoint);
 
                     // store the room's data
                     final var roomObject =
@@ -168,6 +175,8 @@ public class PTExpeditionManager implements ExpeditionManager {
                     0,
                     expeditionCorner.y
             );
+
+            Debug.log("expeditionLocationAsBukkitLocation: " + expeditionLocationAsBukkitLocation);
 
             return buildInfo.expeditionType.getConstructor().construct(
                     expeditionLocationAsBukkitLocation,
