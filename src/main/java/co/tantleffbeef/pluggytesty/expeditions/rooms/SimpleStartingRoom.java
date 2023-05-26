@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.rooms;
 
+import co.tantleffbeef.pluggytesty.expeditions.Expedition;
 import co.tantleffbeef.pluggytesty.misc.Debug;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

@@ -10,7 +10,7 @@ import java.util.Collection;
 public interface Room {
     @NotNull Collection<Player> getPlayers();
 
-    void setExpedition(@NotNull Expedition expedition);
+    default void setExpedition(@NotNull Expedition expedition) {}
 
     default boolean hasPlayers() {
         return !getPlayers().isEmpty();
