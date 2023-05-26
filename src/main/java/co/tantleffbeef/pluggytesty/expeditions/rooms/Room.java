@@ -16,9 +16,19 @@ public interface Room {
         return !getPlayers().isEmpty();
     }
 
-    default void onFirstPlayerEnterRoom(@NotNull Player player) {}
-    default void onPlayerEnterRoom(@NotNull Player player) {}
-    default void onPlayerExitRoom(@NotNull Player player) {}
-    default void onLastPlayerExitRoom(@NotNull Player player) {}
-    default void onPlayerMove(@NotNull Player player, @NotNull Location location) {}
+    default void onFirstPlayerEnterRoom(@NotNull Player player) {
+        player.sendMessage("on first player enter room");
+    }
+    default void onPlayerEnterRoom(@NotNull Player player) {
+        player.sendMessage("on player enter room");
+    }
+    default void onPlayerExitRoom(@NotNull Player player) {
+        player.sendMessage("on player exit room");
+    }
+    default void onLastPlayerExitRoom(@NotNull Player player) {
+        player.sendMessage("on last player exit room");
+    }
+    default void onPlayerMove(@NotNull Player player, @NotNull Location location) {
+        player.sendMessage("on player move: " + location);
+    }
 }

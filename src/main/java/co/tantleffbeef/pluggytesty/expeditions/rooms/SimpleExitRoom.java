@@ -24,6 +24,7 @@ public class SimpleExitRoom implements Room {
 
     @Override
     public void onPlayerEnterRoom(@NotNull Player player) {
+        player.sendMessage("entered SimpleExitRoom");
         expedition.end();
     }
 }
