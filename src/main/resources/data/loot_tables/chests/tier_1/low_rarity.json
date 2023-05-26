@@ -43,13 +43,13 @@
       "amount": 2
     },
     {
-      "type": "minecraft:bone"
-      "weight": 50
+      "type": "minecraft:bone",
+      "weight": 50,
       "amount": 3
     },
     {
-      "type": "minecraft:gunpowder"
-      "weight": 30
+      "type": "minecraft:gunpowder",
+      "weight": 30,
       "amount": 2
     }
   ]
