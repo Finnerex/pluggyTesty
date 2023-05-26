@@ -32,6 +32,14 @@ public class RandomGenTestCommand implements CommandExecutor {
 
         final var world = center.getWorld();
 
+        Bukkit.broadcastMessage("buildPlatform");
+        Bukkit.broadcastMessage("middleX - 1: " + (middleX - 1));
+        Bukkit.broadcastMessage("middleX + 1: " + (middleX + 1));
+        Bukkit.broadcastMessage("middleY - 1: " + (middleY - 1));
+        Bukkit.broadcastMessage("middleY + 1: " + (middleY + 1));
+        Bukkit.broadcastMessage("middleZ - 1: " + (middleZ - 1));
+        Bukkit.broadcastMessage("middleZ + 1: " + (middleZ + 1));
+
         for (int ix = middleX - 1; ix <= middleX + 1; ix++) {
             for (int iy = middleY - 1; iy <= middleY + 1; iy++) {
                 for (int iz = middleY - 1; iz <= middleZ + 1; iz++) {
