@@ -41,6 +41,16 @@
       "type": "minecraft:oak_log",
       "weight": 20,
       "amount": 2
+    },
+    {
+      "type": "minecraft:bone"
+      "weight": 50
+      "amount": 3
+    },
+    {
+      "type": "minecraft:gunpowder"
+      "weight": 30
+      "amount": 2
     }
   ]
 }
