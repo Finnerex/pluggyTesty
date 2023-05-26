@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.misc;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -34,6 +35,7 @@ public class RandomGenTestCommand implements CommandExecutor {
         for (int ix = middleX - 1; ix <= middleX + 1; ix++) {
             for (int iy = middleY - 1; iy <= middleY + 1; iy++) {
                 for (int iz = middleY - 1; iz <= middleZ + 1; iz++) {
+                    Bukkit.broadcastMessage("setting at " + ix + " " + iy + " " + iz);
                     new Location(world, ix, iy, iz).getBlock().setType(material);
                 }
             }
