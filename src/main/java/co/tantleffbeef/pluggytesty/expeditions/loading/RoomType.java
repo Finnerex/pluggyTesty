@@ -8,8 +8,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public enum RoomType {
-    SIMPLE_STARTING_ROOM("simple_starting_room", () -> new SimpleStartingRoom(new Location[]{
-            new Location(Bukkit.getWorld("expeditions"), 0, 0, 0)
+    SIMPLE_STARTING_ROOM("simple_starting_room", (minimumCorner) -> new SimpleStartingRoom(minimumCorner, new Location[]{
+            new Location(Bukkit.getWorld("expeditions"), 14.5, 6.0625, 10.5),
+            new Location(Bukkit.getWorld("expeditions"), 18.5, 7, 9.5),
+            new Location(Bukkit.getWorld("expeditions"), 7.5, 14, 7.5),
+            new Location(Bukkit.getWorld("expeditions"), 21.5, 14, 12.5),
+            new Location(Bukkit.getWorld("expeditions"), 20.7, 11, 9.4),
     }))
 
     ;

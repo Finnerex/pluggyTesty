@@ -24,8 +24,6 @@ import org.joml.Vector3i;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ForkJoinPool;
-import java.util.function.Consumer;
 
 public class PTExpeditionManager implements ExpeditionManager {
     private final PartyManager partyManager;
@@ -150,7 +148,9 @@ public class PTExpeditionManager implements ExpeditionManager {
                     final var maximumPoint = pasteSession.getMaximumPoint();
 
                     // store the room's data
-                    final var roomObject = info.roomType.getConstructor().construct();
+                    final var roomObject =
+                            info.roomType.getConstructor().construct(bukkitLocationFromWE(world, minimumPoint));
+
                     roomData = new RoomMetadata(
                             roomObject,
                             // Give the room a bounding box based solely on its schematic

@@ -1,8 +1,5 @@
 package co.tantleffbeef.pluggytesty.expeditions.rooms;
 
-import co.tantleffbeef.pluggytesty.expeditions.Expedition;
-import co.tantleffbeef.pluggytesty.expeditions.ExpeditionManager;
-import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -13,11 +10,13 @@ import java.util.List;
 import java.util.Random;
 
 public class SimpleStartingRoom implements StartingRoom {
+    private final Location minimumCorner;
     private final Location[] startingLocations;
     private final List<Player> players;
 
-    public SimpleStartingRoom(@NotNull Location[] startingLocations) {
+    public SimpleStartingRoom(@NotNull Location minimumCorner, @NotNull Location[] startingLocations) {
         assert startingLocations.length > 0;
+        this.minimumCorner = minimumCorner;
         this.startingLocations = startingLocations;
         this.players = new ArrayList<>();
     }
@@ -38,7 +37,7 @@ public class SimpleStartingRoom implements StartingRoom {
             final var locationIndex = new Random().nextInt(remainingLocations.size());
 
             // Send the player there
-            player.teleport(remainingLocations.get(locationIndex));
+            player.teleport(minimumCorner.clone().add(remainingLocations.get(locationIndex)));
 
             // Remove it from the list of roomBoundingBoxes
             remainingLocations.remove(locationIndex);
