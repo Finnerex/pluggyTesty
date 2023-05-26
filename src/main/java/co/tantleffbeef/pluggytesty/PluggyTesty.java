@@ -216,13 +216,16 @@ public final class PluggyTesty extends JavaPlugin {
                                     new Vector3i(0, 0, 0)
                             ),
                             new ExpeditionInformation.ExpeditionRoomInformation(
-                                    new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
+                                    new RoomInformation(RoomType.SIMPLE_EXIT,
                                             getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem")),
                                     new Vector3i(25, -5, 0)
                             )
                     ),
                     ExpeditionType.TEST_EXPEDITION
-            )).thenAccept(expedition -> getServer().getScheduler().runTask(this, () -> {
+            )).whenComplete((r, e) -> {
+                if (e != null)
+                    e.printStackTrace();
+            }).thenAccept(expedition -> getServer().getScheduler().runTask(this, () -> {
                 final var party = Objects.requireNonNullElseGet(partyManager.getPartyWith(player), () -> {
                     final var newParty = new Party(getServer(), player);
                     partyManager.registerParty(newParty);

@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.loading;
 
+import co.tantleffbeef.pluggytesty.expeditions.rooms.SimpleExitRoom;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.SimpleStartingRoom;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,7 +15,8 @@ public enum RoomType {
             new Location(Bukkit.getWorld("expeditions"), 7.5, 14, 7.5),
             new Location(Bukkit.getWorld("expeditions"), 21.5, 14, 12.5),
             new Location(Bukkit.getWorld("expeditions"), 20.7, 11, 9.4),
-    }))
+    })),
+    SIMPLE_EXIT("simple_exit", c -> new SimpleExitRoom())
 
     ;
 

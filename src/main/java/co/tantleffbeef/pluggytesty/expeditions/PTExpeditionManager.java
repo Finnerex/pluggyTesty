@@ -88,13 +88,13 @@ public class PTExpeditionManager implements ExpeditionManager {
 
         return CompletableFuture.supplyAsync(() -> {
             // grab the rooms
-            final var rooms1 = buildInfo.roomInformationList;
+            final var roomInfoList = buildInfo.roomInformationList;
             // make a vector to mark the minimum position
             // so we can adjust the whole room over
-            final var minimumPos = new Vector3i(0, 0, 0);
+            final var minimumPos = new Vector3i(roomInfoList.get(0).offset);
 
             // Loop through every room to find the minimum position
-            for (var room : rooms1) {
+            for (var room : roomInfoList) {
 //                final var info = room.roomInformation;
                 final var offset = room.offset;
 
@@ -110,11 +110,13 @@ public class PTExpeditionManager implements ExpeditionManager {
             // its given to build at
             final var expeditionLocationWithOffset = minimumPos.mul(-1, new Vector3i()).add(expeditionCorner.x, 0, expeditionCorner.y);
 
+            Debug.log("expeditionLocationWithOffset: " + expeditionLocationWithOffset);
+
             // Create something to hold the room metadata for all the rooms
             final var roomMetadataList = new ArrayList<RoomMetadata>();
 
             // Loop through every room and paste it
-            for (var room : rooms1) {
+            for (var room : roomInfoList) {
                 final var info = room.roomInformation;
                 final var roomOffset = room.offset;
                 final var schemPath = info.schematicPath;

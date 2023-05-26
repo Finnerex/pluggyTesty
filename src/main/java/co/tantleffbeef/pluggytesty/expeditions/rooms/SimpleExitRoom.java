@@ -1,8 +1,5 @@
 package co.tantleffbeef.pluggytesty.expeditions.rooms;
 
-import co.tantleffbeef.pluggytesty.expeditions.Expedition;
-import co.tantleffbeef.pluggytesty.expeditions.ExpeditionManager;
-import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionManager;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,19 +9,19 @@ import java.util.List;
 
 public class SimpleExitRoom implements Room {
     private final List<Player> players = new ArrayList<>();
-    private final ExpeditionManager manager;
+//    private final ExpeditionManager manager;
 
-    public SimpleExitRoom(@NotNull ExpeditionManager manager) {
+    /*public SimpleExitRoom(@NotNull ExpeditionManager manager) {
         this.manager = manager;
-    }
+    }*/
 
     @Override
     public @NotNull Collection<Player> getPlayers() {
         return players;
     }
 
-    @Override
+    /*@Override
     public void onPlayerEnterRoom(@NotNull Player player) {
         ((PTExpeditionManager) manager).quitExpedition(player);
-    }
+    }*/
 }
