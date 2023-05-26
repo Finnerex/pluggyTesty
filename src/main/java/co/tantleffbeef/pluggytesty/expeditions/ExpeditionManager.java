@@ -1,8 +1,10 @@
 package co.tantleffbeef.pluggytesty.expeditions;
 
+import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public interface ExpeditionManager {
@@ -17,12 +19,10 @@ public interface ExpeditionManager {
     /**
      * Automatically allocates a location to build the
      * expedition, and starts the building process
-     * @param expedition the expedition to build
-     * @param postBuildCallback a callback that will be
-     *                          run after the expedition
-     *                          finishes building
+     * @param buildInfo the information to use
+     *                  to build the expedition
      */
-    void buildExpedition(@NotNull Expedition expedition, Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback);
+    @NotNull CompletableFuture<Expedition> buildExpedition(@NotNull ExpeditionInformation buildInfo);
 
     /**
      * Returns whether the player is in an expedition currently

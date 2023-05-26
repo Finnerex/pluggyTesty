@@ -7,6 +7,7 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.BlockVector3Imp;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -19,21 +20,20 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class TestExpedition implements Expedition {
-    private final Plugin schedulerPlugin;
     private final Map<UUID, RoomMetadata> playerRoomMap;
-    private Location builtLocation;
-    private RoomMetadata[] rooms;
+    private final Location minimumCorner;
+    private final RoomMetadata[] rooms;
     private Party party;
-    private boolean built;
 
-    public TestExpedition(@NotNull Plugin schedulerPlugin) {
-        this.schedulerPlugin = schedulerPlugin;
+    public TestExpedition(@NotNull Location minimumCorner, @NotNull RoomMetadata[] rooms) {
+        this.minimumCorner = minimumCorner;
+        this.rooms = rooms;
+
         this.playerRoomMap = new HashMap<>();
-        built = false;
     }
 
-    @Override
-    public void calculateMinimumPointDistanceFromPasteLocation(@NotNull BukkitScheduler scheduler, @NotNull Consumer<Vector3ic> postCalculationCallback) {
+    //@Override
+    /*public void calculateMinimumPointDistanceFromPasteLocation(@NotNull BukkitScheduler scheduler, @NotNull Consumer<Vector3ic> postCalculationCallback) {
         /*scheduler.runTaskAsynchronously(schedulerPlugin, () -> {
             // Load the schematic using FaweAPI
             try (final var schematic = FaweAPI.load(schedulerPlugin.getDataFolder().toPath().resolve("testexpedition.schem").toFile())) {
@@ -43,12 +43,12 @@ public class TestExpedition implements Expedition {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        });*/
+        });* /
         postCalculationCallback.accept(null);
-    }
+    }*/
 
-    @Override
-    public void build(@NotNull ExpeditionManager manager, @NotNull BukkitScheduler scheduler, @NotNull Location location, @NotNull Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
+    //@Override
+    /*public void build(@NotNull ExpeditionManager manager, @NotNull BukkitScheduler scheduler, @NotNull Location location, @NotNull Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
         assert location.getWorld() != null;
 
         final var world = location.getWorld();
@@ -99,11 +99,7 @@ public class TestExpedition implements Expedition {
                 errorCallback.accept(e);
             }
         });
-    }
-
-    private void loadSchematic() {
-
-    }
+    }*/
 
     /**
      * Converts a blockvector3 into a bukkit location
@@ -145,10 +141,10 @@ public class TestExpedition implements Expedition {
         // TODO: finish
     }
 
-    @Override
+    /*@Override
     public boolean isBuilt() {
         return built;
-    }
+    }*/
 
     @Override
     public @NotNull RoomMetadata[] getRooms() {

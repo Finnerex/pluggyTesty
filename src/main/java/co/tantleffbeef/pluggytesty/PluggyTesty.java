@@ -20,6 +20,10 @@ import co.tantleffbeef.pluggytesty.expeditions.TestExpedition;
 import co.tantleffbeef.pluggytesty.expeditions.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PTExpeditionManagerListener;
+import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
+import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionType;
+import co.tantleffbeef.pluggytesty.expeditions.loading.RoomInformation;
+import co.tantleffbeef.pluggytesty.expeditions.loading.RoomType;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableTestCommand;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PartyFriendlyFireListener;
@@ -43,8 +47,10 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3i;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.jar.JarFile;
@@ -205,27 +211,32 @@ public final class PluggyTesty extends JavaPlugin {
             if (!(commandSender instanceof Player player))
                 return false;
 
-            final var expedition = new TestExpedition(this);
+            expeditionManager.buildExpedition(new ExpeditionInformation(
+                    List.of(
+                            new ExpeditionInformation.ExpeditionRoomInformation(
+                                    new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
+                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem")),
+                                    new Vector3i(0, 0, 0)
+                            ),
+                            new ExpeditionInformation.ExpeditionRoomInformation(
+                                    new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
+                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem")),
+                                    new Vector3i(25, -5, 0)
+                            )
+                    ),
+                    ExpeditionType.TEST_EXPEDITION
+            )).thenAccept(expedition -> getServer().getScheduler().runTask(this, () -> {
+                final var party = Objects.requireNonNullElseGet(partyManager.getPartyWith(player), () -> {
+                    final var newParty = new Party(getServer(), player);
+                    partyManager.registerParty(newParty);
+                    return newParty;
+                });
 
-            expeditionManager.buildExpedition(
-                    // The expedition to build
-                    expedition,
+                player.sendMessage("built expedition");
+                party.broadcastMessage("starting expedition");
 
-                    // post build callback
-                    rooms -> {
-                        var party = partyManager.getPartyWith(player);
-                        if (party == null) {
-                            party = new Party(getServer(), player);
-                            partyManager.registerParty(party);
-                        }
-
-                        player.sendMessage("expedition built or something");
-                        expeditionManager.startExpedition(expedition, party);
-                    },
-
-                    // error callback
-                    Throwable::printStackTrace
-            );
+                expeditionManager.startExpedition(expedition, party);
+            }));
 
             return true;
         });

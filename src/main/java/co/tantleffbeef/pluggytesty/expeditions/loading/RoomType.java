@@ -1,18 +1,25 @@
 package co.tantleffbeef.pluggytesty.expeditions.loading;
 
+import co.tantleffbeef.pluggytesty.expeditions.rooms.SimpleStartingRoom;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public enum RoomType {
-    SIMPLE_STARTING_ROOM("simple_starting_room")
+    SIMPLE_STARTING_ROOM("simple_starting_room", () -> new SimpleStartingRoom(new Location[]{
+            new Location(Bukkit.getWorld("expeditions"), 0, 0, 0)
+    }))
 
     ;
 
     private final String id;
+    private final RoomConstructor constructor;
 
-    RoomType(@NotNull String id) {
+    RoomType(@NotNull String id, @NotNull RoomConstructor constructor) {
         this.id = id;
+        this.constructor = constructor;
     }
 
     /**
@@ -31,5 +38,9 @@ public enum RoomType {
         }
 
         return Optional.empty();
+    }
+
+    public @NotNull RoomConstructor getConstructor() {
+        return constructor;
     }
 }

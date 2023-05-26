@@ -15,8 +15,8 @@ public class ExpeditionInformation {
     public final ExpeditionType expeditionType;
 
     public static class ExpeditionRoomInformation {
-        private final RoomInformation roomInformation;
-        private final Vector3i offset;
+        public final RoomInformation roomInformation;
+        public final Vector3i offset;
 
         public static ExpeditionRoomInformation from(@NotNull JsonObject json,
                                                      @NotNull RoomInformationCollection possibleRooms)

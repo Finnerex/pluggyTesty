@@ -1,7 +1,14 @@
 package co.tantleffbeef.pluggytesty.expeditions;
 
+import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
+import co.tantleffbeef.pluggytesty.expeditions.loading.PTRoomInformationCollection;
+import co.tantleffbeef.pluggytesty.expeditions.loading.RoomInformationCollection;
 import co.tantleffbeef.pluggytesty.misc.Debug;
 import co.tantleffbeef.pluggytesty.misc.ErrorCode;
+import com.fastasyncworldedit.core.FaweAPI;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.math.BlockVector3Imp;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -12,13 +19,18 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
+import org.joml.Vector3i;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
 import java.util.function.Consumer;
 
 public class PTExpeditionManager implements ExpeditionManager {
     private final PartyManager partyManager;
     private final BukkitScheduler scheduler;
+    private final RoomInformationCollection rooms;
     private final LocationTraverser locationTraverser;
     private final World world;
     private final Set<Player> expeditionPlayers;
@@ -41,6 +53,8 @@ public class PTExpeditionManager implements ExpeditionManager {
         this.world = setupExpeditionWorld(server, expeditionWorldName);
         this.locationTraverser = new LocationTraverser();
         this.maxExpeditionSize = maxExpeditionSize;
+
+        rooms = new PTRoomInformationCollection();
     }
 
     /**
@@ -62,8 +76,6 @@ public class PTExpeditionManager implements ExpeditionManager {
 
     @Override
     public void startExpedition(@NotNull Expedition builtExpedition, @NotNull Party party) {
-        assert builtExpedition.isBuilt();
-
         // Register the expedition
         registerExpedition(builtExpedition, party);
 
@@ -72,7 +84,7 @@ public class PTExpeditionManager implements ExpeditionManager {
     }
 
     @Override
-    public void buildExpedition(@NotNull Expedition expedition, Consumer<Expedition> postBuildCallback, @NotNull Consumer<Exception> errorCallback) {
+    public @NotNull CompletableFuture<Expedition> buildExpedition(@NotNull ExpeditionInformation buildInfo) {
         // Grab a location
         final var assignedLocation = locationTraverser.assignNextAvailableLocation();
         Debug.info("assignedLocation: " + assignedLocation);
@@ -80,41 +92,97 @@ public class PTExpeditionManager implements ExpeditionManager {
         final var expeditionCorner = new Vector2i(assignedLocation).mul(maxExpeditionSize);
         Debug.info("expeditionCorner: " + assignedLocation);
 
-        // calculate how far the paste location is from the minimum point of the schematic or whatever
-        expedition.calculateMinimumPointDistanceFromPasteLocation(scheduler, distance -> {
-            // flip all the distances to see how much
-            // we need to add the expedition's corner
-            // to figure out where we need to paste it
-            // at
-            /*final var relativeX = -distance.x();
-            final var relativeY = -distance.y();
-            final var relativeZ = -distance.z();
-            Debug.info("relativeX: " + relativeX);
-            Debug.info("relativeY: " + relativeY);
-            Debug.info("relativeZ: " + relativeZ);
+        // Grab the world we need to paste in
+        final var weWorld = BukkitAdapter.adapt(world);
 
-            final var pasteLocation = new Location(
+        return CompletableFuture.supplyAsync(() -> {
+            // grab the rooms
+            final var rooms1 = buildInfo.roomInformationList;
+            // make a vector to mark the minimum position
+            // so we can adjust the whole room over
+            final var minimumPos = new Vector3i(0, 0, 0);
+
+            // Loop through every room to find the minimum position
+            for (var room : rooms1) {
+//                final var info = room.roomInformation;
+                final var offset = room.offset;
+
+                if (offset.x < minimumPos.x)
+                    minimumPos.x = offset.x;
+                if (offset.y < minimumPos.y)
+                    minimumPos.y = offset.y;
+                if (offset.z < minimumPos.z)
+                    minimumPos.z = offset.z;
+            }
+
+            // This offset is used so that the expedition's minimum position is put at the position
+            // its given to build at
+            final var expeditionLocationWithOffset = minimumPos.mul(-1, new Vector3i()).add(expeditionCorner.x, 0, expeditionCorner.y);
+
+            // Create something to hold the room metadata for all the rooms
+            final var roomMetadataList = new ArrayList<RoomMetadata>();
+
+            // Loop through every room and paste it
+            for (var room : rooms1) {
+                final var info = room.roomInformation;
+                final var roomOffset = room.offset;
+                final var schemPath = info.schematicPath;
+
+                // figure out where to paste the room
+                final var pasteLocation = BlockVector3Imp.at(
+                        expeditionLocationWithOffset.x + roomOffset.x,
+                        expeditionLocationWithOffset.y + roomOffset.y,
+                        expeditionLocationWithOffset.z + roomOffset.z
+                );
+
+                // This will store the location and stuff for this room
+                final RoomMetadata roomData;
+
+                try (final var schem = FaweAPI.load(schemPath.toFile())) {
+                    // Set the origin to the minimum point so that it actually
+                    // pastes it where you're trying to paste it
+                    schem.setOrigin(schem.getMinimumPoint());
+
+                    // Paste the room's schematic
+                    final var pasteSession = schem.paste(weWorld, pasteLocation);
+
+                    final var minimumPoint = pasteSession.getMinimumPoint();
+                    final var maximumPoint = pasteSession.getMaximumPoint();
+
+                    // store the room's data
+                    final var roomObject = info.roomType.getConstructor().construct();
+                    roomData = new RoomMetadata(
+                            roomObject,
+                            // Give the room a bounding box based solely on its schematic
+                            new RoomBoundingBox(
+                                    bukkitLocationFromWE(world, minimumPoint),
+                                    bukkitLocationFromWE(world, maximumPoint)
+                            )
+                    );
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // add this room to the list of rooms
+                roomMetadataList.add(roomData);
+            }
+
+            final var expeditionLocationAsBukkitLocation = new Location(
                     world,
-                    expeditionCorner.x + relativeX,
-                    expeditionCorner.y + relativeY,
-                    relativeZ
-            );*/
+                    expeditionCorner.x,
+                    0,
+                    expeditionCorner.y
+            );
 
-            final var pasteLocation = new Location(world, expeditionCorner.x, 0, expeditionCorner.y);
-
-            Debug.info("pasteLocation: " + pasteLocation);
-
-            Debug.info("building expedition");
-
-            expedition.build(
-                    this,
-                    scheduler,
-                    pasteLocation,
-                    postBuildCallback,
-                    errorCallback
+            return buildInfo.expeditionType.getConstructor().construct(
+                    expeditionLocationAsBukkitLocation,
+                    roomMetadataList.toArray(new RoomMetadata[0])
             );
         });
-        // TODO: but I think this might actually work and be done maybe
+    }
+
+    private @NotNull Location bukkitLocationFromWE(@NotNull World world, @NotNull BlockVector3 pos) {
+        return new Location(world, pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
     }
 
     private void registerExpedition(@NotNull Expedition expedition, @NotNull Party party) {

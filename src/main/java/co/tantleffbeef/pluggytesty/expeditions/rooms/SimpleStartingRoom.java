@@ -15,13 +15,11 @@ import java.util.Random;
 public class SimpleStartingRoom implements StartingRoom {
     private final Location[] startingLocations;
     private final List<Player> players;
-    private final ExpeditionManager manager;
 
-    public SimpleStartingRoom(@NotNull Location[] startingLocations, @NotNull ExpeditionManager manager) {
+    public SimpleStartingRoom(@NotNull Location[] startingLocations) {
         assert startingLocations.length > 0;
         this.startingLocations = startingLocations;
         this.players = new ArrayList<>();
-        this.manager = manager;
     }
 
     private void spreadPlayers() {

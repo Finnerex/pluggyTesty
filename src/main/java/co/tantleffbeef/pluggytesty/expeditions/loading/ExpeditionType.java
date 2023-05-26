@@ -1,18 +1,21 @@
 package co.tantleffbeef.pluggytesty.expeditions.loading;
 
+import co.tantleffbeef.pluggytesty.expeditions.TestExpedition;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public enum ExpeditionType {
-    TEST_EXPEDITION("test_expedition")
+    TEST_EXPEDITION("test_expedition", TestExpedition::new)
 
     ;
 
     private final String id;
+    private final ExpeditionConstructor constructor;
 
-    ExpeditionType(@NotNull String id) {
+    ExpeditionType(@NotNull String id, @NotNull ExpeditionConstructor constructor) {
         this.id = id;
+        this.constructor = constructor;
     }
 
     /**
@@ -31,5 +34,9 @@ public enum ExpeditionType {
         }
 
         return Optional.empty();
+    }
+
+    public @NotNull ExpeditionConstructor getConstructor() {
+        return constructor;
     }
 }
