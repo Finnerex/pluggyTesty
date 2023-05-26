@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
 public interface ExpeditionManager {
     /**
@@ -30,4 +29,11 @@ public interface ExpeditionManager {
      * @return whether they are in an expedition
      */
     boolean inExpedition(@NotNull Player player);
+
+    /**
+     * Ends an expedition. Should only be called by an expedition
+     * itself
+     * @param toEnd the expedition to end
+     */
+    void endExpedition(@NotNull Expedition toEnd);
 }

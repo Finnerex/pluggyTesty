@@ -216,6 +216,19 @@ public class PTExpeditionManager implements ExpeditionManager {
         return expeditionPlayers.contains(player);
     }
 
+    @Override
+    public void endExpedition(@NotNull Expedition toEnd) {
+        final var party = toEnd.getParty();
+
+        for (Player p : party.getOnlinePlayers()) {
+            expeditionPlayers.remove(p);
+            playerPartyMap.remove(p.getUniqueId());
+        }
+
+        partyExpeditionMap.remove(party);
+        expeditions.remove(toEnd);
+    }
+
     public void onPlayerMoved(@NotNull Player player, @NotNull Location to) {
         assert expeditionPlayers.contains(player);
 

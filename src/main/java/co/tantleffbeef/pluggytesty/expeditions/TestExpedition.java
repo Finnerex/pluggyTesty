@@ -1,31 +1,23 @@
 package co.tantleffbeef.pluggytesty.expeditions;
 
-import co.tantleffbeef.pluggytesty.expeditions.rooms.SimpleStartingRoom;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.StartingRoom;
-import com.fastasyncworldedit.core.FaweAPI;
-import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldedit.math.BlockVector3Imp;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3ic;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.function.Consumer;
 
 public class TestExpedition implements Expedition {
+    private final ExpeditionManager manager;
     private final Map<UUID, RoomMetadata> playerRoomMap;
     private final Location minimumCorner;
     private final RoomMetadata[] rooms;
     private Party party;
 
-    public TestExpedition(@NotNull Location minimumCorner, @NotNull RoomMetadata[] rooms) {
+    public TestExpedition(@NotNull ExpeditionManager manager, @NotNull Location minimumCorner, @NotNull RoomMetadata[] rooms) {
+        this.manager = manager;
         this.minimumCorner = minimumCorner;
         this.rooms = rooms;
 
@@ -152,7 +144,7 @@ public class TestExpedition implements Expedition {
     }
 
     @Override
-    public Party getParty() {
+    public @NotNull Party getParty() {
         return party;
     }
 
@@ -183,5 +175,7 @@ public class TestExpedition implements Expedition {
         }
 
         party.broadcastMessage("exited expedition");
+
+        manager.endExpedition(this);
     }
 }
