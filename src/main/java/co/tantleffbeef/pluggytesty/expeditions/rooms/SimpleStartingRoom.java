@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.rooms;
 
+import co.tantleffbeef.pluggytesty.misc.Debug;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +38,7 @@ public class SimpleStartingRoom implements StartingRoom {
             final var locationIndex = new Random().nextInt(remainingLocations.size());
 
             // Send the player there
+            Debug.log("teleporting player " + player.getName() + " to " + minimumCorner.clone().add(remainingLocations.get(locationIndex)));
             player.teleport(minimumCorner.clone().add(remainingLocations.get(locationIndex)));
 
             // Remove it from the list of roomBoundingBoxes
