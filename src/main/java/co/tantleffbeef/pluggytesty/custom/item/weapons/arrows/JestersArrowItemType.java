@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty.custom.item.weapons.arrows;
 
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -25,5 +26,6 @@ public class JestersArrowItemType extends SimpleItemType implements CustomArrow 
         arrow.setVelocity(arrow.getLocation().getDirection().multiply(4));
         arrow.setPierceLevel(10);
         arrow.setKnockbackStrength(0);
+        Bukkit.broadcastMessage("velocity: " + arrow.getVelocity() + "pierce: " + arrow.getPierceLevel() + "kb: " + arrow.getKnockbackStrength());
     }
 }
