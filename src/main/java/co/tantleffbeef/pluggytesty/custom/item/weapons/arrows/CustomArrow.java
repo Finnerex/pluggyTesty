@@ -9,6 +9,6 @@ public interface CustomArrow {
      * used to modify what the projectile does when shot
      * @param arrow the projectile of the shoot event
      */
-    void runSpawnEffects(Arrow arrow);
+    void applySpawnEffects(Arrow arrow);
 
 }

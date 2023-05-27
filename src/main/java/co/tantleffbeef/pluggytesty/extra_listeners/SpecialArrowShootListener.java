@@ -56,7 +56,7 @@ public class SpecialArrowShootListener implements Listener {
             return;
 
         // interfaces go hard!!!
-        customArrow.runSpawnEffects(arrow);
+        customArrow.applySpawnEffects(arrow);
 
         // Idk about metadata but I think it works
         if (customArrow instanceof BouncyArrowItemType)
@@ -64,7 +64,7 @@ public class SpecialArrowShootListener implements Listener {
 
     }
 
-    @EventHandler(priority=EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onArrowLand(ProjectileHitEvent event) {
         if (!(event.getEntity() instanceof Arrow arrow))
             return;
@@ -72,14 +72,16 @@ public class SpecialArrowShootListener implements Listener {
         if (!arrow.hasMetadata("bouncy"))
             return;
 
+        Vector velocity = arrow.getVelocity();
+
+        if (velocity.length() < 0.1f)
+            return;
+
         BlockFace face = event.getHitBlockFace();
 
         if (face == null)
             return;
 
-        event.setCancelled(true);
-
-        Vector velocity = arrow.getVelocity();
         Bukkit.broadcastMessage("Face: " + face + "\nvelocity: " + arrow.getVelocity());
 
         switch (face) {
@@ -88,7 +90,15 @@ public class SpecialArrowShootListener implements Listener {
             case NORTH, SOUTH -> velocity.setZ(velocity.getZ() * -1);
         }
 
-        plugin.getServer().getScheduler().runTask(plugin, () -> arrow.setVelocity(velocity));
+        arrow.getWorld().spawn(arrow.getLocation(), Arrow.class, (projectile) -> {
+            projectile.setVelocity(velocity);
+            projectile.setShooter(arrow.getShooter());
+            projectile.setMetadata("bouncy", new FixedMetadataValue(plugin, true));
+            projectile.addCustomEffect(arrow.getCustomEffects().get(0), false);
+        });
+
+        arrow.remove();
+
         Bukkit.broadcastMessage("velocity after: " + arrow.getVelocity() + "\nvelocity balls: " + velocity);
 
     }
