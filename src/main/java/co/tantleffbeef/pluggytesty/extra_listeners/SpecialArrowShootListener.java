@@ -77,7 +77,10 @@ public class SpecialArrowShootListener implements Listener {
         if (face == null)
             return;
 
+        event.setCancelled(true);
+
         Vector velocity = arrow.getVelocity();
+        Bukkit.broadcastMessage("Face: " + face + "\n velocity: " + arrow.getVelocity());
 
         switch (face) {
             case UP, DOWN -> velocity.setY(velocity.getY() * -1);
@@ -86,6 +89,7 @@ public class SpecialArrowShootListener implements Listener {
         }
 
         arrow.setVelocity(velocity);
+        Bukkit.broadcastMessage("velocity after: " + arrow.getVelocity());
     }
 
 
