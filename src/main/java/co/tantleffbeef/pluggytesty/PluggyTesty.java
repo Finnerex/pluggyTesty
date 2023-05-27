@@ -303,6 +303,7 @@ public final class PluggyTesty extends JavaPlugin {
         // Arrows
         resourceManager.registerItem(new JestersArrowItemType(this, "jesters_arrow", false, ChatColor.BLUE + "Jester's Arrow"));
         resourceManager.registerItem(new BouncyArrowItemType(this, "bouncy_arrow", false, ChatColor.BLUE + "Bouncy Arrow"));
+        resourceManager.registerItem(new ExplosiveArrowItemType(this, "explosive_arrow", false, ChatColor.BLUE + "Explosive Arrow"));
 
 
         // Utility
