@@ -66,7 +66,7 @@ public class SpecialArrowShootListener implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler
     public void onArrowLand(ProjectileHitEvent event) {
         if (!(event.getEntity() instanceof Arrow arrow))
             return;
