@@ -71,12 +71,12 @@ public class SpecialArrowShootListener implements Listener {
         if (!(event.getEntity() instanceof Arrow arrow))
             return;
 
-        List<MetadataValue> metadata = arrow.getMetadata("customArrowType");
-
         // loop through this even though there will be only one
-        for (MetadataValue data : metadata) {
-            if (data.value() instanceof CustomArrow customArrow)
+        for (MetadataValue data : arrow.getMetadata("customArrowType")) {
+            if (data.value() instanceof CustomArrow customArrow) {
                 customArrow.applyLandingEffects(arrow, event);
+                break;
+            }
         }
 
     }

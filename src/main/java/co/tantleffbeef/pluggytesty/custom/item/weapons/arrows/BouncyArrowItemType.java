@@ -10,6 +10,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -61,7 +62,15 @@ public class BouncyArrowItemType extends SimpleItemType implements CustomArrow {
         arrow.getWorld().spawn(arrow.getLocation(), Arrow.class, (projectile) -> {
             projectile.setVelocity(velocity);
             projectile.setShooter(arrow.getShooter());
-            projectile.setMetadata("bouncy", new FixedMetadataValue(plugin, true));
+
+            // set this to have the same metadata (why does this have to be so big)
+            for (MetadataValue data : arrow.getMetadata("customArrowType")){
+                if (data.value() instanceof CustomArrow customArrow) {
+                    projectile.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
+                    break;
+                }
+            }
+
         });
 
         arrow.remove();
