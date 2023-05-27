@@ -23,9 +23,9 @@ public class JestersArrowItemType extends SimpleItemType implements CustomArrow 
 
     @Override
     public void runCustomEffects(Arrow arrow) {
-        arrow.setVelocity(arrow.getLocation().getDirection().multiply(4));
+        arrow.setVelocity(arrow.getVelocity().multiply(4));
         arrow.setPierceLevel(10);
         arrow.setKnockbackStrength(0);
-        Bukkit.broadcastMessage("velocity: " + arrow.getVelocity() + "pierce: " + arrow.getPierceLevel() + "kb: " + arrow.getKnockbackStrength());
+//        Bukkit.broadcastMessage("velocity: " + arrow.getVelocity() + "pierce: " + arrow.getPierceLevel() + "kb: " + arrow.getKnockbackStrength());
     }
 }
