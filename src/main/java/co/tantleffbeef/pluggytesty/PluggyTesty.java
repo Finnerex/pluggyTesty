@@ -13,7 +13,7 @@ import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.utility.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.*;
-import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.JestersArrowItemType;
+import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.*;
 import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionManager;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.Party;
@@ -302,6 +302,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         // Arrows
         resourceManager.registerItem(new JestersArrowItemType(this, "jesters_arrow", false, ChatColor.BLUE + "Jester's Arrow"));
+        resourceManager.registerItem(new BouncyArrowItemType(this, "bouncy_arrow", false, ChatColor.BLUE + "Bouncy Arrow"));
 
 
         // Utility
