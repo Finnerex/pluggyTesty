@@ -26,7 +26,7 @@ public class BouncyArrowItemType extends SimpleItemType implements CustomArrow {
 
     @Override
     public void runCustomEffects(Arrow arrow) {
-        arrow.setVelocity(arrow.getVelocity().multiply(1.5f));
+        arrow.setVelocity(arrow.getVelocity().multiply(1.2f));
         arrow.setBounce(true);
     }
 }

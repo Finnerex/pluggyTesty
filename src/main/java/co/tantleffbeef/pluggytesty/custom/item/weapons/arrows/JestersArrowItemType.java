@@ -27,7 +27,7 @@ public class JestersArrowItemType extends SimpleItemType implements CustomArrow 
 
     @Override
     public void runCustomEffects(Arrow arrow) {
-        arrow.setVelocity(arrow.getVelocity().multiply(2.5f));
+        arrow.setVelocity(arrow.getVelocity().multiply(2));
         arrow.setPierceLevel(5);
         arrow.setKnockbackStrength(0);
     }
