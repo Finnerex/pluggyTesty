@@ -21,7 +21,7 @@ public class BouncyArrowItemType extends SimpleItemType implements CustomArrow {
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
         meta.setLore(List.of(ChatColor.DARK_GREEN + "Higher velocity, bounces"));
-        ((PotionMeta) meta).setColor(Color.fromRGB(221, 187, 237));
+        ((PotionMeta) meta).setColor(Color.fromRGB(27, 143, 19));
     }
 
     @Override
