@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons.arrows;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class ExplosiveArrowItemType extends SimpleItemType implements CustomArrow {
     public ExplosiveArrowItemType(Plugin namespace, String id, boolean customModel, String name) {
-        super(namespace, id, customModel, name);
+        super(namespace, id, customModel, name, Material.TIPPED_ARROW);
     }
 
     @Override
