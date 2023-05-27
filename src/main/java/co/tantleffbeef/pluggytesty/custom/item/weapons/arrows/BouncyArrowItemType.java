@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty.custom.item.weapons.arrows;
 
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -43,7 +44,9 @@ public class BouncyArrowItemType extends SimpleItemType implements CustomArrow {
 
         Vector velocity = arrow.getVelocity();
 
-        if (velocity.length() < 0.1f)
+        Bukkit.broadcastMessage("speed: " + velocity.length());
+
+        if (velocity.length() < 0.5f)
             return;
 
         BlockFace face = event.getHitBlockFace();
