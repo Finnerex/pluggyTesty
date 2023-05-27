@@ -11,4 +11,7 @@ public interface CustomArrow {
      */
     void applySpawnEffects(Arrow arrow);
 
+
+//    void applyLandingEffects(Arrow arrow);
+
 }

@@ -77,18 +77,18 @@ public class SpecialArrowShootListener implements Listener {
         if (velocity.length() < 0.1f)
             return;
 
-        BlockFace face = event.getHitBlockFace();
+        BlockFace face = arrow.getFacing();
 
         if (face == null)
             return;
-
-        Bukkit.broadcastMessage("Face: " + face + "\nvelocity: " + arrow.getVelocity());
 
         switch (face) {
             case UP, DOWN -> velocity.setY(velocity.getY() * -1);
             case EAST, WEST -> velocity.setX(velocity.getX() * -1);
             case NORTH, SOUTH -> velocity.setZ(velocity.getZ() * -1);
         }
+
+        velocity.multiply(0.9f);
 
         arrow.getWorld().spawn(arrow.getLocation(), Arrow.class, (projectile) -> {
             projectile.setVelocity(velocity);
@@ -97,8 +97,6 @@ public class SpecialArrowShootListener implements Listener {
         });
 
         arrow.remove();
-
-        Bukkit.broadcastMessage("velocity after: " + arrow.getVelocity() + "\nvelocity balls: " + velocity);
 
     }
 
