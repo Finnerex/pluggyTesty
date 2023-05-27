@@ -56,10 +56,10 @@ public class SpecialArrowShootListener implements Listener {
         // interfaces go hard!!!
         customArrow.runCustomEffects(arrow);
 
+        // Idk about metadata but I think it works
         if (customArrow instanceof BouncyArrowItemType)
-            arrow.setMetadata("bouncy", new FixedMetadataValue(plugin, true));
-        else
-            arrow.setMetadata("bouncy", new FixedMetadataValue(plugin, false));
+            arrow.setMetadata("bouncy", new FixedMetadataValue(plugin, true)); // value here doesn't mean anything, just if it has the data or not
+
     }
 
     @EventHandler
@@ -70,9 +70,6 @@ public class SpecialArrowShootListener implements Listener {
             return;
 
         if (!arrow.hasMetadata("bouncy"))
-            return;
-
-        if (arrow.getMetadata("bouncy").isEmpty())
             return;
 
         Bukkit.broadcastMessage("that thang bouncy");
