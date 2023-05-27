@@ -44,8 +44,6 @@ public class BouncyArrowItemType extends SimpleItemType implements CustomArrow {
 
         Vector velocity = arrow.getVelocity();
 
-        Bukkit.broadcastMessage("speed: " + velocity.length());
-
         if (velocity.length() < 0.5f)
             return;
 
@@ -60,7 +58,7 @@ public class BouncyArrowItemType extends SimpleItemType implements CustomArrow {
             case NORTH, SOUTH -> velocity.setZ(velocity.getZ() * -1);
         }
 
-        velocity.multiply(0.8f);
+        velocity.multiply(0.9f);
 
         arrow.getWorld().spawn(arrow.getLocation(), Arrow.class, (projectile) -> {
             projectile.setVelocity(velocity);
