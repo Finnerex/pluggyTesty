@@ -16,9 +16,13 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Map;
 
 public class SpecialArrowShootListener implements Listener {
 
@@ -58,9 +62,7 @@ public class SpecialArrowShootListener implements Listener {
         // interfaces go hard!!!
         customArrow.applySpawnEffects(arrow);
 
-        // Idk about metadata but I think it works
-        if (customArrow instanceof BouncyArrowItemType)
-            arrow.setMetadata("bouncy", new FixedMetadataValue(plugin, true)); // value here doesn't mean anything, just if it has the data or not
+        arrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
 
     }
 
@@ -69,34 +71,13 @@ public class SpecialArrowShootListener implements Listener {
         if (!(event.getEntity() instanceof Arrow arrow))
             return;
 
-        if (!arrow.hasMetadata("bouncy"))
-            return;
+        List<MetadataValue> metadata = arrow.getMetadata("customArrowType");
 
-        Vector velocity = arrow.getVelocity();
-
-        if (velocity.length() < 0.1f)
-            return;
-
-        BlockFace face = arrow.getFacing();
-
-        if (face == null)
-            return;
-
-        switch (face) {
-            case UP, DOWN -> velocity.setY(velocity.getY() * -1);
-            case EAST, WEST -> velocity.setX(velocity.getX() * -1);
-            case NORTH, SOUTH -> velocity.setZ(velocity.getZ() * -1);
+        // loop through this even though there will be only one
+        for (MetadataValue data : metadata) {
+            if (data.value() instanceof CustomArrow customArrow)
+                customArrow.applyLandingEffects(arrow, event);
         }
-
-        velocity.multiply(0.9f);
-
-        arrow.getWorld().spawn(arrow.getLocation(), Arrow.class, (projectile) -> {
-            projectile.setVelocity(velocity);
-            projectile.setShooter(arrow.getShooter());
-            projectile.setMetadata("bouncy", new FixedMetadataValue(plugin, true));
-        });
-
-        arrow.remove();
 
     }
 
