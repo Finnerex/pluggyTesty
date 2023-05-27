@@ -28,6 +28,7 @@ import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableTestCommand;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PartyFriendlyFireListener;
 import co.tantleffbeef.pluggytesty.extra_listeners.RandomEffectBowInteractListener;
+import co.tantleffbeef.pluggytesty.extra_listeners.SpecialArrowShootListener;
 import co.tantleffbeef.pluggytesty.misc.Debug;
 import co.tantleffbeef.pluggytesty.extra_listeners.GoatHornInteractListener;
 import co.tantleffbeef.pluggytesty.extra_listeners.PlayerDeathMonitor;
@@ -132,6 +133,7 @@ public final class PluggyTesty extends JavaPlugin {
 
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
+        getServer().getPluginManager().registerEvents(new SpecialArrowShootListener(nbtKeyManager, resourceManager), this);
 
         // Trims / Armor effects
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
