@@ -10,12 +10,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -56,7 +56,7 @@ public class SpecialArrowShootListener implements Listener {
             return;
 
         // interfaces go hard!!!
-        customArrow.runCustomEffects(arrow);
+        customArrow.runSpawnEffects(arrow);
 
         // Idk about metadata but I think it works
         if (customArrow instanceof BouncyArrowItemType)
@@ -64,7 +64,7 @@ public class SpecialArrowShootListener implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority=EventPriority.HIGHEST)
     public void onArrowLand(ProjectileHitEvent event) {
         if (!(event.getEntity() instanceof Arrow arrow))
             return;
