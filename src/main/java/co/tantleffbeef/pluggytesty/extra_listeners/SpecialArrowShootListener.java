@@ -94,7 +94,6 @@ public class SpecialArrowShootListener implements Listener {
             projectile.setVelocity(velocity);
             projectile.setShooter(arrow.getShooter());
             projectile.setMetadata("bouncy", new FixedMetadataValue(plugin, true));
-            projectile.addCustomEffect(arrow.getCustomEffects().get(0), false);
         });
 
         arrow.remove();
