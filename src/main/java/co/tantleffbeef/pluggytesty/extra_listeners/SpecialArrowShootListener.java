@@ -77,10 +77,10 @@ public class SpecialArrowShootListener implements Listener {
         if (face == null)
             return;
 
-        event.setCancelled(true);
+//        event.setCancelled(true);
 
         Vector velocity = arrow.getVelocity();
-        Bukkit.broadcastMessage("Face: " + face + "\n velocity: " + arrow.getVelocity());
+        Bukkit.broadcastMessage("Face: " + face + "\nvelocity: " + arrow.getVelocity());
 
         switch (face) {
             case UP, DOWN -> velocity.setY(velocity.getY() * -1);
@@ -88,8 +88,9 @@ public class SpecialArrowShootListener implements Listener {
             case NORTH, SOUTH -> velocity.setZ(velocity.getZ() * -1);
         }
 
-        arrow.setVelocity(velocity);
-        Bukkit.broadcastMessage("velocity after: " + arrow.getVelocity());
+        plugin.getServer().getScheduler().runTask(plugin, () -> arrow.setVelocity(velocity));
+        Bukkit.broadcastMessage("velocity after: " + arrow.getVelocity() + "\nvelocity balls: " + velocity);
+
     }
 
 
