@@ -88,7 +88,8 @@ public class SpecialArrowShootListener implements Listener {
             case NORTH, SOUTH -> velocity.setZ(velocity.getZ() * -1);
         }
 
-        plugin.getServer().getScheduler().runTask(plugin, () -> arrow.setVelocity(velocity));
+        arrow.setVelocity(velocity);
+//        plugin.getServer().getScheduler().runTask(plugin, () -> arrow.setVelocity(velocity));
         arrow.teleport(arrow.getLocation().add(velocity));
         Bukkit.broadcastMessage("velocity after: " + arrow.getVelocity() + "\nvelocity balls: " + velocity);
 
