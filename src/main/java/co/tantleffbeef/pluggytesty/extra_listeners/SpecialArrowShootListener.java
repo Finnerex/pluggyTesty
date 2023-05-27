@@ -7,6 +7,7 @@ import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.BouncyArrowItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.CustomArrow;
 import org.bukkit.Bukkit;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 public class SpecialArrowShootListener implements Listener {
@@ -64,15 +66,26 @@ public class SpecialArrowShootListener implements Listener {
 
     @EventHandler
     public void onArrowLand(ProjectileHitEvent event) {
-        Bukkit.broadcastMessage("landed!");
-
         if (!(event.getEntity() instanceof Arrow arrow))
             return;
 
         if (!arrow.hasMetadata("bouncy"))
             return;
 
-        Bukkit.broadcastMessage("that thang bouncy");
+        BlockFace face = event.getHitBlockFace();
+
+        if (face == null)
+            return;
+
+        Vector velocity = arrow.getVelocity();
+
+        switch (face) {
+            case UP, DOWN -> velocity.setY(velocity.getY() * -1);
+            case EAST, WEST -> velocity.setX(velocity.getX() * -1);
+            case NORTH, SOUTH -> velocity.setZ(velocity.getZ() * -1);
+        }
+
+        arrow.setVelocity(velocity);
     }
 
 
