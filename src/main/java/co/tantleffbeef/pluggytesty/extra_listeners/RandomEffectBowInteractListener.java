@@ -58,6 +58,7 @@ public class RandomEffectBowInteractListener implements Listener {
         Arrow arrow = (Arrow) event.getProjectile();
 
         int effect = new Random().nextInt(12);
+        boolean hasEffect = true;
 
         switch (effect) {
             case 0 -> arrow.addCustomEffect(PotionEffectType.BLINDNESS.createEffect(100, 1), false);
@@ -66,10 +67,11 @@ public class RandomEffectBowInteractListener implements Listener {
             case 3 -> arrow.addCustomEffect(PotionEffectType.POISON.createEffect(100, 1), false);
             case 4 -> arrow.addCustomEffect(PotionEffectType.POISON.createEffect(40, 2), false);
             case 5 -> arrow.addCustomEffect(PotionEffectType.SLOW.createEffect(60, 4), false);
-            default -> {}
+            default -> hasEffect = false;
         }
 
-        arrow.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
+        if (hasEffect)
+            arrow.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
 
         event.setProjectile(arrow);
     }
