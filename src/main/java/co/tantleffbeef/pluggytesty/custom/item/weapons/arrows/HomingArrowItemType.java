@@ -40,15 +40,22 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
             shooter = (Entity) arrow.getShooter();
 
         // get the nearest entity that is not the shooter or the arrow (won't be the arrow anyway because not damageable)
-        final Damageable target = getNearestEntity(arrow.getLocation(), Arrays.asList(shooter, arrow));
 
+
+        final Entity finalShooter = shooter;
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                if(arrow.getVelocity().length() < 0.2f) {
+
+                if(arrow.getVelocity().length() < 0.5f) {
                     cancel();
                     return;
                 }
+
+                final Damageable target = getNearestEntity(arrow.getLocation(), finalShooter);
+
+                if (target == null)
+                    return;
 
                 final Location targetLocation = target.getLocation();
                 final Location arrowLocation = arrow.getLocation();
@@ -58,7 +65,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
 
                 arrow.setRotation(arrowLocation.getYaw() + yaw / 10, arrowLocation.getPitch());
 
-                Bukkit.broadcastMessage("yaw: " + yaw);
+                Bukkit.broadcastMessage("yaw: " + yaw + "\nspeed: " + arrow.getVelocity().length());
 
             }
         };
@@ -68,7 +75,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
     }
 
     // gets the nearest entity that is not in the exclude list
-    private Damageable getNearestEntity(Location l, List<Entity> exclude) {
+    private Damageable getNearestEntity(Location l, Entity exclude) {
 
         Collection<Entity> entities = l.getWorld().getNearbyEntities(l, 20, 20, 20);
 
@@ -77,7 +84,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
 
         for (Entity e : entities) {
             double d = e.getLocation().distance(l);
-            if (e instanceof Damageable damageable && (closestDist == -1 || d < closestDist) && !exclude.contains(e)) {
+            if (e instanceof Damageable damageable && (closestDist == -1 || d < closestDist) && !e.equals(exclude)) {
                 closestDist = d;
                 closest = damageable;
             }
