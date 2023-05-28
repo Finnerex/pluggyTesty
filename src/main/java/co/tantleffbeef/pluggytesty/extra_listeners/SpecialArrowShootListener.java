@@ -62,6 +62,7 @@ public class SpecialArrowShootListener implements Listener {
         // interfaces go hard!!!
         customArrow.applySpawnEffects(arrow);
 
+        // so the arrow can be identified upon landing
         arrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
 
     }

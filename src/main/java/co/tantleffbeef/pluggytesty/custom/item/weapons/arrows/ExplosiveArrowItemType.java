@@ -32,6 +32,6 @@ public class ExplosiveArrowItemType extends SimpleItemType implements CustomArro
 
     @Override
     public void applyLandingEffects(Arrow arrow, ProjectileHitEvent event) {
-        arrow.getWorld().createExplosion(arrow.getLocation(), 2, false, false);
+        arrow.getWorld().createExplosion(arrow.getLocation(), 3, false, false);
     }
 }
