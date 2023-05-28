@@ -10,6 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,7 +51,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
             @Override
             public void run() {
 
-                if(arrow.getVelocity().length() < 0.5f || arrow.isInBlock() || arrow.isOnGround()) {
+                if(arrow.getVelocity().length() < 0.5f || arrow.isDead()) {
                     cancel();
                     return;
                 }
@@ -65,17 +66,13 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
                 final Location arrowLocation = arrow.getLocation();
                 final double distance = arrowLocation.distance(targetLocation);
 
-                // I swear this is the mos dumb and stupid way of doing this, but I don't want to figure out the right way
+                // I swear this is the most dumb and stupid way of doing this, but I don't want to figure out the right way
                 if (distance > lastDist)
                     left = !left;
 
-                float yaw = 0.5f;
-                if (left)
-                    yaw *= -1;
+                arrow.setRotation(arrowLocation.getYaw() + (left ? -1 : 1), arrowLocation.getPitch());
 
-                arrow.setRotation(arrowLocation.getYaw() + yaw, arrowLocation.getPitch());
-
-                Bukkit.broadcastMessage("yaw: " + yaw + "\nspeed: " + arrow.getVelocity().length());
+                Bukkit.broadcastMessage("speed: " + arrow.getVelocity().length());
 
                 lastDist = distance;
 
@@ -106,5 +103,5 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
     }
 
     @Override
-    public void applyLandingEffects(Arrow arrow, ProjectileHitEvent event) {/* no landing effects */}
+    public void applyLandingEffects(Arrow arrow, ProjectileHitEvent event) { arrow.setVelocity(new Vector(0, 0, 0)); }
 }
