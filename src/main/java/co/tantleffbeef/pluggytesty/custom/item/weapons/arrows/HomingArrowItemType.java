@@ -58,7 +58,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
                 if (target == null)
                     return;
 
-                final Location targetLocation = target.getLocation();
+                final Location targetLocation = target.getLocation().add(0, 0.7, 0);
                 final Location arrowLocation = arrow.getLocation();
 
                 final Vector direction = targetLocation.clone().toVector().subtract(arrowLocation.toVector()).normalize();
@@ -68,14 +68,14 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 0,5);
+        runnable.runTaskTimer(schedulerPlugin, 0,3);
 
     }
 
     // gets the nearest entity that is not in the exclude list
     private Damageable getNearestEntity(Location l, Entity exclude) {
 
-        Collection<Entity> entities = l.getWorld().getNearbyEntities(l, 3, 3, 3);
+        Collection<Entity> entities = l.getWorld().getNearbyEntities(l, 5, 5, 5);
 
         Damageable closest = null;
         double closestDist = -1;
