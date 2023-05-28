@@ -61,7 +61,10 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
                 final Location targetLocation = target.getLocation();
                 final Location arrowLocation = arrow.getLocation();
 
-                final Vector direction = targetLocation.clone().toVector().subtract(arrowLocation.toVector()).normalize();
+                // average of vec to target and the direction of the arrow
+                final Vector direction = targetLocation.clone().toVector().subtract(arrowLocation.toVector()).normalize()
+                        .add(arrowLocation.getDirection())
+                        .divide(new Vector(2, 2, 2)).normalize();
 
                 arrow.setVelocity(direction.multiply(arrow.getVelocity().length()));
 
