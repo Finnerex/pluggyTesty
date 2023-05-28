@@ -39,8 +39,6 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
         if (arrow.getShooter() instanceof Entity)
             shooter = (Entity) arrow.getShooter();
 
-        // get the nearest entity that is not the shooter or the arrow (won't be the arrow anyway because not damageable)
-
 
         final Entity finalShooter = shooter;
         BukkitRunnable runnable = new BukkitRunnable() {
@@ -52,6 +50,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
                     return;
                 }
 
+                // get the nearest entity that is not the shooter
                 final Damageable target = getNearestEntity(arrow.getLocation(), finalShooter);
 
                 if (target == null)
