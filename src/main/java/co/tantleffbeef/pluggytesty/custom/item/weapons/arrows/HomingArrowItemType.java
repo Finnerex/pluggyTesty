@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
         if (arrow.getShooter() instanceof Entity)
             shooter = (Entity) arrow.getShooter();
 
-        final Damageable target = getNearestEntity(arrow.getLocation(), shooter);
+        final Damageable target = getNearestEntity(arrow.getLocation(), Arrays.asList(shooter, arrow));
 
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
@@ -64,7 +65,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
 
     }
 
-    private Damageable getNearestEntity(Location l, @Nullable Entity entity) {
+    private Damageable getNearestEntity(Location l, List<Entity> exclude) {
 
         Collection<Entity> entities = l.getWorld().getNearbyEntities(l, 20, 20, 20);
 
@@ -73,7 +74,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
 
         for (Entity e : entities) {
             double d = e.getLocation().distance(l);
-            if (e instanceof Damageable damageable && (closestDist == -1 || d < closestDist) && !e.equals(entity)) {
+            if (e instanceof Damageable damageable && (closestDist == -1 || d < closestDist) && !exclude.contains(e)) {
                 closestDist = d;
                 closest = damageable;
             }
