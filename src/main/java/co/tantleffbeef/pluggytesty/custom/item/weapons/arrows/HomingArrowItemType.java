@@ -65,15 +65,17 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
                 float angle = arrow.getVelocity().angle(toTarget);
 
 
-                arrow.setVelocity(arrow.getVelocity().rotateAroundY(angle));
+                float yaw = angle - arrowLocation.getYaw();
 
-                Bukkit.broadcastMessage("speed: " + arrow.getVelocity().length());
+                arrow.setVelocity(arrow.getVelocity().rotateAroundY(yaw / 10));
+
+                Bukkit.broadcastMessage("speed: " + arrow.getVelocity().length() + "\nyaw: " + yaw / 10);
 
 
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 10,1);
+        runnable.runTaskTimer(schedulerPlugin, 3,1);
 
     }
 
