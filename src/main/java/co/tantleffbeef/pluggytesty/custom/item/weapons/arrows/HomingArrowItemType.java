@@ -42,10 +42,15 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
 
         final Entity finalShooter = shooter;
         BukkitRunnable runnable = new BukkitRunnable() {
+
+            boolean left = true;
+
+            // a number bigger than bounding box
+            double lastDist = 100;
             @Override
             public void run() {
 
-                if(arrow.getVelocity().length() < 0.5f) {
+                if(arrow.getVelocity().length() < 0.5f || arrow.isInBlock() || arrow.isOnGround()) {
                     cancel();
                     return;
                 }
@@ -58,13 +63,21 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
 
                 final Location targetLocation = target.getLocation();
                 final Location arrowLocation = arrow.getLocation();
+                final double distance = arrowLocation.distance(targetLocation);
 
-                // should be the yaw from the arrow to the target
-                float yaw = (float) (Math.atan2(arrowLocation.getZ() - targetLocation.getZ(), arrowLocation.getX() - targetLocation.getX()) + 45);
+                // I swear this is the mos dumb and stupid way of doing this, but I don't want to figure out the right way
+                if (distance > lastDist)
+                    left = !left;
 
-                arrow.setRotation(arrowLocation.getYaw() + yaw / 10, arrowLocation.getPitch());
+                float yaw = 0.5f;
+                if (left)
+                    yaw *= -1;
+
+                arrow.setRotation(arrowLocation.getYaw() + yaw, arrowLocation.getPitch());
 
                 Bukkit.broadcastMessage("yaw: " + yaw + "\nspeed: " + arrow.getVelocity().length());
+
+                lastDist = distance;
 
             }
         };
