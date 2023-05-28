@@ -44,10 +44,6 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
         final Entity finalShooter = shooter;
         BukkitRunnable runnable = new BukkitRunnable() {
 
-            boolean left = true;
-
-            // a number bigger than bounding box
-            double lastDist = 100;
             @Override
             public void run() {
 
@@ -69,7 +65,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
                 float angle = arrow.getVelocity().angle(toTarget);
 
 
-                arrow.setRotation(angle, arrowLocation.getPitch());
+                arrow.setVelocity(arrow.getVelocity().rotateAroundY(angle));
 
                 Bukkit.broadcastMessage("speed: " + arrow.getVelocity().length());
 
