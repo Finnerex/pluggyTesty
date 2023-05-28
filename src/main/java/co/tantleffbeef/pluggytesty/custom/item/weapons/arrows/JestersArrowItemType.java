@@ -22,14 +22,14 @@ public class JestersArrowItemType extends SimpleItemType implements CustomArrow 
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
-        meta.setLore(List.of(ChatColor.DARK_GREEN + "High velocity, pierces up to 3 enemies"));
+        meta.setLore(List.of(ChatColor.DARK_GREEN + "High velocity, pierces 3 enemies"));
         ((PotionMeta) meta).setColor(Color.fromRGB(221, 187, 237));
     }
 
     @Override
     public void applySpawnEffects(Arrow arrow) {
         arrow.setVelocity(arrow.getVelocity().multiply(1.6f));
-        arrow.setPierceLevel(3);
+        arrow.setPierceLevel(arrow.getPierceLevel() + 3);
         arrow.setKnockbackStrength(0);
     }
 
