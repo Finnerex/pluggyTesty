@@ -51,7 +51,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
             @Override
             public void run() {
 
-                if(arrow.getVelocity().length() < 0.5f || arrow.isDead()) {
+                if(arrow.getVelocity().length() < 0.5f || arrow.isDead() || arrow.isInBlock()) {
                     cancel();
                     return;
                 }
@@ -64,17 +64,15 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
 
                 final Location targetLocation = target.getLocation();
                 final Location arrowLocation = arrow.getLocation();
-                final double distance = arrowLocation.distance(targetLocation);
 
-                // I swear this is the most dumb and stupid way of doing this, but I don't want to figure out the right way
-                if (distance > lastDist)
-                    left = !left;
+                Vector toTarget = targetLocation.toVector().clone().subtract(arrowLocation.toVector());
+                float angle = arrow.getVelocity().angle(toTarget);
 
-                arrow.setRotation(arrowLocation.getYaw() + (left ? -1 : 1), arrowLocation.getPitch());
+
+                arrow.setRotation(angle, arrowLocation.getPitch());
 
                 Bukkit.broadcastMessage("speed: " + arrow.getVelocity().length());
 
-                lastDist = distance;
 
             }
         };
@@ -103,5 +101,10 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
     }
 
     @Override
-    public void applyLandingEffects(Arrow arrow, ProjectileHitEvent event) { arrow.setVelocity(new Vector(0, 0, 0)); }
+    public void applyLandingEffects(Arrow arrow, ProjectileHitEvent event) {
+        if (event.getHitEntity() == null)
+            return;
+
+        arrow.remove();
+    }
 }
