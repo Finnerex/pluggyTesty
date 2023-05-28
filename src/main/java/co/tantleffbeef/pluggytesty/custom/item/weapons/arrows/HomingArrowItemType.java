@@ -39,6 +39,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
         if (arrow.getShooter() instanceof Entity)
             shooter = (Entity) arrow.getShooter();
 
+        // get the nearest entity that is not the shooter or the arrow (won't be the arrow anyway because not damageable)
         final Damageable target = getNearestEntity(arrow.getLocation(), Arrays.asList(shooter, arrow));
 
         BukkitRunnable runnable = new BukkitRunnable() {
@@ -52,6 +53,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
                 final Location targetLocation = target.getLocation();
                 final Location arrowLocation = arrow.getLocation();
 
+                // should be the yaw from the arrow to the target
                 float yaw = (float) (Math.atan2(arrowLocation.getZ() - targetLocation.getZ(), arrowLocation.getX() - targetLocation.getX()) + 45);
 
                 arrow.setRotation(arrowLocation.getYaw() + yaw / 10, arrowLocation.getPitch());
@@ -65,6 +67,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
 
     }
 
+    // gets the nearest entity that is not in the exclude list
     private Damageable getNearestEntity(Location l, List<Entity> exclude) {
 
         Collection<Entity> entities = l.getWorld().getNearbyEntities(l, 20, 20, 20);
