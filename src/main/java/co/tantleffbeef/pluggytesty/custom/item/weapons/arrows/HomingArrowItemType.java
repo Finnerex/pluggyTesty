@@ -68,7 +68,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
             }
         };
 
-        runnable.runTaskTimer(schedulerPlugin, 3,1);
+        runnable.runTaskTimer(schedulerPlugin, 0,5);
 
     }
 
