@@ -61,13 +61,9 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
                 final Location targetLocation = target.getLocation();
                 final Location arrowLocation = arrow.getLocation();
 
-                // average of vec to target and the direction of the arrow
-                final Vector direction = targetLocation.clone().toVector().subtract(arrowLocation.toVector()).normalize()
-                        .add(arrowLocation.getDirection())
-                        .divide(new Vector(2, 2, 2)).normalize();
+                final Vector direction = targetLocation.clone().toVector().subtract(arrowLocation.toVector()).normalize();
 
                 arrow.setVelocity(direction.multiply(arrow.getVelocity().length()));
-
 
             }
         };
@@ -79,7 +75,7 @@ public class HomingArrowItemType extends SimpleItemType implements CustomArrow {
     // gets the nearest entity that is not in the exclude list
     private Damageable getNearestEntity(Location l, Entity exclude) {
 
-        Collection<Entity> entities = l.getWorld().getNearbyEntities(l, 20, 20, 20);
+        Collection<Entity> entities = l.getWorld().getNearbyEntities(l, 3, 3, 3);
 
         Damageable closest = null;
         double closestDist = -1;
