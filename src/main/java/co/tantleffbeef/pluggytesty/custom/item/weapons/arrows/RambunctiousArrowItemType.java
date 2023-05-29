@@ -1,7 +1,6 @@
 package co.tantleffbeef.pluggytesty.custom.item.weapons.arrows;
 
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -18,11 +17,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class BouncyArrowItemType extends SimpleItemType implements CustomArrow {
+public class RambunctiousArrowItemType extends SimpleItemType implements CustomArrow {
 
     private final Plugin plugin;
 
-    public BouncyArrowItemType(Plugin namespace, String id, boolean customModel, String name) {
+    public RambunctiousArrowItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.TIPPED_ARROW);
         this.plugin = namespace;
     }
@@ -30,18 +29,20 @@ public class BouncyArrowItemType extends SimpleItemType implements CustomArrow {
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
-        meta.setLore(List.of(ChatColor.DARK_GREEN + "Bounces"));
-        ((PotionMeta) meta).setColor(Color.fromRGB(27, 143, 19));
+        meta.setLore(List.of(ChatColor.DARK_GREEN + "High velocity, pierces 6 enemies, bounces"));
+        ((PotionMeta) meta).setColor(Color.fromRGB(24, 217, 47));
     }
 
     @Override
     public void applySpawnEffects(Arrow arrow) {
-        arrow.setBounce(true); // doesn't actually do anything
+        arrow.setVelocity(arrow.getVelocity().multiply(1.8f));
+        arrow.setPierceLevel(arrow.getPierceLevel() + 6);
+        arrow.setKnockbackStrength(0);
+        arrow.setBounce(true);
     }
 
     @Override
     public void applyLandingEffects(Arrow arrow, ProjectileHitEvent event) {
-
         Vector velocity = arrow.getVelocity();
 
         if (velocity.length() < 0.6f)
@@ -76,5 +77,4 @@ public class BouncyArrowItemType extends SimpleItemType implements CustomArrow {
 
         arrow.remove();
     }
-
 }
