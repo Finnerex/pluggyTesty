@@ -6,6 +6,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Damageable;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -28,7 +29,7 @@ public class CrazyArrowItemType extends SimpleItemType implements CustomArrow {
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
-        meta.setLore(List.of(ChatColor.DARK_GREEN + "High velocity, pierces 8 enemies, bounces, explodes"));
+        meta.setLore(List.of(ChatColor.DARK_GREEN + "High velocity, pierces 8 enemies, bounces, explodes, sets enemies on fire"));
         ((PotionMeta) meta).setColor(Color.fromRGB(242, 169, 51));
     }
 
@@ -43,6 +44,9 @@ public class CrazyArrowItemType extends SimpleItemType implements CustomArrow {
     @Override
     public void applyLandingEffects(Arrow arrow, ProjectileHitEvent event) {
         arrow.getWorld().createExplosion(arrow.getLocation(), 3, false, false);
+
+        if (event.getHitEntity() instanceof Damageable damageable)
+            damageable.setFireTicks(60);
 
         Vector velocity = arrow.getVelocity();
 

@@ -308,6 +308,8 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new HyperArrowItemType(this, "hyper_arrow", false, ChatColor.BLUE + "Hyper Arrow"));
         resourceManager.registerItem(new RambunctiousArrowItemType(this, "rambunctious_arrow", false, ChatColor.BLUE + "Rambunctious Arrow"));
         resourceManager.registerItem(new CrazyArrowItemType(this, "crazy_arrow", false, ChatColor.BLUE + "Crazy Arrow"));
+        resourceManager.registerItem(new FrostburnArrowItemType(this, "frostburn_arrow", false, ChatColor.BLUE + "Frostburn Arrow"));
+        resourceManager.registerItem(new FlamingArrowItemType(this, "flaming_arrow", false, ChatColor.BLUE + "Flaming Arrow"));
 
 
         // Utility
