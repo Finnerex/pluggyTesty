@@ -35,6 +35,6 @@ public class FrostburnArrowItemType extends SimpleItemType implements CustomArro
         if (!(event.getHitEntity() instanceof Damageable damageable))
             return;
 
-        damageable.setFreezeTicks(60);
+        damageable.setFreezeTicks(200);
     }
 }
