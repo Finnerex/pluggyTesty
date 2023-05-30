@@ -6,17 +6,23 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class JestersArrowItemType extends SimpleItemType implements CustomArrow {
+
+    private final Plugin plugin;
+
     public JestersArrowItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.TIPPED_ARROW);
+        this.plugin = namespace;
     }
 
     @Override
@@ -34,5 +40,14 @@ public class JestersArrowItemType extends SimpleItemType implements CustomArrow 
     }
 
     @Override
-    public void applyLandingEffects(Arrow arrow, ProjectileHitEvent event) {/* no landing effects */}
+    public void applyLandingEffects(Arrow arrow, ProjectileHitEvent event) {
+        Entity entity = event.getHitEntity();
+        if (entity == null)
+            return;
+
+        Vector velocity = entity.getVelocity();
+
+        plugin.getServer().getScheduler().runTask(plugin, () -> entity.setVelocity(velocity));
+
+    }
 }
