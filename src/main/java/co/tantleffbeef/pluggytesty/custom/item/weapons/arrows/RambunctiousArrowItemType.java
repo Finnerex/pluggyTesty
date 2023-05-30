@@ -6,6 +6,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -43,12 +44,22 @@ public class RambunctiousArrowItemType extends SimpleItemType implements CustomA
 
     @Override
     public void applyLandingEffects(Arrow arrow, ProjectileHitEvent event) {
-        Vector velocity = arrow.getVelocity();
+        // no kb
+        Entity entity = event.getHitEntity();
+        if (entity == null)
+            return;
+
+        final Vector entityVelocity = entity.getVelocity();
+
+        plugin.getServer().getScheduler().runTask(plugin, () -> entity.setVelocity(entityVelocity));
+
+        // bounce
+        final Vector velocity = arrow.getVelocity();
 
         if (velocity.length() < 0.6f)
             return;
 
-        BlockFace face = event.getHitBlockFace();
+        final BlockFace face = event.getHitBlockFace();
 
         if (face == null)
             return;
