@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty.levels.commands;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Subcommand;
 import co.tantleffbeef.pluggytesty.levels.LevelController;
 import net.md_5.bungee.api.ChatColor;
@@ -9,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
+@CommandAlias("level|lvl")
 public class LevelCommand extends BaseCommand {
     private final LevelController levelController;
 
