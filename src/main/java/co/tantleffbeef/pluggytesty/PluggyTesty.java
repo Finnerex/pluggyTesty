@@ -29,6 +29,10 @@ import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableTestCommand;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PartyFriendlyFireListener;
 import co.tantleffbeef.pluggytesty.extra_listeners.RandomEffectBowInteractListener;
 import co.tantleffbeef.pluggytesty.extra_listeners.SpecialArrowShootListener;
+import co.tantleffbeef.pluggytesty.levels.LevelController;
+import co.tantleffbeef.pluggytesty.levels.PTLevelController;
+import co.tantleffbeef.pluggytesty.levels.YmlLevelStore;
+import co.tantleffbeef.pluggytesty.levels.commands.LevelCommand;
 import co.tantleffbeef.pluggytesty.misc.Debug;
 import co.tantleffbeef.pluggytesty.extra_listeners.GoatHornInteractListener;
 import co.tantleffbeef.pluggytesty.extra_listeners.PlayerDeathMonitor;
@@ -53,6 +57,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -60,6 +65,8 @@ import java.util.jar.JarFile;
 
 @SuppressWarnings("unused")
 public final class PluggyTesty extends JavaPlugin {
+    public static final int DEFAULT_PLAYER_LEVEL = 0;
+
     private static final long PARTY_INVITE_EXPIRATION_TIME_SECONDS = 60L;
 
     private ResourceManager resourceManager;
@@ -67,6 +74,7 @@ public final class PluggyTesty extends JavaPlugin {
     private KeyManager<CustomNbtKey> nbtKeyManager;
     private AttributeManager attributeManager;
     private LootTableManager lootTableManager;
+    private LevelController levelController;
 
     @Override
     public void onEnable() {
@@ -90,6 +98,15 @@ public final class PluggyTesty extends JavaPlugin {
 
         attributeManager = new AttributeManager(nbtKeyManager);
         lootTableManager = new LootTableManager(attributeManager);
+
+        // Create level controller
+        final var levelDataFilePath = getDataFolder().toPath().resolve("levels.yml");
+        try {
+            Files.createDirectories(levelDataFilePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL));
 
         registerItems();
 //        registerRecipes();
@@ -117,6 +134,7 @@ public final class PluggyTesty extends JavaPlugin {
         });
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
+        commandManager.registerCommand(new LevelCommand(levelController));
 
         getCommand("summonjawn").setExecutor(new BossJawn(this));
         getCommand("summonseaman").setExecutor(new BossSeaman(this));
