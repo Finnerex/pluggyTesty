@@ -102,7 +102,7 @@ public final class PluggyTesty extends JavaPlugin {
         // Create level controller
         final var levelDataFilePath = getDataFolder().toPath().resolve("levels.yml");
         try {
-            Files.createDirectories(levelDataFilePath);
+            Files.createDirectories(levelDataFilePath.getParent());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
