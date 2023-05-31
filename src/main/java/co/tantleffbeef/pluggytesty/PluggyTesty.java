@@ -13,6 +13,7 @@ import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.utility.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.*;
+import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.*;
 import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionManager;
 import co.tantleffbeef.pluggytesty.expeditions.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.Party;
@@ -26,9 +27,11 @@ import co.tantleffbeef.pluggytesty.expeditions.loading.RoomType;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableTestCommand;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PartyFriendlyFireListener;
+import co.tantleffbeef.pluggytesty.extra_listeners.RandomEffectBowInteractListener;
+import co.tantleffbeef.pluggytesty.extra_listeners.SpecialArrowShootListener;
 import co.tantleffbeef.pluggytesty.misc.Debug;
-import co.tantleffbeef.pluggytesty.misc.GoatHornInteractListener;
-import co.tantleffbeef.pluggytesty.misc.PlayerDeathMonitor;
+import co.tantleffbeef.pluggytesty.extra_listeners.GoatHornInteractListener;
+import co.tantleffbeef.pluggytesty.extra_listeners.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.misc.RandomGenTestCommand;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
@@ -130,6 +133,7 @@ public final class PluggyTesty extends JavaPlugin {
 
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
+        getServer().getPluginManager().registerEvents(new SpecialArrowShootListener(nbtKeyManager, resourceManager, this), this);
 
         // Trims / Armor effects
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
@@ -295,6 +299,17 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new YoyoItemType(this, "yoyo", false, ChatColor.DARK_BLUE + "Yoyo"));
         resourceManager.registerItem(new MeowmereItemType(this, "meowmere", false, ChatColor.DARK_BLUE + "Meowmere"));
         resourceManager.registerItem(new MagnetSphereItemType(this, "magnet_sphere", false, ChatColor.AQUA + "Magnet Sphere"));
+
+        // Arrows
+        resourceManager.registerItem(new JestersArrowItemType(this, "jesters_arrow", false, ChatColor.BLUE + "Jester's Arrow"));
+        resourceManager.registerItem(new BouncyArrowItemType(this, "bouncy_arrow", false, ChatColor.BLUE + "Bouncy Arrow"));
+        resourceManager.registerItem(new ExplosiveArrowItemType(this, "explosive_arrow", false, ChatColor.BLUE + "Explosive Arrow"));
+        resourceManager.registerItem(new HomingArrowItemType(this, "homing_arrow", false, ChatColor.BLUE + "Homing Arrow"));
+        resourceManager.registerItem(new HyperArrowItemType(this, "hyper_arrow", false, ChatColor.BLUE + "Hyper Arrow"));
+        resourceManager.registerItem(new RambunctiousArrowItemType(this, "rambunctious_arrow", false, ChatColor.BLUE + "Rambunctious Arrow"));
+        resourceManager.registerItem(new CrazyArrowItemType(this, "crazy_arrow", false, ChatColor.BLUE + "Crazy Arrow"));
+        resourceManager.registerItem(new FrostburnArrowItemType(this, "frostburn_arrow", false, ChatColor.BLUE + "Frostburn Arrow"));
+        resourceManager.registerItem(new FlamingArrowItemType(this, "flaming_arrow", false, ChatColor.BLUE + "Flaming Arrow"));
 
 
         // Utility

@@ -1,9 +1,10 @@
-package co.tantleffbeef.pluggytesty.custom.item.weapons;
+package co.tantleffbeef.pluggytesty.extra_listeners;
 
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
+import co.tantleffbeef.pluggytesty.custom.item.weapons.RandomEffectBowItemType;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -36,10 +37,6 @@ public class RandomEffectBowInteractListener implements Listener {
             return;
         }
 
-        Player player = (Player) event.getEntity();
-
-        event.setConsumeItem(false);
-
         if (event.isCancelled())
             return;
 
@@ -58,26 +55,24 @@ public class RandomEffectBowInteractListener implements Listener {
         if (!(itemType instanceof RandomEffectBowItemType))
             return;
 
+        Arrow arrow = (Arrow) event.getProjectile();
 
-        Arrow arrow1 = (Arrow) event.getProjectile();
+        int effect = new Random().nextInt(12);
+        boolean hasEffect = true;
 
-        int arrow = new Random().nextInt(12);
+        switch (effect) {
+            case 0 -> arrow.addCustomEffect(PotionEffectType.BLINDNESS.createEffect(100, 1), false);
+            case 1 -> arrow.addCustomEffect(PotionEffectType.HARM.createEffect(1, 1), false);
+            case 2 -> arrow.addCustomEffect(PotionEffectType.HARM.createEffect(1, 2), false);
+            case 3 -> arrow.addCustomEffect(PotionEffectType.POISON.createEffect(100, 1), false);
+            case 4 -> arrow.addCustomEffect(PotionEffectType.POISON.createEffect(40, 2), false);
+            case 5 -> arrow.addCustomEffect(PotionEffectType.SLOW.createEffect(60, 4), false);
+            default -> hasEffect = false;
+        }
 
-        // Gavin and Finn are Gonna Get Mad At Me For Hard Coding
-        if (arrow == 0)
-            arrow1.addCustomEffect(PotionEffectType.BLINDNESS.createEffect(100, 1), false);
-        if (arrow == 1)
-            arrow1.addCustomEffect(PotionEffectType.HARM.createEffect(1, 1), false);
-        if (arrow == 2)
-            arrow1.addCustomEffect(PotionEffectType.HARM.createEffect(1, 2), false);
-        if (arrow == 3)
-            arrow1.addCustomEffect(PotionEffectType.POISON.createEffect(100, 1), false);
-        if (arrow == 4)
-            arrow1.addCustomEffect(PotionEffectType.POISON.createEffect(40, 2), false);
-        if (arrow == 5)
-            arrow1.addCustomEffect(PotionEffectType.SLOW.createEffect(60, 4), false);
+        if (hasEffect)
+            arrow.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
 
-        event.setProjectile(arrow1);
-        player.getInventory().removeItem(new ItemStack(Material.ARROW, 1));
+        event.setProjectile(arrow);
     }
 }

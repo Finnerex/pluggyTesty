@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty.misc;
+package co.tantleffbeef.pluggytesty.extra_listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
