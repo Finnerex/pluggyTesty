@@ -10,6 +10,8 @@ import java.nio.file.Path;
 import java.util.UUID;
 
 public class YmlLevelStore implements LevelStore {
+    private final static String SECTION_PATH = "levels";
+
     private final YamlConfiguration config;
     private final Path configPath;
     private final ConfigurationSection levels;
@@ -24,10 +26,10 @@ public class YmlLevelStore implements LevelStore {
     }
 
     private static ConfigurationSection createLevelsSection(YamlConfiguration config) {
-        if (config.isConfigurationSection("levels"))
-            return config.getConfigurationSection("levels");
+        if (config.isConfigurationSection(SECTION_PATH))
+            return config.getConfigurationSection(SECTION_PATH);
 
-        return config.createSection("levels");
+        return config.createSection(SECTION_PATH);
     }
 
     @Override
