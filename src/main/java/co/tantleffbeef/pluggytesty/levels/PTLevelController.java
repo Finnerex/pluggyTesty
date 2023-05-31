@@ -16,13 +16,13 @@ public class PTLevelController implements LevelController {
     }
 
     @Override
-    public void levelUp(OfflinePlayer player) {
+    public void addLevels(OfflinePlayer player, int amount) {
         final var playerId = player.getUniqueId();
 
         // grab their current level
         final int currentLevel = store.retrieveLevel(playerId);
         // replace with their current level + 1
-        store.storeLevel(playerId, currentLevel + 1);
+        store.storeLevel(playerId, currentLevel + amount);
     }
 
     @Override

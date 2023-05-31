@@ -34,10 +34,16 @@ public class LevelCommand extends BaseCommand {
         sender.sendMessage(toModify.getName() + "'s level has been set to " + level);
     }
 
-    @Subcommand("up")
+    @Subcommand("add")
     @CommandCompletion("@players")
-    public void onLevelUp(@NotNull CommandSender sender, @NotNull OfflinePlayer toLevelUp) {
-        levelController.levelUp(toLevelUp);
+    public void onAdd(@NotNull CommandSender sender, @NotNull OfflinePlayer toLevelUp) {
+        onAdd(sender, toLevelUp, 1);
+    }
+
+    @Subcommand("add")
+    @CommandCompletion("@players")
+    public void onAdd(@NotNull CommandSender sender, @NotNull OfflinePlayer toLevelUp, int amount) {
+        levelController.addLevels(toLevelUp, amount);
         sender.sendMessage(toLevelUp.getName() + " has levelled up to level " + levelController.getPlayerLevel(toLevelUp) + "!");
     }
 }
