@@ -2,7 +2,7 @@ package co.tantleffbeef.pluggytesty.levels;
 
 import org.bukkit.OfflinePlayer;
 
-public interface LevelManager {
+public interface LevelController {
     /**
      * Gives back the level of the player
      * @param player player to check the level of

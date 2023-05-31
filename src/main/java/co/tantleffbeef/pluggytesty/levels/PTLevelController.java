@@ -2,7 +2,7 @@ package co.tantleffbeef.pluggytesty.levels;
 
 import org.bukkit.OfflinePlayer;
 
-public class PTLevelManager implements LevelManager {
+public class PTLevelController implements LevelController {
     @Override
     public int getPlayerLevel(OfflinePlayer player) {
         return 1;
