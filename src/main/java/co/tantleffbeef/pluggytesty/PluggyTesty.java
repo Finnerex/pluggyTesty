@@ -545,7 +545,7 @@ public final class PluggyTesty extends JavaPlugin {
                         "i")
                 .setIngredient('i', Material.IRON_NUGGET);
         getServer().addRecipe(chains);
-        recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chain"), Material.IRON_NUGGET);
+        recipeManager.registerUnlockableRecipe(new NamespacedKey(this, "chain"), Material.IRON_NUGGET);
 
 
         final ShapedRecipe chainHelm = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), BaseArmor.cH())
