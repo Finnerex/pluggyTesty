@@ -2,7 +2,7 @@ package co.tantleffbeef.pluggytesty.levels;
 
 import org.bukkit.OfflinePlayer;
 
-public interface LevelManager {
+public interface LevelController {
     /**
      * Gives back the level of the player
      * @param player player to check the level of
@@ -14,7 +14,10 @@ public interface LevelManager {
      * Levels up the player by 1
      * @param player the player to level up
      */
-    void levelUp(OfflinePlayer player);
+    default void levelUp(OfflinePlayer player) {
+        addLevels(player, 1);
+    }
+    void addLevels(OfflinePlayer player, int amount);
 
     /**
      * Sets the players level - should be used for like
