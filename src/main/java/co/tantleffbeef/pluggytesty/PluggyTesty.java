@@ -1,7 +1,6 @@
 package co.tantleffbeef.pluggytesty;
 
-import co.aikar.commands.InvalidCommandArgument;
-import co.aikar.commands.PaperCommandManager;
+import co.aikar.commands.*;
 import co.tantleffbeef.mcplanes.*;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
@@ -37,6 +36,9 @@ import co.tantleffbeef.pluggytesty.misc.Debug;
 import co.tantleffbeef.pluggytesty.extra_listeners.GoatHornInteractListener;
 import co.tantleffbeef.pluggytesty.extra_listeners.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.misc.RandomGenTestCommand;
+import co.tantleffbeef.pluggytesty.plugger.OfflinePlugger;
+import co.tantleffbeef.pluggytesty.plugger.Plugger;
+import co.tantleffbeef.pluggytesty.plugger.PluggerFactory;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.sk89q.worldedit.EmptyClipboardException;
@@ -75,6 +77,7 @@ public final class PluggyTesty extends JavaPlugin {
     private AttributeManager attributeManager;
     private LootTableManager lootTableManager;
     private LevelController levelController;
+    private PluggerFactory pluggerFactory;
 
     @Override
     public void onEnable() {
@@ -120,7 +123,65 @@ public final class PluggyTesty extends JavaPlugin {
         }
 
         final var partyManager = new PTPartyManager();
+
+        pluggerFactory = new PluggerFactory(levelController, partyManager, getServer());
+
         final var commandManager = new PaperCommandManager(this);
+        commandManager.getCommandContexts().registerIssuerAwareContext(Plugger.class, context -> {
+            final boolean isOptional = context.isOptional();
+
+            if (!context.hasFlag("other")) {
+                // If this is the sender
+                final var player = context.getPlayer();
+                if (player == null)
+                    throw new InvalidCommandArgument(MessageKeys.NOT_ALLOWED_ON_CONSOLE, false);
+
+                return pluggerFactory.wrapPlayer(player);
+            } else {
+                // if this is an argument
+                String arg = context.popFirstArg();
+                if (arg == null) {
+                    if (isOptional)
+                        return null;
+
+                    throw new InvalidCommandArgument();
+                }
+
+                final var player = ACFBukkitUtil.findPlayerSmart(context.getIssuer(), arg);
+                if (player == null) {
+                    if (isOptional)
+                        return null;
+
+                    throw new InvalidCommandArgument();
+                }
+
+                return pluggerFactory.wrapPlayer(player);
+            }
+        });
+        commandManager.getCommandContexts().registerContext(OfflinePlugger.class, context -> {
+            String name = context.popFirstArg();
+            OfflinePlayer offlinePlayer;
+            if (context.hasFlag("uuid")) {
+                UUID uuid;
+                try {
+                    uuid = UUID.fromString(name);
+                } catch (IllegalArgumentException e) {
+                    throw new InvalidCommandArgument(MinecraftMessageKeys.NO_PLAYER_FOUND_OFFLINE,
+                            "{search}", name);
+                }
+                offlinePlayer = getServer().getOfflinePlayer(uuid);
+            } else {
+                offlinePlayer = getServer().getOfflinePlayer(name);
+            }
+            if (!offlinePlayer.hasPlayedBefore() && !offlinePlayer.isOnline()) {
+                if (!context.hasFlag("uuid") && !commandManager.isValidName(name)) {
+                    throw new InvalidCommandArgument(MinecraftMessageKeys.IS_NOT_A_VALID_NAME, "{name}", name);
+                }
+                throw new InvalidCommandArgument(MinecraftMessageKeys.NO_PLAYER_FOUND_OFFLINE,
+                        "{search}", name);
+            }
+            return pluggerFactory.wrapOfflinePlayer(offlinePlayer);
+        });
         commandManager.getCommandCompletions().registerCompletion("partyPlayers", context -> {
             final var player = context.getPlayer();
             final var party = partyManager.getPartyWith(player);
@@ -134,7 +195,7 @@ public final class PluggyTesty extends JavaPlugin {
         });
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
-        commandManager.registerCommand(new LevelCommand(levelController));
+        commandManager.registerCommand(new LevelCommand());
 
         getCommand("summonjawn").setExecutor(new BossJawn(this));
         getCommand("summonseaman").setExecutor(new BossSeaman(this));

@@ -4,46 +4,38 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Subcommand;
-import co.tantleffbeef.pluggytesty.levels.LevelController;
+import co.tantleffbeef.pluggytesty.plugger.OfflinePlugger;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 @CommandAlias("level|lvl")
 public class LevelCommand extends BaseCommand {
-    private final LevelController levelController;
-
-    public LevelCommand(@NotNull LevelController levelController) {
-        this.levelController = levelController;
-    }
-
     @Subcommand("get")
     @CommandCompletion("@players")
-    public void onGet(@NotNull CommandSender sender, @NotNull OfflinePlayer toCheck) {
-        final int playerLevel = levelController.getPlayerLevel(toCheck);
-
-        sender.sendMessage(toCheck.getName() + "'s level is " + ChatColor.GOLD + playerLevel);
+    public void onGet(@NotNull CommandSender sender, @NotNull OfflinePlugger toCheck) {
+        sender.sendMessage(toCheck.asOfflinePlayer().getName() + "'s level is " + ChatColor.GOLD + toCheck.getLevel());
     }
 
     @Subcommand("set")
     @CommandCompletion("@players")
-    public void onSet(@NotNull CommandSender sender, @NotNull OfflinePlayer toModify, int level) {
-        levelController.setLevel(toModify, level);
-        sender.sendMessage(toModify.getName() + "'s level has been set to " + level);
+    public void onSet(@NotNull CommandSender sender, @NotNull OfflinePlugger toModify, int level) {
+        toModify.setLevel(level);
+        sender.sendMessage(toModify.asOfflinePlayer().getName() + "'s level has been set to " + level);
     }
 
     @Subcommand("add")
     @CommandCompletion("@players")
-    public void onAdd(@NotNull CommandSender sender, @NotNull OfflinePlayer toLevelUp) {
+    public void onAdd(@NotNull CommandSender sender, @NotNull OfflinePlugger toLevelUp) {
         onAdd(sender, toLevelUp, 1);
     }
 
     @Subcommand("add")
     @CommandCompletion("@players")
-    public void onAdd(@NotNull CommandSender sender, @NotNull OfflinePlayer toLevelUp, int amount) {
-        levelController.addLevels(toLevelUp, amount);
-        sender.sendMessage(toLevelUp.getName() + " has levelled up to level " + levelController.getPlayerLevel(toLevelUp) + "!");
+    public void onAdd(@NotNull CommandSender sender, @NotNull OfflinePlugger toLevelUp, int amount) {
+        toLevelUp.addLevels(amount);
+        sender.sendMessage(toLevelUp.asOfflinePlayer().getName() + " has levelled up to level " +
+                toLevelUp.getLevel() + "!");
     }
 }
