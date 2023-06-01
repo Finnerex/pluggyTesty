@@ -36,9 +36,10 @@ import co.tantleffbeef.pluggytesty.misc.Debug;
 import co.tantleffbeef.pluggytesty.extra_listeners.GoatHornInteractListener;
 import co.tantleffbeef.pluggytesty.extra_listeners.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.misc.RandomGenTestCommand;
-import co.tantleffbeef.pluggytesty.plugger.OfflinePlugger;
-import co.tantleffbeef.pluggytesty.plugger.Plugger;
-import co.tantleffbeef.pluggytesty.plugger.PluggerFactory;
+import co.tantleffbeef.pluggytesty.plugger.GooberStateListener;
+import co.tantleffbeef.pluggytesty.plugger.OfflineGoober;
+import co.tantleffbeef.pluggytesty.plugger.Goober;
+import co.tantleffbeef.pluggytesty.plugger.GooberStateController;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.sk89q.worldedit.EmptyClipboardException;
@@ -77,7 +78,7 @@ public final class PluggyTesty extends JavaPlugin {
     private AttributeManager attributeManager;
     private LootTableManager lootTableManager;
     private LevelController levelController;
-    private PluggerFactory pluggerFactory;
+    private GooberStateController gooberStateController;
 
     @Override
     public void onEnable() {
@@ -124,10 +125,10 @@ public final class PluggyTesty extends JavaPlugin {
 
         final var partyManager = new PTPartyManager();
 
-        pluggerFactory = new PluggerFactory(levelController, partyManager, getServer());
+        gooberStateController = new GooberStateController(levelController, partyManager, getServer());
 
         final var commandManager = new PaperCommandManager(this);
-        commandManager.getCommandContexts().registerIssuerAwareContext(Plugger.class, context -> {
+        commandManager.getCommandContexts().registerIssuerAwareContext(Goober.class, context -> {
             final boolean isOptional = context.isOptional();
 
             if (!context.hasFlag("other")) {
@@ -136,7 +137,7 @@ public final class PluggyTesty extends JavaPlugin {
                 if (player == null)
                     throw new InvalidCommandArgument(MessageKeys.NOT_ALLOWED_ON_CONSOLE, false);
 
-                return pluggerFactory.wrapPlayer(player);
+                return gooberStateController.wrapPlayer(player);
             } else {
                 // if this is an argument
                 String arg = context.popFirstArg();
@@ -155,10 +156,10 @@ public final class PluggyTesty extends JavaPlugin {
                     throw new InvalidCommandArgument();
                 }
 
-                return pluggerFactory.wrapPlayer(player);
+                return gooberStateController.wrapPlayer(player);
             }
         });
-        commandManager.getCommandContexts().registerContext(OfflinePlugger.class, context -> {
+        commandManager.getCommandContexts().registerContext(OfflineGoober.class, context -> {
             String name = context.popFirstArg();
             OfflinePlayer offlinePlayer;
             if (context.hasFlag("uuid")) {
@@ -180,7 +181,7 @@ public final class PluggyTesty extends JavaPlugin {
                 throw new InvalidCommandArgument(MinecraftMessageKeys.NO_PLAYER_FOUND_OFFLINE,
                         "{search}", name);
             }
-            return pluggerFactory.wrapOfflinePlayer(offlinePlayer);
+            return gooberStateController.wrapOfflinePlayer(offlinePlayer);
         });
         commandManager.getCommandCompletions().registerCompletion("partyPlayers", context -> {
             final var player = context.getPlayer();
@@ -233,6 +234,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CraftListener(attributeManager), this);
         getServer().getPluginManager().registerEvents(new SmithListener(), this);
         getServer().getPluginManager().registerEvents(new PartyFriendlyFireListener(partyManager), this);
+        getServer().getPluginManager().registerEvents(new GooberStateListener(gooberStateController, getServer()), this);
 
 
         ArmorEquipEvent.registerListener(this);

@@ -3,12 +3,21 @@ package co.tantleffbeef.pluggytesty.plugger;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
-public interface OfflinePlugger {
+import java.util.UUID;
+
+public interface OfflineGoober {
     /**
      * Returns the OfflinePlayer this plugger wraps
      * @return the OfflinePlayer this plugger wraps
      */
     @NotNull OfflinePlayer asOfflinePlayer();
+
+    /**
+     * Returns the unique id of this goober (should be
+     * the same as goober.asOfflinePlayer().getUniqueId())
+     * @return this goober's unique id
+     */
+    @NotNull UUID getUniqueId();
 
     /**
      * Returns whether this plugger is online. If they

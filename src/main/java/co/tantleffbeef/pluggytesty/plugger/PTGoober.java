@@ -9,33 +9,37 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.UUID;
 
-public class PTPlugger implements Plugger {
-    private final OfflinePlayer offlinePlayer;
-    private final Player player;
+public class PTGoober implements Goober {
+    private OfflinePlayer offlinePlayer;
+    private Player player;
+    private final UUID uuid;
 
     private final LevelController levelController;
     private final PartyManager partyManager;
     private final Server server;
 
-    public PTPlugger(@NotNull OfflinePlayer player,
-                      @NotNull LevelController levelController,
-                      @NotNull PartyManager partyManager,
-                      @NotNull Server server) {
+    public PTGoober(@NotNull OfflinePlayer player,
+                    @NotNull LevelController levelController,
+                    @NotNull PartyManager partyManager,
+                    @NotNull Server server) {
         this.offlinePlayer = player;
         this.player = null;
+        this.uuid = player.getUniqueId();
 
         this.levelController = levelController;
         this.partyManager = partyManager;
         this.server = server;
     }
 
-    public PTPlugger(@NotNull Player player,
-                      @NotNull LevelController levelController,
-                      @NotNull PartyManager partyManager,
-                      @NotNull Server server) {
+    public PTGoober(@NotNull Player player,
+                    @NotNull LevelController levelController,
+                    @NotNull PartyManager partyManager,
+                    @NotNull Server server) {
         this.offlinePlayer = player;
         this.player = player;
+        this.uuid = player.getUniqueId();
 
         this.levelController = levelController;
         this.partyManager = partyManager;
@@ -45,6 +49,11 @@ public class PTPlugger implements Plugger {
     @Override
     public @NotNull OfflinePlayer asOfflinePlayer() {
         return offlinePlayer;
+    }
+
+    @Override
+    public @NotNull UUID getUniqueId() {
+        return uuid;
     }
 
     @Override
@@ -71,7 +80,8 @@ public class PTPlugger implements Plugger {
     public @NotNull Player asPlayer() {
         // This should only be used
         // for an online Plugger
-        assert player != null;
+        if (player == null)
+            throw new GooberOfflineException();
 
         return player;
     }
@@ -80,7 +90,8 @@ public class PTPlugger implements Plugger {
     public Optional<Party> getParty() {
         // This should only be used
         // for an online Plugger
-        assert player != null;
+        if (player == null)
+            throw new GooberOfflineException();
 
         // Grab the party if it exists
         return Optional.ofNullable(partyManager.getPartyWith(player));
@@ -90,7 +101,8 @@ public class PTPlugger implements Plugger {
     public @NotNull Party getPartyOrCreate() {
         // This should only be used
         // for an online Plugger
-        assert player != null;
+        if (player == null)
+            throw new GooberOfflineException();
 
         // return the party that already exists
         // or make a new one
@@ -100,5 +112,35 @@ public class PTPlugger implements Plugger {
 
             return newParty;
         });
+    }
+
+    void setOnline(@NotNull Player toSet) {
+        assert uuid.equals(toSet.getUniqueId());
+
+        offlinePlayer = toSet;
+        player = toSet;
+    }
+
+    void setOffline(@NotNull OfflinePlayer toSet) {
+        assert uuid.equals(toSet.getUniqueId());
+
+        offlinePlayer = toSet;
+        player = null;
+    }
+
+    @Override
+    public int hashCode() {
+        return uuid.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+
+        if (!(obj instanceof PTGoober g))
+            return false;
+
+        return uuid.equals(g.uuid);
     }
 }

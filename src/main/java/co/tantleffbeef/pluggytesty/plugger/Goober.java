@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public interface Plugger extends OfflinePlugger {
+public interface Goober extends OfflineGoober {
     /**
      * Returns the player object this plugger wraps
      * @return the player object this plugger wraps
