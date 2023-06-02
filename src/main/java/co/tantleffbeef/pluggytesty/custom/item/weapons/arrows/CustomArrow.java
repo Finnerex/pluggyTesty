@@ -1,9 +1,10 @@
 package co.tantleffbeef.pluggytesty.custom.item.weapons.arrows;
 
+import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
-public interface CustomArrow {
+public interface CustomArrow extends CustomItemType {
 
     /**
      * Runs when the custom arrow is shot
