@@ -91,6 +91,7 @@ public class SpecialArrowShootListener implements Listener {
             if (data.value() instanceof CustomArrow customArrow) {
                 event.setCancelled(true);
                 event.getPlayer().getInventory().addItem(resourceManager.getCustomItemStack(customArrow.id()));
+                event.getArrow().remove();
             }
         }
     }
