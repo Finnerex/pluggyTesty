@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty.plugger;
+package co.tantleffbeef.pluggytesty.goober;
 
 import org.bukkit.Server;
 import org.bukkit.event.EventHandler;

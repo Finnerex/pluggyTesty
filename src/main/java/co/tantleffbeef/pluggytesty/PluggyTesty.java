@@ -8,6 +8,7 @@ import co.tantleffbeef.pluggytesty.armor.BaseArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.CraftListener;
+import co.tantleffbeef.pluggytesty.attributes.DisabledRecipeManager;
 import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.utility.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
@@ -36,10 +37,10 @@ import co.tantleffbeef.pluggytesty.misc.Debug;
 import co.tantleffbeef.pluggytesty.extra_listeners.GoatHornInteractListener;
 import co.tantleffbeef.pluggytesty.extra_listeners.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.misc.RandomGenTestCommand;
-import co.tantleffbeef.pluggytesty.plugger.GooberStateListener;
-import co.tantleffbeef.pluggytesty.plugger.OfflineGoober;
-import co.tantleffbeef.pluggytesty.plugger.Goober;
-import co.tantleffbeef.pluggytesty.plugger.GooberStateController;
+import co.tantleffbeef.pluggytesty.goober.GooberStateListener;
+import co.tantleffbeef.pluggytesty.goober.OfflineGoober;
+import co.tantleffbeef.pluggytesty.goober.Goober;
+import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.sk89q.worldedit.EmptyClipboardException;
@@ -235,6 +236,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SmithListener(), this);
         getServer().getPluginManager().registerEvents(new PartyFriendlyFireListener(partyManager), this);
         getServer().getPluginManager().registerEvents(new GooberStateListener(gooberStateController, getServer()), this);
+        getServer().getPluginManager().registerEvents(new DisabledRecipeManager(this, attributeManager, gooberStateController), this);
 
 
         ArmorEquipEvent.registerListener(this);
