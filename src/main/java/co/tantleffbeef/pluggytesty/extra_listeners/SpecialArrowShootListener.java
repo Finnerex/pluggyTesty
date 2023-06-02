@@ -4,9 +4,11 @@ import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
+import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.BouncyArrowItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.CustomArrow;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
@@ -14,6 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerPickupArrowEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
@@ -80,6 +83,16 @@ public class SpecialArrowShootListener implements Listener {
             }
         }
 
+    }
+
+    @EventHandler
+    public void onPickup(PlayerPickupArrowEvent event) {
+        for (MetadataValue data : event.getArrow().getMetadata("customArrowType")) {
+            if (data.value() instanceof CustomArrow customArrow) {
+                event.setCancelled(true);
+                event.getPlayer().getInventory().addItem(resourceManager.getCustomItemStack(customArrow.id()));
+            }
+        }
     }
 
 
