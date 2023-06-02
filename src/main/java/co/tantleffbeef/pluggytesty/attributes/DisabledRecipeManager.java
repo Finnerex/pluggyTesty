@@ -65,7 +65,7 @@ public class DisabledRecipeManager implements Listener {
         if (level == null)
             return;
 
-        if (player.getLevel() <= level)
+        if (player.getLevel() < level)
             event.setCancelled(true);
 
 
