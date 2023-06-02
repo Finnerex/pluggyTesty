@@ -59,15 +59,14 @@ public class DisabledRecipeManager implements Listener {
         Goober player = gooberStateController.wrapPlayer(tempPlayer);
 
         // level at which picked up item is unlocked
-        Integer level = disabledItems.get(event.getItem().getType().getKey());
-        Bukkit.broadcastMessage("Player level: " + player.getLevel() + "\nRequired level: " + level);
+        Integer requiredLevel = disabledItems.get(event.getItem().getItemStack().getType().getKey());
+        Bukkit.broadcastMessage("Player level: " + player.getLevel() + "\nRequired level: " + requiredLevel);
 
-        if (level == null)
+        if (requiredLevel == null)
             return;
 
-        if (player.getLevel() < level)
+        if (player.getLevel() < requiredLevel)
             event.setCancelled(true);
-
 
     }
 
