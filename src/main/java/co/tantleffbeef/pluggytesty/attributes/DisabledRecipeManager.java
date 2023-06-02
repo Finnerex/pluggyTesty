@@ -51,17 +51,6 @@ public class DisabledRecipeManager implements Listener {
 
     }
 
-    private NamespacedKey getCustomOrVanillaItemKey(ItemStack itemStack) {
-        NamespacedKey itemKey;
-
-        if (itemStack instanceof CustomItemType customItem)
-            itemKey = customItem.id();
-        else
-            itemKey = itemStack.getType().getKey();
-
-        return itemKey;
-    }
-
     @EventHandler
     public void onPlayerPickup(EntityPickupItemEvent event) {
         if (!(event.getEntity() instanceof Player tempPlayer))
@@ -70,11 +59,15 @@ public class DisabledRecipeManager implements Listener {
         Goober player = gooberStateController.wrapPlayer(tempPlayer);
 
         // level at which picked up item is unlocked
-        Integer level = disabledItems.get(getCustomOrVanillaItemKey(event.getItem().getItemStack()));
+        Integer level = disabledItems.get(event.getItem().getType().getKey());
         Bukkit.broadcastMessage("Player level: " + player.getLevel() + "\nRequired level: " + level);
 
-        if (player.getLevel() >= level)
+        if (level == null)
+            return;
+
+        if (player.getLevel() <= level)
             event.setCancelled(true);
+
 
     }
 
