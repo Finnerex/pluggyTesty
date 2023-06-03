@@ -18,6 +18,7 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Map;
@@ -90,8 +91,15 @@ public class DisabledRecipeManager implements Listener {
 
         Goober player = gooberStateController.wrapPlayer(tempPlayer);
 
-        // check if the item or recipe is banned
+        // check if the item is banned
         checkItemOrRecipe(player, CustomItemNbt.customItemIdOrVanilla(item, keyManager), event);
+
+        Recipe recipe = event.getRecipe();
+
+        if (!(recipe instanceof Keyed keyedRecipe))
+            return;
+
+        checkItemOrRecipe(player, keyedRecipe.getKey(), event);
 
 
     }
