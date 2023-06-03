@@ -7,8 +7,11 @@ import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
 import co.tantleffbeef.pluggytesty.goober.Goober;
 import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import org.bukkit.Bukkit;
+import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -57,26 +60,46 @@ public class DisabledRecipeManager implements Listener {
 
     }
 
+    private void checkItem(Goober player, NamespacedKey key, Cancellable event) {
+        // level at which picked up item is unlocked
+        Integer requiredLevel = disabledItems.get(key);
+
+        if (requiredLevel == null)
+            return;
+
+        // if the player does not have high enough level, don't let them do that dawg
+        if (player.getLevel() < requiredLevel)
+            event.setCancelled(true);
+    }
+
     @EventHandler
     public void onCraft(CraftItemEvent event) {
+        ItemStack item = event.getCurrentItem();
+
+        if (item == null)
+            return;
 
         if (!(event.getWhoClicked() instanceof Player tempPlayer))
             return;
 
         Goober player = gooberStateController.wrapPlayer(tempPlayer);
 
-        final ItemStack result = event.getInventory().getResult();
+        // check if the item is banned
+        checkItem(player, CustomItemNbt.customItemIdOrVanilla(item, keyManager), event);
 
-        if (result == null)
-            return;
 
-        Integer requiredLevel = disabledItems.get(CustomItemNbt.customItemIdOrVanilla(result, keyManager));
+        // check if the recipe is banned
 
-        if (requiredLevel == null)
-            return;
-
-        if (player.getLevel() < requiredLevel)
-            event.setCancelled(true);
+//        if (!(event.getRecipe() instanceof Keyed keyedRecipe))
+//            return;
+//
+//        requiredLevel = disabledRecipes.get(keyedRecipe.getKey());
+//
+//        if (requiredLevel == null)
+//            return;
+//
+//        if (player.getLevel() < requiredLevel)
+//            event.setCancelled(true);
 
     }
 
@@ -87,15 +110,7 @@ public class DisabledRecipeManager implements Listener {
 
         Goober player = gooberStateController.wrapPlayer(tempPlayer);
 
-        // level at which picked up item is unlocked
-        Integer requiredLevel = disabledItems.get(CustomItemNbt.customItemIdOrVanilla(event.getItem().getItemStack(), keyManager));
-
-        if (requiredLevel == null)
-            return;
-
-        if (player.getLevel() < requiredLevel)
-            event.setCancelled(true);
-
+        checkItem(player, CustomItemNbt.customItemIdOrVanilla(event.getItem().getItemStack(), keyManager), event);
     }
 
     @EventHandler
