@@ -382,10 +382,7 @@ public final class PluggyTesty extends JavaPlugin {
             while (e.hasMoreElements()) {
                 final String entry = e.nextElement().getName();
 
-                if (entry.matches(ifMatchThenSkip))
-                    continue;
-
-                Debug.log(entry);
+                Debug.log(entry.matches(ifMatchThenSkip) + ": " + entry);
             }
         }
     }
