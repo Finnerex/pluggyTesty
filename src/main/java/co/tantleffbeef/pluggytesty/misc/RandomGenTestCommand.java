@@ -1,28 +1,43 @@
 package co.tantleffbeef.pluggytesty.misc;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
-public class RandomGenTestCommand implements CommandExecutor {
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Entity e))
-            return false;
+@SuppressWarnings("unused")
+@CommandAlias("visualize")
+public class RandomGenTestCommand extends BaseCommand {
+    private static class Door {
+        public final Location platformCenter;
+        public final BlockFace direction;
 
-        final var location = e.getLocation();
+        public Door(Location platformCenter, BlockFace direction) {
+            this.platformCenter = platformCenter;
+            this.direction = direction;
+        }
+    }
+
+    @Default
+    public void onCommand(@NotNull Entity entity) {
+        onCommand(entity, 3, 3);
+    }
+
+    @Default
+    public void onCommand(@NotNull Entity entity, int requiredNum, int optionalNum) {
+        final var location = entity.getLocation();
         final Material requiredMaterial = Material.CYAN_CONCRETE;
-        final Material optionalEndMaterial = Material.RED_CONCRETE;
-        final Material optionalPathwayMaterial = Material.YELLOW_CONCRETE;
+        final Material endMaterial = Material.RED_CONCRETE;
+        final Material startMaterial = Material.GREEN_CONCRETE;
+        final Material pathwayMaterial = Material.YELLOW_CONCRETE;
 
         buildPlatform(location, requiredMaterial);
-        e.sendMessage("done i guess");
-        return true;
+        entity.sendMessage("done i guess");
     }
 
     private static void buildPlatform(Location center, Material material) {

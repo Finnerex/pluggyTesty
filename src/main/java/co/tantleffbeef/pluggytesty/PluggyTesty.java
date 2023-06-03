@@ -59,6 +59,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
@@ -90,6 +91,14 @@ public final class PluggyTesty extends JavaPlugin {
         Debug.setConsoleSender(getServer().getConsoleSender());
         Debug.setDebugMessagesEnabled(true);
         Debug.info("Debug messages enabled");
+
+        Debug.info("testing some shit man");
+        try {
+            saveAllResourcesExcept((String[]) null);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
         final var rApiProvider = getServer().getServicesManager().getRegistration(ResourceApi.class);
         if (rApiProvider == null)
@@ -197,6 +206,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
         commandManager.registerCommand(new LevelCommand());
+        commandManager.registerCommand(new RandomGenTestCommand());
 
         getCommand("summonjawn").setExecutor(new BossJawn(this));
         getCommand("summonseaman").setExecutor(new BossSeaman(this));
@@ -209,7 +219,6 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("trial3boss").setExecutor(new BossTrial3(this));
         getCommand("trial4boss").setExecutor(new BossTrial4(this));
         getCommand("trial5boss").setExecutor(new BossTrial5(this));
-        getCommand("visualize").setExecutor(new RandomGenTestCommand());
 
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
@@ -359,6 +368,20 @@ public final class PluggyTesty extends JavaPlugin {
 
             return true;
         });
+    }
+
+    private void saveAllResourcesExcept(String... paths) throws IOException {
+        final var jarPath = PluggyTesty.class.getProtectionDomain().getCodeSource().getLocation();
+
+        try (final var jar = new JarFile(new File(jarPath.getPath()))) {
+            final var e = jar.entries();
+
+            while (e.hasMoreElements()) {
+                final String entry = e.nextElement().getName();
+
+                Debug.log(entry);
+            }
+        }
     }
 
     private void registerItems() {
