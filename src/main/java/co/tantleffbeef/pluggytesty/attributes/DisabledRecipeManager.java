@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -53,6 +54,29 @@ public class DisabledRecipeManager implements Listener {
                 entry(NamespacedKey.minecraft("carrot"), 0),
                 entry(NamespacedKey.minecraft("potato"), -1)
         );
+
+    }
+
+    @EventHandler
+    public void onCraft(CraftItemEvent event) {
+
+        if (!(event.getWhoClicked() instanceof Player tempPlayer))
+            return;
+
+        Goober player = gooberStateController.wrapPlayer(tempPlayer);
+
+        final ItemStack result = event.getInventory().getResult();
+
+        if (result == null)
+            return;
+
+        Integer requiredLevel = disabledItems.get(CustomItemNbt.customItemIdOrVanilla(result, keyManager));
+
+        if (requiredLevel == null)
+            return;
+
+        if (player.getLevel() < requiredLevel)
+            event.setCancelled(true);
 
     }
 
