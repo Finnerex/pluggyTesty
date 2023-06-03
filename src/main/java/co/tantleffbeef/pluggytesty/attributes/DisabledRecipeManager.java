@@ -16,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.inventory.SmithItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -122,36 +123,6 @@ public class DisabledRecipeManager implements Listener {
             checkRecipe(player, keyedRecipe.getKey(), event);
 
         }
-    }
-
-    @EventHandler
-    public void onPlayerSmith(SmithItemEvent event) {
-
-        Bukkit.broadcastMessage("Smithy withy");
-
-        ItemStack item = event.getCurrentItem();
-        if (item == null)
-            return;
-
-        if (!(event.getWhoClicked() instanceof Player tempPlayer))
-            return;
-
-        Goober player = gooberStateController.wrapPlayer(tempPlayer);
-
-        // check if the item is banned
-        checkItem(player, CustomItemNbt.customItemIdOrVanilla(item, keyManager), event);
-
-        Recipe recipe = event.getInventory().getRecipe();
-
-        Bukkit.broadcastMessage("recipe: " + recipe);
-
-        if (!(recipe instanceof Keyed keyedRecipe) || event.isCancelled())
-            return;
-
-        Bukkit.broadcastMessage("that jawn is keyed");
-
-        checkRecipe(player, keyedRecipe.getKey(), event);
-
     }
 
 }
