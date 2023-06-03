@@ -69,7 +69,7 @@ public class RambunctiousArrowItemType extends SimpleItemType implements CustomA
             case NORTH, SOUTH -> velocity.setZ(velocity.getZ() * -1);
         }
 
-        velocity.multiply(2);
+        velocity.multiply(1.15f);
 
         arrow.getWorld().spawn(arrow.getLocation(), Arrow.class, (projectile) -> {
             projectile.setVelocity(velocity);
