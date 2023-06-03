@@ -56,6 +56,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
@@ -95,7 +96,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         Debug.info("testing some shit man");
         try {
-            saveAllResourcesExcept((String[]) null);
+            saveAllResourcesExcept(".class|acf-|META-INF");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -372,7 +373,7 @@ public final class PluggyTesty extends JavaPlugin {
         });
     }
 
-    private void saveAllResourcesExcept(String... paths) throws IOException {
+    private void saveAllResourcesExcept(@Language("RegExp") String ifMatchThenSkip) throws IOException {
         final var jarPath = PluggyTesty.class.getProtectionDomain().getCodeSource().getLocation();
 
         try (final var jar = new JarFile(new File(jarPath.getPath()))) {
@@ -380,6 +381,9 @@ public final class PluggyTesty extends JavaPlugin {
 
             while (e.hasMoreElements()) {
                 final String entry = e.nextElement().getName();
+
+                if (entry.matches(ifMatchThenSkip))
+                    continue;
 
                 Debug.log(entry);
             }
