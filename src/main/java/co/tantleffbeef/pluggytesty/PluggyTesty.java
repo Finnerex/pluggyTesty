@@ -96,7 +96,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         Debug.info("testing some shit man");
         try {
-            saveAllResourcesExcept("\\b.*.class|\\b.*acf-|\\b.*META-INF");
+            saveAllResourcesExcept("\\b.*.class|\\b.*acf-|^META-INF/");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
