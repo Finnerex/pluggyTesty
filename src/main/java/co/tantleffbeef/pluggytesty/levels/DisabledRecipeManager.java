@@ -1,8 +1,9 @@
-package co.tantleffbeef.pluggytesty.attributes;
+package co.tantleffbeef.pluggytesty.levels;
 
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
+import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.goober.Goober;
 import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import org.bukkit.Bukkit;
