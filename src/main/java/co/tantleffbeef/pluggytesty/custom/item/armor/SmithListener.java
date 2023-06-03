@@ -17,12 +17,12 @@ public class SmithListener implements Listener {
 
     @EventHandler
     public void onCraft(PrepareSmithingEvent event) {
-        final SmithingInventory inventory = event.getInventory();
-        final ItemStack result = inventory.getResult();
-
-        if (result.equals(getRecipe(key).getResult())) {
-            event.getInventory().setResult(BaseArmor.nC());
-        }
+//        final SmithingInventory inventory = event.getInventory();
+//        final ItemStack result = inventory.getResult();
+//
+//        if (result.equals(getRecipe(key).getResult())) {
+//            event.getInventory().setResult(BaseArmor.nC());
+//        }
     }
 }
 
