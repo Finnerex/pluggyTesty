@@ -48,7 +48,7 @@ public class DisabledRecipeManager implements Listener {
         this.keyManager = keyManager;
 
         disabledRecipes = Map.ofEntries(
-                entry(new NamespacedKey(plugin, "bolt_rod"), DISABLED),
+                entry(new NamespacedKey(plugin, "bolt_rod"), 3),
                 entry(NamespacedKey.minecraft("chain"), DISABLED)
 
         );
@@ -63,22 +63,26 @@ public class DisabledRecipeManager implements Listener {
 
     }
 
-    private void checkItemOrRecipe(Goober player, NamespacedKey key, Cancellable event) {
+    private void checkItem(Goober player, NamespacedKey key, Cancellable event) {
         // level at which picked up item is unlocked
         Integer requiredLevel = disabledItems.get(key);
 
-        if (requiredLevel == null) {
-            requiredLevel = disabledRecipes.get(key);
-
-            // goofy
-            if (requiredLevel == null)
-                return;
-        }
+        if (requiredLevel == null)
+            return;
 
         // if the player does not have high enough level, don't let them do that dawg
         if (player.getLevel() < requiredLevel)
             event.setCancelled(true);
+    }
 
+    private void checkRecipe(Goober player, NamespacedKey key, Cancellable event) {
+        Integer requiredLevel = disabledRecipes.get(key);
+
+        if (requiredLevel == null)
+            return;
+
+        if (player.getLevel() < requiredLevel)
+            event.setCancelled(true);
     }
 
     @EventHandler
@@ -94,14 +98,14 @@ public class DisabledRecipeManager implements Listener {
         Goober player = gooberStateController.wrapPlayer(tempPlayer);
 
         // check if the item is banned
-        checkItemOrRecipe(player, CustomItemNbt.customItemIdOrVanilla(item, keyManager), event);
+        checkItem(player, CustomItemNbt.customItemIdOrVanilla(item, keyManager), event);
 
         Recipe recipe = event.getRecipe();
 
-        if (!(recipe instanceof Keyed keyedRecipe))
+        if (!(recipe instanceof Keyed keyedRecipe) || event.isCancelled())
             return;
 
-        checkItemOrRecipe(player, keyedRecipe.getKey(), event);
+        checkRecipe(player, keyedRecipe.getKey(), event);
 
 
     }
@@ -113,7 +117,7 @@ public class DisabledRecipeManager implements Listener {
 
         Goober player = gooberStateController.wrapPlayer(tempPlayer);
 
-        checkItemOrRecipe(player, CustomItemNbt.customItemIdOrVanilla(event.getItem().getItemStack(), keyManager), event);
+        checkItem(player, CustomItemNbt.customItemIdOrVanilla(event.getItem().getItemStack(), keyManager), event);
     }
 
     @EventHandler
