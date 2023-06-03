@@ -7,6 +7,7 @@ import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
 import co.tantleffbeef.pluggytesty.goober.Goober;
 import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -16,7 +17,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.inventory.SmithItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
@@ -49,7 +52,8 @@ public class DisabledRecipeManager implements Listener {
 
         disabledRecipes = Map.ofEntries(
                 entry(new NamespacedKey(plugin, "bolt_rod"), 3),
-                entry(NamespacedKey.minecraft("chain"), DISABLED)
+                entry(NamespacedKey.minecraft("chain"), DISABLED),
+                entry(NamespacedKey.minecraft("netherite_leggings"), 2)
 
         );
 
@@ -81,33 +85,10 @@ public class DisabledRecipeManager implements Listener {
         if (requiredLevel == null)
             return;
 
-        if (player.getLevel() < requiredLevel)
+        if (player.getLevel() < requiredLevel) {
             event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onCraft(CraftItemEvent event) {
-        ItemStack item = event.getCurrentItem();
-
-        if (item == null)
-            return;
-
-        if (!(event.getWhoClicked() instanceof Player tempPlayer))
-            return;
-
-        Goober player = gooberStateController.wrapPlayer(tempPlayer);
-
-        // check if the item is banned
-        checkItem(player, CustomItemNbt.customItemIdOrVanilla(item, keyManager), event);
-
-        Recipe recipe = event.getRecipe();
-
-        if (!(recipe instanceof Keyed keyedRecipe) || event.isCancelled())
-            return;
-
-        checkRecipe(player, keyedRecipe.getKey(), event);
-
-
+            player.asPlayer().sendMessage(ChatColor.RED + "You are not high enough level to do that!");
+        }
     }
 
     @EventHandler
@@ -121,8 +102,36 @@ public class DisabledRecipeManager implements Listener {
     }
 
     @EventHandler
-    public void onPlayerInventoryInteract(InventoryInteractEvent event) {
+    public void onPlayerInventoryClick(InventoryClickEvent event) {
+        ItemStack item = event.getCurrentItem();
+        if (item == null)
+            return;
 
+        if (!(event.getWhoClicked() instanceof Player tempPlayer))
+            return;
+
+        Goober player = gooberStateController.wrapPlayer(tempPlayer);
+
+        // check if the item is banned
+        checkItem(player, CustomItemNbt.customItemIdOrVanilla(item, keyManager), event);
+
+        // check the if the recipe is banned if it is a crafting or smith event
+        if (event instanceof CraftItemEvent craftEvent) {
+            Recipe recipe = craftEvent.getRecipe();
+
+            if (!(recipe instanceof Keyed keyedRecipe) || event.isCancelled())
+                return;
+
+            checkRecipe(player, keyedRecipe.getKey(), event);
+
+        } else if (event instanceof SmithItemEvent smithEvent) {
+            Recipe recipe = smithEvent.getInventory().getRecipe();
+
+            if (!(recipe instanceof Keyed keyedRecipe) || event.isCancelled())
+                return;
+
+            checkRecipe(player, keyedRecipe.getKey(), event);
+        }
     }
 
 }
