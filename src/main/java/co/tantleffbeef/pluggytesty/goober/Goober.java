@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty.plugger;
+package co.tantleffbeef.pluggytesty.goober;
 
 import co.tantleffbeef.pluggytesty.expeditions.Party;
 import org.bukkit.entity.Player;

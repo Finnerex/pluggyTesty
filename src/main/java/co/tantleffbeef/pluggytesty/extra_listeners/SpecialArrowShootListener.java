@@ -9,8 +9,10 @@ import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.BouncyArrowItemTyp
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.CustomArrow;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -89,8 +91,13 @@ public class SpecialArrowShootListener implements Listener {
     public void onPickup(PlayerPickupArrowEvent event) {
         for (MetadataValue data : event.getArrow().getMetadata("customArrowType")) {
             if (data.value() instanceof CustomArrow customArrow) {
+                Player player = event.getPlayer();
+
                 event.setCancelled(true);
-                event.getPlayer().getInventory().addItem(resourceManager.getCustomItemStack(customArrow.id()));
+
+                player.getInventory().addItem(resourceManager.getCustomItemStack(customArrow.id()));
+                player.playSound(player, Sound.ENTITY_ITEM_PICKUP, 1, 1);
+
                 event.getArrow().remove();
             }
         }

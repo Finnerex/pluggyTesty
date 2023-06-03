@@ -59,7 +59,6 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int tick = 0;
-            boolean first = true;
 
             RayTraceResult result = player.getWorld().rayTraceBlocks(player.getEyeLocation(), // Creates a raytrace to detect the HitBlock.
                     player.getEyeLocation().getDirection(),
@@ -92,18 +91,18 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
                 if (projLocation.distance(loc) <= 1) { // Detects if the projectile has hit the raytraced block.
 
-                    if (result.getHitBlockFace() == BlockFace.UP || result.getHitBlockFace() == BlockFace.DOWN) {
-                        vel.setY((vel.getY()) * -1);
-                    }
-                    else if (result.getHitBlockFace() == BlockFace.WEST || result.getHitBlockFace() == BlockFace.EAST) {
-                        vel.setX((vel.getX()) * -1);
-                    }
-                    else if (result.getHitBlockFace() == BlockFace.NORTH || result.getHitBlockFace() == BlockFace.SOUTH) {
-                        vel.setZ((vel.getZ()) * -1);
-                    }
-                    result = player.getWorld().rayTraceBlocks(projLocation, vel, 100, FluidCollisionMode.NEVER);
+                    BlockFace face = result.getHitBlockFace();
 
-                    first = false;
+                    if (face == null)
+                        return;
+
+                    switch (face) {
+                        case UP, DOWN -> vel.setY((vel.getY()) * -1);
+                        case WEST, EAST -> vel.setX((vel.getX()) * -1);
+                        case NORTH, SOUTH -> vel.setZ((vel.getZ()) * -1);
+                    }
+
+                    result = player.getWorld().rayTraceBlocks(projLocation, vel, 100, FluidCollisionMode.NEVER);
 
                 }
 

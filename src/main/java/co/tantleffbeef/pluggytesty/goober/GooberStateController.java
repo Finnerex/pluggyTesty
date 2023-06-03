@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty.plugger;
+package co.tantleffbeef.pluggytesty.goober;
 
 import co.tantleffbeef.pluggytesty.expeditions.PartyManager;
 import co.tantleffbeef.pluggytesty.levels.LevelController;
