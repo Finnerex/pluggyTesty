@@ -60,16 +60,22 @@ public class DisabledRecipeManager implements Listener {
 
     }
 
-    private void checkItem(Goober player, NamespacedKey key, Cancellable event) {
+    private void checkItemOrRecipe(Goober player, NamespacedKey key, Cancellable event) {
         // level at which picked up item is unlocked
         Integer requiredLevel = disabledItems.get(key);
 
-        if (requiredLevel == null)
-            return;
+        if (requiredLevel == null) {
+            requiredLevel = disabledRecipes.get(key);
+
+            // goofy
+            if (requiredLevel == null)
+                return;
+        }
 
         // if the player does not have high enough level, don't let them do that dawg
         if (player.getLevel() < requiredLevel)
             event.setCancelled(true);
+
     }
 
     @EventHandler
@@ -84,22 +90,9 @@ public class DisabledRecipeManager implements Listener {
 
         Goober player = gooberStateController.wrapPlayer(tempPlayer);
 
-        // check if the item is banned
-        checkItem(player, CustomItemNbt.customItemIdOrVanilla(item, keyManager), event);
+        // check if the item or recipe is banned
+        checkItemOrRecipe(player, CustomItemNbt.customItemIdOrVanilla(item, keyManager), event);
 
-
-        // check if the recipe is banned
-
-//        if (!(event.getRecipe() instanceof Keyed keyedRecipe))
-//            return;
-//
-//        requiredLevel = disabledRecipes.get(keyedRecipe.getKey());
-//
-//        if (requiredLevel == null)
-//            return;
-//
-//        if (player.getLevel() < requiredLevel)
-//            event.setCancelled(true);
 
     }
 
@@ -110,7 +103,7 @@ public class DisabledRecipeManager implements Listener {
 
         Goober player = gooberStateController.wrapPlayer(tempPlayer);
 
-        checkItem(player, CustomItemNbt.customItemIdOrVanilla(event.getItem().getItemStack(), keyManager), event);
+        checkItemOrRecipe(player, CustomItemNbt.customItemIdOrVanilla(event.getItem().getItemStack(), keyManager), event);
     }
 
     @EventHandler
