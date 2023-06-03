@@ -96,7 +96,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         Debug.info("testing some shit man");
         try {
-            saveAllResourcesExcept("\\b.*.class|^/?acf-core_(.+)?$|^/?META-INF(.+)?$");
+            saveAllStartingWith("data/");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -373,7 +373,7 @@ public final class PluggyTesty extends JavaPlugin {
         });
     }
 
-    private void saveAllResourcesExcept(@Language("RegExp") String ifMatchThenSkip) throws IOException {
+    private void saveAllStartingWith(@Language("RegExp") String match) throws IOException {
         final var jarPath = PluggyTesty.class.getProtectionDomain().getCodeSource().getLocation();
 
         try (final var jar = new JarFile(new File(jarPath.getPath()))) {
@@ -382,7 +382,7 @@ public final class PluggyTesty extends JavaPlugin {
             while (e.hasMoreElements()) {
                 final String entry = e.nextElement().getName();
 
-                Debug.log(entry.matches(ifMatchThenSkip) + ": " + entry);
+                Debug.log(entry.startsWith(match) + ": " + entry);
             }
         }
     }
