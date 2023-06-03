@@ -59,7 +59,6 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int tick = 0;
-            boolean first = true;
 
             RayTraceResult result = player.getWorld().rayTraceBlocks(player.getEyeLocation(), // Creates a raytrace to detect the HitBlock.
                     player.getEyeLocation().getDirection(),
@@ -103,7 +102,6 @@ public class MeowmereItemType extends SimpleItemType implements InteractableItem
                     }
                     result = player.getWorld().rayTraceBlocks(projLocation, vel, 100, FluidCollisionMode.NEVER);
 
-                    first = false;
 
                 }
 

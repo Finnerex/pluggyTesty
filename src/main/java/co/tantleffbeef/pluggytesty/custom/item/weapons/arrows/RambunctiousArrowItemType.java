@@ -44,14 +44,13 @@ public class RambunctiousArrowItemType extends SimpleItemType implements CustomA
 
     @Override
     public void applyLandingEffects(Arrow arrow, ProjectileHitEvent event) {
+
         // no kb
         Entity entity = event.getHitEntity();
-        if (entity == null)
-            return;
-
-        final Vector entityVelocity = entity.getVelocity();
-
-        plugin.getServer().getScheduler().runTask(plugin, () -> entity.setVelocity(entityVelocity));
+        if (entity != null) {
+            final Vector entityVelocity = entity.getVelocity();
+            plugin.getServer().getScheduler().runTask(plugin, () -> entity.setVelocity(entityVelocity));
+        }
 
         // bounce
         final Vector velocity = arrow.getVelocity();

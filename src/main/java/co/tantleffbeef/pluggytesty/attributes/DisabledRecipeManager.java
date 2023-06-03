@@ -1,6 +1,9 @@
 package co.tantleffbeef.pluggytesty.attributes;
 
+import co.tantleffbeef.mcplanes.CustomNbtKey;
+import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
+import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
 import co.tantleffbeef.pluggytesty.goober.Goober;
 import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import org.bukkit.Bukkit;
@@ -20,6 +23,7 @@ public class DisabledRecipeManager implements Listener {
 
     private final Plugin plugin;
     private final GooberStateController gooberStateController;
+    private final KeyManager<CustomNbtKey> keyManager;
 
     // how do I know if I use attribute or resource manager?????
     private final AttributeManager attributeManager;
@@ -32,10 +36,11 @@ public class DisabledRecipeManager implements Listener {
 
     private final int DISABLED = 10;
 
-    public DisabledRecipeManager(Plugin plugin, AttributeManager attributeManager, GooberStateController gooberStateController) {
+    public DisabledRecipeManager(Plugin plugin, AttributeManager attributeManager, GooberStateController gooberStateController, KeyManager<CustomNbtKey> keyManager) {
         this.plugin = plugin;
         this.attributeManager = attributeManager;
         this.gooberStateController = gooberStateController;
+        this.keyManager = keyManager;
 
         disabledRecipes = Map.ofEntries(
                 entry(new NamespacedKey(plugin, "bolt_rod"), DISABLED)
@@ -59,8 +64,7 @@ public class DisabledRecipeManager implements Listener {
         Goober player = gooberStateController.wrapPlayer(tempPlayer);
 
         // level at which picked up item is unlocked
-        Integer requiredLevel = disabledItems.get(event.getItem().getItemStack().getType().getKey());
-        Bukkit.broadcastMessage("Player level: " + player.getLevel() + "\nRequired level: " + requiredLevel);
+        Integer requiredLevel = disabledItems.get(CustomItemNbt.customItemIdOrVanilla(event.getItem().getItemStack(), keyManager));
 
         if (requiredLevel == null)
             return;
