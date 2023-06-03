@@ -48,7 +48,8 @@ public class DisabledRecipeManager implements Listener {
         this.keyManager = keyManager;
 
         disabledRecipes = Map.ofEntries(
-                entry(new NamespacedKey(plugin, "bolt_rod"), DISABLED)
+                entry(new NamespacedKey(plugin, "bolt_rod"), DISABLED),
+                entry(NamespacedKey.minecraft("chain"), DISABLED)
 
         );
 
@@ -56,7 +57,8 @@ public class DisabledRecipeManager implements Listener {
                 entry(NamespacedKey.minecraft("bread"), 2),
                 entry(NamespacedKey.minecraft("leather"), 1),
                 entry(NamespacedKey.minecraft("carrot"), 0),
-                entry(NamespacedKey.minecraft("potato"), -1)
+                entry(NamespacedKey.minecraft("potato"), -1),
+                entry(new NamespacedKey(plugin, "magic_stick"), 4)
         );
 
     }
