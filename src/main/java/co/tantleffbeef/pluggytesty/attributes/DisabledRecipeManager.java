@@ -127,8 +127,12 @@ public class DisabledRecipeManager implements Listener {
         } else if (event instanceof SmithItemEvent smithEvent) {
             Recipe recipe = smithEvent.getInventory().getRecipe();
 
+            Bukkit.broadcastMessage("recipe: " + recipe);
+
             if (!(recipe instanceof Keyed keyedRecipe) || event.isCancelled())
                 return;
+
+            Bukkit.broadcastMessage("that jawn is keyed");
 
             checkRecipe(player, keyedRecipe.getKey(), event);
         }
