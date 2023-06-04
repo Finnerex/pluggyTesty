@@ -81,9 +81,9 @@ public class VillagerTradesListener implements Listener {
         event.getPlayer().sendMessage("Level: " + player.getLevel());
         int pLevel = player.getLevel();
 
-        if(pLevel < exp - 1) { // pLevel goes from 0-5 and exp goes from 1-5
+        if(pLevel < exp) { // pLevel goes from 0-5 and exp goes from 1-5
             int l = 0;
-            for(int h = pLevel; h < exp - 1; h++) {
+            for(int h = pLevel; h < exp; h++) {
                 l += TradeSilo.tradeAmts.get(prof)[h]; // this determines how many trades the player should have access to so they don't become unavailable
             }
 
