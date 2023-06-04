@@ -32,7 +32,7 @@ public class VillagerTradesListener implements Listener {
 
         List<MerchantRecipe> trades = new ArrayList<>(vil.getRecipes());
         int exp = vil.getVillagerLevel();
-//        Goober player = iHateThis.wrapPlayer(event.getPlayer());
+        Goober player = iHateThis.wrapPlayer(event.getPlayer());
         Villager.Profession prof = vil.getProfession();
 
         for(int i = trades.size() - 1; i >= 0; i--) {
@@ -78,7 +78,7 @@ public class VillagerTradesListener implements Listener {
 
             trades.add(TradeSilo.upgradeRecipe(exp)); // adding new final trade
         }
-        int pLevel = 0; // player.getLevel();
+        int pLevel = player.getLevel();
 
         if(pLevel < exp - 1) { // pLevel goes from 0-5 and exp goes from 1-5
             int l = 0;
