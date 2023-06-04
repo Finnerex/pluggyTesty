@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -24,20 +24,20 @@ public class RandomGenTestCommand extends BaseCommand {
     }
 
     @Default
-    public void onCommand(@NotNull Entity entity) {
-        onCommand(entity, 3, 3);
+    public void onCommand(@NotNull Player sender) {
+        onCommand(sender, 3, 3);
     }
 
     @Default
-    public void onCommand(@NotNull Entity entity, int requiredNum, int optionalNum) {
-        final var location = entity.getLocation();
+    public void onCommand(@NotNull Player sender, int requiredNum, int optionalNum) {
+        final var location = sender.getLocation();
         final Material requiredMaterial = Material.CYAN_CONCRETE;
         final Material endMaterial = Material.RED_CONCRETE;
         final Material startMaterial = Material.GREEN_CONCRETE;
         final Material pathwayMaterial = Material.YELLOW_CONCRETE;
 
         buildPlatform(location, requiredMaterial);
-        entity.sendMessage("done i guess");
+        sender.sendMessage("done i guess");
     }
 
     private static void buildPlatform(Location center, Material material) {
