@@ -14,10 +14,10 @@ import java.util.*;
 
 
 public class VillagerTradesListener implements Listener {
-    private final GooberStateController iHateThis;
-    public VillagerTradesListener(GooberStateController thisIsDumb) {
-        iHateThis = thisIsDumb;
-    }
+//    private final GooberStateController iHateThis;
+//    public VillagerTradesListener(GooberStateController thisIsDumb) {
+//        iHateThis = thisIsDumb;
+//    }
 
     private boolean isVanillaTrade(MerchantRecipe trade) { // returns true if any part of the trade involves emeralds, otherwise false
         for(ItemStack item : trade.getIngredients()) {
@@ -32,7 +32,7 @@ public class VillagerTradesListener implements Listener {
 
         List<MerchantRecipe> trades = new ArrayList<>(vil.getRecipes());
         int exp = vil.getVillagerLevel();
-        Goober player = iHateThis.wrapPlayer(event.getPlayer());
+//        Goober player = iHateThis.wrapPlayer(event.getPlayer());
         Villager.Profession prof = vil.getProfession();
 
         for(int i = trades.size() - 1; i >= 0; i--) {
@@ -78,7 +78,7 @@ public class VillagerTradesListener implements Listener {
 
             trades.add(TradeSilo.upgradeRecipe(exp)); // adding new final trade
         }
-        int pLevel = player.getLevel();
+        int pLevel = 0; // player.getLevel();
 
         if(pLevel < exp - 1) { // pLevel goes from 0-5 and exp goes from 1-5
             int l = 0;
