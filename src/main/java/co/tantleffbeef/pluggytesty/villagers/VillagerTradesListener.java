@@ -14,10 +14,10 @@ import java.util.*;
 
 
 public class VillagerTradesListener implements Listener {
-//    private final GooberStateController iHateThis;
-//    public VillagerTradesListener(GooberStateController thisIsDumb) {
-//        iHateThis = thisIsDumb;
-//    }
+    private final GooberStateController iHateThis;
+    public VillagerTradesListener(GooberStateController thisIsDumb) {
+        iHateThis = thisIsDumb;
+    }
 
     private boolean isVanillaTrade(MerchantRecipe trade) { // returns true if any part of the trade involves emeralds, otherwise false
         for(ItemStack item : trade.getIngredients()) {
