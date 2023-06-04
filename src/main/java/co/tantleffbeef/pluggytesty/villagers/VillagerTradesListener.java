@@ -78,6 +78,7 @@ public class VillagerTradesListener implements Listener {
 
             trades.add(TradeSilo.upgradeRecipe(exp)); // adding new final trade
         }
+        event.getPlayer().sendMessage("Level: " + player.getLevel());
         int pLevel = player.getLevel();
 
         if(pLevel < exp - 1) { // pLevel goes from 0-5 and exp goes from 1-5
