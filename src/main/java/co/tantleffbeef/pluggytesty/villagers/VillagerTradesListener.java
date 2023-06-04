@@ -81,19 +81,18 @@ public class VillagerTradesListener implements Listener {
         event.getPlayer().sendMessage("Level: " + player.getLevel());
         int pLevel = player.getLevel();
 
+        int l = 0;
         if(pLevel < exp) { // pLevel goes from 0-5 and exp goes from 1-5
-            int l = 0;
-            for(int h = pLevel; h < exp; h++) {
+            for(int h = 0; h < pLevel; h++) {
                 l += TradeSilo.tradeAmts.get(prof)[h]; // this determines how many trades the player should have access to so they don't become unavailable
             }
 
             for(int i = l; i < trades.size(); i++) {
                 trades.get(i).setMaxUses(trades.get(i).getUses()); // setting a trade's max uses to be its current uses will disable it
             }
-        } else {
-            for(int i = 0; i < trades.size(); i++) { // set the trade's max uses to 10, fixing trades if they were previously opened by some low level person
-                trades.get(i).setMaxUses(10);
-            }
+        }
+        for(int i = 0; i < l; i++) { // set the trade's max uses to 10, fixing trades if they were previously opened by some low level person
+            trades.get(i).setMaxUses(10);
         }
 
         vil.setRecipes(trades);
