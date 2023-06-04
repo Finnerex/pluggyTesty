@@ -28,14 +28,12 @@ import static java.util.Map.entry;
 
 public class DisabledRecipeManager implements Listener {
 
-    private final Plugin plugin;
     private final GooberStateController gooberStateController;
     private final KeyManager<CustomNbtKey> keyManager;
 
-    // how do I know if I use attribute or resource manager?????
-    private final AttributeManager attributeManager;
 
     // map containing NamespacedKeys of banned RECIPES and player level requirements
+    // only use this when a recipe is disabled but not the item (such as chains)
     private final Map<NamespacedKey, Integer> disabledRecipes;
 
     // map containing NamespacedKeys of banned ITEMS and player level requirements
@@ -43,25 +41,70 @@ public class DisabledRecipeManager implements Listener {
 
     private final int DISABLED = 10;
 
-    public DisabledRecipeManager(Plugin plugin, AttributeManager attributeManager, GooberStateController gooberStateController, KeyManager<CustomNbtKey> keyManager) {
-        this.plugin = plugin;
-        this.attributeManager = attributeManager;
+    public DisabledRecipeManager(Plugin plugin, GooberStateController gooberStateController, KeyManager<CustomNbtKey> keyManager) {
         this.gooberStateController = gooberStateController;
         this.keyManager = keyManager;
 
         disabledRecipes = Map.ofEntries(
-                entry(new NamespacedKey(plugin, "bolt_rod"), 3),
-                entry(NamespacedKey.minecraft("chain"), DISABLED),
-                entry(NamespacedKey.minecraft("netherite_leggings"), 2)
-
+                // custom wie das: entry(new NamespacedKey(plugin, "bolt_rod"), 3),
+                entry(NamespacedKey.minecraft("chain"), DISABLED)
         );
 
         disabledItems = Map.ofEntries(
-                entry(NamespacedKey.minecraft("bread"), 2),
-                entry(NamespacedKey.minecraft("leather"), 1),
-                entry(NamespacedKey.minecraft("carrot"), 0),
-                entry(NamespacedKey.minecraft("potato"), -1),
-                entry(new NamespacedKey(plugin, "magic_stick"), 4)
+                // level 1
+                entry(NamespacedKey.minecraft("chainmail_boots"), 1),
+                entry(NamespacedKey.minecraft("chainmail_leggings"), 1),
+                entry(NamespacedKey.minecraft("chainmail_chestplate"), 1),
+                entry(NamespacedKey.minecraft("chainmail_helmet"), 1),
+                entry(NamespacedKey.minecraft("stone_pickaxe"), 1),
+                entry(NamespacedKey.minecraft("stone_axe"), 1),
+                entry(NamespacedKey.minecraft("stone_hoe"), 1),
+                entry(NamespacedKey.minecraft("stone_shovel"), 1),
+                entry(NamespacedKey.minecraft("stone_sword"), 1),
+
+                // level 2
+                entry(NamespacedKey.minecraft("iron_boots"), 2),
+                entry(NamespacedKey.minecraft("iron_leggings"), 2),
+                entry(NamespacedKey.minecraft("iron_chestplate"), 2),
+                entry(NamespacedKey.minecraft("iron_helmet"), 2),
+                entry(NamespacedKey.minecraft("iron_pickaxe"), 2),
+                entry(NamespacedKey.minecraft("iron_axe"), 2),
+                entry(NamespacedKey.minecraft("iron_hoe"), 2),
+                entry(NamespacedKey.minecraft("iron_shovel"), 2),
+                entry(NamespacedKey.minecraft("iron_sword"), 2),
+
+                // level 3
+                entry(NamespacedKey.minecraft("gold_boots"), 3),
+                entry(NamespacedKey.minecraft("gold_leggings"), 3),
+                entry(NamespacedKey.minecraft("gold_chestplate"), 3),
+                entry(NamespacedKey.minecraft("gold_helmet"), 3),
+                entry(NamespacedKey.minecraft("gold_pickaxe"), 3),
+                entry(NamespacedKey.minecraft("gold_axe"), 3),
+                entry(NamespacedKey.minecraft("gold_hoe"), 3),
+                entry(NamespacedKey.minecraft("gold_shovel"), 3),
+                entry(NamespacedKey.minecraft("gold_sword"), 3),
+
+                // level 4
+                entry(NamespacedKey.minecraft("diamond_boots"), 4),
+                entry(NamespacedKey.minecraft("diamond_leggings"), 4),
+                entry(NamespacedKey.minecraft("diamond_chestplate"), 4),
+                entry(NamespacedKey.minecraft("diamond_helmet"), 4),
+                entry(NamespacedKey.minecraft("diamond_pickaxe"), 4),
+                entry(NamespacedKey.minecraft("diamond_axe"), 4),
+                entry(NamespacedKey.minecraft("diamond_hoe"), 4),
+                entry(NamespacedKey.minecraft("diamond_shovel"), 4),
+                entry(NamespacedKey.minecraft("diamond_sword"), 4),
+
+                // level 5
+                entry(NamespacedKey.minecraft("netherite_boots"), 5),
+                entry(NamespacedKey.minecraft("netherite_leggings"), 5),
+                entry(NamespacedKey.minecraft("netherite_chestplate"), 5),
+                entry(NamespacedKey.minecraft("netherite_helmet"), 5),
+                entry(NamespacedKey.minecraft("netherite_pickaxe"), 5),
+                entry(NamespacedKey.minecraft("netherite_axe"), 5),
+                entry(NamespacedKey.minecraft("netherite_hoe"), 5),
+                entry(NamespacedKey.minecraft("netherite_shovel"), 5),
+                entry(NamespacedKey.minecraft("netherite_sword"), 5)
         );
 
     }
@@ -86,7 +129,11 @@ public class DisabledRecipeManager implements Listener {
 
         if (player.getLevel() < requiredLevel) {
             event.setCancelled(true);
-            player.asPlayer().sendMessage(ChatColor.RED + "You are not high enough level to do that!");
+
+            if (requiredLevel == DISABLED)
+                player.asPlayer().sendMessage(ChatColor.RED + "This recipe is disabled!");
+            else
+                player.asPlayer().sendMessage(ChatColor.RED + "You are not high enough level to do that!");
         }
     }
 
