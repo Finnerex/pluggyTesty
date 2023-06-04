@@ -11,6 +11,7 @@ import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import co.tantleffbeef.pluggytesty.goober.Goober;
 
 import java.util.*;
+import java.lang.Math;
 
 
 public class VillagerTradesListener implements Listener {
@@ -78,7 +79,7 @@ public class VillagerTradesListener implements Listener {
 
             trades.add(TradeSilo.upgradeRecipe(exp)); // adding new final trade
         }
-        int pLevel = player.getLevel();
+        int pLevel = Math.min(player.getLevel(), 5);
 
         int l = 0;
         if(pLevel < exp) { // pLevel goes from 0-5 and exp goes from 1-5
