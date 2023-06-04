@@ -1,19 +1,24 @@
 package co.tantleffbeef.pluggytesty.villagers;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
+import co.tantleffbeef.pluggytesty.goober.GooberStateController;
+import co.tantleffbeef.pluggytesty.goober.Goober;
 
 import java.util.*;
 
 
 public class VillagerTradesListener implements Listener {
+    private final GooberStateController iHateThis;
+    public VillagerTradesListener(GooberStateController thisIsDumb) {
+        iHateThis = thisIsDumb;
+    }
+
     private boolean isVanillaTrade(MerchantRecipe trade) { // returns true if any part of the trade involves emeralds, otherwise false
         for(ItemStack item : trade.getIngredients()) {
             if(item.getType() == Material.EMERALD) return true;
@@ -27,7 +32,7 @@ public class VillagerTradesListener implements Listener {
 
         List<MerchantRecipe> trades = new ArrayList<>(vil.getRecipes());
         int exp = vil.getVillagerLevel();
-        Player player = event.getPlayer();
+        Goober player = iHateThis.wrapPlayer(event.getPlayer());
         Villager.Profession prof = vil.getProfession();
 
         for(int i = trades.size() - 1; i >= 0; i--) {
@@ -45,17 +50,15 @@ public class VillagerTradesListener implements Listener {
             numExpectedTrades += TradeSilo.tradeAmts.get(prof)[i]; // calculate the number of trades we expect villager to have
         }
 
-        player.sendMessage(ChatColor.RED + "Num Expected Trades: " + numExpectedTrades + ". Trades size: " + trades.size());
 
         if(numExpectedTrades != trades.size()) { // if the number of expected trades doesn't match up with the number of trades (excluding upgrade one)...
-            player.sendMessage(ChatColor.RED + "Size 1: " + trades.size());
 
             for(int i = 0; i < trades.size(); i++) {
                 if (trades.get(i).getVillagerExperience() > 0) {
                     trades.remove(i); // we assume that the villager levelled up and so remove the ending trade.
                 }
             }
-            player.sendMessage(ChatColor.RED + "Size 2: " + trades.size());
+
             List<MerchantRecipe> options = new ArrayList<>(switch (prof) { // establishing the list of trades we can choose from
                 case ARMORER -> TradeSilo.armorerTrades.get(exp);
                 case BUTCHER -> TradeSilo.butcherTrades.get(exp);
@@ -73,13 +76,9 @@ public class VillagerTradesListener implements Listener {
                 trades.add(options.remove(new Random().nextInt(options.size()))); // Add new trades according to tradeAmts, use .remove() to prevent duplicates
             }
 
-            player.sendMessage(ChatColor.RED + "Size 3: " + trades.size());
             trades.add(TradeSilo.upgradeRecipe(exp)); // adding new final trade
-            player.sendMessage(ChatColor.RED + "Size 4: " + trades.size());
         }
-
-        int pLevel = (int) player.getHealth() / 4; // level of the player, not implemented yet so i assign it based on health
-        player.sendMessage(ChatColor.RED + "Your current health is " + player.getHealth()  + "and your player level is" + pLevel + ". Villager level: " + exp);
+        int pLevel = player.getLevel();
 
         if(pLevel < exp - 1) { // pLevel goes from 0-5 and exp goes from 1-5
             int l = 0;
@@ -98,13 +97,6 @@ public class VillagerTradesListener implements Listener {
 
         vil.setRecipes(trades);
     }
-// At this point, I have the villager's profession, trades, and exp
-// Next, I should remove all vanilla trades (those that involve emeralds) - DONE
-// Then, check if trades.size() - 1 is the expected value in tradeAmts to see if it has the correct number of trades for its villager level. - DONE
-// If the villager doesn't have the right number of trades, remove its last trade and add its new ones, adding a new last trade on.
-// Seperately, check if the player is lower levelled than the villager.
-// If so, cause all of that villager's trades to have a maxUses of their current uses.
-// If not, cause the villager's trades to have a maxUses of 10.
 
 
 

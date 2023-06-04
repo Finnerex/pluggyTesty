@@ -241,7 +241,7 @@ public final class PluggyTesty extends JavaPlugin {
         // Special Keep-inventory
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
 
-        getServer().getPluginManager().registerEvents(new VillagerTradesListener(), this);
+        getServer().getPluginManager().registerEvents(new VillagerTradesListener(gooberStateController), this);
         getServer().getPluginManager().registerEvents(new CraftListener(attributeManager), this);
         getServer().getPluginManager().registerEvents(new SmithListener(), this);
         getServer().getPluginManager().registerEvents(new PartyFriendlyFireListener(partyManager), this);
