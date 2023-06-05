@@ -1,8 +1,12 @@
 package co.tantleffbeef.pluggytesty.levels;
 
 import co.tantleffbeef.pluggytesty.misc.Debug;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.scoreboard.Criteria;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -16,13 +20,20 @@ public class YmlLevelStore implements LevelStore {
     private final Path configPath;
     private final ConfigurationSection levels;
     private final int defaultLevel;
+    private final Server server;
 
-    public YmlLevelStore(@NotNull Path configPath, int defaultLevel) {
+    public YmlLevelStore(@NotNull Path configPath, int defaultLevel, Server server) {
         this.defaultLevel = defaultLevel;
         this.configPath = configPath;
 
         this.config = YamlConfiguration.loadConfiguration(configPath.toFile());
         this.levels = createLevelsSection(config);
+        this.server = server;
+
+        // level scoreboard
+        server.getScoreboardManager().getMainScoreboard()
+                .registerNewObjective("level", Criteria.create("level"), "level")
+                .setDisplaySlot(DisplaySlot.PLAYER_LIST);
     }
 
     private static ConfigurationSection createLevelsSection(YamlConfiguration config) {
@@ -40,6 +51,12 @@ public class YmlLevelStore implements LevelStore {
     @Override
     public void storeLevel(@NotNull UUID player, int level) {
         levels.set(player.toString(), level);
+
+        // set the scoreboard level
+        server.getScoreboardManager().getMainScoreboard()
+                .getObjective("level")
+                .getScore(player.toString()) // I hope that's how it works
+                .setScore(level);
 
         try {
             config.save(configPath.toFile());

@@ -56,6 +56,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Criteria;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -121,7 +123,7 @@ public final class PluggyTesty extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL));
+        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL, this.getServer()));
 
         registerItems();
 //        registerRecipes();
