@@ -3,7 +3,6 @@ package co.tantleffbeef.pluggytesty.misc;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -109,17 +108,17 @@ public class RandomGenTestCommand extends BaseCommand {
 
         final var world = center.getWorld();
 
-        Bukkit.broadcastMessage("buildPlatform");
+        /*Bukkit.broadcastMessage("buildPlatform");
         Bukkit.broadcastMessage("middleX - 1: " + (middleX - 1));
         Bukkit.broadcastMessage("middleX + 1: " + (middleX + 1));
         Bukkit.broadcastMessage("middleY - 1: " + (middleY - 1));
         Bukkit.broadcastMessage("middleY + 1: " + (middleY + 1));
         Bukkit.broadcastMessage("middleZ - 1: " + (middleZ - 1));
-        Bukkit.broadcastMessage("middleZ + 1: " + (middleZ + 1));
+        Bukkit.broadcastMessage("middleZ + 1: " + (middleZ + 1));*/
 
         for (int ix = middleX - 1; ix <= middleX + 1; ix++) {
             for (int iz = middleZ - 1; iz <= middleZ + 1; iz++) {
-                Bukkit.broadcastMessage("setting at " + ix + " " + middleY + " " + iz);
+                // Bukkit.broadcastMessage("setting at " + ix + " " + middleY + " " + iz);
                 new Location(world, ix, middleY, iz).getBlock().setType(material);
             }
         }
