@@ -87,8 +87,10 @@ public class RandomGenTestCommand extends BaseCommand {
         final var random = new Random();
 
         while (platformMaterialType.size() > 0) {
-            final var m = platformMaterialType.stream().skip(new Random().nextInt(platformMaterialType.size())).findAny().orElseThrow();
-            platformMaterialType.remove(m);
+            final int mNum = random.nextInt(platformMaterialType.size()) ;
+            final Material m = platformMaterialType.get(mNum);
+            platformMaterialType.remove(mNum);
+
             final var door = doors.stream().skip(random.nextInt(doors.size())).findFirst().orElseThrow();
 
             sender.sendMessage("using door: " + door);
