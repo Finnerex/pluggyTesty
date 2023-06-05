@@ -126,7 +126,7 @@ public class RandomGenTestCommand extends BaseCommand {
 
         for (Location l : noDoorsRemovedLocations) {
             final var clickText = new TextComponent("doorsRemoved < 1 at " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
-            clickText.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + l.getBlockX() + " " + l.getBlockY() + 1 + " " + l.getBlockZ()));
+            clickText.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + l.getBlockX() + " " + (l.getBlockY() + 1) + " " + l.getBlockZ()));
 
             sender.spigot().sendMessage(new ComponentBuilder(clickText).color(ChatColor.RED).create());
         }
