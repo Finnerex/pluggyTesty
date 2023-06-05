@@ -25,6 +25,12 @@ public class RandomGenTestCommand extends BaseCommand {
             this.platformCenter = platformCenter;
             this.direction = direction;
         }
+
+        @Override
+        public String toString() {
+            return "at: x:" + platformCenter.getBlockX() + " y:" + platformCenter.getBlockY() + " x:" + platformCenter.getBlockZ()
+                    + "\n    direction: " + direction;
+        }
     }
 
     @Default
@@ -62,6 +68,8 @@ public class RandomGenTestCommand extends BaseCommand {
         for (Material m : platformMaterialType) {
             final var door = doors.stream().skip(random.nextInt(doors.size())).findFirst().orElseThrow();
 
+            sender.sendMessage("using door: " + door);
+
             final var platformLoc = door.platformCenter.clone().add(door.direction.getDirection().multiply(2));
 
             addPlatform(sender, platforms, doors, platformLoc, m);
@@ -71,7 +79,7 @@ public class RandomGenTestCommand extends BaseCommand {
     }
 
     private static void addPlatform(CommandSender sender, HashSet<Location> platforms, HashSet<Door> doors, Location center, Material material) {
-        sender.sendMessage("Adding platform at " + center);
+        sender.sendMessage("Adding platform at " + center.getBlockX() + " " + center.getBlockY() + " " + center.getBlockZ());
 
         buildPlatform(center, material);
 
