@@ -32,7 +32,7 @@ public class YmlLevelStore implements LevelStore {
 
         // level scoreboard
         server.getScoreboardManager().getMainScoreboard()
-                .registerNewObjective("level", Criteria.create("level"), "level")
+                .registerNewObjective("gooberLevel", Criteria.create("gooberLevel"), "level")
                 .setDisplaySlot(DisplaySlot.PLAYER_LIST);
     }
 
@@ -54,7 +54,7 @@ public class YmlLevelStore implements LevelStore {
 
         // set the scoreboard level
         server.getScoreboardManager().getMainScoreboard()
-                .getObjective("level")
+                .getObjective("gooberLevel")
                 .getScore(player.toString()) // I hope that's how it works
                 .setScore(level);
 
