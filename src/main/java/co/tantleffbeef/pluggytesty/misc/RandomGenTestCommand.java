@@ -7,8 +7,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
 
 @SuppressWarnings("unused")
 @CommandAlias("visualize")
@@ -34,10 +39,67 @@ public class RandomGenTestCommand extends BaseCommand {
         final Material requiredMaterial = Material.CYAN_CONCRETE;
         final Material endMaterial = Material.RED_CONCRETE;
         final Material startMaterial = Material.GREEN_CONCRETE;
-        final Material pathwayMaterial = Material.YELLOW_CONCRETE;
+        final Material pathwayMaterial = Material.BLACK_CONCRETE;
+        final Material optionalMaterial = Material.YELLOW_CONCRETE;
 
-        buildPlatform(location, requiredMaterial);
+        final HashSet<Door> doors = new HashSet<>();
+        final HashSet<Location> platforms = new HashSet<>();
+
+        final ArrayList<Material> platformMaterialType = new ArrayList<>();
+
+        // Fill platformMaterialType
+        for (int i = 0; i < requiredNum; i++) {
+            platformMaterialType.add(requiredMaterial);
+        }
+
+        for (int i = 0; i < optionalNum; i++) {
+            platformMaterialType.add(optionalMaterial);
+        }
+
+        addPlatform(sender, platforms, doors, location, requiredMaterial);
+
+        final var random = new Random();
+
+        for (Material m : platformMaterialType) {
+            final var door = doors.stream().skip(random.nextInt(doors.size())).findFirst().orElseThrow();
+
+            final var platformLoc = door.platformCenter.clone().add(door.direction.getDirection().multiply(2));
+
+            addPlatform(sender, platforms, doors, platformLoc, m);
+        }
+
         sender.sendMessage("done i guess");
+    }
+
+    private static void addPlatform(CommandSender sender, HashSet<Location> platforms, HashSet<Door> doors, Location center, Material material) {
+        sender.sendMessage("Adding platform at " + center);
+
+        buildPlatform(center, material);
+
+        platforms.add(center);
+        if (platforms.contains(center.clone().add(BlockFace.EAST.getDirection().multiply(3)))) {
+            doors.remove(new Door(center.clone().add(BlockFace.EAST.getDirection().multiply(2)), BlockFace.WEST));
+        } else {
+            doors.add(new Door(center.clone().add(BlockFace.EAST.getDirection()), BlockFace.EAST));
+        }
+
+        if (platforms.contains(center.clone().add(BlockFace.WEST.getDirection().multiply(3)))) {
+            doors.remove(new Door(center.clone().add(BlockFace.WEST.getDirection().multiply(2)), BlockFace.EAST));
+        } else {
+            doors.add(new Door(center.clone().add(BlockFace.WEST.getDirection()), BlockFace.WEST));
+        }
+
+        if (platforms.contains(center.clone().add(BlockFace.SOUTH.getDirection().multiply(3)))) {
+            doors.remove(new Door(center.clone().add(BlockFace.SOUTH.getDirection().multiply(2)), BlockFace.NORTH));
+        } else {
+            doors.add(new Door(center.clone().add(BlockFace.SOUTH.getDirection()), BlockFace.SOUTH));
+        }
+
+        if (platforms.contains(center.clone().add(BlockFace.NORTH.getDirection().multiply(3)))) {
+            doors.remove(new Door(center.clone().add(BlockFace.NORTH.getDirection().multiply(2)), BlockFace.SOUTH));
+        } else {
+            doors.add(new Door(center.clone().add(BlockFace.NORTH.getDirection()), BlockFace.NORTH));
+        }
     }
 
     private static void buildPlatform(Location center, Material material) {
