@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -32,8 +33,10 @@ public class YmlLevelStore implements LevelStore {
         this.server = server;
 
         // level scoreboard
-        server.getScoreboardManager().getMainScoreboard()
-                .registerNewObjective("gooberLevel", Criteria.create("gooberLevel"), "level")
+        Scoreboard scoreboard = server.getScoreboardManager().getMainScoreboard();
+
+        if (scoreboard.getObjective("gooberLevel") != null)
+            scoreboard.registerNewObjective("gooberLevel", Criteria.create("gooberLevel"), "level")
                 .setDisplaySlot(DisplaySlot.PLAYER_LIST);
     }
 
@@ -60,6 +63,10 @@ public class YmlLevelStore implements LevelStore {
 
         Bukkit.broadcastMessage("score: " + score);
         score.setScore(level);
+        Bukkit.broadcastMessage("score2: " + score);
+        Bukkit.broadcastMessage("score3: " + server.getScoreboardManager().getMainScoreboard()
+                .getObjective("gooberLevel")
+                .getScore(player.toString()));
 
         try {
             config.save(configPath.toFile());
