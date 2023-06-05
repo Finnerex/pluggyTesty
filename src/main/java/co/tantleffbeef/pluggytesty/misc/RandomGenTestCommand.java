@@ -19,17 +19,17 @@ import java.util.Random;
 @CommandAlias("visualize")
 public class RandomGenTestCommand extends BaseCommand {
     private static class Door {
-        public final Location platformCenter;
+        public final Location location;
         public final BlockFace direction;
 
-        public Door(Location platformCenter, BlockFace direction) {
-            this.platformCenter = platformCenter;
+        public Door(Location location, BlockFace direction) {
+            this.location = location;
             this.direction = direction;
         }
 
         @Override
         public String toString() {
-            return "at: x:" + platformCenter.getBlockX() + " y:" + platformCenter.getBlockY() + " x:" + platformCenter.getBlockZ()
+            return "at: x:" + location.getBlockX() + " y:" + location.getBlockY() + " x:" + location.getBlockZ()
                     + "\n    direction: " + direction;
         }
 
@@ -38,12 +38,12 @@ public class RandomGenTestCommand extends BaseCommand {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Door door = (Door) o;
-            return platformCenter.equals(door.platformCenter) && direction == door.direction;
+            return location.equals(door.location) && direction == door.direction;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(platformCenter, direction);
+            return Objects.hash(location, direction);
         }
     }
 
@@ -58,7 +58,7 @@ public class RandomGenTestCommand extends BaseCommand {
         final Material requiredMaterial = Material.CYAN_CONCRETE;
         final Material endMaterial = Material.RED_CONCRETE;
         final Material startMaterial = Material.GREEN_CONCRETE;
-        final Material pathwayMaterial = Material.BLACK_CONCRETE;
+        final Material doorMaterial = Material.BLACK_CONCRETE;
         final Material optionalMaterial = Material.YELLOW_CONCRETE;
 
         final HashSet<Door> doors = new HashSet<>();
@@ -84,7 +84,7 @@ public class RandomGenTestCommand extends BaseCommand {
 
             sender.sendMessage("using door: " + door);
 
-            final var platformLoc = door.platformCenter.clone().add(door.direction.getDirection().multiply(2));
+            final var platformLoc = door.location.clone().add(door.direction.getDirection().multiply(2));
 
             addPlatform(sender, platforms, doors, platformLoc, m);
         }
@@ -99,9 +99,19 @@ public class RandomGenTestCommand extends BaseCommand {
 
         sender.sendMessage("using door: " + door);
 
-        final var endPlatformLoc = door.platformCenter.clone().add(door.direction.getDirection().multiply(2));
+        final var endPlatformLoc = door.location.clone().add(door.direction.getDirection().multiply(2));
 
         addPlatform(sender, platforms, doors, endPlatformLoc, endMaterial);
+
+        // show unused doors
+        sender.sendMessage("creating unused doors");
+        for (Door d : doors) {
+            final var doorLocation = d.location;
+
+            sender.sendMessage(doorLocation.getBlockX() + ", " + doorLocation.getBlockY() + ", " + doorLocation.getBlockZ());
+
+            doorLocation.getBlock().setType(doorMaterial);
+        }
 
         sender.sendMessage("done i guess");
     }
@@ -112,12 +122,12 @@ public class RandomGenTestCommand extends BaseCommand {
         buildPlatform(center, material);
 
         platforms.add(center);
-        if (platforms.contains(center.clone().add(BlockFace.EAST.getDirection().multiply(3)))) {
+        if (platforms.contains(center.clone().add(3, 0, 0))) {
             sender.sendMessage("removing door to the EAST");
             doors.remove(new Door(center.clone().add(BlockFace.EAST.getDirection().multiply(2)), BlockFace.WEST));
         } else {
             sender.sendMessage("adding door to the EAST");
-            doors.add(new Door(center.clone().add(BlockFace.EAST.getDirection()), BlockFace.EAST));
+            doors.add(new Door(center.clone().add(1, 0, 0), BlockFace.EAST));
         }
 
         if (platforms.contains(center.clone().add(BlockFace.WEST.getDirection().multiply(3)))) {
