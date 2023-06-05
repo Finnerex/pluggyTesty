@@ -1,6 +1,6 @@
 package co.tantleffbeef.pluggytesty.goober;
 
-import co.tantleffbeef.pluggytesty.expeditions.Party;
+import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

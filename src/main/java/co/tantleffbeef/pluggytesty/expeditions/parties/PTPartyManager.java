@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty.expeditions;
+package co.tantleffbeef.pluggytesty.expeditions.parties;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

@@ -11,6 +11,7 @@ import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import co.tantleffbeef.pluggytesty.goober.Goober;
 
 import java.util.*;
+import java.lang.Math;
 
 
 public class VillagerTradesListener implements Listener {
@@ -78,11 +79,9 @@ public class VillagerTradesListener implements Listener {
 
             trades.add(TradeSilo.upgradeRecipe(exp)); // adding new final trade
         }
-        event.getPlayer().sendMessage("Level: " + player.getLevel());
-        int pLevel = player.getLevel();
+        int pLevel = Math.min(player.getLevel(), 5);
 
         int l = 0;
-        event.getPlayer().sendMessage("l: " + l);
         if(pLevel < exp) { // pLevel goes from 0-5 and exp goes from 1-5
             for(int h = 0; h < pLevel; h++) {
                 l += TradeSilo.tradeAmts.get(prof)[h]; // this determines how many trades the player should have access to so they don't become unavailable
@@ -91,9 +90,7 @@ public class VillagerTradesListener implements Listener {
             for(int i = l; i < trades.size(); i++) {
                 trades.get(i).setMaxUses(trades.get(i).getUses()); // setting a trade's max uses to be its current uses will disable it
             }
-            event.getPlayer().sendMessage("l: " + l);
         }
-        event.getPlayer().sendMessage("l: " + l);
         for(int i = 0; i < l; i++) { // set the trade's max uses to 10, fixing trades if they were previously opened by some low level person
             trades.get(i).setMaxUses(10);
         }

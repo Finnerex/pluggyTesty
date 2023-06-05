@@ -1,7 +1,7 @@
 package co.tantleffbeef.pluggytesty.goober;
 
-import co.tantleffbeef.pluggytesty.expeditions.Party;
-import co.tantleffbeef.pluggytesty.expeditions.PartyManager;
+import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
+import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.levels.LevelController;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;

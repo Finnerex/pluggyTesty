@@ -1,13 +1,8 @@
 package co.tantleffbeef.pluggytesty.expeditions;
 
-import org.bukkit.Location;
+import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3ic;
-
-import java.util.UUID;
-import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public interface Expedition {
