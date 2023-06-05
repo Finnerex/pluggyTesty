@@ -54,6 +54,8 @@ public class RandomGenTestCommand extends BaseCommand {
 
     @Default
     public void onCommand(@NotNull Player sender, int requiredNum, int optionalNum) {
+        final long startTime = System.nanoTime();
+
         final var location = sender.getLocation();
         final Material requiredMaterial = Material.CYAN_CONCRETE;
         final Material endMaterial = Material.RED_CONCRETE;
@@ -113,7 +115,10 @@ public class RandomGenTestCommand extends BaseCommand {
             doorLocation.getBlock().setType(doorMaterial);
         }
 
-        sender.sendMessage("done i guess");
+        final long endTime = System.nanoTime();
+        final double duration = (endTime - startTime) / 1000000.0;
+
+        System.out.printf("done I guess (%.3f ms)", duration);
     }
 
     private static void addPlatform(CommandSender sender, HashSet<Location> platforms, HashSet<Door> doors, Location center, Material material) {
