@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty.misc;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -65,6 +66,7 @@ public class RandomGenTestCommand extends BaseCommand {
 
         final HashSet<Door> doors = new HashSet<>();
         final HashSet<Location> platforms = new HashSet<>();
+        final ArrayList<Location> noDoorsRemovedLocations = new ArrayList<>();
 
         final ArrayList<Material> platformMaterialType = new ArrayList<>();
 
@@ -77,7 +79,7 @@ public class RandomGenTestCommand extends BaseCommand {
             platformMaterialType.add(optionalMaterial);
         }
 
-        addPlatform(sender, platforms, doors, location, startMaterial);
+        addPlatform(sender, platforms, doors, noDoorsRemovedLocations, location, startMaterial);
 
         final var random = new Random();
 
@@ -88,7 +90,7 @@ public class RandomGenTestCommand extends BaseCommand {
 
             final var platformLoc = door.location.clone().add(door.direction.getDirection().multiply(2));
 
-            addPlatform(sender, platforms, doors, platformLoc, m);
+            addPlatform(sender, platforms, doors, noDoorsRemovedLocations, platformLoc, m);
         }
 
         // remove doors from the starting platform
@@ -103,7 +105,7 @@ public class RandomGenTestCommand extends BaseCommand {
 
         final var endPlatformLoc = door.location.clone().add(door.direction.getDirection().multiply(2));
 
-        addPlatform(sender, platforms, doors, endPlatformLoc, endMaterial);
+        addPlatform(sender, platforms, doors, noDoorsRemovedLocations, endPlatformLoc, endMaterial);
 
         // show unused doors
         sender.sendMessage("creating unused doors");
@@ -115,21 +117,28 @@ public class RandomGenTestCommand extends BaseCommand {
             doorLocation.getBlock().setType(doorMaterial);
         }
 
+        for (Location l : noDoorsRemovedLocations) {
+            sender.sendMessage(ChatColor.RED + "doorsRemoved < 1 at " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+        }
+
         final long endTime = System.nanoTime();
         final double duration = (endTime - startTime) / 1000000.0;
 
         System.out.printf("done I guess (%.3f ms)", duration);
     }
 
-    private static void addPlatform(CommandSender sender, HashSet<Location> platforms, HashSet<Door> doors, Location center, Material material) {
+    private static void addPlatform(CommandSender sender, HashSet<Location> platforms, HashSet<Door> doors, ArrayList<Location> noDoorsRemovedLocations, Location center, Material material) {
         sender.sendMessage("Adding platform at " + center.getBlockX() + " " + center.getBlockY() + " " + center.getBlockZ());
 
         buildPlatform(center, material);
+
+        int doorsRemoved = 0;
 
         platforms.add(center);
         if (platforms.contains(center.clone().add(3, 0, 0))) {
             sender.sendMessage("removing door to the EAST");
             doors.remove(new Door(center.clone().add(BlockFace.EAST.getDirection().multiply(2)), BlockFace.WEST));
+            doorsRemoved++;
         } else {
             sender.sendMessage("adding door to the EAST");
             doors.add(new Door(center.clone().add(1, 0, 0), BlockFace.EAST));
@@ -138,6 +147,7 @@ public class RandomGenTestCommand extends BaseCommand {
         if (platforms.contains(center.clone().add(BlockFace.WEST.getDirection().multiply(3)))) {
             sender.sendMessage("removing door to the WEST");
             doors.remove(new Door(center.clone().add(BlockFace.WEST.getDirection().multiply(2)), BlockFace.EAST));
+            doorsRemoved++;
         } else {
             sender.sendMessage("adding door to the WEST");
             doors.add(new Door(center.clone().add(BlockFace.WEST.getDirection()), BlockFace.WEST));
@@ -146,6 +156,7 @@ public class RandomGenTestCommand extends BaseCommand {
         if (platforms.contains(center.clone().add(BlockFace.SOUTH.getDirection().multiply(3)))) {
             sender.sendMessage("removing door to the SOUTH");
             doors.remove(new Door(center.clone().add(BlockFace.SOUTH.getDirection().multiply(2)), BlockFace.NORTH));
+            doorsRemoved++;
         } else {
             sender.sendMessage("adding door to the SOUTH");
             doors.add(new Door(center.clone().add(BlockFace.SOUTH.getDirection()), BlockFace.SOUTH));
@@ -154,10 +165,14 @@ public class RandomGenTestCommand extends BaseCommand {
         if (platforms.contains(center.clone().add(BlockFace.NORTH.getDirection().multiply(3)))) {
             sender.sendMessage("removing door to the NORTH");
             doors.remove(new Door(center.clone().add(BlockFace.NORTH.getDirection().multiply(2)), BlockFace.SOUTH));
+            doorsRemoved++;
         } else {
             sender.sendMessage("adding door to the NORTH");
             doors.add(new Door(center.clone().add(BlockFace.NORTH.getDirection()), BlockFace.NORTH));
         }
+
+        if (doorsRemoved < 1)
+            noDoorsRemovedLocations.add(center);
     }
 
     private static void buildPlatform(Location center, Material material) {
