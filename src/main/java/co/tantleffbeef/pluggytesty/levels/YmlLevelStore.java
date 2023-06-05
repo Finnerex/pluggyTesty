@@ -23,6 +23,7 @@ public class YmlLevelStore implements LevelStore {
     private final ConfigurationSection levels;
     private final int defaultLevel;
     private final Scoreboard levelBoard;
+    private final Server server;
 
     public YmlLevelStore(@NotNull Path configPath, int defaultLevel, Server server) {
         this.defaultLevel = defaultLevel;
@@ -30,11 +31,13 @@ public class YmlLevelStore implements LevelStore {
 
         this.config = YamlConfiguration.loadConfiguration(configPath.toFile());
         this.levels = createLevelsSection(config);
+        this.server = server;
 
         // level scoreboard
         levelBoard = server.getScoreboardManager().getNewScoreboard();
         levelBoard.registerNewObjective("gooberLevel", Criteria.create("gooberLevel"), "level")
                 .setDisplaySlot(DisplaySlot.PLAYER_LIST);
+
     }
 
     private static ConfigurationSection createLevelsSection(YamlConfiguration config) {
@@ -54,16 +57,11 @@ public class YmlLevelStore implements LevelStore {
         levels.set(player.toString(), level);
 
         // set the scoreboard level
-        Score score = levelBoard.getObjective("gooberLevel")
-                .getScore(player.toString()); // I hope that's how it works
+        levelBoard.getObjective("gooberLevel")
+                .getScore(String.valueOf(level))
+                .setScore(0); // I think the get score sets the value maybe thats so dumb
 
-        Bukkit.broadcastMessage("og score: " + score.getScore());
-
-        score.setScore(level);
-
-        Bukkit.broadcastMessage("new score: " + score.getScore());
-        Bukkit.broadcastMessage("new score check: " + levelBoard.getObjective("gooberLevel")
-                .getScore(player.toString()).getScore());
+        server.getPlayer(player).setScoreboard(levelBoard);
 
 
         try {
