@@ -75,7 +75,7 @@ public class RandomGenTestCommand extends BaseCommand {
             platformMaterialType.add(optionalMaterial);
         }
 
-        addPlatform(sender, platforms, doors, location, requiredMaterial);
+        addPlatform(sender, platforms, doors, location, startMaterial);
 
         final var random = new Random();
 
@@ -88,6 +88,20 @@ public class RandomGenTestCommand extends BaseCommand {
 
             addPlatform(sender, platforms, doors, platformLoc, m);
         }
+
+        // remove doors from the starting platform
+        doors.remove(new Door(location.clone().add(1, 0, 0), BlockFace.EAST));
+        doors.remove(new Door(location.clone().add(1, 0, 0), BlockFace.WEST));
+        doors.remove(new Door(location.clone().add(0, 0, 1), BlockFace.SOUTH));
+        doors.remove(new Door(location.clone().add(0, 0, -1), BlockFace.NORTH));
+
+        final var door = doors.stream().skip(random.nextInt(doors.size())).findFirst().orElseThrow();
+
+        sender.sendMessage("using door: " + door);
+
+        final var endPlatformLoc = door.platformCenter.clone().add(door.direction.getDirection().multiply(2));
+
+        addPlatform(sender, platforms, doors, endPlatformLoc, endMaterial);
 
         sender.sendMessage("done i guess");
     }
