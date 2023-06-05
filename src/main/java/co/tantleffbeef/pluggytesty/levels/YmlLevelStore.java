@@ -61,12 +61,12 @@ public class YmlLevelStore implements LevelStore {
                 .getObjective("gooberLevel")
                 .getScore(player.toString()); // I hope that's how it works
 
-        Bukkit.broadcastMessage("score: " + score);
+        Bukkit.broadcastMessage("score: " + score.getScore());
         score.setScore(level);
-        Bukkit.broadcastMessage("score2: " + score);
+        Bukkit.broadcastMessage("score2: " + score.getScore());
         Bukkit.broadcastMessage("score3: " + server.getScoreboardManager().getMainScoreboard()
                 .getObjective("gooberLevel")
-                .getScore(player.toString()));
+                .getScore(player.toString()).getScore());
 
         try {
             config.save(configPath.toFile());
