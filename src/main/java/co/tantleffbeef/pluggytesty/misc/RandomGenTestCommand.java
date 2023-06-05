@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Random;
 
 @SuppressWarnings("unused")
@@ -30,6 +31,19 @@ public class RandomGenTestCommand extends BaseCommand {
         public String toString() {
             return "at: x:" + platformCenter.getBlockX() + " y:" + platformCenter.getBlockY() + " x:" + platformCenter.getBlockZ()
                     + "\n    direction: " + direction;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Door door = (Door) o;
+            return platformCenter.equals(door.platformCenter) && direction == door.direction;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(platformCenter, direction);
         }
     }
 
@@ -85,26 +99,34 @@ public class RandomGenTestCommand extends BaseCommand {
 
         platforms.add(center);
         if (platforms.contains(center.clone().add(BlockFace.EAST.getDirection().multiply(3)))) {
+            sender.sendMessage("removing door to the EAST");
             doors.remove(new Door(center.clone().add(BlockFace.EAST.getDirection().multiply(2)), BlockFace.WEST));
         } else {
+            sender.sendMessage("adding door to the EAST");
             doors.add(new Door(center.clone().add(BlockFace.EAST.getDirection()), BlockFace.EAST));
         }
 
         if (platforms.contains(center.clone().add(BlockFace.WEST.getDirection().multiply(3)))) {
+            sender.sendMessage("removing door to the WEST");
             doors.remove(new Door(center.clone().add(BlockFace.WEST.getDirection().multiply(2)), BlockFace.EAST));
         } else {
+            sender.sendMessage("adding door to the WEST");
             doors.add(new Door(center.clone().add(BlockFace.WEST.getDirection()), BlockFace.WEST));
         }
 
         if (platforms.contains(center.clone().add(BlockFace.SOUTH.getDirection().multiply(3)))) {
+            sender.sendMessage("removing door to the SOUTH");
             doors.remove(new Door(center.clone().add(BlockFace.SOUTH.getDirection().multiply(2)), BlockFace.NORTH));
         } else {
+            sender.sendMessage("adding door to the SOUTH");
             doors.add(new Door(center.clone().add(BlockFace.SOUTH.getDirection()), BlockFace.SOUTH));
         }
 
         if (platforms.contains(center.clone().add(BlockFace.NORTH.getDirection().multiply(3)))) {
+            sender.sendMessage("removing door to the NORTH");
             doors.remove(new Door(center.clone().add(BlockFace.NORTH.getDirection().multiply(2)), BlockFace.SOUTH));
         } else {
+            sender.sendMessage("adding door to the NORTH");
             doors.add(new Door(center.clone().add(BlockFace.NORTH.getDirection()), BlockFace.NORTH));
         }
     }
