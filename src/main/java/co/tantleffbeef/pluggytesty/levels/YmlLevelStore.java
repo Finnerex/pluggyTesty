@@ -35,7 +35,7 @@ public class YmlLevelStore implements LevelStore {
         // level scoreboard
         Scoreboard scoreboard = server.getScoreboardManager().getMainScoreboard();
 
-        if (scoreboard.getObjective("gooberLevel") != null)
+        if (scoreboard.getObjective("gooberLevel") == null)
             scoreboard.registerNewObjective("gooberLevel", Criteria.create("gooberLevel"), "level")
                 .setDisplaySlot(DisplaySlot.PLAYER_LIST);
     }
