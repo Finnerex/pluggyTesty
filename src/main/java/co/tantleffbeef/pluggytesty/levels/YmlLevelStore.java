@@ -22,7 +22,7 @@ public class YmlLevelStore implements LevelStore {
     private final Path configPath;
     private final ConfigurationSection levels;
     private final int defaultLevel;
-    private final Server server;
+    private final Scoreboard levelBoard;
 
     public YmlLevelStore(@NotNull Path configPath, int defaultLevel, Server server) {
         this.defaultLevel = defaultLevel;
@@ -30,13 +30,10 @@ public class YmlLevelStore implements LevelStore {
 
         this.config = YamlConfiguration.loadConfiguration(configPath.toFile());
         this.levels = createLevelsSection(config);
-        this.server = server;
 
         // level scoreboard
-        Scoreboard scoreboard = server.getScoreboardManager().getMainScoreboard();
-
-        if (scoreboard.getObjective("gooberLevel") == null)
-            scoreboard.registerNewObjective("gooberLevel", Criteria.create("gooberLevel"), "level")
+        levelBoard = server.getScoreboardManager().getNewScoreboard();
+        levelBoard.registerNewObjective("gooberLevel", Criteria.create("gooberLevel"), "level")
                 .setDisplaySlot(DisplaySlot.PLAYER_LIST);
     }
 
@@ -57,16 +54,17 @@ public class YmlLevelStore implements LevelStore {
         levels.set(player.toString(), level);
 
         // set the scoreboard level
-        Score score = server.getScoreboardManager().getMainScoreboard()
-                .getObjective("gooberLevel")
+        Score score = levelBoard.getObjective("gooberLevel")
                 .getScore(player.toString()); // I hope that's how it works
 
-        Bukkit.broadcastMessage("score: " + score.getScore());
+        Bukkit.broadcastMessage("og score: " + score.getScore());
+
         score.setScore(level);
-        Bukkit.broadcastMessage("score2: " + score.getScore());
-        Bukkit.broadcastMessage("score3: " + server.getScoreboardManager().getMainScoreboard()
-                .getObjective("gooberLevel")
+
+        Bukkit.broadcastMessage("new score: " + score.getScore());
+        Bukkit.broadcastMessage("new score check: " + levelBoard.getObjective("gooberLevel")
                 .getScore(player.toString()).getScore());
+
 
         try {
             config.save(configPath.toFile());
