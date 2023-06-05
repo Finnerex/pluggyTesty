@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty.expeditions;
 
 import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
+import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

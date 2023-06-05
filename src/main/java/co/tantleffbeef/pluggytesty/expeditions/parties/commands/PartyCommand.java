@@ -1,10 +1,10 @@
-package co.tantleffbeef.pluggytesty.expeditions.commands;
+package co.tantleffbeef.pluggytesty.expeditions.parties.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
-import co.tantleffbeef.pluggytesty.expeditions.Party;
-import co.tantleffbeef.pluggytesty.expeditions.PartyManager;
+import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
+import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Text;

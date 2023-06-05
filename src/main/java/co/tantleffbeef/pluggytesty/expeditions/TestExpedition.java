@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions;
 
+import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.StartingRoom;
 import com.sk89q.worldedit.math.BlockVector3;
 import org.bukkit.Location;

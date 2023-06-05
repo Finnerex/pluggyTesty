@@ -102,7 +102,7 @@ public class RandomGenTestCommand extends BaseCommand {
 
         // remove doors from the starting platform
         doors.remove(new Door(location.clone().add(1, 0, 0), BlockFace.EAST));
-        doors.remove(new Door(location.clone().add(1, 0, 0), BlockFace.WEST));
+        doors.remove(new Door(location.clone().add(-1, 0, 0), BlockFace.WEST));
         doors.remove(new Door(location.clone().add(0, 0, 1), BlockFace.SOUTH));
         doors.remove(new Door(location.clone().add(0, 0, -1), BlockFace.NORTH));
 
@@ -147,38 +147,38 @@ public class RandomGenTestCommand extends BaseCommand {
         platforms.add(center);
         if (platforms.contains(center.clone().add(3, 0, 0))) {
             sender.sendMessage("removing door to the EAST");
-            doors.remove(new Door(center.clone().add(BlockFace.EAST.getDirection().multiply(2)), BlockFace.WEST));
+            doors.remove(new Door(center.clone().add(2, 0, 0), BlockFace.WEST));
             doorsRemoved++;
         } else {
             sender.sendMessage("adding door to the EAST");
             doors.add(new Door(center.clone().add(1, 0, 0), BlockFace.EAST));
         }
 
-        if (platforms.contains(center.clone().add(BlockFace.WEST.getDirection().multiply(3)))) {
+        if (platforms.contains(center.clone().add(-3, 0, 0))) {
             sender.sendMessage("removing door to the WEST");
-            doors.remove(new Door(center.clone().add(BlockFace.WEST.getDirection().multiply(2)), BlockFace.EAST));
+            doors.remove(new Door(center.clone().add(-2, 0, 0), BlockFace.EAST));
             doorsRemoved++;
         } else {
             sender.sendMessage("adding door to the WEST");
-            doors.add(new Door(center.clone().add(BlockFace.WEST.getDirection()), BlockFace.WEST));
+            doors.add(new Door(center.clone().add(-1, 0, 0), BlockFace.WEST));
         }
 
-        if (platforms.contains(center.clone().add(BlockFace.SOUTH.getDirection().multiply(3)))) {
+        if (platforms.contains(center.clone().add(0, 0, 3))) {
             sender.sendMessage("removing door to the SOUTH");
-            doors.remove(new Door(center.clone().add(BlockFace.SOUTH.getDirection().multiply(2)), BlockFace.NORTH));
+            doors.remove(new Door(center.clone().add(0, 0, 2), BlockFace.NORTH));
             doorsRemoved++;
         } else {
             sender.sendMessage("adding door to the SOUTH");
-            doors.add(new Door(center.clone().add(BlockFace.SOUTH.getDirection()), BlockFace.SOUTH));
+            doors.add(new Door(center.clone().add(0, 0, 1), BlockFace.SOUTH));
         }
 
-        if (platforms.contains(center.clone().add(BlockFace.NORTH.getDirection().multiply(3)))) {
+        if (platforms.contains(center.clone().add(0, 0, -3))) {
             sender.sendMessage("removing door to the NORTH");
-            doors.remove(new Door(center.clone().add(BlockFace.NORTH.getDirection().multiply(2)), BlockFace.SOUTH));
+            doors.remove(new Door(center.clone().add(0, 0, -2), BlockFace.SOUTH));
             doorsRemoved++;
         } else {
             sender.sendMessage("adding door to the NORTH");
-            doors.add(new Door(center.clone().add(BlockFace.NORTH.getDirection()), BlockFace.NORTH));
+            doors.add(new Door(center.clone().add(0, 0, -1), BlockFace.NORTH));
         }
 
         if (doorsRemoved < 1)
