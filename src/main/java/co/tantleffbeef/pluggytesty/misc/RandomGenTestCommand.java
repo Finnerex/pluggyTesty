@@ -4,6 +4,9 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -118,13 +121,16 @@ public class RandomGenTestCommand extends BaseCommand {
         }
 
         for (Location l : noDoorsRemovedLocations) {
-            sender.sendMessage(ChatColor.RED + "doorsRemoved < 1 at " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+            final var clickText = new TextComponent("doorsRemoved < 1 at " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+            clickText.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + l.getBlockX() + " " + l.getBlockY() + "" + l.getBlockZ()));
+
+            sender.spigot().sendMessage(new ComponentBuilder(clickText).color(ChatColor.RED).create());
         }
 
         final long endTime = System.nanoTime();
         final double duration = (endTime - startTime) / 1000000.0;
 
-        System.out.printf("done I guess (%.3f ms)", duration);
+        sender.sendMessage(String.format("done I guess (%.3f ms)", duration));
     }
 
     private static void addPlatform(CommandSender sender, HashSet<Location> platforms, HashSet<Door> doors, ArrayList<Location> noDoorsRemovedLocations, Location center, Material material) {
