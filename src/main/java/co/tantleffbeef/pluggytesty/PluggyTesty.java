@@ -496,7 +496,7 @@ public final class PluggyTesty extends JavaPlugin {
                 new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.HEAD));
         addCustomAttributeToVanillaItem(Material.DIAMOND_CHESTPLATE,
                 new AttributePair(Attribute.GENERIC_ARMOR, 5, EquipmentSlot.CHEST),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2));
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.CHEST));
         addCustomAttributeToVanillaItem(Material.DIAMOND_LEGGINGS,
                 new AttributePair(Attribute.GENERIC_ARMOR, 5, EquipmentSlot.LEGS),
                 new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.LEGS));
