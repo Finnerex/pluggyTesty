@@ -11,6 +11,7 @@ import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import co.tantleffbeef.pluggytesty.goober.Goober;
 
 import java.util.*;
+import java.lang.Math;
 
 
 public class VillagerTradesListener implements Listener {
@@ -32,7 +33,7 @@ public class VillagerTradesListener implements Listener {
 
         List<MerchantRecipe> trades = new ArrayList<>(vil.getRecipes());
         int exp = vil.getVillagerLevel();
-//        Goober player = iHateThis.wrapPlayer(event.getPlayer());
+        Goober player = iHateThis.wrapPlayer(event.getPlayer());
         Villager.Profession prof = vil.getProfession();
 
         for(int i = trades.size() - 1; i >= 0; i--) {
@@ -78,21 +79,20 @@ public class VillagerTradesListener implements Listener {
 
             trades.add(TradeSilo.upgradeRecipe(exp)); // adding new final trade
         }
-        int pLevel = 0; // player.getLevel();
+        int pLevel = Math.min(player.getLevel(), 5);
 
-        if(pLevel < exp - 1) { // pLevel goes from 0-5 and exp goes from 1-5
-            int l = 0;
-            for(int h = pLevel; h < exp - 1; h++) {
+        int l = 0;
+        if(pLevel < exp) { // pLevel goes from 0-5 and exp goes from 1-5
+            for(int h = 0; h < pLevel; h++) {
                 l += TradeSilo.tradeAmts.get(prof)[h]; // this determines how many trades the player should have access to so they don't become unavailable
             }
 
             for(int i = l; i < trades.size(); i++) {
                 trades.get(i).setMaxUses(trades.get(i).getUses()); // setting a trade's max uses to be its current uses will disable it
             }
-        } else {
-            for(int i = 0; i < trades.size(); i++) { // set the trade's max uses to 10, fixing trades if they were previously opened by some low level person
-                trades.get(i).setMaxUses(10);
-            }
+        }
+        for(int i = 0; i < l; i++) { // set the trade's max uses to 10, fixing trades if they were previously opened by some low level person
+            trades.get(i).setMaxUses(10);
         }
 
         vil.setRecipes(trades);
