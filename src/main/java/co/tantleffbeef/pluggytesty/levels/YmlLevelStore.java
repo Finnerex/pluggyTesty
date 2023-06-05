@@ -7,6 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Score;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -53,10 +54,12 @@ public class YmlLevelStore implements LevelStore {
         levels.set(player.toString(), level);
 
         // set the scoreboard level
-        server.getScoreboardManager().getMainScoreboard()
+        Score score = server.getScoreboardManager().getMainScoreboard()
                 .getObjective("gooberLevel")
-                .getScore(player.toString()) // I hope that's how it works
-                .setScore(level);
+                .getScore(player.toString()); // I hope that's how it works
+
+        Bukkit.broadcastMessage("score: " + score);
+        score.setScore(level);
 
         try {
             config.save(configPath.toFile());
