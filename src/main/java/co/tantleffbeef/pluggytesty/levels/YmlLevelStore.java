@@ -58,8 +58,8 @@ public class YmlLevelStore implements LevelStore {
 
         // set the scoreboard level
         levelBoard.getObjective("gooberLevel")
-                .getScore(""+7)
-                .setScore(0); // I think the get score sets the value maybe thats so dumb
+                .getScore(7+"")
+                .setScore(4); // I think the get score sets the value maybe thats so dumb
 
         server.getPlayer(player).setScoreboard(levelBoard);
 
