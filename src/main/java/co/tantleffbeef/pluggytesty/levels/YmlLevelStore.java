@@ -60,7 +60,6 @@ public class YmlLevelStore implements LevelStore {
         // update the scoreboard
         Player playerPlayer = server.getPlayer(player);
 
-        // set the scoreboard level
         levelBoard.getObjective("gooberLevel")
                 .getScore(playerPlayer.getName())
                 .setScore(level);
