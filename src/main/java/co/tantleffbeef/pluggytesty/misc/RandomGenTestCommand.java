@@ -12,16 +12,17 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Random;
 
 @SuppressWarnings("unused")
 @CommandAlias("visualize")
-public class RandomGenTestCommand extends BaseCommand {
+public class RandomGenTestCommand extends BaseCommand implements Runnable {
     private static class Door {
         public final Location location;
         public final BlockFace direction;
@@ -51,6 +52,54 @@ public class RandomGenTestCommand extends BaseCommand {
         }
     }
 
+    private static class LocationMaterialPair {
+        public final Location location;
+        public final Material material;
+
+        public LocationMaterialPair(Location location, Material material) {
+            this.location = location;
+            this.material = material;
+        }
+    }
+
+    private final BukkitScheduler scheduler;
+    private final Plugin schedulerPlugin;
+    private final ArrayList<LocationMaterialPair> pairsToPlace = new ArrayList<>(4000);
+    private final int placePerTick;
+
+    public RandomGenTestCommand(BukkitScheduler scheduler, Plugin schedulerPlugin, int placePerTick) {
+        this.scheduler = scheduler;
+        this.schedulerPlugin = schedulerPlugin;
+        this.placePerTick = placePerTick;
+    }
+
+    @Override
+    public void run() {
+        if (pairsToPlace.size() == 0)
+            return;
+
+        synchronized (pairsToPlace) {
+            for (int i = pairsToPlace.size() - 1; i >= Math.max(0, pairsToPlace.size() - placePerTick); i--) {
+                final var pair = pairsToPlace.get(i);
+                final var center = pair.location;
+                final var material = pair.material;
+
+                final var middleX = center.getBlockX();
+                final var middleY = center.getBlockY();
+                final var middleZ = center.getBlockZ();
+
+                final var world = center.getWorld();
+
+                for (int ix = middleX - 1; ix <= middleX + 1; ix++) {
+                    for (int iz = middleZ - 1; iz <= middleZ + 1; iz++) {
+                        // Bukkit.broadcastMessage("setting at " + ix + " " + middleY + " " + iz);
+                        new Location(world, ix, middleY, iz).getBlock().setType(material);
+                    }
+                }
+            }
+        }
+    }
+
     @Default
     public void onCommand(@NotNull Player sender) {
         onCommand(sender, 3, 3);
@@ -63,6 +112,10 @@ public class RandomGenTestCommand extends BaseCommand {
 
     @Default
     public void onCommand(@NotNull Player sender, int requiredNum, int optionalNum, int seed) {
+        scheduler.runTaskAsynchronously(schedulerPlugin, () -> onCommandAsync(sender, requiredNum, optionalNum, seed));
+    }
+
+    private void onCommandAsync(@NotNull Player sender, int requiredNum, int optionalNum, int seed) {
         final long startTime = System.nanoTime();
 
         final var location = sender.getLocation().subtract(0, 1, 0);
@@ -143,7 +196,7 @@ public class RandomGenTestCommand extends BaseCommand {
         sender.sendMessage(String.format("done I guess (%.3f ms)", duration));
     }
 
-    private static void addPlatform(CommandSender sender, ArrayList<Location> platforms, ArrayList<Door> doors, ArrayList<Location> noDoorsRemovedLocations, Location center, Material material) {
+    private void addPlatform(CommandSender sender, ArrayList<Location> platforms, ArrayList<Door> doors, ArrayList<Location> noDoorsRemovedLocations, Location center, Material material) {
         sender.sendMessage("Adding platform at " + center.getBlockX() + " " + center.getBlockY() + " " + center.getBlockZ());
 
         buildPlatform(center, material);
@@ -191,26 +244,9 @@ public class RandomGenTestCommand extends BaseCommand {
             noDoorsRemovedLocations.add(center);
     }
 
-    private static void buildPlatform(Location center, Material material) {
-        final var middleX = center.getBlockX();
-        final var middleY = center.getBlockY();
-        final var middleZ = center.getBlockZ();
-
-        final var world = center.getWorld();
-
-        /*Bukkit.broadcastMessage("buildPlatform");
-        Bukkit.broadcastMessage("middleX - 1: " + (middleX - 1));
-        Bukkit.broadcastMessage("middleX + 1: " + (middleX + 1));
-        Bukkit.broadcastMessage("middleY - 1: " + (middleY - 1));
-        Bukkit.broadcastMessage("middleY + 1: " + (middleY + 1));
-        Bukkit.broadcastMessage("middleZ - 1: " + (middleZ - 1));
-        Bukkit.broadcastMessage("middleZ + 1: " + (middleZ + 1));*/
-
-        for (int ix = middleX - 1; ix <= middleX + 1; ix++) {
-            for (int iz = middleZ - 1; iz <= middleZ + 1; iz++) {
-                // Bukkit.broadcastMessage("setting at " + ix + " " + middleY + " " + iz);
-                new Location(world, ix, middleY, iz).getBlock().setType(material);
-            }
+    private void buildPlatform(Location center, Material material) {
+        synchronized (pairsToPlace) {
+            pairsToPlace.add(new LocationMaterialPair(center, material));
         }
     }
 }

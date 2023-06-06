@@ -53,9 +53,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Criteria;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Scoreboard;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -211,7 +208,10 @@ public final class PluggyTesty extends JavaPlugin {
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
         commandManager.registerCommand(new LevelCommand());
-        commandManager.registerCommand(new RandomGenTestCommand());
+        final var randomGenTest = new RandomGenTestCommand(getServer().getScheduler(), this, 500);
+        commandManager.registerCommand(randomGenTest);
+
+        getServer().getScheduler().runTaskTimer(this, randomGenTest, 1, 1);
 
         getCommand("summonjawn").setExecutor(new BossJawn(this));
         getCommand("summonseaman").setExecutor(new BossSeaman(this));
