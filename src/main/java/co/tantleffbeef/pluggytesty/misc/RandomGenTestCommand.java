@@ -72,8 +72,8 @@ public class RandomGenTestCommand extends BaseCommand {
         final Material doorMaterial = Material.BLACK_CONCRETE;
         final Material optionalMaterial = Material.YELLOW_CONCRETE;
 
-        final HashSet<Door> doors = new HashSet<>();
-        final HashSet<Location> platforms = new HashSet<>();
+        final ArrayList<Door> doors = new ArrayList<>();
+        final ArrayList<Location> platforms = new ArrayList<>();
         final ArrayList<Location> noDoorsRemovedLocations = new ArrayList<>();
 
         final ArrayList<Material> platformMaterialType = new ArrayList<>();
@@ -89,8 +89,7 @@ public class RandomGenTestCommand extends BaseCommand {
 
         addPlatform(sender, platforms, doors, noDoorsRemovedLocations, location, startMaterial);
 
-        final var random = new Random();
-        random.setSeed(seed);
+        final var random = new Random(seed);
 
         while (platformMaterialType.size() > 0) {
             final int mNum = random.nextInt(platformMaterialType.size()) ;
@@ -144,7 +143,7 @@ public class RandomGenTestCommand extends BaseCommand {
         sender.sendMessage(String.format("done I guess (%.3f ms)", duration));
     }
 
-    private static void addPlatform(CommandSender sender, HashSet<Location> platforms, HashSet<Door> doors, ArrayList<Location> noDoorsRemovedLocations, Location center, Material material) {
+    private static void addPlatform(CommandSender sender, ArrayList<Location> platforms, ArrayList<Door> doors, ArrayList<Location> noDoorsRemovedLocations, Location center, Material material) {
         sender.sendMessage("Adding platform at " + center.getBlockX() + " " + center.getBlockY() + " " + center.getBlockZ());
 
         buildPlatform(center, material);
