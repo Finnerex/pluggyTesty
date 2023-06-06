@@ -119,8 +119,6 @@ public final class PluggyTesty extends JavaPlugin {
         levelBoard.registerNewObjective("gooberLevel", Criteria.create("gooberLevel"), "level")
                 .setDisplaySlot(DisplaySlot.PLAYER_LIST);
 
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(levelBoard, gooberStateController), this);
-
         // Create level controller
         final var levelDataFilePath = getDataFolder().toPath().resolve("levels.yml");
         try {
@@ -255,6 +253,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PartyFriendlyFireListener(partyManager), this);
         getServer().getPluginManager().registerEvents(new GooberStateListener(gooberStateController, getServer()), this);
         getServer().getPluginManager().registerEvents(new DisabledRecipeManager(this, gooberStateController, nbtKeyManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(levelBoard, gooberStateController), this);
 
 
         ArmorEquipEvent.registerListener(this);
