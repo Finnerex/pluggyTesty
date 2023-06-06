@@ -65,6 +65,7 @@ public class RandomGenTestCommand extends BaseCommand implements Runnable {
     private final BukkitScheduler scheduler;
     private final Plugin schedulerPlugin;
     private final ArrayList<LocationMaterialPair> pairsToPlace = new ArrayList<>(4000);
+    private final ArrayList<Location> blackConcreteBlocksToPlace = new ArrayList<>();
     private final int placePerTick;
 
     public RandomGenTestCommand(BukkitScheduler scheduler, Plugin schedulerPlugin, int placePerTick) {
@@ -75,7 +76,7 @@ public class RandomGenTestCommand extends BaseCommand implements Runnable {
 
     @Override
     public void run() {
-        if (pairsToPlace.size() == 0)
+        if (pairsToPlace.size() == 0 && blackConcreteBlocksToPlace.size() == 0)
             return;
 
         synchronized (pairsToPlace) {
@@ -96,6 +97,14 @@ public class RandomGenTestCommand extends BaseCommand implements Runnable {
                         new Location(world, ix, middleY, iz).getBlock().setType(material);
                     }
                 }
+            }
+        }
+
+        synchronized (blackConcreteBlocksToPlace) {
+            for (int i = blackConcreteBlocksToPlace.size() - 1; i >= Math.max(0, blackConcreteBlocksToPlace.size() - placePerTick); i--) {
+                final var location = blackConcreteBlocksToPlace.get(i);
+
+                location.getBlock().setType(Material.BLACK_CONCRETE);
             }
         }
     }
@@ -174,12 +183,15 @@ public class RandomGenTestCommand extends BaseCommand implements Runnable {
 
         // show unused doors
         sender.sendMessage("creating unused doors");
-        for (Door d : doors) {
-            final var doorLocation = d.location;
 
-            sender.sendMessage(doorLocation.getBlockX() + ", " + doorLocation.getBlockY() + ", " + doorLocation.getBlockZ());
+        synchronized (blackConcreteBlocksToPlace) {
+            for (Door d : doors) {
+                final var doorLocation = d.location;
 
-            doorLocation.getBlock().setType(doorMaterial);
+                sender.sendMessage(doorLocation.getBlockX() + ", " + doorLocation.getBlockY() + ", " + doorLocation.getBlockZ());
+
+                blackConcreteBlocksToPlace.add(doorLocation);
+            }
         }
 
         for (Location l : noDoorsRemovedLocations) {
