@@ -63,7 +63,7 @@ public class YmlLevelStore implements LevelStore {
         // set the scoreboard level
         levelBoard.getObjective("gooberLevel")
                 .getScore(playerPlayer.getName())
-                .setScore(4);
+                .setScore(level);
 
         playerPlayer.setScoreboard(levelBoard);
 
