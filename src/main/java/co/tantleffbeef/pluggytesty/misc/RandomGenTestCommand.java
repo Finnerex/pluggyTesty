@@ -65,7 +65,7 @@ public class RandomGenTestCommand extends BaseCommand {
     public void onCommand(@NotNull Player sender, int requiredNum, int optionalNum, int seed) {
         final long startTime = System.nanoTime();
 
-        final var location = sender.getLocation();
+        final var location = sender.getLocation().subtract(0, 1, 0);
         final Material requiredMaterial = Material.CYAN_CONCRETE;
         final Material endMaterial = Material.RED_CONCRETE;
         final Material startMaterial = Material.GREEN_CONCRETE;
