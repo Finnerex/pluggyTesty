@@ -115,8 +115,9 @@ public class RandomGenTestCommand extends BaseCommand implements Runnable {
     }
 
     @Subcommand("set")
-    public void onSet(int toSetTo) {
+    public void onSet(@NotNull CommandSender sender, int toSetTo) {
         placePerTick = toSetTo;
+        sender.sendMessage("Set placePerTick to " + toSetTo);
     }
 
     @Default
