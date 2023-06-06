@@ -58,6 +58,11 @@ public class RandomGenTestCommand extends BaseCommand {
 
     @Default
     public void onCommand(@NotNull Player sender, int requiredNum, int optionalNum) {
+        onCommand(sender, requiredNum, optionalNum, new Random().nextInt());
+    }
+
+    @Default
+    public void onCommand(@NotNull Player sender, int requiredNum, int optionalNum, int seed) {
         final long startTime = System.nanoTime();
 
         final var location = sender.getLocation();
@@ -85,6 +90,7 @@ public class RandomGenTestCommand extends BaseCommand {
         addPlatform(sender, platforms, doors, noDoorsRemovedLocations, location, startMaterial);
 
         final var random = new Random();
+        random.setSeed(seed);
 
         while (platformMaterialType.size() > 0) {
             final int mNum = random.nextInt(platformMaterialType.size()) ;
@@ -134,6 +140,7 @@ public class RandomGenTestCommand extends BaseCommand {
         final long endTime = System.nanoTime();
         final double duration = (endTime - startTime) / 1000000.0;
 
+        sender.sendMessage(ChatColor.GREEN + "seed: " + seed);
         sender.sendMessage(String.format("done I guess (%.3f ms)", duration));
     }
 
