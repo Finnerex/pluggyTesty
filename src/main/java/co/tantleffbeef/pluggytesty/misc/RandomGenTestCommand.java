@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty.misc;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Subcommand;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -66,7 +67,7 @@ public class RandomGenTestCommand extends BaseCommand implements Runnable {
     private final Plugin schedulerPlugin;
     private final ArrayList<LocationMaterialPair> pairsToPlace = new ArrayList<>(4000);
     private final ArrayList<Location> blackConcreteBlocksToPlace = new ArrayList<>();
-    private final int placePerTick;
+    private int placePerTick;
 
     public RandomGenTestCommand(BukkitScheduler scheduler, Plugin schedulerPlugin, int placePerTick) {
         this.scheduler = scheduler;
@@ -107,6 +108,11 @@ public class RandomGenTestCommand extends BaseCommand implements Runnable {
                 location.getBlock().setType(Material.BLACK_CONCRETE);
             }
         }
+    }
+
+    @Subcommand("set")
+    public void onSet(int toSetTo) {
+        placePerTick = toSetTo;
     }
 
     @Default

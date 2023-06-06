@@ -208,10 +208,10 @@ public final class PluggyTesty extends JavaPlugin {
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
         commandManager.registerCommand(new LevelCommand());
-        final var randomGenTest = new RandomGenTestCommand(getServer().getScheduler(), this, 500);
+        final var randomGenTest = new RandomGenTestCommand(getServer().getScheduler(), this, 2500);
         commandManager.registerCommand(randomGenTest);
 
-        getServer().getScheduler().runTaskTimer(this, randomGenTest, 1, 1);
+        getServer().getScheduler().runTaskTimer(this, randomGenTest, 1, 5);
 
         getCommand("summonjawn").setExecutor(new BossJawn(this));
         getCommand("summonseaman").setExecutor(new BossSeaman(this));
