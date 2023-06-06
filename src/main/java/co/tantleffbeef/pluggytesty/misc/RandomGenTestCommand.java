@@ -99,7 +99,7 @@ public class RandomGenTestCommand extends BaseCommand implements Runnable {
                     }
                 }
 
-                pairsToPlace.remove(1);
+                pairsToPlace.remove(i);
             }
         }
 
