@@ -26,18 +26,15 @@ public class YmlLevelStore implements LevelStore {
     private final Scoreboard levelBoard;
     private final Server server;
 
-    public YmlLevelStore(@NotNull Path configPath, int defaultLevel, Server server) {
+    public YmlLevelStore(@NotNull Path configPath, int defaultLevel, Server server, Scoreboard levelBoard) {
         this.defaultLevel = defaultLevel;
         this.configPath = configPath;
 
         this.config = YamlConfiguration.loadConfiguration(configPath.toFile());
         this.levels = createLevelsSection(config);
-        this.server = server;
 
-        // level scoreboard
-        levelBoard = server.getScoreboardManager().getNewScoreboard();
-        levelBoard.registerNewObjective("gooberLevel", Criteria.create("gooberLevel"), "level")
-                .setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        this.server = server;
+        this.levelBoard = levelBoard;
 
     }
 
@@ -64,7 +61,6 @@ public class YmlLevelStore implements LevelStore {
                 .getScore(playerPlayer.getName())
                 .setScore(level);
 
-        playerPlayer.setScoreboard(levelBoard);
 
         try {
             config.save(configPath.toFile());
