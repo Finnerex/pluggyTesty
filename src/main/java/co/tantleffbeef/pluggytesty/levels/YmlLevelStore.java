@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Score;
@@ -36,7 +37,7 @@ public class YmlLevelStore implements LevelStore {
         // level scoreboard
         levelBoard = server.getScoreboardManager().getNewScoreboard();
         levelBoard.registerNewObjective("gooberLevel", Criteria.create("gooberLevel"), "level")
-                .setDisplaySlot(DisplaySlot.SIDEBAR);
+                .setDisplaySlot(DisplaySlot.PLAYER_LIST);
 
     }
 
@@ -56,13 +57,15 @@ public class YmlLevelStore implements LevelStore {
     public void storeLevel(@NotNull UUID player, int level) {
         levels.set(player.toString(), level);
 
+        // update the scoreboard
+        Player playerPlayer = server.getPlayer(player);
+
         // set the scoreboard level
         levelBoard.getObjective("gooberLevel")
-                .getScore(7+"")
-                .setScore(4); // I think the get score sets the value maybe thats so dumb
+                .getScore(playerPlayer.getName())
+                .setScore(4);
 
-        server.getPlayer(player).setScoreboard(levelBoard);
-
+        playerPlayer.setScoreboard(levelBoard);
 
         try {
             config.save(configPath.toFile());
