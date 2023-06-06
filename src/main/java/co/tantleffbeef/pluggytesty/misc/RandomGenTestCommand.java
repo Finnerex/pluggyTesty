@@ -98,6 +98,8 @@ public class RandomGenTestCommand extends BaseCommand implements Runnable {
                         new Location(world, ix, middleY, iz).getBlock().setType(material);
                     }
                 }
+
+                pairsToPlace.remove(1);
             }
         }
 
@@ -106,6 +108,8 @@ public class RandomGenTestCommand extends BaseCommand implements Runnable {
                 final var location = blackConcreteBlocksToPlace.get(i);
 
                 location.getBlock().setType(Material.BLACK_CONCRETE);
+
+                blackConcreteBlocksToPlace.remove(i);
             }
         }
     }
