@@ -114,10 +114,7 @@ public final class PluggyTesty extends JavaPlugin {
         attributeManager = new AttributeManager(nbtKeyManager);
         lootTableManager = new LootTableManager(attributeManager);
 
-        // create the scoreboard for player levels
-        Scoreboard levelBoard = this.getServer().getScoreboardManager().getNewScoreboard();
-        levelBoard.registerNewObjective("gooberLevel", Criteria.create("gooberLevel"), "level")
-                .setDisplaySlot(DisplaySlot.PLAYER_LIST);
+
 
         // Create level controller
         final var levelDataFilePath = getDataFolder().toPath().resolve("levels.yml");
@@ -127,7 +124,7 @@ public final class PluggyTesty extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL, this.getServer(), levelBoard));
+        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL, this.getServer()));
 
         registerItems();
 //        registerRecipes();
@@ -253,7 +250,6 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PartyFriendlyFireListener(partyManager), this);
         getServer().getPluginManager().registerEvents(new GooberStateListener(gooberStateController, getServer()), this);
         getServer().getPluginManager().registerEvents(new DisabledRecipeManager(this, gooberStateController, nbtKeyManager), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(levelBoard, gooberStateController), this);
 
 
         ArmorEquipEvent.registerListener(this);
