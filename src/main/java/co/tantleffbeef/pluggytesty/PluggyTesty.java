@@ -8,6 +8,7 @@ import co.tantleffbeef.pluggytesty.armor.BaseArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.CraftListener;
+import co.tantleffbeef.pluggytesty.extra_listeners.*;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
 import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.utility.*;
@@ -27,15 +28,11 @@ import co.tantleffbeef.pluggytesty.expeditions.loading.RoomType;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableTestCommand;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PartyFriendlyFireListener;
-import co.tantleffbeef.pluggytesty.extra_listeners.RandomEffectBowInteractListener;
-import co.tantleffbeef.pluggytesty.extra_listeners.SpecialArrowShootListener;
 import co.tantleffbeef.pluggytesty.levels.LevelController;
 import co.tantleffbeef.pluggytesty.levels.PTLevelController;
 import co.tantleffbeef.pluggytesty.levels.YmlLevelStore;
 import co.tantleffbeef.pluggytesty.levels.commands.LevelCommand;
 import co.tantleffbeef.pluggytesty.misc.Debug;
-import co.tantleffbeef.pluggytesty.extra_listeners.GoatHornInteractListener;
-import co.tantleffbeef.pluggytesty.extra_listeners.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.misc.RandomGenTestCommand;
 import co.tantleffbeef.pluggytesty.goober.GooberStateListener;
 import co.tantleffbeef.pluggytesty.goober.OfflineGoober;
@@ -56,6 +53,9 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Criteria;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Scoreboard;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -114,6 +114,8 @@ public final class PluggyTesty extends JavaPlugin {
         attributeManager = new AttributeManager(nbtKeyManager);
         lootTableManager = new LootTableManager(attributeManager);
 
+
+
         // Create level controller
         final var levelDataFilePath = getDataFolder().toPath().resolve("levels.yml");
         try {
@@ -121,7 +123,8 @@ public final class PluggyTesty extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL));
+
+        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL, this.getServer()));
 
         registerItems();
 //        registerRecipes();
@@ -496,7 +499,7 @@ public final class PluggyTesty extends JavaPlugin {
                 new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.HEAD));
         addCustomAttributeToVanillaItem(Material.DIAMOND_CHESTPLATE,
                 new AttributePair(Attribute.GENERIC_ARMOR, 5, EquipmentSlot.CHEST),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2));
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.CHEST));
         addCustomAttributeToVanillaItem(Material.DIAMOND_LEGGINGS,
                 new AttributePair(Attribute.GENERIC_ARMOR, 5, EquipmentSlot.LEGS),
                 new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.LEGS));

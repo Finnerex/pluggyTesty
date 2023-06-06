@@ -1,8 +1,15 @@
 package co.tantleffbeef.pluggytesty.levels;
 
 import co.tantleffbeef.pluggytesty.misc.Debug;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Criteria;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -16,13 +23,23 @@ public class YmlLevelStore implements LevelStore {
     private final Path configPath;
     private final ConfigurationSection levels;
     private final int defaultLevel;
+    private final Server server;
 
-    public YmlLevelStore(@NotNull Path configPath, int defaultLevel) {
+    public YmlLevelStore(@NotNull Path configPath, int defaultLevel, Server server) {
         this.defaultLevel = defaultLevel;
         this.configPath = configPath;
 
         this.config = YamlConfiguration.loadConfiguration(configPath.toFile());
         this.levels = createLevelsSection(config);
+
+        this.server = server;
+
+        Scoreboard levelBoard = server.getScoreboardManager().getMainScoreboard();
+
+        if (levelBoard.getObjective("gooberLevel") == null)
+            levelBoard.registerNewObjective("gooberLevel", Criteria.create("gooberLevel"), "level")
+                .setDisplaySlot(DisplaySlot.PLAYER_LIST);
+
     }
 
     private static ConfigurationSection createLevelsSection(YamlConfiguration config) {
@@ -40,6 +57,12 @@ public class YmlLevelStore implements LevelStore {
     @Override
     public void storeLevel(@NotNull UUID player, int level) {
         levels.set(player.toString(), level);
+
+        // update the scoreboard
+        server.getScoreboardManager().getMainScoreboard()
+                .getObjective("gooberLevel")
+                .getScore(server.getPlayer(player).getName())
+                .setScore(level);
 
         try {
             config.save(configPath.toFile());
