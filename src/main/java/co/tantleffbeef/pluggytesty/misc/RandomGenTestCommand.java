@@ -216,7 +216,9 @@ public class RandomGenTestCommand extends BaseCommand implements Runnable {
         final double duration = (endTime - startTime) / 1000000.0;
 
         sender.sendMessage(ChatColor.GREEN + "seed: " + seed);
-        sender.sendMessage(String.format("done I guess (%.3f ms)", duration));
+        final var completeMessage = String.format("done I guess (%.2fk required, %.2fk optional, %.3fms)", requiredNum / 1000.0, optionalNum / 1000.0, duration);
+        sender.sendMessage(completeMessage);
+        Debug.alwaysInfo(completeMessage);
     }
 
     private void addPlatform(CommandSender sender, ArrayList<Location> platforms, ArrayList<Door> doors, ArrayList<Location> noDoorsRemovedLocations, Location center, Material material) {
