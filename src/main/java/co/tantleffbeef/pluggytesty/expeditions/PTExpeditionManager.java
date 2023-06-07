@@ -92,19 +92,19 @@ public class PTExpeditionManager implements ExpeditionManager {
             final var roomInfoList = buildInfo.roomInformationList;
             // make a vector to mark the minimum position
             // so we can adjust the whole room over
-            final var minimumPos = new Vector3i(roomInfoList.get(0).offset);
+            final var minimumPos = new Vector3i(roomInfoList.get(0).getOffset());
 
             // Loop through every room to find the minimum position
             for (var room : roomInfoList) {
 //                final var info = room.roomInformation;
-                final var offset = room.offset;
+                final var offset = room.getOffset();
 
-                if (offset.x < minimumPos.x)
-                    minimumPos.x = offset.x;
-                if (offset.y < minimumPos.y)
-                    minimumPos.y = offset.y;
-                if (offset.z < minimumPos.z)
-                    minimumPos.z = offset.z;
+                if (offset.x() < minimumPos.x)
+                    minimumPos.x = offset.x();
+                if (offset.y() < minimumPos.y)
+                    minimumPos.y = offset.y();
+                if (offset.z() < minimumPos.z)
+                    minimumPos.z = offset.z();
             }
 
             Debug.log("minimum pos: " + minimumPos);
@@ -120,17 +120,17 @@ public class PTExpeditionManager implements ExpeditionManager {
 
             // Loop through every room and paste it
             for (var room : roomInfoList) {
-                final var info = room.roomInformation;
-                final var roomOffset = room.offset;
+                final var info = room.getRoomInformation();
+                final var roomOffset = room.getOffset();
                 final var schemPath = info.schematicPath;
 
                 Debug.log("pasteLocation: " + expeditionLocationWithOffset.add(roomOffset, new Vector3i()));
 
                 // figure out where to paste the room
                 final var pasteLocation = BlockVector3Imp.at(
-                        expeditionLocationWithOffset.x + roomOffset.x,
-                        expeditionLocationWithOffset.y + roomOffset.y,
-                        expeditionLocationWithOffset.z + roomOffset.z
+                        expeditionLocationWithOffset.x + roomOffset.x(),
+                        expeditionLocationWithOffset.y + roomOffset.y(),
+                        expeditionLocationWithOffset.z + roomOffset.z()
                 );
 
                 // This will store the location and stuff for this room

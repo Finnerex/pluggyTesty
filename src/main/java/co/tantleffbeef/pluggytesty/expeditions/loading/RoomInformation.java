@@ -4,12 +4,16 @@ import co.tantleffbeef.pluggytesty.misc.InvalidJsonException;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public class RoomInformation {
     public final RoomType roomType;
     public final Path schematicPath;
+    private final List<RoomDoor> doors;
+    private final int heightOffset;
 
     /**
      * Tries to load the RoomInformation from a json object
@@ -46,11 +50,26 @@ public class RoomInformation {
         path = rootFolder.resolve(pathString);
 
 
-        return new RoomInformation(roomType, path);
+        // TODO: doors and heightOffset
+        return new RoomInformation(roomType, path, null, 0);
     }
 
-    public RoomInformation(@NotNull RoomType roomType, @NotNull Path schematicPath) {
+    public RoomInformation(@NotNull RoomType roomType, @NotNull Path schematicPath, @Nullable List<RoomDoor> doors, int heightOffset) {
         this.roomType = roomType;
         this.schematicPath = schematicPath;
+        this.doors = doors;
+        this.heightOffset = heightOffset;
+    }
+
+    public @Nullable List<RoomDoor> getDoors() {
+        return doors;
+    }
+
+    /**
+     * Returns how high the middle of the doors are above the room's origin
+     * @return the distance above the origin the doors are at
+     */
+    public int getHeightOffset() {
+        return heightOffset;
     }
 }

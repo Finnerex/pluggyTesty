@@ -8,6 +8,7 @@ import co.tantleffbeef.pluggytesty.armor.BaseArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.CraftListener;
+import co.tantleffbeef.pluggytesty.expeditions.loading.*;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
 import co.tantleffbeef.pluggytesty.bosses.*;
@@ -21,10 +22,6 @@ import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import co.tantleffbeef.pluggytesty.expeditions.parties.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PTExpeditionManagerListener;
-import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
-import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionType;
-import co.tantleffbeef.pluggytesty.expeditions.loading.RoomInformation;
-import co.tantleffbeef.pluggytesty.expeditions.loading.RoomType;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableTestCommand;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PartyFriendlyFireListener;
@@ -312,15 +309,15 @@ public final class PluggyTesty extends JavaPlugin {
 
             expeditionManager.buildExpedition(new ExpeditionInformation(
                     List.of(
-                            new ExpeditionInformation.ExpeditionRoomInformation(
+                            new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
-                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem")),
-                                    new Vector3i(0, 0, 0)
+                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem"), null, 0),
+                                    new Vector3i(0, 0, 0), 0
                             ),
-                            new ExpeditionInformation.ExpeditionRoomInformation(
+                            new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_EXIT,
-                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem")),
-                                    new Vector3i(25, -5, 0)
+                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem"), null, 0),
+                                    new Vector3i(25, -5, 0), 0
                             )
                     ),
                     ExpeditionType.TEST_EXPEDITION
