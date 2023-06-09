@@ -1,5 +1,7 @@
 package co.tantleffbeef.pluggytesty.expeditions.loading;
 
+import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RoomLoader;
+import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
 import co.tantleffbeef.pluggytesty.misc.InvalidJsonException;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExpeditionInformation {
-    private final List<RoomInformationInstance> roomInformationList;
+    private final RoomLoader roomLoader;
     private final ExpeditionType expeditionType;
 
     public static ExpeditionInformation from(@NotNull JsonObject json,
@@ -63,20 +65,22 @@ public class ExpeditionInformation {
         type = ExpeditionType.getExpeditionWithId(typeString).orElseThrow(() ->
                 new InvalidJsonException("There is no expedition type with id '" + typeString + "'."));
 
-        return new ExpeditionInformation(roomsList, type);
+        return new ExpeditionInformation(new SpecificRoomLoader(roomsList), type);
     }
 
-    public ExpeditionInformation(@NotNull List<RoomInformationInstance> rooms,
+    public ExpeditionInformation(@NotNull RoomLoader roomLoader,
                                  @NotNull ExpeditionType type) {
-        this.roomInformationList = rooms;
+        this.roomLoader = roomLoader;
         this.expeditionType = type;
     }
 
-    public List<RoomInformationInstance> getRoomInformationList() {
-        return roomInformationList;
+
+
+    public @NotNull ExpeditionType getExpeditionType() {
+        return expeditionType;
     }
 
-    public ExpeditionType getExpeditionType() {
-        return expeditionType;
+    public @NotNull RoomLoader getRoomLoader() {
+        return roomLoader;
     }
 }

@@ -11,6 +11,7 @@ import co.tantleffbeef.pluggytesty.attributes.CraftListener;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
+import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
 import co.tantleffbeef.pluggytesty.bosses.*;
@@ -307,7 +308,7 @@ public final class PluggyTesty extends JavaPlugin {
                 return false;
 
             expeditionBuilder.buildExpedition(new ExpeditionInformation(
-                    List.of(
+                    new SpecificRoomLoader(List.of(
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
                                             getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem"), null, 0),
@@ -318,7 +319,7 @@ public final class PluggyTesty extends JavaPlugin {
                                             getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem"), null, 0),
                                     null, new Vector3i(25, -5, 0), 0
                             )
-                    ),
+                    )),
                     ExpeditionType.TEST_EXPEDITION
             )).whenComplete((r, e) -> {
                 if (e != null)

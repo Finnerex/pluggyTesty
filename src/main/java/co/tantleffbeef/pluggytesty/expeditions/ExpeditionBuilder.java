@@ -18,6 +18,7 @@ import org.joml.Vector3i;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 public class ExpeditionBuilder {
@@ -73,10 +74,10 @@ public class ExpeditionBuilder {
 
         return CompletableFuture.supplyAsync(() -> {
             // grab the rooms
-            final var roomInfoList = buildInfo.getRoomInformationList();
+            final var roomInfoList = buildInfo.getRoomLoader().loadRooms(new Random().nextInt());
             // make a vector to mark the minimum position
             // so we can adjust the whole room over
-            final var minimumPos = new Vector3i(roomInfoList.get(0).getOffset());
+            final var minimumPos = new Vector3i(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
 
             // Loop through every room to find the minimum position
             for (var room : roomInfoList) {
