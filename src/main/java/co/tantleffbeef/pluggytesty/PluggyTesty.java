@@ -63,7 +63,6 @@ import org.joml.Vector3i;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -417,13 +416,13 @@ public final class PluggyTesty extends JavaPlugin {
             final List<RoomInformation> requiredRooms = List.of(
                     new RoomInformation(
                             RoomType.EMPTY,
-                            teFolder.resolve("re_room_1"),
+                            teFolder.resolve("re_room_1.schem"),
                             roomDoors,
                             5
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
-                            teFolder.resolve("re_room_5"),
+                            teFolder.resolve("re_room_5.schem"),
                             roomDoors,
                             5
                     )
@@ -438,31 +437,31 @@ public final class PluggyTesty extends JavaPlugin {
             final List<RoomInformation> optionalRooms = List.of(
                     new RoomInformation(
                             RoomType.EMPTY,
-                            teFolder.resolve("re_room_3"),
+                            teFolder.resolve("re_room_3.schem"),
                             roomDoors,
                             5
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
-                            teFolder.resolve("re_room_4"),
+                            teFolder.resolve("re_room_4.schem"),
                             roomDoors,
                             6
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
-                            teFolder.resolve("re_room_6"),
+                            teFolder.resolve("re_room_6.schem"),
                             roomDoors,
                             12
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
-                            teFolder.resolve("re_room_7"),
+                            teFolder.resolve("re_room_7.schem"),
                             roomDoors,
                             9
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
-                            teFolder.resolve("re_room_8"),
+                            teFolder.resolve("re_room_8.schem"),
                             roomDoors,
                             4
                     )
