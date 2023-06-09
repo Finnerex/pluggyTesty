@@ -9,9 +9,9 @@ commands:
   testexpedition:
     description: does some test expedition stuff
     aliases: ["te"]
-  testrandomexpedition:
+  randomtestexpedition:
     description: test random expedition
-    aliases: ["tre"]
+    aliases: ["rte"]
   summonjawn:
     description: summons jawn
   summonseaman:

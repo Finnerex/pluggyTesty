@@ -372,7 +372,7 @@ public final class PluggyTesty extends JavaPlugin {
             return true;
         });
 
-        Objects.requireNonNull(getCommand("leaverandomexpedition")).setExecutor((sender, command, label, args) -> {
+        Objects.requireNonNull(getCommand("randomtestexpedition")).setExecutor((sender, command, label, args) -> {
             if (!(sender instanceof Player player))
                 return false;
 
