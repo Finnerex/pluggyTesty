@@ -4,6 +4,7 @@ import co.tantleffbeef.pluggytesty.expeditions.loading.RoomDoor;
 import co.tantleffbeef.pluggytesty.expeditions.loading.RoomInformationInstance;
 import co.tantleffbeef.pluggytesty.expeditions.loading.RoomInformation;
 import co.tantleffbeef.pluggytesty.expeditions.loading.RoomInformationCollection;
+import co.tantleffbeef.pluggytesty.misc.Debug;
 import com.google.gson.JsonObject;
 import org.bukkit.block.BlockFace;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,7 @@ public class RandomRoomLoader implements RoomLoader {
     // TODO: remove the room_size thing
     private final static int ROOM_SIZE = 25;
 
-    public static RoomLoader from(@NotNull JsonObject json, @NotNull RoomInformationCollection collection) {
+    public static @NotNull RoomLoader from(@NotNull JsonObject json, @NotNull RoomInformationCollection collection) {
         final var requiredRoomList = new ArrayList<RoomInformation>();
         final var optionalRoomList = new ArrayList<>();
 
@@ -24,12 +25,10 @@ public class RandomRoomLoader implements RoomLoader {
     }
 
     private static class RandomRoomDoor {
-        public final Vector3i offset;
         public final RoomInformationInstance room;
         public final RoomDoor door;
 
-        public RandomRoomDoor(Vector3i offset, RoomInformationInstance room, RoomDoor door) {
-            this.offset = offset;
+        public RandomRoomDoor(RoomInformationInstance room, RoomDoor door) {
             this.room = room;
             this.door = door;
         }
@@ -85,7 +84,7 @@ public class RandomRoomLoader implements RoomLoader {
     }
 
     @Override
-    public @NotNull List<RoomInformationInstance> loadRooms(int seed) {
+    public @NotNull Collection<RoomInformationInstance> loadRooms(int seed) {
         // Create a random for rng
         final var random = new Random(seed);
 
@@ -108,10 +107,11 @@ public class RandomRoomLoader implements RoomLoader {
         doors.add(null);
 
         // first, create first room
+        assert firstRoom.getDoors() != null;
         addRoom(
                 roomsOffsetFromStart,
                 doors,
-                new RoomInformationInstance(firstRoom, new Vector3i(), 0),
+                new RoomInformationInstance(firstRoom, firstRoom.getDoors(), new Vector3i(), 0),
                 ROOM_SIZE
         );
 
@@ -125,9 +125,10 @@ public class RandomRoomLoader implements RoomLoader {
         }
 
         // lastly make final room
+        final var finalRoomInstance = pickLocationAndGenerateInstance(lastRoom, random, doors);
+        addRoom(roomsOffsetFromStart, doors, finalRoomInstance, ROOM_SIZE);
 
-
-        return null;
+        return roomsOffsetFromStart.values();
     }
 
     private RoomInformationInstance pickLocationAndGenerateInstance(RoomInformation room, Random random, List<RandomRoomDoor> doors) {
@@ -142,26 +143,47 @@ public class RandomRoomLoader implements RoomLoader {
         final RoomDoor newDoor = roomDoors.get(random.nextInt(roomDoors.size()));
 
         // Calculate if this door needs to be rotated
-        final double yaw = calculateYaw(existingDoor, newDoor);
+        final int yaw = calculateYaw(existingDoor, newDoor);
         final Vector3i offset = calculateOffset(existingDoor.room,
                 existingDoor.door.getDirection(),
                 room,
                 ROOM_SIZE);
 
-        return new RoomInformationInstance(room, offset, yaw);
+        final List<RoomDoor> rotatedDoors = new ArrayList<>();
+        roomDoors.forEach(door -> rotatedDoors.add(new RoomDoor(rotateFace(door.getDirection(), yaw), door.getReplacementMaterial())));
+
+        return new RoomInformationInstance(room, rotatedDoors, offset, yaw);
     }
 
-    private double calculateYaw(@NotNull RandomRoomDoor existingDoor, @NotNull RoomDoor newDoor) {
+    private int calculateYaw(@NotNull RandomRoomDoor existingDoor, @NotNull RoomDoor newDoor) {
         final var existingDoorDirection = existingDoor.door.getDirection();
         final var newDoorDirection = newDoor.getDirection();
 
-        final double existingDoorAngle = calculateAngle(existingDoorDirection);
-        final double newDoorAngle = calculateAngle(newDoorDirection);
+        final int existingDoorAngle = calculateAngle(existingDoorDirection);
+        final int newDoorAngle = calculateAngle(newDoorDirection);
 
-        final double angleBetween = newDoorAngle - existingDoorAngle;
+        final int angleBetween = newDoorAngle - existingDoorAngle;
 
         // We want the two doors to be facing each other, so they should have a 180 degree difference
         return 180 - angleBetween;
+    }
+
+    private @NotNull BlockFace rotateFace(@NotNull BlockFace original, int theta) {
+        final int originalDirection = calculateAngle(original);
+
+        final int newDirection = (originalDirection + (360 + theta)) % 360;
+
+        return findBlockFace(newDirection);
+    }
+
+    private @NotNull BlockFace findBlockFace(int theta) {
+        return switch (theta) {
+            case 0 -> BlockFace.EAST;
+            case 90 -> BlockFace.NORTH;
+            case 180 -> BlockFace.WEST;
+            case 270 -> BlockFace.SOUTH;
+            default -> throw new IllegalStateException("idk what happened man");
+        };
     }
 
     private Vector3i calculateOffset(@NotNull RoomInformationInstance existingRoom,
@@ -195,7 +217,7 @@ public class RandomRoomLoader implements RoomLoader {
      * @param direction the direction in question
      * @return read above
      */
-    private static double calculateAngle(@NotNull BlockFace direction) {
+    private static int calculateAngle(@NotNull BlockFace direction) {
         return switch (direction) {
             case EAST -> 0;
             case NORTH -> 90;
@@ -211,6 +233,91 @@ public class RandomRoomLoader implements RoomLoader {
                          int roomSize) {
         assert !roomsOffsetFromStart.containsKey(newRoom.getOffset());
 
-        // TODO
+        // first add the room to the list of rooms
+        final var offset = newRoom.getOffset();
+        roomsOffsetFromStart.put(offset, newRoom);
+
+        // then add or remove the corresponding doors
+
+        // find the rotated directions of all the room doors
+        final Map<BlockFace, RandomRoomDoor> doorDirections = new HashMap<>();
+        assert newRoom.getDoors() != null;
+        newRoom.getDoors().forEach(door -> doorDirections.put(door.getDirection(), new RandomRoomDoor(newRoom, door)));
+
+        // North
+        final var northOffset = new Vector3i(offset).add(0, 0, -roomSize);
+        if (roomsOffsetFromStart.containsKey(northOffset)) {
+            final var northRoom = roomsOffsetFromStart.get(northOffset);
+            if (northRoom == null)
+                throw new IllegalStateException("bruh");
+
+            final var northRoomDoors = northRoom.getDoors();
+            if (northRoomDoors != null) {
+                final var northRoomSouthDoor = northRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.SOUTH)).findAny();
+                if (northRoomSouthDoor.isPresent()) {
+                    final var removalResult = doors.remove(new RandomRoomDoor(northRoom, northRoomSouthDoor.get()));
+                    if (!removalResult) Debug.warn("removalResult is false at offset = " + northOffset);
+                }
+            }
+        } else if (doorDirections.containsKey(BlockFace.WEST)) {
+            doors.add(doorDirections.get(BlockFace.WEST));
+        }
+
+        // South
+        final var southOffset = new Vector3i(offset).add(0, 0, roomSize);
+        if (roomsOffsetFromStart.containsKey(southOffset)) {
+            final var southRoom = roomsOffsetFromStart.get(southOffset);
+            if (southRoom == null)
+                throw new IllegalStateException("bruh");
+
+            final var southRoomDoors = southRoom.getDoors();
+            if (southRoomDoors != null) {
+                final var southRoomNorthDoor = southRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.NORTH)).findAny();
+                if (southRoomNorthDoor.isPresent()) {
+                    final var removalResult = doors.remove(new RandomRoomDoor(southRoom, southRoomNorthDoor.get()));
+                    if (!removalResult) Debug.warn("removalResult is false at offset = " + southOffset);
+                }
+            }
+        } else if (doorDirections.containsKey(BlockFace.WEST)) {
+            doors.add(doorDirections.get(BlockFace.WEST));
+        }
+
+        // East
+        final var eastOffset = new Vector3i(offset).add(roomSize, 0, 0);
+        if (roomsOffsetFromStart.containsKey(eastOffset)) {
+            final var eastRoom = roomsOffsetFromStart.get(eastOffset);
+            if (eastRoom == null)
+                throw new IllegalStateException("bruh");
+
+            final var eastRoomDoors = eastRoom.getDoors();
+            if (eastRoomDoors != null) {
+                final var eastRoomWestDoor = eastRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.WEST)).findAny();
+                if (eastRoomWestDoor.isPresent()) {
+                    final var removalResult = doors.remove(new RandomRoomDoor(eastRoom, eastRoomWestDoor.get()));
+                    if (!removalResult) Debug.warn("removalResult is false at offset = " + eastOffset);
+                }
+            }
+        } else if (doorDirections.containsKey(BlockFace.WEST)) {
+            doors.add(doorDirections.get(BlockFace.WEST));
+        }
+
+        // West
+        final var westOffset = new Vector3i(offset).add(-roomSize, 0, 0);
+        if (roomsOffsetFromStart.containsKey(westOffset)) {
+            final var westRoom = roomsOffsetFromStart.get(westOffset);
+            if (westRoom == null)
+                throw new IllegalStateException("bruh");
+
+            final var westRoomDoors = westRoom.getDoors();
+            if (westRoomDoors != null) {
+                final var westRoomEastDoor = westRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.EAST)).findAny();
+                if (westRoomEastDoor.isPresent()) {
+                    final var removalResult = doors.remove(new RandomRoomDoor(westRoom, westRoomEastDoor.get()));
+                    if (!removalResult) Debug.warn("removalResult is false at offset = " + westOffset);
+                }
+            }
+        } else if (doorDirections.containsKey(BlockFace.WEST)) {
+            doors.add(doorDirections.get(BlockFace.WEST));
+        }
     }
 }

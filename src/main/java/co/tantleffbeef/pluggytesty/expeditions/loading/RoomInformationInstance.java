@@ -4,13 +4,17 @@ import co.tantleffbeef.pluggytesty.misc.InvalidJsonException;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 
+import java.util.Collection;
+
 public class RoomInformationInstance {
     private final RoomInformation roomInformation;
+    private final Collection<RoomDoor> doors;
     private final Vector3i offset;
-    private final double rotation;
+    private final int rotation;
 
     public static RoomInformationInstance from(@NotNull JsonObject json,
                                                @NotNull RoomInformationCollection possibleRooms)
@@ -60,13 +64,15 @@ public class RoomInformationInstance {
             throw new InvalidJsonException("Array 'offset' is not an array of integers.");
         }
 
-        return new RoomInformationInstance(room, offset, 0.0);
+        return new RoomInformationInstance(room, null, offset, 0);
     }
 
     public RoomInformationInstance(@NotNull RoomInformation roomInformation,
+                                   @Nullable Collection<RoomDoor> doors,
                                    @NotNull Vector3i offset,
-                                   double rotation) {
+                                   int rotation) {
         this.roomInformation = roomInformation;
+        this.doors = doors;
         this.offset = offset;
         this.rotation = rotation;
     }
@@ -79,7 +85,11 @@ public class RoomInformationInstance {
         return offset;
     }
 
-    public double getRotation() {
+    public int getRotation() {
         return rotation;
+    }
+
+    public @Nullable Collection<RoomDoor> getDoors() {
+        return doors;
     }
 }

@@ -312,12 +312,12 @@ public final class PluggyTesty extends JavaPlugin {
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
                                             getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem"), null, 0),
-                                    new Vector3i(0, 0, 0), 0
+                                    null, new Vector3i(0, 0, 0), 0
                             ),
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_EXIT,
                                             getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem"), null, 0),
-                                    new Vector3i(25, -5, 0), 0
+                                    null, new Vector3i(25, -5, 0), 0
                             )
                     ),
                     ExpeditionType.TEST_EXPEDITION
