@@ -259,8 +259,8 @@ public class RandomRoomLoader implements RoomLoader {
                     if (!removalResult) Debug.warn("removalResult is false at offset = " + northOffset);
                 }
             }
-        } else if (doorDirections.containsKey(BlockFace.WEST)) {
-            doors.add(doorDirections.get(BlockFace.WEST));
+        } else if (doorDirections.containsKey(BlockFace.NORTH)) {
+            doors.add(doorDirections.get(BlockFace.NORTH));
         }
 
         // South
@@ -278,8 +278,8 @@ public class RandomRoomLoader implements RoomLoader {
                     if (!removalResult) Debug.warn("removalResult is false at offset = " + southOffset);
                 }
             }
-        } else if (doorDirections.containsKey(BlockFace.WEST)) {
-            doors.add(doorDirections.get(BlockFace.WEST));
+        } else if (doorDirections.containsKey(BlockFace.SOUTH)) {
+            doors.add(doorDirections.get(BlockFace.SOUTH));
         }
 
         // East
@@ -297,8 +297,8 @@ public class RandomRoomLoader implements RoomLoader {
                     if (!removalResult) Debug.warn("removalResult is false at offset = " + eastOffset);
                 }
             }
-        } else if (doorDirections.containsKey(BlockFace.WEST)) {
-            doors.add(doorDirections.get(BlockFace.WEST));
+        } else if (doorDirections.containsKey(BlockFace.EAST)) {
+            doors.add(doorDirections.get(BlockFace.EAST));
         }
 
         // West

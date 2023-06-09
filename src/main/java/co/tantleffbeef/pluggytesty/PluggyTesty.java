@@ -11,6 +11,7 @@ import co.tantleffbeef.pluggytesty.attributes.CraftListener;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
+import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
@@ -48,6 +49,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -61,6 +63,7 @@ import org.joml.Vector3i;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -375,6 +378,111 @@ public final class PluggyTesty extends JavaPlugin {
         Objects.requireNonNull(getCommand("randomtestexpedition")).setExecutor((sender, command, label, args) -> {
             if (!(sender instanceof Player player))
                 return false;
+
+            final var goober = gooberStateController.wrapPlayer(player);
+
+            final int numOptional;
+
+            if (args.length > 0)
+                numOptional = Integer.parseInt(args[0]);
+            else
+                numOptional = 3;
+
+            final var teFolder = getDataFolder().toPath()
+                    .resolve("data")
+                    .resolve("rooms")
+                    .resolve("test_expedition");
+
+            final var roomDoors = List.of(
+                    new RoomDoor(BlockFace.NORTH, Material.DIRT),
+                    new RoomDoor(BlockFace.SOUTH, Material.DIRT),
+                    new RoomDoor(BlockFace.EAST, Material.DIRT),
+                    new RoomDoor(BlockFace.WEST, Material.DIRT)
+            );
+
+            final var firstRoom = new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
+                    teFolder.resolve("te_room1.schem"),
+                    roomDoors,
+                    0);
+
+            final var lastRoom = new RoomInformation(RoomType.SIMPLE_EXIT,
+                    teFolder.resolve("te_room2.schem"),
+                    roomDoors,
+                    0);
+
+            // required
+            // re_room_1 5
+            // re_room_5 5
+
+            final List<RoomInformation> requiredRooms = List.of(
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_1"),
+                            roomDoors,
+                            5
+                    ),
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_5"),
+                            roomDoors,
+                            5
+                    )
+            );
+
+            // optional
+            // re_room_3 5
+            // re_room_4 6
+            // re_room_6 12
+            // re_room_7 9
+            // re_room_8 4
+            final List<RoomInformation> optionalRooms = List.of(
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_3"),
+                            roomDoors,
+                            5
+                    ),
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_4"),
+                            roomDoors,
+                            6
+                    ),
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_6"),
+                            roomDoors,
+                            12
+                    ),
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_7"),
+                            roomDoors,
+                            9
+                    ),
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_8"),
+                            roomDoors,
+                            4
+                    )
+            );
+
+            expeditionBuilder.buildExpedition(new ExpeditionInformation(
+                    new RandomRoomLoader(
+                            firstRoom,
+                            lastRoom,
+                            requiredRooms,
+                            optionalRooms,
+                            numOptional
+                    ),
+                    ExpeditionType.TEST_EXPEDITION
+            )).whenComplete((r, e) -> {
+                if (e != null)
+                    e.printStackTrace();
+            }).thenAccept(exp -> {
+                exp.start(goober.getPartyOrCreate());
+            });
 
             return true;
         });
