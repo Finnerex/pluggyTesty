@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExpeditionInformation {
-    public final List<RoomInformationInstance> roomInformationList;
-    public final ExpeditionType expeditionType;
+    private final List<RoomInformationInstance> roomInformationList;
+    private final ExpeditionType expeditionType;
 
     public static ExpeditionInformation from(@NotNull JsonObject json,
                                              @NotNull RoomInformationCollection possibleRooms)
@@ -70,5 +70,13 @@ public class ExpeditionInformation {
                                  @NotNull ExpeditionType type) {
         this.roomInformationList = rooms;
         this.expeditionType = type;
+    }
+
+    public List<RoomInformationInstance> getRoomInformationList() {
+        return roomInformationList;
+    }
+
+    public ExpeditionType getExpeditionType() {
+        return expeditionType;
     }
 }

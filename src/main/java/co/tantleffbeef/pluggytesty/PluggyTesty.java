@@ -8,6 +8,8 @@ import co.tantleffbeef.pluggytesty.armor.BaseArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.CraftListener;
+import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
+import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
@@ -16,7 +18,7 @@ import co.tantleffbeef.pluggytesty.custom.item.utility.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.*;
-import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionManager;
+import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionController;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import co.tantleffbeef.pluggytesty.expeditions.parties.commands.PartyCommand;
@@ -295,19 +297,16 @@ public final class PluggyTesty extends JavaPlugin {
             }
         }.runTaskTimer(this, 3, 7);*/
 
-        final var expeditionManager = new PTExpeditionManager(
-                getServer(),
-                "expeditions",
-                256
-        );
+        final var expeditionController = new PTExpeditionController();
+        final var expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
 
-        getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionManager), this);
+        getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionController), this);
 
         Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
             if (!(commandSender instanceof Player player))
                 return false;
 
-            expeditionManager.buildExpedition(new ExpeditionInformation(
+            expeditionBuilder.buildExpedition(new ExpeditionInformation(
                     List.of(
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
@@ -334,7 +333,7 @@ public final class PluggyTesty extends JavaPlugin {
                 player.sendMessage("built expedition");
                 party.broadcastMessage("starting expedition");
 
-                expeditionManager.startExpedition(expedition, party);
+                expedition.start(party);
             }));
 
             return true;
@@ -367,7 +366,14 @@ public final class PluggyTesty extends JavaPlugin {
             if (!(sender instanceof Player player))
                 return false;
 
-            expeditionManager.quitExpedition(player);
+            expeditionController.quitExpedition(player);
+
+            return true;
+        });
+
+        Objects.requireNonNull(getCommand("leaverandomexpedition")).setExecutor((sender, command, label, args) -> {
+            if (!(sender instanceof Player player))
+                return false;
 
             return true;
         });

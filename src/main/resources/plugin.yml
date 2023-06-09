@@ -3,12 +3,15 @@ version: '${project.version}'
 main: co.tantleffbeef.pluggytesty.PluggyTesty
 api-version: 1.19
 
-depend: ["MCPlanes"]
+depend: ["MCPlanes", "FastAsyncWorldEdit"]
 
 commands:
   testexpedition:
     description: does some test expedition stuff
     aliases: ["te"]
+  testrandomexpedition:
+    description: test random expedition
+    aliases: ["tre"]
   summonjawn:
     description: summons jawn
   summonseaman:
