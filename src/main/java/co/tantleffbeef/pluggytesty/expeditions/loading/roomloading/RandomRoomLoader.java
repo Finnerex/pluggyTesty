@@ -8,6 +8,8 @@ import co.tantleffbeef.pluggytesty.misc.Debug;
 import com.google.gson.JsonObject;
 import org.bukkit.block.BlockFace;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector2i;
+import org.joml.Vector2ic;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 
@@ -102,7 +104,7 @@ public class RandomRoomLoader implements RoomLoader {
 
         // create roominfo instance but offset is from start
         // afterwards will recreate all but with new offset
-        final Map<Vector3ic, RoomInformationInstance> roomsOffsetFromStart = new HashMap<>();
+        final Map<Vector2ic, RoomInformationInstance> roomsOffsetFromStart = new HashMap<>();
         final List<RoomInformationInstance> roomsList = new ArrayList<>();
         final List<RandomRoomDoor> doors = new ArrayList<>();
 
@@ -235,22 +237,24 @@ public class RandomRoomLoader implements RoomLoader {
         };
     }
 
-    private void addRoom(@NotNull Map<Vector3ic, RoomInformationInstance> roomsOffsetFromStart,
+    private void addRoom(@NotNull Map<Vector2ic, RoomInformationInstance> roomsOffsetFromStart,
                          @NotNull List<RoomInformationInstance> roomsList,
                          @NotNull List<RandomRoomDoor> doors,
                          @NotNull RoomInformationInstance newRoom,
                          int roomSize) {
         //assert !roomsOffsetFromStart.containsKey(newRoom.getOffset()); TODO
-        if (roomsOffsetFromStart.containsKey(newRoom.getOffset())) {
-            Debug.error("roomsOffsetFromStart contains offset " + newRoom.getOffset() + " already");
-            Debug.error("original: " + roomsOffsetFromStart.get(newRoom.getOffset()).getRoomInformation().schematicPath);
+        final Vector3ic offset = newRoom.getOffset();
+        final var offset2d = new Vector2i(offset.x(), offset.z());
+        // check if a room at this x and z already exists
+        if (roomsOffsetFromStart.containsKey(offset2d)) {
+            Debug.error("roomsOffsetFromStart contains offset " + offset2d + " already");
+            Debug.error("original: " + roomsOffsetFromStart.get(offset2d).getRoomInformation().schematicPath);
             Debug.error("new:      " + newRoom.getRoomInformation().schematicPath);
         }
 
         // first add the room to the list of rooms
-        final var offset = newRoom.getOffset();
         Debug.info("addRoom(): offset = " + offset);
-        roomsOffsetFromStart.put(offset, newRoom);
+        roomsOffsetFromStart.put(offset2d, newRoom);
         roomsList.add(newRoom);
 
         // then add or remove the corresponding doors
@@ -261,7 +265,7 @@ public class RandomRoomLoader implements RoomLoader {
         newRoom.getDoors().forEach(door -> doorDirections.put(door.getDirection(), new RandomRoomDoor(newRoom, door)));
 
         // North
-        final var northOffset = new Vector3i(offset).add(0, 0, -roomSize);
+        final var northOffset = new Vector2i(offset2d).add(0, -roomSize);
         if (roomsOffsetFromStart.containsKey(northOffset)) {
             Debug.info("north offset found");
             final var northRoom = roomsOffsetFromStart.get(northOffset);
@@ -273,7 +277,7 @@ public class RandomRoomLoader implements RoomLoader {
                 final var northRoomSouthDoor = northRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.SOUTH)).findAny();
                 if (northRoomSouthDoor.isPresent()) {
                     final var removalResult = doors.remove(new RandomRoomDoor(northRoom, northRoomSouthDoor.get()));
-                    if (!removalResult) Debug.warn("removalResult is false at offset = " + northOffset);
+                    if (!removalResult) Debug.warn("north removalResult is false at offset = " + northOffset);
                 }
             }
         } else if (doorDirections.containsKey(BlockFace.NORTH)) {
@@ -281,7 +285,7 @@ public class RandomRoomLoader implements RoomLoader {
         }
 
         // South
-        final var southOffset = new Vector3i(offset).add(0, 0, roomSize);
+        final var southOffset = new Vector2i(offset2d).add(0, roomSize);
         if (roomsOffsetFromStart.containsKey(southOffset)) {
             final var southRoom = roomsOffsetFromStart.get(southOffset);
             if (southRoom == null)
@@ -292,7 +296,7 @@ public class RandomRoomLoader implements RoomLoader {
                 final var southRoomNorthDoor = southRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.NORTH)).findAny();
                 if (southRoomNorthDoor.isPresent()) {
                     final var removalResult = doors.remove(new RandomRoomDoor(southRoom, southRoomNorthDoor.get()));
-                    if (!removalResult) Debug.warn("removalResult is false at offset = " + southOffset);
+                    if (!removalResult) Debug.warn("south removalResult is false at offset = " + southOffset);
                 }
             }
         } else if (doorDirections.containsKey(BlockFace.SOUTH)) {
@@ -300,7 +304,7 @@ public class RandomRoomLoader implements RoomLoader {
         }
 
         // East
-        final var eastOffset = new Vector3i(offset).add(roomSize, 0, 0);
+        final var eastOffset = new Vector2i(offset2d).add(roomSize, 0);
         if (roomsOffsetFromStart.containsKey(eastOffset)) {
             final var eastRoom = roomsOffsetFromStart.get(eastOffset);
             if (eastRoom == null)
@@ -311,7 +315,7 @@ public class RandomRoomLoader implements RoomLoader {
                 final var eastRoomWestDoor = eastRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.WEST)).findAny();
                 if (eastRoomWestDoor.isPresent()) {
                     final var removalResult = doors.remove(new RandomRoomDoor(eastRoom, eastRoomWestDoor.get()));
-                    if (!removalResult) Debug.warn("removalResult is false at offset = " + eastOffset);
+                    if (!removalResult) Debug.warn("east removalResult is false at offset = " + eastOffset);
                 }
             }
         } else if (doorDirections.containsKey(BlockFace.EAST)) {
@@ -319,7 +323,7 @@ public class RandomRoomLoader implements RoomLoader {
         }
 
         // West
-        final var westOffset = new Vector3i(offset).add(-roomSize, 0, 0);
+        final var westOffset = new Vector2i(offset2d).add(-roomSize, 0);
         if (roomsOffsetFromStart.containsKey(westOffset)) {
             final var westRoom = roomsOffsetFromStart.get(westOffset);
             if (westRoom == null)
@@ -330,7 +334,7 @@ public class RandomRoomLoader implements RoomLoader {
                 final var westRoomEastDoor = westRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.EAST)).findAny();
                 if (westRoomEastDoor.isPresent()) {
                     final var removalResult = doors.remove(new RandomRoomDoor(westRoom, westRoomEastDoor.get()));
-                    if (!removalResult) Debug.warn("removalResult is false at offset = " + westOffset);
+                    if (!removalResult) Debug.warn("west removalResult is false at offset = " + westOffset);
                 }
             }
         } else if (doorDirections.containsKey(BlockFace.WEST)) {
