@@ -77,7 +77,7 @@ public class RoomInformationInstance {
         this.roomInformation = roomInformation;
         this.doors = new ArrayList<>();
         if (doors != null) {
-            doors.forEach(door -> doors.add(new RoomDoor(rotateFace(door.getDirection(), rotation), door.getReplacementMaterial())));
+            doors.forEach(door -> this.doors.add(new RoomDoor(rotateFace(door.getDirection(), rotation), door.getReplacementMaterial())));
         }
         this.offset = offset;
         this.rotation = rotation;
