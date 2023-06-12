@@ -402,12 +402,12 @@ public final class PluggyTesty extends JavaPlugin {
             final var firstRoom = new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
                     teFolder.resolve("te_room1.schem"),
                     roomDoors,
-                    0);
+                    3);
 
             final var lastRoom = new RoomInformation(RoomType.SIMPLE_EXIT,
                     teFolder.resolve("te_room2.schem"),
                     roomDoors,
-                    0);
+                    8);
 
             // required
             // re_room_1 5
@@ -479,9 +479,8 @@ public final class PluggyTesty extends JavaPlugin {
             )).whenComplete((r, e) -> {
                 if (e != null)
                     e.printStackTrace();
-            }).thenAccept(exp -> {
-                exp.start(goober.getPartyOrCreate());
-            });
+            }).thenAccept(exp -> getServer().getScheduler().runTask(this,
+                    () -> exp.start(goober.getPartyOrCreate())));
 
             return true;
         });
