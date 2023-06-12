@@ -15,6 +15,8 @@ import org.joml.Vector3ic;
 
 import java.util.*;
 
+import static co.tantleffbeef.pluggytesty.misc.BlockFaceMath.*;
+
 public class RandomRoomLoader implements RoomLoader {
     // TODO: remove the room_size thing
     private final static int ROOM_SIZE = 25;
@@ -178,24 +180,6 @@ public class RandomRoomLoader implements RoomLoader {
         return 180 - angleBetween;
     }
 
-    private @NotNull BlockFace rotateFace(@NotNull BlockFace original, int theta) {
-        final int originalDirection = calculateAngle(original);
-
-        final int newDirection = (originalDirection + (360 + theta)) % 360;
-
-        return findBlockFace(newDirection);
-    }
-
-    private @NotNull BlockFace findBlockFace(int theta) {
-        return switch (theta) {
-            case 0 -> BlockFace.EAST;
-            case 90 -> BlockFace.NORTH;
-            case 180 -> BlockFace.WEST;
-            case 270 -> BlockFace.SOUTH;
-            default -> throw new IllegalStateException("idk what happened man");
-        };
-    }
-
     private Vector3i calculateOffset(@NotNull RoomInformationInstance existingRoom,
                                      @NotNull BlockFace newRoomDirection,
                                      @NotNull RoomInformation newRoom,
@@ -221,22 +205,6 @@ public class RandomRoomLoader implements RoomLoader {
         return new Vector3i(x, y, z);
     }
 
-    /**
-     * Calculates the counter-clockwise angle from east (so east = 0) in degrees
-     * but only for cardinal directions
-     * @param direction the direction in question
-     * @return read above
-     */
-    private static int calculateAngle(@NotNull BlockFace direction) {
-        return switch (direction) {
-            case EAST -> 0;
-            case NORTH -> 90;
-            case WEST -> 180;
-            case SOUTH -> 270;
-            default -> throw new IllegalArgumentException("direction not cardinal");
-        };
-    }
-
     private void addRoom(@NotNull Map<Vector2ic, RoomInformationInstance> roomsOffsetFromStart,
                          @NotNull List<RoomInformationInstance> roomsList,
                          @NotNull List<RandomRoomDoor> doors,
@@ -253,7 +221,7 @@ public class RandomRoomLoader implements RoomLoader {
         }
 
         // first add the room to the list of rooms
-        Debug.info("addRoom(): offset = " + offset);
+        Debug.info("addRoom(): offset = " + offset + ", angle = " + newRoom.getRotation());
         roomsOffsetFromStart.put(offset2d, newRoom);
         roomsList.add(newRoom);
 
@@ -261,7 +229,6 @@ public class RandomRoomLoader implements RoomLoader {
 
         // find the rotated directions of all the room doors
         final Map<BlockFace, RandomRoomDoor> doorDirections = new HashMap<>();
-        assert newRoom.getDoors() != null;
         newRoom.getDoors().forEach(door -> doorDirections.put(door.getDirection(), new RandomRoomDoor(newRoom, door)));
 
         // North
@@ -273,7 +240,7 @@ public class RandomRoomLoader implements RoomLoader {
                 throw new IllegalStateException("bruh");
 
             final var northRoomDoors = northRoom.getDoors();
-            if (northRoomDoors != null) {
+            if (northRoomDoors.size() > 0) {
                 final var northRoomSouthDoor = northRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.SOUTH)).findAny();
                 if (northRoomSouthDoor.isPresent()) {
                     final var removalResult = doors.remove(new RandomRoomDoor(northRoom, northRoomSouthDoor.get()));
@@ -281,6 +248,7 @@ public class RandomRoomLoader implements RoomLoader {
                 }
             }
         } else if (doorDirections.containsKey(BlockFace.NORTH)) {
+            Debug.info("adding north door");
             doors.add(doorDirections.get(BlockFace.NORTH));
         }
 
@@ -292,7 +260,7 @@ public class RandomRoomLoader implements RoomLoader {
                 throw new IllegalStateException("bruh");
 
             final var southRoomDoors = southRoom.getDoors();
-            if (southRoomDoors != null) {
+            if (southRoomDoors.size() > 0) {
                 final var southRoomNorthDoor = southRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.NORTH)).findAny();
                 if (southRoomNorthDoor.isPresent()) {
                     final var removalResult = doors.remove(new RandomRoomDoor(southRoom, southRoomNorthDoor.get()));
@@ -300,6 +268,7 @@ public class RandomRoomLoader implements RoomLoader {
                 }
             }
         } else if (doorDirections.containsKey(BlockFace.SOUTH)) {
+            Debug.info("adding south door");
             doors.add(doorDirections.get(BlockFace.SOUTH));
         }
 
@@ -311,7 +280,7 @@ public class RandomRoomLoader implements RoomLoader {
                 throw new IllegalStateException("bruh");
 
             final var eastRoomDoors = eastRoom.getDoors();
-            if (eastRoomDoors != null) {
+            if (eastRoomDoors.size() > 0) {
                 final var eastRoomWestDoor = eastRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.WEST)).findAny();
                 if (eastRoomWestDoor.isPresent()) {
                     final var removalResult = doors.remove(new RandomRoomDoor(eastRoom, eastRoomWestDoor.get()));
@@ -319,6 +288,7 @@ public class RandomRoomLoader implements RoomLoader {
                 }
             }
         } else if (doorDirections.containsKey(BlockFace.EAST)) {
+            Debug.info("adding east door");
             doors.add(doorDirections.get(BlockFace.EAST));
         }
 
@@ -330,7 +300,7 @@ public class RandomRoomLoader implements RoomLoader {
                 throw new IllegalStateException("bruh");
 
             final var westRoomDoors = westRoom.getDoors();
-            if (westRoomDoors != null) {
+            if (westRoomDoors.size() > 0) {
                 final var westRoomEastDoor = westRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.EAST)).findAny();
                 if (westRoomEastDoor.isPresent()) {
                     final var removalResult = doors.remove(new RandomRoomDoor(westRoom, westRoomEastDoor.get()));
@@ -338,6 +308,7 @@ public class RandomRoomLoader implements RoomLoader {
                 }
             }
         } else if (doorDirections.containsKey(BlockFace.WEST)) {
+            Debug.info("adding west door");
             doors.add(doorDirections.get(BlockFace.WEST));
         }
     }

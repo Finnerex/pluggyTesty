@@ -8,7 +8,10 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 
+import java.util.ArrayList;
 import java.util.Collection;
+
+import static co.tantleffbeef.pluggytesty.misc.BlockFaceMath.*;
 
 public class RoomInformationInstance {
     private final RoomInformation roomInformation;
@@ -72,7 +75,10 @@ public class RoomInformationInstance {
                                    @NotNull Vector3i offset,
                                    int rotation) {
         this.roomInformation = roomInformation;
-        this.doors = doors;
+        this.doors = new ArrayList<>();
+        if (doors != null) {
+            doors.forEach(door -> doors.add(new RoomDoor(rotateFace(door.getDirection(), rotation), door.getReplacementMaterial())));
+        }
         this.offset = offset;
         this.rotation = rotation;
     }
@@ -89,7 +95,7 @@ public class RoomInformationInstance {
         return rotation;
     }
 
-    public @Nullable Collection<RoomDoor> getDoors() {
+    public @NotNull Collection<RoomDoor> getDoors() {
         return doors;
     }
 }
