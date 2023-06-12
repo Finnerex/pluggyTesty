@@ -105,7 +105,6 @@ public class RandomRoomLoader implements RoomLoader {
         final Map<Vector3ic, RoomInformationInstance> roomsOffsetFromStart = new HashMap<>();
         final List<RoomInformationInstance> roomsList = new ArrayList<>();
         final List<RandomRoomDoor> doors = new ArrayList<>();
-        doors.add(null);
 
         // first, create first room
         assert firstRoom.getDoors() != null;
