@@ -37,19 +37,19 @@ public class ArmorEquipListener implements Listener {
     private final static Map<TrimPattern, ArmorEffectType> trimMap = Map.ofEntries(
 
             entry(TrimPattern.COAST,    ArmorEffectType.CONDUIT_POWER),
-//            entry(TrimPattern.HOST,     ArmorEffectType.DEBUFF_DAMAGE_IMMUNITY),
+            entry(TrimPattern.HOST,     ArmorEffectType.DEBUFF_DAMAGE_IMMUNITY),
             entry(TrimPattern.SENTRY,   ArmorEffectType.ARROW_CONSERVATION),
             entry(TrimPattern.EYE,      ArmorEffectType.NIGHT_VISION),
-//            entry(TrimPattern.RAISER,   ArmorEffectType.JUMP_BOOST),
-//            entry(TrimPattern.SHAPER,   ArmorEffectType.HASTE),
-//            entry(TrimPattern.WAYFINDER,ArmorEffectType.SPEED),
+            entry(TrimPattern.RAISER,   ArmorEffectType.JUMP_BOOST),
+            entry(TrimPattern.SHAPER,   ArmorEffectType.HASTE),
+            entry(TrimPattern.WAYFINDER,ArmorEffectType.SPEED),
             entry(TrimPattern.TIDE,     ArmorEffectType.EXP_BOOST),
             entry(TrimPattern.SNOUT,    ArmorEffectType.FIRE_RESISTANCE),
             entry(TrimPattern.WILD,     ArmorEffectType.KNOCKBACK_RESIST),
             entry(TrimPattern.VEX,      ArmorEffectType.DAMAGE_INCREASE),
             entry(TrimPattern.SPIRE,    ArmorEffectType.FALL_DAMAGE_IMMUNITY),
             entry(TrimPattern.RIB,      ArmorEffectType.WITHER_ATTACKS),
-//            entry(TrimPattern.SILENCE,  ArmorEffectType.DASH),
+            entry(TrimPattern.SILENCE,  ArmorEffectType.DASH),
             entry(TrimPattern.WARD,     ArmorEffectType.HEALTH_BOOST),
             entry(TrimPattern.DUNE,     ArmorEffectType.REGEN_ON_KILL)
 
@@ -102,6 +102,9 @@ public class ArmorEquipListener implements Listener {
             case NIGHT_VISION -> player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(PotionEffect.INFINITE_DURATION, 0));
             case FIRE_RESISTANCE -> player.addPotionEffect(PotionEffectType.FIRE_RESISTANCE.createEffect(PotionEffect.INFINITE_DURATION, 0));
             case HEALTH_BOOST -> player.addPotionEffect(PotionEffectType.HEALTH_BOOST.createEffect(PotionEffect.INFINITE_DURATION, 4));
+            case SPEED -> player.addPotionEffect(PotionEffectType.SPEED.createEffect(PotionEffect.INFINITE_DURATION, 1));
+            case HASTE -> player.addPotionEffect(PotionEffectType.FAST_DIGGING.createEffect(PotionEffect.INFINITE_DURATION, 1));
+            case JUMP_BOOST -> player.addPotionEffect(PotionEffectType.JUMP.createEffect(PotionEffect.INFINITE_DURATION, 3));
             case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0.5f);
         }
 
@@ -158,6 +161,9 @@ public class ArmorEquipListener implements Listener {
                 case NIGHT_VISION -> player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                 case FIRE_RESISTANCE -> player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
                 case HEALTH_BOOST -> player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
+                case SPEED -> player.removePotionEffect(PotionEffectType.SPEED);
+                case HASTE -> player.removePotionEffect(PotionEffectType.FAST_DIGGING);
+                case JUMP_BOOST -> player.removePotionEffect(PotionEffectType.JUMP);
                 case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
             }
         }

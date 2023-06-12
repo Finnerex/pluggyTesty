@@ -6,9 +6,9 @@ public enum ArmorEffectType {
     DEBUFF_DAMAGE_IMMUNITY, // on effect given to player -> if wither/poison, remove // TODO
     ARROW_CONSERVATION, // on shoot -> 50% to give back arrow
     NIGHT_VISION, // on equip, on effect given (blind/dark resist)
-    JUMP_BOOST, // on equip // TODO
-    HASTE, // on equip // TODO
-    SPEED, // on equip // TODO
+    JUMP_BOOST, // on equip
+    HASTE, // on equip
+    SPEED, // on equip
     EXP_BOOST, // on exp gained
     FIRE_RESISTANCE, // on equip
     KNOCKBACK_RESIST, // on player damage -> set kb to false
