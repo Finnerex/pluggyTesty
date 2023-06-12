@@ -103,6 +103,7 @@ public class RandomRoomLoader implements RoomLoader {
         // create roominfo instance but offset is from start
         // afterwards will recreate all but with new offset
         final Map<Vector3ic, RoomInformationInstance> roomsOffsetFromStart = new HashMap<>();
+        final List<RoomInformationInstance> roomsList = new ArrayList<>();
         final List<RandomRoomDoor> doors = new ArrayList<>();
         doors.add(null);
 
@@ -110,6 +111,7 @@ public class RandomRoomLoader implements RoomLoader {
         assert firstRoom.getDoors() != null;
         addRoom(
                 roomsOffsetFromStart,
+                roomsList,
                 doors,
                 new RoomInformationInstance(firstRoom, firstRoom.getDoors(), new Vector3i(), 0),
                 ROOM_SIZE
@@ -121,12 +123,12 @@ public class RandomRoomLoader implements RoomLoader {
             final var roomInstance = pickLocationAndGenerateInstance(room, random, doors);
 
             // add the room
-            addRoom(roomsOffsetFromStart, doors, roomInstance, ROOM_SIZE);
+            addRoom(roomsOffsetFromStart, roomsList, doors, roomInstance, ROOM_SIZE);
         }
 
         // lastly make final room
         final var finalRoomInstance = pickLocationAndGenerateInstance(lastRoom, random, doors);
-        addRoom(roomsOffsetFromStart, doors, finalRoomInstance, ROOM_SIZE);
+        addRoom(roomsOffsetFromStart, roomsList, doors, finalRoomInstance, ROOM_SIZE);
 
         return roomsOffsetFromStart.values();
     }
@@ -136,13 +138,20 @@ public class RandomRoomLoader implements RoomLoader {
 
         // The door that already exists that we will connect to
         final int existingDoorIndex = random.nextInt(doors.size());
+        Debug.info("pickLocationAndGenerateInsance(): doors.size() = " + doors.size());
+        Debug.info("pickLocationAndGenerateInsance(): existingDoorIndex = " + existingDoorIndex);
         final RandomRoomDoor existingDoor = doors.get(existingDoorIndex);
+        if (existingDoor == null)
+            Debug.info("pickLocationAndGenerateInsance(): existingDoor = null");
 
         // The door that we are going to connect to the door that exists
         assert roomDoors != null;
         final RoomDoor newDoor = roomDoors.get(random.nextInt(roomDoors.size()));
+        Debug.info("pickLocationAndGenerateInsance(): roomDoors.size() = " + roomDoors.size());
 
         // Calculate if this door needs to be rotated
+        assert existingDoor != null;
+        assert newDoor != null;
         final int yaw = calculateYaw(existingDoor, newDoor);
         final Vector3i offset = calculateOffset(existingDoor.room,
                 existingDoor.door.getDirection(),
@@ -228,14 +237,22 @@ public class RandomRoomLoader implements RoomLoader {
     }
 
     private void addRoom(@NotNull Map<Vector3ic, RoomInformationInstance> roomsOffsetFromStart,
+                         @NotNull List<RoomInformationInstance> roomsList,
                          @NotNull List<RandomRoomDoor> doors,
                          @NotNull RoomInformationInstance newRoom,
                          int roomSize) {
-        assert !roomsOffsetFromStart.containsKey(newRoom.getOffset());
+        //assert !roomsOffsetFromStart.containsKey(newRoom.getOffset()); TODO
+        if (roomsOffsetFromStart.containsKey(newRoom.getOffset())) {
+            Debug.error("roomsOffsetFromStart contains offset " + newRoom.getOffset() + " already");
+            Debug.error("original: " + roomsOffsetFromStart.get(newRoom.getOffset()).getRoomInformation().schematicPath);
+            Debug.error("new:      " + newRoom.getRoomInformation().schematicPath);
+        }
 
         // first add the room to the list of rooms
         final var offset = newRoom.getOffset();
+        Debug.info("addRoom(): offset = " + offset);
         roomsOffsetFromStart.put(offset, newRoom);
+        roomsList.add(newRoom);
 
         // then add or remove the corresponding doors
 
@@ -247,6 +264,7 @@ public class RandomRoomLoader implements RoomLoader {
         // North
         final var northOffset = new Vector3i(offset).add(0, 0, -roomSize);
         if (roomsOffsetFromStart.containsKey(northOffset)) {
+            Debug.info("north offset found");
             final var northRoom = roomsOffsetFromStart.get(northOffset);
             if (northRoom == null)
                 throw new IllegalStateException("bruh");
