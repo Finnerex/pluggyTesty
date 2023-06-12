@@ -30,6 +30,20 @@ public class RandomRoomLoader implements RoomLoader {
 
     private static class RandomRoomDoor {
         public final RoomInformationInstance room;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            RandomRoomDoor that = (RandomRoomDoor) o;
+            return room.equals(that.room) && door.equals(that.door);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(room, door);
+        }
+
         public final RoomDoor door;
 
         public RandomRoomDoor(RoomInformationInstance room, RoomDoor door) {
@@ -89,7 +103,7 @@ public class RandomRoomLoader implements RoomLoader {
 
     @Override
     public @NotNull Collection<RoomInformationInstance> loadRooms(int seed) {
-        // Create a random for rng
+        // Create a random for rng - kys finnerex you should die and suck cock
         final var random = new Random(seed);
 
         // Create roomList and add all required rooms
@@ -105,7 +119,6 @@ public class RandomRoomLoader implements RoomLoader {
         // generate rooms randomly
 
         // create roominfo instance but offset is from start
-        // afterwards will recreate all but with new offset
         final Map<Vector2ic, RoomInformationInstance> roomsOffsetFromStart = new HashMap<>();
         final List<RoomInformationInstance> roomsList = new ArrayList<>();
         final List<RandomRoomDoor> doors = new ArrayList<>();
