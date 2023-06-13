@@ -3,7 +3,10 @@ package co.tantleffbeef.pluggytesty.expeditions;
 import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
 import co.tantleffbeef.pluggytesty.misc.Debug;
 import com.fastasyncworldedit.core.FaweAPI;
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.BlockVector3Imp;
 import com.sk89q.worldedit.math.transform.AffineTransform;
@@ -134,9 +137,11 @@ public class ExpeditionBuilder {
                     schemHolder.setTransform(new AffineTransform().rotateY(room.getRotation()));
 
                     // Paste the room's schematic
-                    schemHolder.createPaste(weWorld)
-                            .to(pasteLocation)
-                            .build();
+                    try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
+                        Operations.complete(schemHolder.createPaste(editSession)
+                                .to(pasteLocation)
+                                .build());
+                    }
 
                     final var maximumPoint = pasteLocation.add(schem.getDimensions());
 
