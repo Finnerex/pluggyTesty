@@ -46,13 +46,13 @@ public class KingPunchItemType extends SimpleItemType implements InteractableIte
                         tickNum = 0;
 
                     if (tickNum > 15) { // last and current amount are the same for 15 ticks
+                        cancel();
                         if (item.getAmount() < 50) {
-                            cancel();
+                            item.setAmount(1);
                             return;
                         }
-                        explode(player, item);
-                        cancel();
-                        return;
+                            explode(player, item);
+                            return;
                     }
 
                     lastAmount = curAmount;
