@@ -27,7 +27,7 @@ public class DashAbilityInteractListener implements Listener {
         if (player.hasCooldown(cp.getType()))
             return;
 
-        player.setVelocity(player.getVelocity().multiply(2));
+        player.setVelocity(player.getVelocity().add(player.getEyeLocation().getDirection().multiply(2)));
 
         player.setCooldown(cp.getType(), 180);
 
