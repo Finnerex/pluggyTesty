@@ -16,6 +16,9 @@ public class DashAbilityInteractListener implements Listener {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 
+        if (event.getItem() != null)
+            return;
+
         Player player = event.getPlayer();
 
         if (ArmorEquipListener.effectMap.get(player.getUniqueId()) != ArmorEffectType.DASH)
