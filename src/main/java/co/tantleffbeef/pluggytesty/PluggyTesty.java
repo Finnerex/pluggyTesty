@@ -63,6 +63,7 @@ import org.joml.Vector3i;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -81,6 +82,34 @@ public final class PluggyTesty extends JavaPlugin {
     private LootTableManager lootTableManager;
     private LevelController levelController;
     private GooberStateController gooberStateController;
+
+    @Override
+    public void onLoad() {
+        // TODO: make this use config system
+        if (!getServer().getWorlds().isEmpty())
+            return;
+
+        final Path worldContainer = getServer().getWorldContainer().toPath();
+
+        final Path expeditionsWorldFolder = worldContainer.resolve("expeditions");
+        if (Files.isDirectory(expeditionsWorldFolder)) {
+            // delete all files in the folder
+            try (final var walk = Files.walk(expeditionsWorldFolder)) {
+                walk.filter(Files::isRegularFile)
+                        .forEach(path -> {
+                            try {
+                                Files.delete(path);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+
+                Files.delete(expeditionsWorldFolder);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     @Override
     public void onEnable() {
@@ -138,7 +167,12 @@ public final class PluggyTesty extends JavaPlugin {
 
         final var partyManager = new PTPartyManager();
 
-        gooberStateController = new GooberStateController(levelController, partyManager, getServer());
+        final var expeditionController = new PTExpeditionController();
+        final var expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
+
+        getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionController), this);
+
+        gooberStateController = new GooberStateController(levelController, partyManager, expeditionController, getServer());
 
         final var commandManager = new PaperCommandManager(this);
         commandManager.getCommandContexts().registerIssuerAwareContext(Goober.class, context -> {
@@ -301,11 +335,6 @@ public final class PluggyTesty extends JavaPlugin {
             }
         }.runTaskTimer(this, 3, 7);*/
 
-        final var expeditionController = new PTExpeditionController();
-        final var expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
-
-        getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionController), this);
-
         Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
             if (!(commandSender instanceof Player player))
                 return false;
@@ -369,6 +398,12 @@ public final class PluggyTesty extends JavaPlugin {
         Objects.requireNonNull(getCommand("leaveexpedition")).setExecutor((sender, command, label, args) -> {
             if (!(sender instanceof Player player))
                 return false;
+
+            final var goober = gooberStateController.wrapPlayer(player);
+            if (goober.getParty().isEmpty() || goober.getExpedition().isEmpty()) {
+                goober.asPlayer().sendMessage("You are not in an expedition!");
+                return true;
+            }
 
             expeditionController.quitExpedition(player);
 

@@ -181,6 +181,7 @@ public class TestExpedition implements Expedition {
         }
 
         party.broadcastMessage("exited expedition");
+        party.setLocked(false);
 
         controller.endExpedition(this);
     }

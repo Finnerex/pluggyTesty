@@ -29,6 +29,13 @@ public interface ExpeditionController {
     boolean inExpedition(@NotNull Player player);
 
     /**
+     * grabs the player's expedition
+     * @param player the player to grab the expedition for
+     * @return the expedition the player is in
+     */
+    Expedition getExpedition(@NotNull Player player);
+
+    /**
      * Ends an expedition. Should only be called by an expedition
      * itself
      * @param toEnd the expedition to end

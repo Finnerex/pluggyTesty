@@ -182,6 +182,11 @@ public class PTExpeditionController implements ExpeditionController {
     }
 
     @Override
+    public Expedition getExpedition(@NotNull Player player) {
+        return partyExpeditionMap.get(playerPartyMap.get(player.getUniqueId()));
+    }
+
+    @Override
     public void endExpedition(@NotNull Expedition toEnd) {
         final var party = toEnd.getParty();
 

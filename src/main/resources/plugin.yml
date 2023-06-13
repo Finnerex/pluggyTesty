@@ -1,7 +1,7 @@
 name: pluggyTesty
 version: '${project.version}'
 main: co.tantleffbeef.pluggytesty.PluggyTesty
-api-version: 1.19
+api-version: "1.20"
 
 depend: ["MCPlanes", "FastAsyncWorldEdit"]
 
