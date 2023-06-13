@@ -70,8 +70,12 @@ public class SpecialArrowShootListener implements Listener {
 
     @EventHandler // why the fuck doesn't it give you the item???
     public void onDispense(BlockDispenseEvent event) {
+        Bukkit.broadcastMessage("deispend");
+
         if (!(event.getBlock() instanceof Dispenser dispenser))
             return;
+
+        Bukkit.broadcastMessage("is dispendersd");
 
         ItemStack item = event.getItem();
 
@@ -79,6 +83,8 @@ public class SpecialArrowShootListener implements Listener {
 
         if (customArrow == null)
             return;
+
+        Bukkit.broadcastMessage("is custom " + customArrow);
 
         event.setCancelled(true);
 
