@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.armor.effect_listeners;
 
 import co.tantleffbeef.pluggytesty.armor.ArmorEffectType;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,8 @@ public class DashAbilityInteractListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+        Bukkit.broadcastMessage("action!!: " + event.getAction() + " !!! ");
+
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 
