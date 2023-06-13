@@ -274,7 +274,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityEffectListener(this), this);
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerUnswimListener(), this);
-        getServer().getPluginManager().registerEvents(new DashAbilityInteractListener(), this);
+        getServer().getPluginManager().registerEvents(new DashAbilityInteractListener(this), this);
 
         getServer().getPluginManager().registerEvents(new GoatHornInteractListener(), this);
 
