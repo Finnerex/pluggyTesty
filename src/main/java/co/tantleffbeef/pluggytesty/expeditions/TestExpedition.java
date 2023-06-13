@@ -11,14 +11,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class TestExpedition implements Expedition {
-    private final ExpeditionManager manager;
+    private final ExpeditionController controller;
     private final Map<UUID, RoomMetadata> playerRoomMap;
     private final Location minimumCorner;
     private final RoomMetadata[] rooms;
     private Party party;
 
-    public TestExpedition(@NotNull ExpeditionManager manager, @NotNull Location minimumCorner, @NotNull RoomMetadata[] rooms) {
-        this.manager = manager;
+    public TestExpedition(@NotNull ExpeditionController controller, @NotNull Location minimumCorner, @NotNull RoomMetadata[] rooms) {
+        this.controller = controller;
         this.minimumCorner = minimumCorner;
         this.rooms = rooms;
 
@@ -115,6 +115,8 @@ public class TestExpedition implements Expedition {
 
     @Override
     public void start(@NotNull Party party) {
+        controller.startExpedition(this, party);
+
         // Save the party
         this.party = party;
 
@@ -180,6 +182,6 @@ public class TestExpedition implements Expedition {
 
         party.broadcastMessage("exited expedition");
 
-        manager.endExpedition(this);
+        controller.endExpedition(this);
     }
 }

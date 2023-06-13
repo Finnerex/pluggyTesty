@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty.expeditions.rooms;
 
 import co.tantleffbeef.pluggytesty.expeditions.Expedition;
+import co.tantleffbeef.pluggytesty.misc.Debug;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -17,18 +18,18 @@ public interface Room {
     }
 
     default void onFirstPlayerEnterRoom(@NotNull Player player) {
-        player.sendMessage("on first player enter room");
+        Debug.log("Room.onFirstPlayerEnterRoom(): onFirstPlayerEnterRoom");
     }
     default void onPlayerEnterRoom(@NotNull Player player) {
-        player.sendMessage("on player enter room");
+        Debug.log("Room.onPlayerEnterRoom(): onPlayerEnterRoom");
     }
     default void onPlayerExitRoom(@NotNull Player player) {
-        player.sendMessage("on player exit room");
+        Debug.log("Room.onPlayerExitRoom(): onPlayerExitRoom");
     }
     default void onLastPlayerExitRoom(@NotNull Player player) {
-        player.sendMessage("on last player exit room");
+        Debug.log("Room.onLastPlayerExitRoom(): onPlayerMove");
     }
     default void onPlayerMove(@NotNull Player player, @NotNull Location location) {
-        player.sendMessage("on player move: " + location);
+        // Debug.log("Room.onPlayerMove(): onPlayerMove");
     }
 }

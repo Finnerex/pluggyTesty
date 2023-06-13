@@ -8,7 +8,11 @@ import co.tantleffbeef.pluggytesty.armor.BaseArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.CraftListener;
+import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
+import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
+import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
+import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
 import co.tantleffbeef.pluggytesty.bosses.*;
@@ -16,7 +20,7 @@ import co.tantleffbeef.pluggytesty.custom.item.utility.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.*;
-import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionManager;
+import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionController;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import co.tantleffbeef.pluggytesty.expeditions.parties.commands.PartyCommand;
@@ -45,6 +49,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -296,31 +301,28 @@ public final class PluggyTesty extends JavaPlugin {
             }
         }.runTaskTimer(this, 3, 7);*/
 
-        final var expeditionManager = new PTExpeditionManager(
-                getServer(),
-                "expeditions",
-                256
-        );
+        final var expeditionController = new PTExpeditionController();
+        final var expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
 
-        getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionManager), this);
+        getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionController), this);
 
         Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
             if (!(commandSender instanceof Player player))
                 return false;
 
-            expeditionManager.buildExpedition(new ExpeditionInformation(
-                    List.of(
+            expeditionBuilder.buildExpedition(new ExpeditionInformation(
+                    new SpecificRoomLoader(List.of(
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
                                             getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem"), null, 0),
-                                    new Vector3i(0, 0, 0), 0
+                                    null, new Vector3i(0, 0, 0), 0
                             ),
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_EXIT,
                                             getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem"), null, 0),
-                                    new Vector3i(25, -5, 0), 0
+                                    null, new Vector3i(25, -5, 0), 0
                             )
-                    ),
+                    )),
                     ExpeditionType.TEST_EXPEDITION
             )).whenComplete((r, e) -> {
                 if (e != null)
@@ -335,7 +337,7 @@ public final class PluggyTesty extends JavaPlugin {
                 player.sendMessage("built expedition");
                 party.broadcastMessage("starting expedition");
 
-                expeditionManager.startExpedition(expedition, party);
+                expedition.start(party);
             }));
 
             return true;
@@ -368,7 +370,118 @@ public final class PluggyTesty extends JavaPlugin {
             if (!(sender instanceof Player player))
                 return false;
 
-            expeditionManager.quitExpedition(player);
+            expeditionController.quitExpedition(player);
+
+            return true;
+        });
+
+        Objects.requireNonNull(getCommand("randomtestexpedition")).setExecutor((sender, command, label, args) -> {
+            if (!(sender instanceof Player player))
+                return false;
+
+            final var goober = gooberStateController.wrapPlayer(player);
+
+            final int numOptional;
+
+            if (args.length > 0)
+                numOptional = Integer.parseInt(args[0]);
+            else
+                numOptional = 3;
+
+            final var teFolder = getDataFolder().toPath()
+                    .resolve("data")
+                    .resolve("rooms")
+                    .resolve("test_expedition");
+
+            final var roomDoors = List.of(
+                    new RoomDoor(BlockFace.NORTH, Material.DIRT),
+                    new RoomDoor(BlockFace.SOUTH, Material.DIRT),
+                    new RoomDoor(BlockFace.EAST, Material.DIRT),
+                    new RoomDoor(BlockFace.WEST, Material.DIRT)
+            );
+
+            final var firstRoom = new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
+                    teFolder.resolve("te_room1.schem"),
+                    roomDoors,
+                    3);
+
+            final var lastRoom = new RoomInformation(RoomType.SIMPLE_EXIT,
+                    teFolder.resolve("te_room2.schem"),
+                    roomDoors,
+                    8);
+
+            // required
+            // re_room_1 5
+            // re_room_5 5
+
+            final List<RoomInformation> requiredRooms = List.of(
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_1.schem"),
+                            roomDoors,
+                            5
+                    ),
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_5.schem"),
+                            roomDoors,
+                            5
+                    )
+            );
+
+            // optional
+            // re_room_3 5
+            // re_room_4 6
+            // re_room_6 12
+            // re_room_7 9
+            // re_room_8 4
+            final List<RoomInformation> optionalRooms = List.of(
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_3.schem"),
+                            roomDoors,
+                            5
+                    ),
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_4.schem"),
+                            roomDoors,
+                            6
+                    ),
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_6.schem"),
+                            roomDoors,
+                            12
+                    ),
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_7.schem"),
+                            roomDoors,
+                            9
+                    ),
+                    new RoomInformation(
+                            RoomType.EMPTY,
+                            teFolder.resolve("re_room_8.schem"),
+                            roomDoors,
+                            4
+                    )
+            );
+
+            expeditionBuilder.buildExpedition(new ExpeditionInformation(
+                    new RandomRoomLoader(
+                            firstRoom,
+                            lastRoom,
+                            requiredRooms,
+                            optionalRooms,
+                            numOptional
+                    ),
+                    ExpeditionType.TEST_EXPEDITION
+            )).whenComplete((r, e) -> {
+                if (e != null)
+                    e.printStackTrace();
+            }).thenAccept(exp -> getServer().getScheduler().runTask(this,
+                    () -> exp.start(goober.getPartyOrCreate())));
 
             return true;
         });

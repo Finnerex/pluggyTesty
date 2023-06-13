@@ -1,7 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.listeners;
 
-import co.tantleffbeef.pluggytesty.PluggyTesty;
-import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionManager;
+import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionController;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -10,9 +9,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class PTExpeditionManagerListener implements Listener {
-    private final PTExpeditionManager expeditionManager;
+    private final PTExpeditionController expeditionManager;
 
-    public PTExpeditionManagerListener(@NotNull PTExpeditionManager expeditionManager) {
+    public PTExpeditionManagerListener(@NotNull PTExpeditionController expeditionManager) {
         this.expeditionManager = expeditionManager;
     }
 
