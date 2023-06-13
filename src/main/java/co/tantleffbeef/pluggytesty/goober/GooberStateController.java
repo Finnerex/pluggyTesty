@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.goober;
 
+import co.tantleffbeef.pluggytesty.expeditions.ExpeditionController;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.levels.LevelController;
 import org.bukkit.OfflinePlayer;
@@ -15,25 +16,24 @@ import java.util.UUID;
 public class GooberStateController {
     private final LevelController levelController;
     private final PartyManager partyManager;
+    private final ExpeditionController expeditionController;
     private final Server server;
     private final Map<UUID, PTGoober> gooberMap;
 
     public GooberStateController(@NotNull LevelController levelController,
                                  @NotNull PartyManager partyManager,
+                                 @NotNull ExpeditionController expeditionController,
                                  @NotNull Server server) {
         this.levelController = levelController;
         this.partyManager = partyManager;
+        this.expeditionController = expeditionController;
         this.server = server;
         this.gooberMap = new HashMap<>();
     }
 
     public OfflineGoober wrapOfflinePlayer(@NotNull OfflinePlayer player) {
-        return Objects.requireNonNullElseGet(gooberMap.get(player.getUniqueId()), () -> {
-            final var newGoober = new PTGoober(player, levelController, partyManager, server);
-            gooberMap.put(player.getUniqueId(), newGoober);
-
-            return newGoober;
-        });
+        return Objects.requireNonNullElseGet(gooberMap.get(player.getUniqueId()),
+                () -> createGoober(player));
     }
 
     public Goober wrapPlayer(@NotNull Player player) {
@@ -51,9 +51,9 @@ public class GooberStateController {
 
         // if online
         if (onlinePlayer != null) {
-            goober = new PTGoober(onlinePlayer, levelController, partyManager, server);
+            goober = new PTGoober(onlinePlayer, levelController, partyManager, expeditionController, server);
         } else {
-            goober = new PTGoober(offlinePlayer, levelController, partyManager, server);
+            goober = new PTGoober(offlinePlayer, levelController, partyManager, expeditionController, server);
         }
 
         gooberMap.put(uuid, goober);

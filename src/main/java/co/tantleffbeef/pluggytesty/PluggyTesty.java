@@ -138,7 +138,12 @@ public final class PluggyTesty extends JavaPlugin {
 
         final var partyManager = new PTPartyManager();
 
-        gooberStateController = new GooberStateController(levelController, partyManager, getServer());
+        final var expeditionController = new PTExpeditionController();
+        final var expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
+
+        getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionController), this);
+
+        gooberStateController = new GooberStateController(levelController, partyManager, expeditionController, getServer());
 
         final var commandManager = new PaperCommandManager(this);
         commandManager.getCommandContexts().registerIssuerAwareContext(Goober.class, context -> {
@@ -301,11 +306,6 @@ public final class PluggyTesty extends JavaPlugin {
             }
         }.runTaskTimer(this, 3, 7);*/
 
-        final var expeditionController = new PTExpeditionController();
-        final var expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
-
-        getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionController), this);
-
         Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
             if (!(commandSender instanceof Player player))
                 return false;
@@ -369,6 +369,12 @@ public final class PluggyTesty extends JavaPlugin {
         Objects.requireNonNull(getCommand("leaveexpedition")).setExecutor((sender, command, label, args) -> {
             if (!(sender instanceof Player player))
                 return false;
+
+            final var goober = gooberStateController.wrapPlayer(player);
+            if (goober.getParty().isEmpty() || goober.getExpedition().isEmpty()) {
+                goober.asPlayer().sendMessage("You are not in an expedition!");
+                return true;
+            }
 
             expeditionController.quitExpedition(player);
 

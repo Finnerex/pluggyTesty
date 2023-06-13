@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.goober;
 
+import co.tantleffbeef.pluggytesty.expeditions.Expedition;
 import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -26,4 +27,10 @@ public interface Goober extends OfflineGoober {
      * @return the party the plugger was already in or a newly created one
      */
     @NotNull Party getPartyOrCreate();
+
+    /**
+     * Returns the expedition the player is in, if they are in one
+     * @return the expedition the player is in
+     */
+    Optional<Expedition> getExpedition();
 }

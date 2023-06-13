@@ -1,5 +1,7 @@
 package co.tantleffbeef.pluggytesty.goober;
 
+import co.tantleffbeef.pluggytesty.expeditions.Expedition;
+import co.tantleffbeef.pluggytesty.expeditions.ExpeditionController;
 import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.levels.LevelController;
@@ -18,11 +20,13 @@ public class PTGoober implements Goober {
 
     private final LevelController levelController;
     private final PartyManager partyManager;
+    private final ExpeditionController expeditionController;
     private final Server server;
 
     public PTGoober(@NotNull OfflinePlayer player,
                     @NotNull LevelController levelController,
                     @NotNull PartyManager partyManager,
+                    @NotNull ExpeditionController expeditionController,
                     @NotNull Server server) {
         this.offlinePlayer = player;
         this.player = null;
@@ -30,12 +34,14 @@ public class PTGoober implements Goober {
 
         this.levelController = levelController;
         this.partyManager = partyManager;
+        this.expeditionController = expeditionController;
         this.server = server;
     }
 
     public PTGoober(@NotNull Player player,
                     @NotNull LevelController levelController,
                     @NotNull PartyManager partyManager,
+                    @NotNull ExpeditionController expeditionController,
                     @NotNull Server server) {
         this.offlinePlayer = player;
         this.player = player;
@@ -43,6 +49,7 @@ public class PTGoober implements Goober {
 
         this.levelController = levelController;
         this.partyManager = partyManager;
+        this.expeditionController = expeditionController;
         this.server = server;
     }
 
@@ -112,6 +119,19 @@ public class PTGoober implements Goober {
 
             return newParty;
         });
+    }
+
+    @Override
+    public Optional<Expedition> getExpedition() {
+        // This should only be used
+        // for an online Plugger
+        if (player == null)
+            throw new GooberOfflineException();
+
+        if (!expeditionController.inExpedition(player))
+            return Optional.empty();
+
+        return Optional.of(expeditionController.getExpedition(player));
     }
 
     void setOnline(@NotNull Player toSet) {
