@@ -8,8 +8,10 @@ import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.BouncyArrowItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.CustomArrow;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Arrow;
@@ -72,7 +74,8 @@ public class SpecialArrowShootListener implements Listener {
     public void onDispense(BlockDispenseEvent event) {
         Bukkit.broadcastMessage("deispend");
 
-        if (!(event.getBlock() instanceof Dispenser dispenser))
+        Block dispenser = event.getBlock();
+        if (dispenser.getType() != Material.DISPENSER)
             return;
 
         Bukkit.broadcastMessage("is dispendersd");
