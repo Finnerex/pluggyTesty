@@ -134,7 +134,9 @@ public class ExpeditionBuilder {
                     schemHolder.setTransform(new AffineTransform().rotateY(room.getRotation()));
 
                     // Paste the room's schematic
-                    schemHolder.createPaste(weWorld).build();
+                    schemHolder.createPaste(weWorld)
+                            .to(pasteLocation)
+                            .build();
 
                     final var maximumPoint = pasteLocation.add(schem.getDimensions());
 
