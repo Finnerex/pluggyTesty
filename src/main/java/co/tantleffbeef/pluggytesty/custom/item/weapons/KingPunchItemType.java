@@ -87,6 +87,6 @@ public class KingPunchItemType extends SimpleItemType implements InteractableIte
         };
         runnable.runTaskTimer(schedulerPlugin, 0, 0);
         item.setAmount(1);
-        player.setCooldown(Material.RED_WOOL, 10);
+        player.setCooldown(Material.RED_WOOL, 2400);
     }
 }
