@@ -6,10 +6,7 @@ import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.goober.Goober;
 import co.tantleffbeef.pluggytesty.goober.GooberStateController;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Keyed;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -142,6 +139,9 @@ public class DisabledRecipeManager implements Listener {
         if (!(event.getEntity() instanceof Player tempPlayer))
             return;
 
+        if (tempPlayer.getGameMode() == GameMode.CREATIVE)
+            return;
+
         Goober player = gooberStateController.wrapPlayer(tempPlayer);
 
         checkItem(player, CustomItemNbt.customItemIdOrVanilla(event.getItem().getItemStack(), keyManager), event);
@@ -154,6 +154,9 @@ public class DisabledRecipeManager implements Listener {
             return;
 
         if (!(event.getWhoClicked() instanceof Player tempPlayer))
+            return;
+
+        if (tempPlayer.getGameMode() == GameMode.CREATIVE)
             return;
 
         Goober player = gooberStateController.wrapPlayer(tempPlayer);

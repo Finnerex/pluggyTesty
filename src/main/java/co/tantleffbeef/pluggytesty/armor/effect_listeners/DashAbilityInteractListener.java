@@ -4,6 +4,7 @@ import co.tantleffbeef.pluggytesty.armor.ArmorEffectType;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,8 +44,9 @@ public class DashAbilityInteractListener implements Listener {
             return;
 
         player.setVelocity(player.getVelocity().add(player.getEyeLocation().getDirection().multiply(2)));
+        player.getWorld().playSound(player, Sound.ENTITY_FISHING_BOBBER_RETRIEVE, 1, 1);
 
-        player.setCooldown(cp.getType(), 180);
+        player.setCooldown(cp.getType(), 90);
 
     }
 
