@@ -21,6 +21,7 @@ import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerPickupArrowEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -90,9 +91,13 @@ public class SpecialArrowShootListener implements Listener {
            arrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
         });
 
+        // this is fucking dumb
         BlockState state = dispenser.getState();
         assert state instanceof Container;
-        ((Container) state).getInventory().setItem(item.getAmount() - 1, item);
+        Inventory inventory = ((Container) state).getInventory();
+        inventory.remove(item);
+        item.setAmount(item.getAmount() - 1);
+        inventory.addItem(item);
 
     }
 
