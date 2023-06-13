@@ -11,9 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Dispenser;
+import org.bukkit.block.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -70,15 +68,12 @@ public class SpecialArrowShootListener implements Listener {
 
     }
 
-    @EventHandler // why the fuck doesn't it give you the item???
+    @EventHandler // why the fuck doesn't it give you the entity of this event???
     public void onDispense(BlockDispenseEvent event) {
-        Bukkit.broadcastMessage("deispend");
 
         Block dispenser = event.getBlock();
         if (dispenser.getType() != Material.DISPENSER)
             return;
-
-        Bukkit.broadcastMessage("is dispendersd");
 
         ItemStack item = event.getItem();
 
@@ -86,8 +81,6 @@ public class SpecialArrowShootListener implements Listener {
 
         if (customArrow == null)
             return;
-
-        Bukkit.broadcastMessage("is custom " + customArrow);
 
         event.setCancelled(true);
 
@@ -97,7 +90,10 @@ public class SpecialArrowShootListener implements Listener {
            arrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
         });
 
-        item.setAmount(item.getAmount() - 1);
+        BlockState state = dispenser.getState();
+        assert state instanceof Container;
+        ((Container) state).getInventory().setItem(item.getAmount() - 1, item);
+
     }
 
     private CustomArrow checkArrow(ItemStack item) {
