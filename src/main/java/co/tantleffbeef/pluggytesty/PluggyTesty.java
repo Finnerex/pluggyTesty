@@ -63,6 +63,7 @@ import org.joml.Vector3i;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -81,6 +82,34 @@ public final class PluggyTesty extends JavaPlugin {
     private LootTableManager lootTableManager;
     private LevelController levelController;
     private GooberStateController gooberStateController;
+
+    @Override
+    public void onLoad() {
+        // TODO: make this use config system
+        if (!getServer().getWorlds().isEmpty())
+            return;
+
+        final Path worldContainer = getServer().getWorldContainer().toPath();
+
+        final Path expeditionsWorldFolder = worldContainer.resolve("expeditions");
+        if (Files.isDirectory(expeditionsWorldFolder)) {
+            // delete all files in the folder
+            try (final var walk = Files.walk(expeditionsWorldFolder)) {
+                walk.filter(Files::isRegularFile)
+                        .forEach(path -> {
+                            try {
+                                Files.delete(path);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+
+                Files.delete(expeditionsWorldFolder);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     @Override
     public void onEnable() {
