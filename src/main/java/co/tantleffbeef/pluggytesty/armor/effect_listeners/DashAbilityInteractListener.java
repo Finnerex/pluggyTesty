@@ -66,6 +66,11 @@ public class DashAbilityInteractListener implements Listener {
             @Override
             public void run() {
 
+                if (runs > 30) {
+                    cancel();
+                    return;
+                }
+
                 String red = "|".repeat(90/3 - runs);
                 String green = "|".repeat(runs);
 
