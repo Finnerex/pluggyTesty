@@ -3,9 +3,14 @@ package co.tantleffbeef.pluggytesty.expeditions;
 import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
 import co.tantleffbeef.pluggytesty.misc.Debug;
 import com.fastasyncworldedit.core.FaweAPI;
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.BlockVector3Imp;
+import com.sk89q.worldedit.math.transform.AffineTransform;
+import com.sk89q.worldedit.session.ClipboardHolder;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -121,14 +126,22 @@ public class ExpeditionBuilder {
                 // This will store the location and stuff for this room
                 final RoomMetadata roomData;
 
-                try (final var schem = FaweAPI.load(schemPath.toFile())) {
+                try (final var schem = FaweAPI.load(schemPath.toFile());
+                    final var schemHolder = new ClipboardHolder(schem)) {
                     // Set the origin to the minimum point so that it actually
                     // pastes it where you're trying to paste it
                     schem.setOrigin(schem.getMinimumPoint());
 
+                    // rotate the schem based on the room's rotation
+                    // TODO: test this
+                    schemHolder.setTransform(new AffineTransform().rotateY(room.getRotation()));
+
                     // Paste the room's schematic
-                    final var pasteSession = schem.paste(weWorld, pasteLocation);
-                    pasteSession.close();
+                    try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
+                        Operations.complete(schemHolder.createPaste(editSession)
+                                .to(pasteLocation)
+                                .build());
+                    }
 
                     final var maximumPoint = pasteLocation.add(schem.getDimensions());
 
