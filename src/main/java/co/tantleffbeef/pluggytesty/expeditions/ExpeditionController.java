@@ -1,13 +1,10 @@
 package co.tantleffbeef.pluggytesty.expeditions;
 
-import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
 import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.CompletableFuture;
-
-public interface ExpeditionManager {
+public interface ExpeditionController {
     /**
      * Starts an expedition. This expedition should already
      * be built.
@@ -16,13 +13,13 @@ public interface ExpeditionManager {
      */
     void startExpedition(@NotNull Expedition builtExpedition, @NotNull Party party);
 
-    /**
+    /*/**
      * Automatically allocates a location to build the
      * expedition, and starts the building process
      * @param buildInfo the information to use
      *                  to build the expedition
-     */
-    @NotNull CompletableFuture<Expedition> buildExpedition(@NotNull ExpeditionInformation buildInfo);
+     * /
+    @NotNull CompletableFuture<Expedition> buildExpedition(@NotNull ExpeditionInformation buildInfo);*/
 
     /**
      * Returns whether the player is in an expedition currently

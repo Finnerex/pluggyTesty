@@ -1,11 +1,7 @@
 package co.tantleffbeef.pluggytesty.expeditions;
 
 import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
-import co.tantleffbeef.pluggytesty.expeditions.loading.PTRoomInformationCollection;
-import co.tantleffbeef.pluggytesty.expeditions.loading.RoomInformationCollection;
-import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import co.tantleffbeef.pluggytesty.misc.Debug;
-import co.tantleffbeef.pluggytesty.misc.ErrorCode;
 import com.fastasyncworldedit.core.FaweAPI;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
@@ -14,39 +10,32 @@ import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
-import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
 import org.joml.Vector3i;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
-public class PTExpeditionManager implements ExpeditionManager {
-    private final RoomInformationCollection rooms;
-    private final LocationTraverser locationTraverser;
+public class ExpeditionBuilder {
+    private final ExpeditionController expeditionController;
     private final World world;
-    private final Set<Player> expeditionPlayers;
-    private final List<Expedition> expeditions;
-    private final Map<Party, Expedition> partyExpeditionMap;
-    private final Map<UUID, Party> playerPartyMap;
+    private final LocationTraverser locationTraverser;
     private final int maxExpeditionSize;
 
-    public PTExpeditionManager(@NotNull Server server,
-                               @NotNull String expeditionWorldName,
-                               int maxExpeditionSize) {
-        this.expeditionPlayers = new HashSet<>();
-        this.expeditions = new ArrayList<>();
-        this.partyExpeditionMap = new HashMap<>();
-        this.playerPartyMap = new HashMap<>();
-        this.world = setupExpeditionWorld(server, expeditionWorldName);
-        this.locationTraverser = new LocationTraverser();
+    public ExpeditionBuilder(@NotNull ExpeditionController expeditionController,
+                             @NotNull Server server,
+                             @NotNull String worldName,
+                             @NotNull LocationTraverser locationTraverser,
+                             int maxExpeditionSize) {
+        this.expeditionController = expeditionController;
+        this.world = setupExpeditionWorld(server, worldName);
+        this.locationTraverser = locationTraverser;
         this.maxExpeditionSize = maxExpeditionSize;
-
-        rooms = new PTRoomInformationCollection();
     }
 
     /**
@@ -66,16 +55,12 @@ public class PTExpeditionManager implements ExpeditionManager {
         return Objects.requireNonNull(server.createWorld(worldCreator));
     }
 
-    @Override
-    public void startExpedition(@NotNull Expedition builtExpedition, @NotNull Party party) {
-        // Register the expedition
-        registerExpedition(builtExpedition, party);
-
-        // then start it
-        builtExpedition.start(party);
-    }
-
-    @Override
+    /**
+     * Automatically allocates a location to build the
+     * expedition, and starts the building process
+     * @param buildInfo the information to use
+     *                  to build the expedition
+     */
     public @NotNull CompletableFuture<Expedition> buildExpedition(@NotNull ExpeditionInformation buildInfo) {
         // Grab a location
         final var assignedLocation = locationTraverser.assignNextAvailableLocation();
@@ -89,10 +74,10 @@ public class PTExpeditionManager implements ExpeditionManager {
 
         return CompletableFuture.supplyAsync(() -> {
             // grab the rooms
-            final var roomInfoList = buildInfo.roomInformationList;
+            final var roomInfoList = buildInfo.getRoomLoader().loadRooms(new Random().nextInt());
             // make a vector to mark the minimum position
             // so we can adjust the whole room over
-            final var minimumPos = new Vector3i(roomInfoList.get(0).getOffset());
+            final var minimumPos = new Vector3i(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
 
             // Loop through every room to find the minimum position
             for (var room : roomInfoList) {
@@ -179,8 +164,8 @@ public class PTExpeditionManager implements ExpeditionManager {
 
             Debug.log("expeditionLocationAsBukkitLocation: " + expeditionLocationAsBukkitLocation);
 
-            return buildInfo.expeditionType.getConstructor().construct(
-                    this,
+            return buildInfo.getExpeditionType().getConstructor().construct(
+                    expeditionController,
                     expeditionLocationAsBukkitLocation,
                     roomMetadataList.toArray(new RoomMetadata[0])
             );
@@ -189,124 +174,5 @@ public class PTExpeditionManager implements ExpeditionManager {
 
     private @NotNull Location bukkitLocationFromWE(@NotNull World world, @NotNull BlockVector3 pos) {
         return new Location(world, pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
-    }
-
-    private void registerExpedition(@NotNull Expedition expedition, @NotNull Party party) {
-        expeditions.add(expedition);
-
-        // Add the party to the expedition map
-        partyExpeditionMap.put(party, expedition);
-        // Lock the party so no one can join
-        // or leave it
-        party.setLocked(true);
-
-        // Loop through all players in the party
-        for (final var player : party.getOnlinePlayers()) {
-            assert !expeditionPlayers.contains(player);
-
-            // Add the player to the set of players that are
-            // currently in an expedition
-            expeditionPlayers.add(player);
-
-            // Add them to a map of their party
-            playerPartyMap.put(player.getUniqueId(), party);
-        }
-    }
-
-    @Override
-    public boolean inExpedition(@NotNull Player player) {
-        return expeditionPlayers.contains(player);
-    }
-
-    @Override
-    public void endExpedition(@NotNull Expedition toEnd) {
-        final var party = toEnd.getParty();
-
-        for (Player p : party.getOnlinePlayers()) {
-            expeditionPlayers.remove(p);
-            playerPartyMap.remove(p.getUniqueId());
-        }
-
-        partyExpeditionMap.remove(party);
-        expeditions.remove(toEnd);
-    }
-
-    public void onPlayerMoved(@NotNull Player player, @NotNull Location to) {
-        assert expeditionPlayers.contains(player);
-
-        // Grab the expedition they're in
-        final var expedition = partyExpeditionMap.get(playerPartyMap.get(player.getUniqueId()));
-
-        // Grab the room they're in
-        final var roomData = expedition.getRoomWithPlayerData(player);
-
-        // Turn their new position into a vector so we can see if its inside the room
-        final var newPosition = to.toVector();
-        final var oldRoom = roomData.room();
-
-        // check if they're inside the room
-        for (RoomBoundingBox box : roomData.roomBoundingBoxes()) {
-            if (newPosition.isInAABB(box.minimum().toVector(), box.maximum().toVector())) {
-                oldRoom.onPlayerMove(player, to);
-                return;
-            }
-        }
-
-        // If not, figure out what room they're in now
-        try {
-            // Grab the new room
-            final var newRoomData = findRoomWithPlayer(expedition, newPosition);
-            final var newRoom = newRoomData.room();
-            // Let the expedition know that it changed
-            expedition.setPlayerRoom(player, newRoomData);
-            // Let the rooms know that it changed
-            oldRoom.onPlayerExitRoom(player);
-            if (oldRoom.getPlayers().size() < 1)
-                oldRoom.onLastPlayerExitRoom(player);
-
-            if (newRoom.getPlayers().size() < 1)
-                newRoom.onFirstPlayerEnterRoom(player);
-            newRoom.onPlayerEnterRoom(player);
-            newRoom.onPlayerMove(player, to);
-        } catch (InvalidExpeditionStateException e) {
-            quitExpedition(player);
-            Debug.alwaysError(ErrorCode.PLAYER_ESCAPED_EXPEDITION_ROOM +
-                    "an expedition had to be forcibly ended because a player was not in a room");
-            throw new RuntimeException(e);
-        }
-    }
-
-    private RoomMetadata findRoomWithPlayer(@NotNull Expedition expedition, @NotNull Vector playerLocation)
-            throws InvalidExpeditionStateException {
-        // Grab all the rooms in the expedition
-        final RoomMetadata[] rooms = expedition.getRooms();
-
-        // Loop through every room and find out which one the player is in
-        for (final RoomMetadata roomData : rooms) {
-            for (RoomBoundingBox box : roomData.roomBoundingBoxes()) {
-                if (!playerLocation.isInAABB(box.minimum().toVector(), box.maximum().toVector()))
-                    continue;
-
-                return roomData;
-            }
-        }
-
-        // If we couldn't find one throw an exception
-        throw new InvalidExpeditionStateException("unable to find the room that a player is in");
-    }
-
-    public void quitExpedition(@NotNull Player player) {
-        final var party = playerPartyMap.get(player.getUniqueId());
-        assert party != null;
-        final var expedition = partyExpeditionMap.get(party);
-        expedition.end();
-
-        for (Player p : party.getOnlinePlayers()) {
-            expeditionPlayers.remove(p);
-            playerPartyMap.remove(p.getUniqueId());
-        }
-
-        partyExpeditionMap.remove(party);
-        expeditions.remove(expedition);
     }
 }

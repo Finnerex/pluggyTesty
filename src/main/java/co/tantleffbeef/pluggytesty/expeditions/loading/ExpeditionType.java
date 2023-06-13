@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public enum ExpeditionType {
-    TEST_EXPEDITION("test_expedition", TestExpedition::new)
+    TEST_EXPEDITION("default", TestExpedition::new)
 
     ;
 

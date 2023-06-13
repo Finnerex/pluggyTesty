@@ -6,10 +6,10 @@ import co.tantleffbeef.pluggytesty.misc.InvalidJsonException;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface RoomLoader {
-    @NotNull List<RoomInformationInstance> loadRooms(int seed);
+    @NotNull Collection<RoomInformationInstance> loadRooms(int seed);
 
     static RoomLoader from(@NotNull JsonObject json, @NotNull RoomInformationCollection collection)
             throws InvalidJsonException {
