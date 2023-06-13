@@ -46,12 +46,13 @@ public class KingPunchItemType extends SimpleItemType implements InteractableIte
                         tickNum = 0;
 
                     if (tickNum > 15) { // last and current amount are the same for 15 ticks
-                        if (curAmount < 50) {
-                            cancel();
-                        }
-                        explode(player, item);
                         cancel();
-                        return;
+                        if (item.getAmount() < 50) {
+                            item.setAmount(1);
+                            return;
+                        }
+                            explode(player, item);
+                            return;
                     }
 
                     lastAmount = curAmount;
@@ -68,7 +69,7 @@ public class KingPunchItemType extends SimpleItemType implements InteractableIte
         Location location = player.getEyeLocation();
         World world = player.getWorld();
         Vector direction = location.getDirection();
-        location.add(direction.clone().multiply(4));
+        location.add(direction.clone().multiply(7));
 
         BukkitRunnable runnable = new BukkitRunnable() {
             int tickNum = 0;
