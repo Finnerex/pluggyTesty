@@ -21,20 +21,30 @@ public class EntityEffectListener implements Listener {
         if (!(event.getEntity() instanceof Player player))
             return;
 
-        if (ArmorEquipListener.effectMap.get(player.getUniqueId()) != ArmorEffectType.NIGHT_VISION)
-            return;
-
         PotionEffect effect = event.getNewEffect();
         if (effect == null)
             return;
 
         PotionEffectType effectType = effect.getType();
 
-        if (effectType.equals(PotionEffectType.BLINDNESS))
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.removePotionEffect(PotionEffectType.BLINDNESS));
+        if (ArmorEquipListener.effectMap.get(player.getUniqueId()) == ArmorEffectType.NIGHT_VISION) {
 
-        if (effectType.equals(PotionEffectType.DARKNESS))
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.removePotionEffect(PotionEffectType.DARKNESS));
+            if (effectType.equals(PotionEffectType.BLINDNESS))
+                plugin.getServer().getScheduler().runTask(plugin, () -> player.removePotionEffect(PotionEffectType.BLINDNESS));
+
+            if (effectType.equals(PotionEffectType.DARKNESS))
+                plugin.getServer().getScheduler().runTask(plugin, () -> player.removePotionEffect(PotionEffectType.DARKNESS));
+        }
+
+        else if (ArmorEquipListener.effectMap.get(player.getUniqueId()) == ArmorEffectType.DEBUFF_DAMAGE_IMMUNITY) {
+
+            if (effectType.equals(PotionEffectType.POISON))
+                plugin.getServer().getScheduler().runTask(plugin, () -> player.removePotionEffect(PotionEffectType.POISON));
+
+            if (effectType.equals(PotionEffectType.WITHER))
+                plugin.getServer().getScheduler().runTask(plugin, () -> player.removePotionEffect(PotionEffectType.WITHER));
+
+        }
 
     }
 

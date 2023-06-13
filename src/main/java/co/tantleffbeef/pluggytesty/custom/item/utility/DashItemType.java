@@ -28,7 +28,7 @@ public class DashItemType extends SimpleItemType implements InteractableItemType
 
         player.setVelocity(direction.normalize().multiply(2).add(player.getVelocity()));
 
-        player.setCooldown(Material.FEATHER, 80);
+        player.setCooldown(Material.FEATHER, 120);
 
         return false;
     }
