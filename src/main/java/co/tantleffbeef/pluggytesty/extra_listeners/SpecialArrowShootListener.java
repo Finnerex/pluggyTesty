@@ -7,10 +7,7 @@ import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.BouncyArrowItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.CustomArrow;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -85,7 +82,10 @@ public class SpecialArrowShootListener implements Listener {
 
         event.setCancelled(true);
 
-        dispenser.getWorld().spawn(dispenser.getLocation().add(dispenser.getLocation().getDirection()), Arrow.class, (arrow) -> {
+        Location location = dispenser.getLocation();
+        location.setX(location.getX() + 0.5f);
+
+        dispenser.getWorld().spawn(location.add(location.getDirection()), Arrow.class, (arrow) -> {
            arrow.setVelocity(event.getVelocity());
            customArrow.applySpawnEffects(arrow);
            arrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
