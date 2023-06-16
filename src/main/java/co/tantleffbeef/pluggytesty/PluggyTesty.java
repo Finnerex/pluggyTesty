@@ -77,6 +77,8 @@ public final class PluggyTesty extends JavaPlugin {
     private static final long PARTY_INVITE_EXPIRATION_TIME_SECONDS = 60L;
 
     private ResourceManager resourceManager;
+
+    private BlockManager blockManager;
     private RecipeManager recipeManager;
     private KeyManager<CustomNbtKey> nbtKeyManager;
     private AttributeManager attributeManager;
@@ -139,6 +141,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager = rApi.getResourceManager();
         recipeManager = rApi.getRecipeManager();
         nbtKeyManager = rApi.getNbtKeyManager();
+        blockManager = rApi.getBlockManager();
 
         attributeManager = new AttributeManager(nbtKeyManager);
         lootTableManager = new LootTableManager(attributeManager);
@@ -265,7 +268,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
         getServer().getPluginManager().registerEvents(new SpecialArrowShootListener(nbtKeyManager, resourceManager, this), this);
-        getServer().getPluginManager().registerEvents(new SpecialTntListener(), this);
+        getServer().getPluginManager().registerEvents(new SpecialTntListener(blockManager), this);
 
         // Trims / Armor effects
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
