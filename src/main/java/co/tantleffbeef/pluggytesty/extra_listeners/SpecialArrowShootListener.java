@@ -70,43 +70,46 @@ public class SpecialArrowShootListener implements Listener {
     @EventHandler // why the fuck doesn't it give you the entity of this event???
     public void onDispense(BlockDispenseEvent event) {
 
-        Block dispenser = event.getBlock();
-        if (dispenser.getType() != Material.DISPENSER)
-            return;
-
-        ItemStack item = event.getItem();
-
-        CustomArrow customArrow = checkArrow(item);
-
-        if (customArrow == null)
-            return;
-
-        event.setCancelled(true);
-
-        Location location = dispenser.getLocation();
-        location.setX(location.getX() + 0.5f);
-
-        dispenser.getWorld().spawn(location.add(location.getDirection()), Arrow.class, (arrow) -> {
-           arrow.setVelocity(event.getVelocity());
-           customArrow.applySpawnEffects(arrow);
-           arrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
-           arrow.setPickupStatus(AbstractArrow.PickupStatus.ALLOWED);
-        });
-
-        // this is fucking dumb
         plugin.getServer().getScheduler().runTask(plugin, () -> {
-//            item.setAmount(item.getAmount() - 1);
-            BlockState state = dispenser.getState();
-            assert state instanceof Container;
-            Inventory inventory = ((Container) state).getInventory();
-            inventory.remove(item);
-            Bukkit.broadcastMessage("amount 1: " + item.getAmount());
-            item.setAmount(item.getAmount() - 1);
-            Bukkit.broadcastMessage("amount 2: " + item.getAmount());
-            inventory.addItem(item);
-            Bukkit.broadcastMessage("amount 3: " + inventory.getItem(inventory.first(item)).getAmount());
-        });
 
+            Block dispenser = event.getBlock();
+            if (dispenser.getType() != Material.DISPENSER)
+                return;
+
+            ItemStack item = event.getItem();
+
+            CustomArrow customArrow = checkArrow(item);
+
+            if (customArrow == null)
+                return;
+
+            event.setCancelled(true);
+
+            Location location = dispenser.getLocation();
+            location.setX(location.getX() + 0.5f);
+
+            dispenser.getWorld().spawn(location.add(location.getDirection()), Arrow.class, (arrow) -> {
+                arrow.setVelocity(event.getVelocity());
+                customArrow.applySpawnEffects(arrow);
+                arrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
+                arrow.setPickupStatus(AbstractArrow.PickupStatus.ALLOWED);
+            });
+
+            // this is fucking dumb
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+//            item.setAmount(item.getAmount() - 1);
+                BlockState state = dispenser.getState();
+                assert state instanceof Container;
+                Inventory inventory = ((Container) state).getInventory();
+                inventory.remove(item);
+                Bukkit.broadcastMessage("amount 1: " + item.getAmount());
+                item.setAmount(item.getAmount() - 1);
+                Bukkit.broadcastMessage("amount 2: " + item.getAmount());
+                inventory.addItem(item);
+                Bukkit.broadcastMessage("amount 3: " + inventory.getItem(inventory.first(item)).getAmount());
+            });
+
+        });
 
     }
 
