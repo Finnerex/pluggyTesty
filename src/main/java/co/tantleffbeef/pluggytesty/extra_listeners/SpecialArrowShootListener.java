@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerPickupArrowEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
