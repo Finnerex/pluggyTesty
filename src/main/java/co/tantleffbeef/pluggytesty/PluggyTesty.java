@@ -8,32 +8,34 @@ import co.tantleffbeef.pluggytesty.armor.BaseArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.CraftListener;
-import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
-import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
-import co.tantleffbeef.pluggytesty.expeditions.loading.*;
-import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
-import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
-import co.tantleffbeef.pluggytesty.extra_listeners.*;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
 import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.utility.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.*;
 import co.tantleffbeef.pluggytesty.custom.item.armor.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.*;
-import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionController;
+import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionManager;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PTPartyManager;
 import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import co.tantleffbeef.pluggytesty.expeditions.parties.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PTExpeditionManagerListener;
+import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
+import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionType;
+import co.tantleffbeef.pluggytesty.expeditions.loading.RoomInformation;
+import co.tantleffbeef.pluggytesty.expeditions.loading.RoomType;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableManager;
 import co.tantleffbeef.pluggytesty.expeditions.loot.LootTableTestCommand;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PartyFriendlyFireListener;
+import co.tantleffbeef.pluggytesty.extra_listeners.RandomEffectBowInteractListener;
+import co.tantleffbeef.pluggytesty.extra_listeners.SpecialArrowShootListener;
 import co.tantleffbeef.pluggytesty.levels.LevelController;
 import co.tantleffbeef.pluggytesty.levels.PTLevelController;
 import co.tantleffbeef.pluggytesty.levels.YmlLevelStore;
 import co.tantleffbeef.pluggytesty.levels.commands.LevelCommand;
 import co.tantleffbeef.pluggytesty.misc.Debug;
+import co.tantleffbeef.pluggytesty.extra_listeners.GoatHornInteractListener;
+import co.tantleffbeef.pluggytesty.extra_listeners.PlayerDeathMonitor;
 import co.tantleffbeef.pluggytesty.misc.RandomGenTestCommand;
 import co.tantleffbeef.pluggytesty.goober.GooberStateListener;
 import co.tantleffbeef.pluggytesty.goober.OfflineGoober;
@@ -49,7 +51,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -63,7 +64,6 @@ import org.joml.Vector3i;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -82,34 +82,6 @@ public final class PluggyTesty extends JavaPlugin {
     private LootTableManager lootTableManager;
     private LevelController levelController;
     private GooberStateController gooberStateController;
-
-    @Override
-    public void onLoad() {
-        // TODO: make this use config system
-        if (!getServer().getWorlds().isEmpty())
-            return;
-
-        final Path worldContainer = getServer().getWorldContainer().toPath();
-
-        final Path expeditionsWorldFolder = worldContainer.resolve("expeditions");
-        if (Files.isDirectory(expeditionsWorldFolder)) {
-            // delete all files in the folder
-            try (final var walk = Files.walk(expeditionsWorldFolder)) {
-                walk.filter(Files::isRegularFile)
-                        .forEach(path -> {
-                            try {
-                                Files.delete(path);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        });
-
-                Files.delete(expeditionsWorldFolder);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 
     @Override
     public void onEnable() {
@@ -142,8 +114,6 @@ public final class PluggyTesty extends JavaPlugin {
         attributeManager = new AttributeManager(nbtKeyManager);
         lootTableManager = new LootTableManager(attributeManager);
 
-
-
         // Create level controller
         final var levelDataFilePath = getDataFolder().toPath().resolve("levels.yml");
         try {
@@ -151,8 +121,7 @@ public final class PluggyTesty extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL, this.getServer()));
+        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL));
 
         registerItems();
 //        registerRecipes();
@@ -167,12 +136,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         final var partyManager = new PTPartyManager();
 
-        final var expeditionController = new PTExpeditionController();
-        final var expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
-
-        getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionController), this);
-
-        gooberStateController = new GooberStateController(levelController, partyManager, expeditionController, getServer());
+        gooberStateController = new GooberStateController(levelController, partyManager, getServer());
 
         final var commandManager = new PaperCommandManager(this);
         commandManager.getCommandContexts().registerIssuerAwareContext(Goober.class, context -> {
@@ -244,10 +208,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
         commandManager.registerCommand(new LevelCommand());
-        final var randomGenTest = new RandomGenTestCommand(getServer().getScheduler(), this, 2500);
-        commandManager.registerCommand(randomGenTest);
-
-        getServer().getScheduler().runTaskTimer(this, randomGenTest, 1, 5);
+        commandManager.registerCommand(new RandomGenTestCommand());
 
         getCommand("summonjawn").setExecutor(new BossJawn(this));
         getCommand("summonseaman").setExecutor(new BossSeaman(this));
@@ -274,7 +235,6 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityEffectListener(this), this);
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerUnswimListener(), this);
-        getServer().getPluginManager().registerEvents(new DashAbilityInteractListener(this), this);
 
         getServer().getPluginManager().registerEvents(new GoatHornInteractListener(), this);
 
@@ -335,23 +295,31 @@ public final class PluggyTesty extends JavaPlugin {
             }
         }.runTaskTimer(this, 3, 7);*/
 
+        final var expeditionManager = new PTExpeditionManager(
+                getServer(),
+                "expeditions",
+                256
+        );
+
+        getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionManager), this);
+
         Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
             if (!(commandSender instanceof Player player))
                 return false;
 
-            expeditionBuilder.buildExpedition(new ExpeditionInformation(
-                    new SpecificRoomLoader(List.of(
-                            new RoomInformationInstance(
+            expeditionManager.buildExpedition(new ExpeditionInformation(
+                    List.of(
+                            new ExpeditionInformation.ExpeditionRoomInformation(
                                     new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
-                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem"), null),
-                                    null, new Vector3i(0, 0, 0), 0
+                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem")),
+                                    new Vector3i(0, 0, 0)
                             ),
-                            new RoomInformationInstance(
+                            new ExpeditionInformation.ExpeditionRoomInformation(
                                     new RoomInformation(RoomType.SIMPLE_EXIT,
-                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem"), null),
-                                    null, new Vector3i(25, -5, 0), 0
+                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem")),
+                                    new Vector3i(25, -5, 0)
                             )
-                    )),
+                    ),
                     ExpeditionType.TEST_EXPEDITION
             )).whenComplete((r, e) -> {
                 if (e != null)
@@ -366,7 +334,7 @@ public final class PluggyTesty extends JavaPlugin {
                 player.sendMessage("built expedition");
                 party.broadcastMessage("starting expedition");
 
-                expedition.start(party);
+                expeditionManager.startExpedition(expedition, party);
             }));
 
             return true;
@@ -399,132 +367,10 @@ public final class PluggyTesty extends JavaPlugin {
             if (!(sender instanceof Player player))
                 return false;
 
-            final var goober = gooberStateController.wrapPlayer(player);
-            if (goober.getParty().isEmpty() || goober.getExpedition().isEmpty()) {
-                goober.asPlayer().sendMessage("You are not in an expedition!");
-                return true;
-            }
-
-            expeditionController.quitExpedition(player);
+            expeditionManager.quitExpedition(player);
 
             return true;
         });
-
-        Objects.requireNonNull(getCommand("randomtestexpedition")).setExecutor((sender, command, label, args) -> {
-            if (!(sender instanceof Player player))
-                return false;
-
-            final var goober = gooberStateController.wrapPlayer(player);
-
-            final int numOptional;
-
-            if (args.length > 0)
-                numOptional = Integer.parseInt(args[0]);
-            else
-                numOptional = 3;
-
-            final var teFolder = getDataFolder().toPath()
-                    .resolve("data")
-                    .resolve("rooms")
-                    .resolve("test_expedition");
-
-            final var firstRoom = new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
-                    teFolder.resolve("te_room1.schem"),
-                    List.of(new RoomDoor(BlockFace.WEST, Material.DIRT, 3))
-            );
-
-            final var lastRoom = new RoomInformation(RoomType.SIMPLE_EXIT,
-                    teFolder.resolve("te_room2.schem"),
-                    List.of(new RoomDoor(BlockFace.SOUTH, Material.DIRT, 8))
-            );
-
-            // required
-            // re_room_1 5
-            // re_room_5 5
-
-            final List<RoomInformation> requiredRooms = List.of(
-                    new RoomInformation(
-                            RoomType.EMPTY,
-                            teFolder.resolve("re_room_1.schem"),
-                            fourDoorsSameHeight(5)
-                    ),
-                    new RoomInformation(
-                            RoomType.EMPTY,
-                            teFolder.resolve("tall_room.schem"),
-                            List.of(
-                                    new RoomDoor(BlockFace.WEST, Material.DIRT, 2),
-                                    new RoomDoor(BlockFace.NORTH, Material.DIRT, 10),
-                                    new RoomDoor(BlockFace.EAST, Material.DIRT, 30),
-                                    new RoomDoor(BlockFace.SOUTH, Material.DIRT, 48)
-                            )
-                    ),
-                    new RoomInformation(
-                            RoomType.EMPTY,
-                            teFolder.resolve("re_room_5.schem"),
-                            fourDoorsSameHeight(5)
-                    )
-            );
-
-            // optional
-            // re_room_3 5
-            // re_room_4 6
-            // re_room_6 12
-            // re_room_7 9
-            // re_room_8 4
-            final List<RoomInformation> optionalRooms = List.of(
-                    new RoomInformation(
-                            RoomType.EMPTY,
-                            teFolder.resolve("re_room_3.schem"),
-                            fourDoorsSameHeight(5)
-                    ),
-                    new RoomInformation(
-                            RoomType.EMPTY,
-                            teFolder.resolve("re_room_4.schem"),
-                            fourDoorsSameHeight(6)
-                    ),
-                    new RoomInformation(
-                            RoomType.EMPTY,
-                            teFolder.resolve("re_room_6.schem"),
-                            fourDoorsSameHeight(12)
-                    ),
-                    new RoomInformation(
-                            RoomType.EMPTY,
-                            teFolder.resolve("re_room_7.schem"),
-                            fourDoorsSameHeight(9)
-                    ),
-                    new RoomInformation(
-                            RoomType.EMPTY,
-                            teFolder.resolve("re_room_8.schem"),
-                            fourDoorsSameHeight(4)
-                    )
-            );
-
-            expeditionBuilder.buildExpedition(new ExpeditionInformation(
-                    new RandomRoomLoader(
-                            firstRoom,
-                            lastRoom,
-                            requiredRooms,
-                            optionalRooms,
-                            numOptional
-                    ),
-                    ExpeditionType.TEST_EXPEDITION
-            )).whenComplete((r, e) -> {
-                if (e != null)
-                    e.printStackTrace();
-            }).thenAccept(exp -> getServer().getScheduler().runTask(this,
-                    () -> exp.start(goober.getPartyOrCreate())));
-
-            return true;
-        });
-    }
-
-    private static List<RoomDoor> fourDoorsSameHeight(int heightOffset) {
-        return List.of(
-                new RoomDoor(BlockFace.NORTH, Material.DIRT, heightOffset),
-                new RoomDoor(BlockFace.SOUTH, Material.DIRT, heightOffset),
-                new RoomDoor(BlockFace.EAST, Material.DIRT, heightOffset),
-                new RoomDoor(BlockFace.WEST, Material.DIRT, heightOffset)
-        );
     }
 
     private void saveAllStartingWith(@Language("RegExp") String match) throws IOException {
@@ -560,7 +406,6 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new YoyoItemType(this, "yoyo", false, ChatColor.DARK_BLUE + "Yoyo"));
         resourceManager.registerItem(new MeowmereItemType(this, "meowmere", false, ChatColor.DARK_BLUE + "Meowmere"));
         resourceManager.registerItem(new MagnetSphereItemType(this, "magnet_sphere", false, ChatColor.AQUA + "Magnet Sphere"));
-        resourceManager.registerItem(new KingPunchItemType(this, "king_punch", false, ChatColor.RED + "King Punch"));
 
         // Arrows
         resourceManager.registerItem(new JestersArrowItemType(this, "jesters_arrow", false, ChatColor.BLUE + "Jester's Arrow"));
@@ -579,7 +424,6 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new HealingHeartItemType(this, "healing_heart", false, ChatColor.RED + "Healing Heart"));
         resourceManager.registerItem(new DashItemType(this, "dash", false, "Dash"));
         resourceManager.registerItem(new DiggaItemType(this, "digga", false, "Digga"));
-        resourceManager.registerItem(new SwiftStaffItemType(this, "swift_staff", false, ChatColor.BLUE + "Swift Staff"));
 
         // Armor
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
@@ -652,7 +496,7 @@ public final class PluggyTesty extends JavaPlugin {
                 new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.HEAD));
         addCustomAttributeToVanillaItem(Material.DIAMOND_CHESTPLATE,
                 new AttributePair(Attribute.GENERIC_ARMOR, 5, EquipmentSlot.CHEST),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.CHEST));
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2));
         addCustomAttributeToVanillaItem(Material.DIAMOND_LEGGINGS,
                 new AttributePair(Attribute.GENERIC_ARMOR, 5, EquipmentSlot.LEGS),
                 new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.LEGS));
@@ -766,7 +610,6 @@ public final class PluggyTesty extends JavaPlugin {
                 .setIngredient('c', Material.CHAIN);
         getServer().addRecipe(chainLeggings);
         recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_leggings"), Material.CHAIN);
-
     }
 
 }
