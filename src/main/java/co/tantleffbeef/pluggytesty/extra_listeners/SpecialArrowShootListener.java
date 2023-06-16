@@ -7,18 +7,19 @@ import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.BouncyArrowItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.CustomArrow;
-import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
-import org.bukkit.block.BlockFace;
+import org.bukkit.*;
+import org.bukkit.block.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerPickupArrowEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
@@ -47,21 +48,14 @@ public class SpecialArrowShootListener implements Listener {
         if (!(event.getProjectile() instanceof Arrow arrow))
             return;
 
+        ItemStack item = event.getConsumable();
+        if (item == null)
+            return;
+
         // figure out if this arrow is a custom arrow
-        ItemMeta meta = event.getConsumable().getItemMeta();
-        if (meta == null)
-            return;
+        CustomArrow customArrow = checkArrow(item);
 
-        final var data = meta.getPersistentDataContainer();
-
-        if (!CustomItemNbt.hasCustomItemNbt(data, keyManager))
-            return;
-
-        final var itemNbt = CustomItemNbt.fromPersistentDataContainer(data, keyManager);
-        final var itemType = resourceManager.getCustomItemType(itemNbt.id);
-
-
-        if (!(itemType instanceof CustomArrow customArrow))
+        if (customArrow == null)
             return;
 
         // interfaces go hard!!!
@@ -70,6 +64,61 @@ public class SpecialArrowShootListener implements Listener {
         // so the arrow can be identified upon landing
         arrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
 
+    }
+
+    @EventHandler // why the fuck doesn't it give you the entity of this event???
+    public void onDispense(BlockDispenseEvent event) {
+
+        Block dispenser = event.getBlock();
+        if (dispenser.getType() != Material.DISPENSER)
+            return;
+
+        ItemStack item = event.getItem();
+
+        CustomArrow customArrow = checkArrow(item);
+
+        if (customArrow == null)
+            return;
+
+        event.setCancelled(true);
+
+        Location location = dispenser.getLocation();
+        location.setX(location.getX() + 0.5f);
+
+        dispenser.getWorld().spawn(location.add(location.getDirection()), Arrow.class, (arrow) -> {
+           arrow.setVelocity(event.getVelocity());
+           customArrow.applySpawnEffects(arrow);
+           arrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
+        });
+
+        // this is fucking dumb
+        BlockState state = dispenser.getState();
+        assert state instanceof Container;
+        Inventory inventory = ((Container) state).getInventory();
+        inventory.remove(item);
+        item.setAmount(item.getAmount() - 1);
+        inventory.addItem(item);
+
+    }
+
+    private CustomArrow checkArrow(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null)
+            return null;
+
+        final var data = meta.getPersistentDataContainer();
+
+        if (!CustomItemNbt.hasCustomItemNbt(data, keyManager))
+            return null;
+
+        final var itemNbt = CustomItemNbt.fromPersistentDataContainer(data, keyManager);
+        final var itemType = resourceManager.getCustomItemType(itemNbt.id);
+
+
+        if (!(itemType instanceof CustomArrow customArrow))
+            return null;
+
+        return customArrow;
     }
 
     @EventHandler
