@@ -3,6 +3,6 @@
   "textures": {
     "bottom": "minecraft:block/tnt_bottom",
     "side": "minecraft:block/tnt_side",
-    "top": "minecraft:block/tnt_top"
+    "top": "pluggytesty:block/sticky_tnt_top"
   }
 }
