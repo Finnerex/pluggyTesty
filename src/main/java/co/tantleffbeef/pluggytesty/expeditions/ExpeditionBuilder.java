@@ -137,11 +137,11 @@ public class ExpeditionBuilder {
                     schem.setOrigin(BlockVector3Imp.at(minimum.getBlockX() + dimensions.getBlockX() / 2, minimum.getBlockY(), minimum.getBlockZ() + dimensions.getBlockZ() / 2));
                     schemHolder.setTransform(new AffineTransform().rotateY(room.getRotation()));
 
-                    final var tempClipDimensions = tempClip.getDimensions();
+                    // final var tempClipDimensions = tempClip.getDimensions();
                     final var tempClipMinimum = tempClip.getMinimumPoint();
 
                     Operations.complete(schemHolder.createPaste(tempClip)
-                            .to(BlockVector3.at(tempClipMinimum.getBlockX() + tempClipDimensions.getBlockX() / 2, tempClipMinimum.getBlockY(), tempClipMinimum.getBlockZ() + tempClipDimensions.getBlockZ() / 2))
+                            .to(BlockVector3.at(tempClipMinimum.getBlockX() + dimensions.getBlockX() / 2, tempClipMinimum.getBlockY(), tempClipMinimum.getBlockZ() + dimensions.getBlockZ() / 2))
                             .build());
 
                     tempClip.setOrigin(tempClip.getMinimumPoint());
