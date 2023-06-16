@@ -171,11 +171,12 @@ public class RandomRoomLoader implements RoomLoader {
         final int yaw = calculateYaw(existingDoor, newDoor);
         final Vector3i offset = calculateOffset(existingDoor.room,
                 existingDoor.door.getDirection(),
-                room,
+                existingDoor.door.getHeightOffset(),
+                newDoor.getHeightOffset(),
                 ROOM_SIZE);
 
         final List<RoomDoor> rotatedDoors = new ArrayList<>();
-        roomDoors.forEach(door -> rotatedDoors.add(new RoomDoor(rotateFace(door.getDirection(), yaw), door.getReplacementMaterial())));
+        roomDoors.forEach(door -> rotatedDoors.add(new RoomDoor(rotateFace(door.getDirection(), yaw), door.getReplacementMaterial(), door.getHeightOffset())));
 
         return new RoomInformationInstance(room, rotatedDoors, offset, yaw);
     }
@@ -195,15 +196,13 @@ public class RandomRoomLoader implements RoomLoader {
 
     private Vector3i calculateOffset(@NotNull RoomInformationInstance existingRoom,
                                      @NotNull BlockFace newRoomDirection,
-                                     @NotNull RoomInformation newRoom,
+                                     int existingDoorHeightOffset,
+                                     int newDoorHeightOffset,
                                      int roomSize) {
         final var existingRoomOffset = existingRoom.getOffset();
-        final var existingRoomDoorHeightOffset = existingRoom.getRoomInformation().getHeightOffset();
-
-        final var newRoomDoorHeighOffset = newRoom.getHeightOffset();
 
         // calculate where the new room will be on the y
-        final int y = existingRoomOffset.y() + existingRoomDoorHeightOffset - newRoomDoorHeighOffset;
+        final int y = existingRoomOffset.y() + existingDoorHeightOffset - newDoorHeightOffset;
 
         int x = existingRoomOffset.x();
         int z = existingRoomOffset.z();
