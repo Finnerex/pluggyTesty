@@ -8,6 +8,7 @@ import co.tantleffbeef.pluggytesty.armor.BaseArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.CraftListener;
+import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
@@ -264,6 +265,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
         getServer().getPluginManager().registerEvents(new SpecialArrowShootListener(nbtKeyManager, resourceManager, this), this);
+        getServer().getPluginManager().registerEvents(new SpecialTntListener(nbtKeyManager, resourceManager, this), this);
 
         // Trims / Armor effects
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
@@ -583,6 +585,10 @@ public final class PluggyTesty extends JavaPlugin {
 
         // Armor
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
+
+        // TNT
+        resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", false, ChatColor.GREEN + "Sticky TNT"));
+
     }
 
     private void addCustomAttributes() {
