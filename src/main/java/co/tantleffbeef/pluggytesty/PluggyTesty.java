@@ -587,7 +587,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
 
         // TNT
-        resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", false, ChatColor.GREEN + "Sticky TNT"));
+        resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", true, ChatColor.GREEN + "Sticky TNT"));
 
     }
 

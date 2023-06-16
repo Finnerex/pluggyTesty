@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty.custom.item.weapons.TNT;
 
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import co.tantleffbeef.mcplanes.custom.item.SimplePlaceableItemType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,17 +16,21 @@ import org.bukkit.Bukkit;
 import java.util.List;
 
 
-public class StickyTntItemType extends SimpleItemType implements CustomTNT {
+public class StickyTntItemType extends SimplePlaceableItemType implements CustomTNT {
 
     private final Plugin plugin;
 
 
 
     public StickyTntItemType(Plugin namespace, String id, boolean customModel, String name){
-        super(namespace, id, customModel, name, Material.TNT);
+        super(namespace, id, customModel, name);
         this.plugin = namespace;
     }
 
+    @Override
+    public @NotNull Material baseMaterial() {
+        return Material.TNT;
+    }
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
