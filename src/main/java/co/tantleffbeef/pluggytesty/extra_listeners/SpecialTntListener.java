@@ -29,9 +29,9 @@ public class SpecialTntListener implements Listener {
 
         Block tnt = event.getBlock();
 
-        if(!(event.getBlock() instanceof CustomTNT cumtomTnt))
+        if(!(event.getBlock() instanceof CustomTNT customTnt))
             return;
 
-        cumtomTnt.explosionEffect(tnt);
+        customTnt.explosionEffect(tnt);
     }
 }
