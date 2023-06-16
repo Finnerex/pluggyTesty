@@ -9,6 +9,7 @@ import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.BouncyArrowItemTyp
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.CustomArrow;
 import org.bukkit.*;
 import org.bukkit.block.*;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -89,6 +90,7 @@ public class SpecialArrowShootListener implements Listener {
            arrow.setVelocity(event.getVelocity());
            customArrow.applySpawnEffects(arrow);
            arrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
+           arrow.setPickupStatus(AbstractArrow.PickupStatus.ALLOWED);
         });
 
         // this is fucking dumb
@@ -96,8 +98,11 @@ public class SpecialArrowShootListener implements Listener {
         assert state instanceof Container;
         Inventory inventory = ((Container) state).getInventory();
         inventory.remove(item);
+        Bukkit.broadcastMessage("amount 1: " + item.getAmount());
         item.setAmount(item.getAmount() - 1);
+        Bukkit.broadcastMessage("amount 2: " + item.getAmount());
         inventory.addItem(item);
+        Bukkit.broadcastMessage("amount 3: " + inventory.first(item));
 
     }
 
