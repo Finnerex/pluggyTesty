@@ -95,16 +95,16 @@ public class SpecialArrowShootListener implements Listener {
 
         // this is fucking dumb
         plugin.getServer().getScheduler().runTask(plugin, () -> {
-            item.setAmount(item.getAmount() - 1);
-//            BlockState state = dispenser.getState();
-//            assert state instanceof Container;
-//            Inventory inventory = ((Container) state).getInventory();
-//            inventory.remove(item);
-//            Bukkit.broadcastMessage("amount 1: " + item.getAmount());
 //            item.setAmount(item.getAmount() - 1);
-//            Bukkit.broadcastMessage("amount 2: " + item.getAmount());
-//            inventory.addItem(item);
-//            Bukkit.broadcastMessage("amount 3: " + inventory.getItem(inventory.first(item)).getAmount());
+            BlockState state = dispenser.getState();
+            assert state instanceof Container;
+            Inventory inventory = ((Container) state).getInventory();
+            inventory.remove(item);
+            Bukkit.broadcastMessage("amount 1: " + item.getAmount());
+            item.setAmount(item.getAmount() - 1);
+            Bukkit.broadcastMessage("amount 2: " + item.getAmount());
+            inventory.addItem(item);
+            Bukkit.broadcastMessage("amount 3: " + inventory.getItem(inventory.first(item)).getAmount());
         });
 
 
