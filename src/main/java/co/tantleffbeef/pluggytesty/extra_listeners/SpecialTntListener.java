@@ -14,24 +14,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class SpecialTntListener implements Listener {
 
-    private final KeyManager<CustomNbtKey> keyManager;
-    private final ResourceManager resourceManager;
-    private final Plugin plugin;
-
-    public SpecialTntListener(@NotNull KeyManager<CustomNbtKey> keyManager, @NotNull ResourceManager resourceManager, @NotNull Plugin plugin) {
-        this.keyManager = keyManager;
-        this.resourceManager = resourceManager;
-        this.plugin = plugin;
-    }
-
     @EventHandler
     public void placeEvent(BlockPlaceEvent event){
 
         Block tnt = event.getBlock();
 
-        if(!(event.getBlock() instanceof CustomTNT cumtomTnt))
+        if(!(event.getBlock() instanceof CustomTNT customTnt))
             return;
 
-        cumtomTnt.explosionEffect(tnt);
+        customTnt.explosionEffect(tnt);
     }
 }

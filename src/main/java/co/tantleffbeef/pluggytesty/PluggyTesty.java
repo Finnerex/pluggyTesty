@@ -265,7 +265,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
         getServer().getPluginManager().registerEvents(new SpecialArrowShootListener(nbtKeyManager, resourceManager, this), this);
-        getServer().getPluginManager().registerEvents(new SpecialTntListener(nbtKeyManager, resourceManager, this), this);
+        getServer().getPluginManager().registerEvents(new SpecialTntListener(), this);
 
         // Trims / Armor effects
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
