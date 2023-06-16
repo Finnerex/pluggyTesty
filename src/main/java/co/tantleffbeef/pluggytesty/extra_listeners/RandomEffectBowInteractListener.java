@@ -3,14 +3,13 @@ package co.tantleffbeef.pluggytesty.extra_listeners;
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.ResourceManager;
+import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
 import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.RandomEffectBowItemType;
-import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
@@ -40,19 +39,7 @@ public class RandomEffectBowInteractListener implements Listener {
         if (event.isCancelled())
             return;
 
-        ItemMeta meta = event.getBow().getItemMeta();
-        if (meta == null)
-            return;
-
-        final var data = meta.getPersistentDataContainer();
-
-        if (!CustomItemNbt.hasCustomItemNbt(data, keyManager))
-            return;
-
-        final var itemNbt = CustomItemNbt.fromPersistentDataContainer(data, keyManager);
-        final var itemType = resourceManager.getCustomItemType(itemNbt.id);
-
-        if (!(itemType instanceof RandomEffectBowItemType))
+        if (CustomItemType.asInstanceOf(RandomEffectBowItemType.class, event.getBow(), keyManager, resourceManager) == null)
             return;
 
         Arrow arrow = (Arrow) event.getProjectile();
