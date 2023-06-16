@@ -450,7 +450,7 @@ public final class PluggyTesty extends JavaPlugin {
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
-                            teFolder.resolve("tall_room.schenm"),
+                            teFolder.resolve("tall_room.schem"),
                             List.of(
                                     new RoomDoor(BlockFace.WEST, Material.DIRT, 2),
                                     new RoomDoor(BlockFace.NORTH, Material.DIRT, 10),
