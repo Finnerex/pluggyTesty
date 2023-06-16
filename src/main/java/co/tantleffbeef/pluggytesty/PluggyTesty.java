@@ -343,12 +343,12 @@ public final class PluggyTesty extends JavaPlugin {
                     new SpecificRoomLoader(List.of(
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
-                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem"), null, 0),
+                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem"), null),
                                     null, new Vector3i(0, 0, 0), 0
                             ),
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_EXIT,
-                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem"), null, 0),
+                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem"), null),
                                     null, new Vector3i(25, -5, 0), 0
                             )
                     )),
@@ -428,22 +428,15 @@ public final class PluggyTesty extends JavaPlugin {
                     .resolve("rooms")
                     .resolve("test_expedition");
 
-            final var roomDoors = List.of(
-                    new RoomDoor(BlockFace.NORTH, Material.DIRT),
-                    new RoomDoor(BlockFace.SOUTH, Material.DIRT),
-                    new RoomDoor(BlockFace.EAST, Material.DIRT),
-                    new RoomDoor(BlockFace.WEST, Material.DIRT)
-            );
-
             final var firstRoom = new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
                     teFolder.resolve("te_room1.schem"),
-                    List.of(new RoomDoor(BlockFace.WEST, Material.DIRT)),
-                    3);
+                    List.of(new RoomDoor(BlockFace.WEST, Material.DIRT, 3))
+            );
 
             final var lastRoom = new RoomInformation(RoomType.SIMPLE_EXIT,
                     teFolder.resolve("te_room2.schem"),
-                    List.of(new RoomDoor(BlockFace.SOUTH, Material.DIRT)),
-                    8);
+                    List.of(new RoomDoor(BlockFace.SOUTH, Material.DIRT, 8))
+            );
 
             // required
             // re_room_1 5
@@ -453,14 +446,12 @@ public final class PluggyTesty extends JavaPlugin {
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_1.schem"),
-                            roomDoors,
-                            5
+                            fourDoorsSameHeight(5)
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_5.schem"),
-                            roomDoors,
-                            5
+                            fourDoorsSameHeight(5)
                     )
             );
 
@@ -474,32 +465,27 @@ public final class PluggyTesty extends JavaPlugin {
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_3.schem"),
-                            roomDoors,
-                            5
+                            fourDoorsSameHeight(5)
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_4.schem"),
-                            roomDoors,
-                            6
+                            fourDoorsSameHeight(6)
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_6.schem"),
-                            roomDoors,
-                            12
+                            fourDoorsSameHeight(12)
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_7.schem"),
-                            roomDoors,
-                            9
+                            fourDoorsSameHeight(9)
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_8.schem"),
-                            roomDoors,
-                            4
+                            fourDoorsSameHeight(4)
                     )
             );
 
@@ -520,6 +506,15 @@ public final class PluggyTesty extends JavaPlugin {
 
             return true;
         });
+    }
+
+    private static List<RoomDoor> fourDoorsSameHeight(int heightOffset) {
+        return List.of(
+                new RoomDoor(BlockFace.NORTH, Material.DIRT, heightOffset),
+                new RoomDoor(BlockFace.SOUTH, Material.DIRT, heightOffset),
+                new RoomDoor(BlockFace.EAST, Material.DIRT, heightOffset),
+                new RoomDoor(BlockFace.WEST, Material.DIRT, heightOffset)
+        );
     }
 
     private void saveAllStartingWith(@Language("RegExp") String match) throws IOException {

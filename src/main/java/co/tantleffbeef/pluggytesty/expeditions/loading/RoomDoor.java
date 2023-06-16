@@ -8,11 +8,14 @@ import org.jetbrains.annotations.NotNull;
 public class RoomDoor {
     private final BlockFace direction;
     private final Material replacementMaterial;
+    private final int heightOffset;
 
     public RoomDoor(@NotNull BlockFace direction,
-                    @NotNull Material replacementMaterial) {
+                    @NotNull Material replacementMaterial,
+                    int heightOffset) {
         this.direction = direction;
         this.replacementMaterial = replacementMaterial;
+        this.heightOffset = heightOffset;
     }
 
     public void fill(@NotNull Location minimumCorner,
@@ -39,5 +42,9 @@ public class RoomDoor {
 
     public @NotNull Material getReplacementMaterial() {
         return replacementMaterial;
+    }
+
+    public int getHeightOffset() {
+        return heightOffset;
     }
 }
