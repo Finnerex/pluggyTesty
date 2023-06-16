@@ -54,7 +54,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
@@ -438,12 +437,12 @@ public final class PluggyTesty extends JavaPlugin {
 
             final var firstRoom = new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
                     teFolder.resolve("te_room1.schem"),
-                    roomDoors,
+                    List.of(new RoomDoor(BlockFace.WEST, Material.DIRT)),
                     3);
 
             final var lastRoom = new RoomInformation(RoomType.SIMPLE_EXIT,
                     teFolder.resolve("te_room2.schem"),
-                    roomDoors,
+                    List.of(new RoomDoor(BlockFace.SOUTH, Material.DIRT)),
                     8);
 
             // required

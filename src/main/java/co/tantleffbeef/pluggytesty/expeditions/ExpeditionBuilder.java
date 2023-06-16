@@ -3,13 +3,14 @@ package co.tantleffbeef.pluggytesty.expeditions;
 import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
 import co.tantleffbeef.pluggytesty.misc.Debug;
 import com.fastasyncworldedit.core.FaweAPI;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.BlockVector3Imp;
 import com.sk89q.worldedit.math.transform.AffineTransform;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -127,21 +128,24 @@ public class ExpeditionBuilder {
                 final RoomMetadata roomData;
 
                 try (final var schem = FaweAPI.load(schemPath.toFile());
-                    final var schemHolder = new ClipboardHolder(schem)) {
+                     final var schemHolder = new ClipboardHolder(schem);
+                     final Clipboard tempClip = new BlockArrayClipboard(new CuboidRegion(BlockVector3Imp.at(0, 0, 0), BlockVector3Imp.at(schem.getDimensions().getBlockX(), schem.getDimensions().getBlockY(), schem.getDimensions().getBlockZ())))) {
                     // Set the origin to the minimum point so that it actually
                     // pastes it where you're trying to paste it
-                    schem.setOrigin(schem.getMinimumPoint());
-
-                    // rotate the schem based on the room's rotation
-                    // TODO: test this
+                    final var minimum = schem.getMinimumPoint();
+                    final var dimensions = schem.getDimensions();
+                    schem.setOrigin(BlockVector3Imp.at(minimum.getBlockX() + dimensions.getBlockX() / 2, minimum.getBlockY(), minimum.getBlockZ() + dimensions.getBlockZ() / 2));
                     schemHolder.setTransform(new AffineTransform().rotateY(room.getRotation()));
 
-                    // Paste the room's schematic
-                    try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
-                        Operations.complete(schemHolder.createPaste(editSession)
-                                .to(pasteLocation)
-                                .build());
-                    }
+                    // final var tempClipDimensions = tempClip.getDimensions();
+                    final var tempClipMinimum = tempClip.getMinimumPoint();
+
+                    Operations.complete(schemHolder.createPaste(tempClip)
+                            .to(BlockVector3.at(tempClipMinimum.getBlockX() + dimensions.getBlockX() / 2, tempClipMinimum.getBlockY(), tempClipMinimum.getBlockZ() + dimensions.getBlockZ() / 2))
+                            .build());
+
+                    tempClip.setOrigin(tempClip.getMinimumPoint());
+                    tempClip.paste(weWorld, pasteLocation).close();
 
                     final var maximumPoint = pasteLocation.add(schem.getDimensions());
 
