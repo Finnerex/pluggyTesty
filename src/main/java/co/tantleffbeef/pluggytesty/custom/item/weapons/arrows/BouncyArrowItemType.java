@@ -63,6 +63,7 @@ public class BouncyArrowItemType extends SimpleItemType implements CustomArrow {
         arrow.getWorld().spawn(arrow.getLocation(), Arrow.class, (projectile) -> {
             projectile.setVelocity(velocity);
             projectile.setShooter(arrow.getShooter());
+            projectile.setBasePotionData(arrow.getBasePotionData());
 
             // set this to have the same metadata (why does this have to be so big)
             for (MetadataValue data : arrow.getMetadata("customArrowType")){
