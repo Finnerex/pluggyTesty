@@ -3,34 +3,21 @@ package co.tantleffbeef.pluggytesty.extra_listeners;
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.ResourceManager;
-import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
-import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
-import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.BouncyArrowItemType;
+import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.CustomArrow;
 import org.bukkit.*;
-import org.bukkit.block.*;
-import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerPickupArrowEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-import java.util.Map;
 
 public class SpecialArrowShootListener implements Listener {
 
@@ -55,7 +42,7 @@ public class SpecialArrowShootListener implements Listener {
             return;
 
         // figure out if this arrow is a custom arrow
-        CustomArrow customArrow = checkArrow(item);
+        CustomArrow customArrow = CustomItemType.asInstanceOf(CustomArrow.class, event.getConsumable(), keyManager, resourceManager);
 
         if (customArrow == null)
             return;
@@ -66,26 +53,6 @@ public class SpecialArrowShootListener implements Listener {
         // so the arrow can be identified upon landing
         arrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
 
-    }
-
-    private CustomArrow checkArrow(ItemStack item) {
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null)
-            return null;
-
-        final var data = meta.getPersistentDataContainer();
-
-        if (!CustomItemNbt.hasCustomItemNbt(data, keyManager))
-            return null;
-
-        final var itemNbt = CustomItemNbt.fromPersistentDataContainer(data, keyManager);
-        final var itemType = resourceManager.getCustomItemType(itemNbt.id);
-
-
-        if (!(itemType instanceof CustomArrow customArrow))
-            return null;
-
-        return customArrow;
     }
 
     @EventHandler
