@@ -541,7 +541,7 @@ public final class PluggyTesty extends JavaPlugin {
             while (e.hasMoreElements()) {
                 final String entry = e.nextElement().getName();
 
-                Debug.log(entry.startsWith(match) + ": " + entry);
+                // Debug.log(entry.startsWith(match) + ": " + entry);
             }
         }
     }
