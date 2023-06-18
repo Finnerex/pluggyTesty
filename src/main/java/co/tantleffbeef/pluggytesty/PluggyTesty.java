@@ -61,13 +61,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3i;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 @SuppressWarnings("unused")
@@ -539,9 +539,27 @@ public final class PluggyTesty extends JavaPlugin {
             final var e = jar.entries();
 
             while (e.hasMoreElements()) {
-                final String entry = e.nextElement().getName();
+                final JarEntry entry = e.nextElement();
+                final var entryName = entry.getName();
 
-                // Debug.log(entry.startsWith(match) + ": " + entry);
+                if (entryName.startsWith(match))
+                    continue;
+
+                final Path filePath = getDataFolder().toPath().resolve(entryName);
+
+                if (Files.exists(filePath))
+                    continue;
+
+                // save the resource
+                try (OutputStream stream =
+                             new BufferedOutputStream(
+                                     new FileOutputStream(filePath.toFile()));
+                     final InputStream resource = getResource(entryName)) {
+                    byte[] buf = new byte[8192];
+                    int length;
+                    while ((length = resource.read(buf)) != -1)
+                        stream.write(buf, 0, length);
+                }
             }
         }
     }
