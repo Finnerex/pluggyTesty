@@ -148,7 +148,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         attributeManager = new AttributeManager(nbtKeyManager);
         lootTableManager = new LootTableManager(attributeManager);
-
+        partyManager = new PTPartyManager();
 
 
         // Create level controller
@@ -171,8 +171,6 @@ public final class PluggyTesty extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        partyManager = new PTPartyManager();
 
         final var expeditionController = new PTExpeditionController();
         final var expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
