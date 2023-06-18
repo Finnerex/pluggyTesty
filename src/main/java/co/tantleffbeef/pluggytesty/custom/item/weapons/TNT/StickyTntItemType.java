@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -26,7 +27,6 @@ public class StickyTntItemType extends SimplePlaceableItemType implements Custom
         super(namespace, id, customModel, name);
         this.plugin = namespace;
     }
-
     @Override
     public @NotNull Material baseMaterial() {
         return Material.TNT;
