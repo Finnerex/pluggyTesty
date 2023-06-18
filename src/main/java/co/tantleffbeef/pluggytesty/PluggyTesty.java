@@ -555,7 +555,7 @@ public final class PluggyTesty extends JavaPlugin {
                 if (Files.exists(filePath))
                     continue;
 
-                Files.createDirectories(filePath);
+                Files.createDirectories(filePath.getParent());
 
                 // save the resource
                 try (OutputStream stream =
