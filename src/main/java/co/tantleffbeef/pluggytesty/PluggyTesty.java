@@ -542,8 +542,13 @@ public final class PluggyTesty extends JavaPlugin {
                 final JarEntry entry = e.nextElement();
                 final var entryName = entry.getName();
 
-                if (entryName.startsWith(match))
+                if (entry.isDirectory())
                     continue;
+
+                if (!entryName.startsWith(match))
+                    continue;
+
+                Debug.info("entryName: " + entry.getName());
 
                 final Path filePath = getDataFolder().toPath().resolve(entryName);
 
