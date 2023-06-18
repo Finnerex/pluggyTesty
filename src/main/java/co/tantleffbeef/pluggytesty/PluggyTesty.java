@@ -14,6 +14,7 @@ import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
+import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
 import co.tantleffbeef.pluggytesty.bosses.*;
@@ -85,6 +86,7 @@ public final class PluggyTesty extends JavaPlugin {
     private LootTableManager lootTableManager;
     private LevelController levelController;
     private GooberStateController gooberStateController;
+    private PartyManager partyManager;
 
     @Override
     public void onLoad() {
@@ -170,7 +172,7 @@ public final class PluggyTesty extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        final var partyManager = new PTPartyManager();
+        partyManager = new PTPartyManager();
 
         final var expeditionController = new PTExpeditionController();
         final var expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
@@ -611,7 +613,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new DashItemType(this, "dash", false, "Dash"));
         resourceManager.registerItem(new DiggaItemType(this, "digga", false, "Digga"));
         resourceManager.registerItem(new SwiftStaffItemType(this, "swift_staff", false, ChatColor.BLUE + "Swift Staff"));
-        resourceManager.registerItem(new SwiftStaffItemType(this, "healing_aura", false, ChatColor.RED + "Healing Aura"));
+        resourceManager.registerItem(new HealingAuraItemType(this, "healing_aura", false, ChatColor.RED + "Healing Aura", partyManager));
 
         // Armor
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
