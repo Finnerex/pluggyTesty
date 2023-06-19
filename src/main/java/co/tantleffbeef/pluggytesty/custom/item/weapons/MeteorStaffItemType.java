@@ -42,7 +42,6 @@ public class MeteorStaffItemType extends SimpleItemType implements InteractableI
         super.modifyItemMeta(meta);
         meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Falling blocks from the sky", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f + "s"));
         meta.setUnbreakable(true);
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(),"attack_damage", 0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
     }
 
     @Override
