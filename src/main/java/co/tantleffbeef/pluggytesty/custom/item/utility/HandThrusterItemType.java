@@ -27,10 +27,16 @@ public class HandThrusterItemType extends SimpleItemType implements Interactable
 
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
-        if (player.getCooldown(Material.SOUL_CAMPFIRE) >= 60)
-            return true;
+        final int cooldown = player.getCooldown(Material.SOUL_CAMPFIRE);
 
-        player.setCooldown(Material.SOUL_CAMPFIRE, player.getCooldown(Material.SOUL_CAMPFIRE) + 5);
+        if (cooldown >= 60) {
+            if (cooldown < 65)
+                player.setCooldown(Material.SOUL_CAMPFIRE, 80);
+
+            return true;
+        }
+
+        player.setCooldown(Material.SOUL_CAMPFIRE, cooldown + 5);
 
         player.setVelocity(player.getLocation().getDirection().setY(1));
 
