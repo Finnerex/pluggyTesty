@@ -48,7 +48,7 @@ public class HandThrusterItemType extends SimpleItemType implements Interactable
             return true;
         }
 
-        player.setCooldown(Material.SOUL_CAMPFIRE, cooldown + 12);
+        player.setCooldown(Material.SOUL_CAMPFIRE, cooldown + 30);
         player.setVelocity(player.getLocation().getDirection().setY(1));
 
         return true;
