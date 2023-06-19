@@ -21,54 +21,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class FisherOfSoulsItemType extends SimpleItemType implements Listener {
-
-    private final KeyManager<CustomNbtKey> keyManager;
-    private final ResourceManager resourceManager;
+public class FisherOfSoulsItemType extends SimpleItemType{
 
     // holds which players are holding what entity on their hook
-    private final Map<UUID, Entity> hookedEntities = new HashMap<>();
+    // i would never us bad programming practices here such as making it both public and static so i can access it in the listener
+    public static final Map<UUID, Entity> hookedEntities = new HashMap<>();
 
-    public FisherOfSoulsItemType(Plugin namespace, String id, boolean customModel, String name, KeyManager<CustomNbtKey> keyManager, ResourceManager resourceManager) {
+    public FisherOfSoulsItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.FISHING_ROD);
-        this.resourceManager = resourceManager;
-        this.keyManager = keyManager;
     }
 
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
         meta.setLore(List.of(ChatColor.DARK_GREEN + "Left-Click : Damage hooked enemy"));
-    }
-
-    @EventHandler
-    public void onPlayerFish(PlayerFishEvent event) {
-        if (event.getState() != PlayerFishEvent.State.CAUGHT_ENTITY)
-            return;
-
-        Entity entity = event.getCaught();
-        assert entity != null;
-
-        hookedEntities.put(event.getPlayer().getUniqueId(), entity);
-    }
-
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction() != Action.LEFT_CLICK_AIR && event.getAction() != Action.LEFT_CLICK_BLOCK)
-            return;
-
-        ItemStack item = event.getItem();
-        if (item == null || CustomItemType.asInstanceOf(FisherOfSoulsItemType.class, item, keyManager, resourceManager) == null)
-            return;
-
-        Entity entity = hookedEntities.get(event.getPlayer().getUniqueId());
-
-        if (entity == null || entity.isDead())
-            return;
-
-        if (entity instanceof Damageable damageable)
-            damageable.damage(3);
-
+        meta.setUnbreakable(true);
     }
 
 }
