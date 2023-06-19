@@ -15,10 +15,16 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public class FisherOfSoulsEventListener implements Listener {
 
     private final KeyManager<CustomNbtKey> keyManager;
     private final ResourceManager resourceManager;
+    // holds which players are holding what entity on their hook
+    public static final Map<UUID, Entity> hookedEntities = new HashMap<>();
 
     public FisherOfSoulsEventListener(KeyManager<CustomNbtKey> keyManager, ResourceManager resourceManager) {
         this.keyManager = keyManager;
@@ -27,40 +33,41 @@ public class FisherOfSoulsEventListener implements Listener {
 
     @EventHandler
     public void onPlayerFish(PlayerFishEvent event) {
-        if (event.getState() != PlayerFishEvent.State.CAUGHT_ENTITY)
+        Bukkit.broadcastMessage("state: " + event.getState());
+        if (event.getState() != PlayerFishEvent.State.FISHING)
             return;
 
         Entity entity = event.getCaught();
-        assert entity != null;
+        if (entity == null) {
+            Bukkit.broadcastMessage("no entity");
+            return;
+        }
 
         Bukkit.broadcastMessage("entity: " + entity);
 
-        FisherOfSoulsItemType.hookedEntities.put(event.getPlayer().getUniqueId(), entity);
+        hookedEntities.put(event.getPlayer().getUniqueId(), entity);
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        Bukkit.broadcastMessage("evemt");
-        if (event.getAction() != Action.LEFT_CLICK_AIR && event.getAction() != Action.LEFT_CLICK_BLOCK)
+        if (event.getAction() != Action.LEFT_CLICK_AIR/* && event.getAction() != Action.LEFT_CLICK_BLOCK*/)
             return;
 
-        Bukkit.broadcastMessage("left");
+        Bukkit.broadcastMessage("left click air");
         ItemStack item = event.getItem();
         if (item == null || CustomItemType.asInstanceOf(FisherOfSoulsItemType.class, item, keyManager, resourceManager) == null)
             return;
-        Bukkit.broadcastMessage("fisher");
 
-        Entity entity = FisherOfSoulsItemType.hookedEntities.get(event.getPlayer().getUniqueId());
+        Entity entity = hookedEntities.get(event.getPlayer().getUniqueId());
         Bukkit.broadcastMessage("entity: " + entity);
 
         if (entity == null || entity.isDead())
             return;
+
         Bukkit.broadcastMessage("exists");
 
-        if (entity instanceof Damageable damageable) {
-            damageable.damage(3);
-            Bukkit.broadcastMessage("damgegad");
-        }
+        if (entity instanceof Damageable damageable)
+            damageable.damage(5);
 
     }
 }
