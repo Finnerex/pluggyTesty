@@ -55,7 +55,7 @@ public class FisherOfSoulsEventListener implements Listener {
             return;
 
         if (entity instanceof Damageable damageable)
-            damageable.damage(5);
+            damageable.damage(5, event.getPlayer());
 
     }
 }
