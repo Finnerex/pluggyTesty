@@ -72,7 +72,7 @@ public class HealingAuraItemType extends SimpleItemType implements InteractableI
                     if (party == null && !p.getUniqueId().equals(player.getUniqueId())) // if there is no party, check if the player is the casting player
                         continue;
 
-                    p.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), player.getHealth() + 1));
+                    p.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), player.getHealth() + 0.1));
                 }
 
                 Location drawLocation = centerLocation.clone().subtract(new Vector(3, 0, 3));
