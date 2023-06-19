@@ -84,7 +84,7 @@ public class DashAbilityInteractListener implements Listener {
             }
         };
 
-        runnable.runTaskTimer(plugin, 0, 3);
+        runnable.runTaskTimer(plugin, 0, 5);
 
     }
 

@@ -111,8 +111,7 @@ public final class PluggyTesty extends JavaPlugin {
 
                 Files.delete(expeditionsWorldFolder);
             } catch (IOException e) {
-//                throw new RuntimeException(e);
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
