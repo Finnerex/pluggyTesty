@@ -42,13 +42,13 @@ public class HandThrusterItemType extends SimpleItemType implements Interactable
                 .append("]").color(net.md_5.bungee.api.ChatColor.GRAY).create());
 
         if (cooldown >= 100) {
-            if (cooldown < 108)
+            if (cooldown < 110)
                 player.setCooldown(Material.SOUL_CAMPFIRE, 140);
 
             return true;
         }
 
-        player.setCooldown(Material.SOUL_CAMPFIRE, cooldown + 8);
+        player.setCooldown(Material.SOUL_CAMPFIRE, cooldown + 12);
         player.setVelocity(player.getLocation().getDirection().setY(1));
 
         return true;
