@@ -3,9 +3,8 @@ package co.tantleffbeef.pluggytesty.custom.item.utility;
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -25,7 +24,7 @@ public class HandThrusterItemType extends SimpleItemType implements Interactable
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
-        meta.setLore(List.of(ChatColor.DARK_GREEN + "Hold Right-Click: Thrust forward and upward"));
+        meta.setLore(List.of(org.bukkit.ChatColor.DARK_GREEN + "Right-Click : Thrust forward and upward"));
     }
 
     @Override
@@ -36,10 +35,10 @@ public class HandThrusterItemType extends SimpleItemType implements Interactable
         // im too lazy to make this good someone else can do it if they want
         final int fuel = 100 - cooldown;
         player.spigot ().sendMessage(ChatMessageType.ACTION_BAR,
-                new ComponentBuilder("Fuel: [").color(net.md_5.bungee.api.ChatColor.GRAY)
+                new ComponentBuilder("Fuel: [").color(ChatColor.GRAY)
                 .append(String.valueOf(Math.max(0, fuel)))
-                .color ((fuel > 50) ? net.md_5.bungee.api.ChatColor.GREEN : (fuel > 20) ? net.md_5.bungee.api.ChatColor.YELLOW : net.md_5.bungee.api.ChatColor.RED)
-                .append("]").color(net.md_5.bungee.api.ChatColor.GRAY).create());
+                .color ((fuel > 50) ? ChatColor.GREEN : (fuel > 20) ? ChatColor.YELLOW : ChatColor.RED)
+                .append("]").color(ChatColor.GRAY).create());
 
         if (cooldown >= 100) {
             if (cooldown < 110)
