@@ -268,6 +268,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
         getServer().getPluginManager().registerEvents(new FisherOfSoulsEventListener(nbtKeyManager, resourceManager), this);
+        getServer().getPluginManager().registerEvents(new FeatherBootsSneakListener(nbtKeyManager, resourceManager), this);
         getServer().getPluginManager().registerEvents(new SpecialArrowShootListener(nbtKeyManager, resourceManager, this), this);
         getServer().getPluginManager().registerEvents(new SpecialTntListener(blockManager), this);
 
@@ -616,6 +617,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new HandThrusterItemType(this, "hand_thruster", false, ChatColor.GOLD + "Hand Thruster"));
 
         // Armor
+        resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, "Feather Boots"));
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
 
         // TNT
