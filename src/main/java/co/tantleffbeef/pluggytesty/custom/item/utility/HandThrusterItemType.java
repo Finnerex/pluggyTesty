@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.custom.item.utility;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -29,9 +30,11 @@ public class HandThrusterItemType extends SimpleItemType implements Interactable
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
         final int cooldown = player.getCooldown(Material.SOUL_CAMPFIRE);
 
+        Bukkit.broadcastMessage("Cooldown: " + cooldown);
+
         if (cooldown >= 60) {
             if (cooldown < 65)
-                player.setCooldown(Material.SOUL_CAMPFIRE, 80);
+                player.setCooldown(Material.SOUL_CAMPFIRE, 100);
 
             return true;
         }
