@@ -80,12 +80,12 @@ public class HealingAuraItemType extends SimpleItemType implements InteractableI
                 // draw the bounds of the aura
                 for (float i = 0; i <= 6; i += 0.2) {
                     world.spawnParticle(Particle.TOTEM, drawLocation, 1, 0.2, 0, 0, 0);
-                    world.spawnParticle(Particle.TOTEM, drawLocation.clone().add(0, 0, 6), 2, 0, 0, 0, 0);
+                    world.spawnParticle(Particle.TOTEM, drawLocation.clone().add(0, 0, 6), 2, 0.2, 0, 0, 0);
                     drawLocation.add(0.2, 0, 0);
                 }
                 for (float i = 0; i <= 6; i += 0.2) {
                     world.spawnParticle(Particle.TOTEM, drawLocation, 1, 0, 0, 0.2, 0);
-                    world.spawnParticle(Particle.TOTEM, drawLocation.clone().add(-6, 0, 0), 2, 0, 0, 0, 0);
+                    world.spawnParticle(Particle.TOTEM, drawLocation.clone().add(-6, 0, 0), 2, 0, 0, 0.2, 0);
                     drawLocation.add(0, 0, 0.2);
                 }
 
