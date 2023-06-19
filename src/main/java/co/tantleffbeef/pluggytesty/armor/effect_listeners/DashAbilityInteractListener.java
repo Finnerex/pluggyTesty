@@ -66,17 +66,19 @@ public class DashAbilityInteractListener implements Listener {
             @Override
             public void run() {
 
-                if (runs > 30) {
+                if (runs > 18) {
                     cancel();
                     return;
                 }
 
-                String red = "|".repeat(90/3 - runs);
+                String red = "|".repeat(90/5 - runs);
                 String green = "|".repeat(runs);
 
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        new ComponentBuilder(green).color(ChatColor.GREEN)
-                        .append(red).color(ChatColor.RED).create());
+                        new ComponentBuilder("Dash: [").color(ChatColor.GRAY)
+                        .append(green).color(ChatColor.GREEN)
+                        .append(red).color(ChatColor.RED)
+                        .append("]").color(ChatColor.GRAY).create());
 
                 runs ++;
             }
