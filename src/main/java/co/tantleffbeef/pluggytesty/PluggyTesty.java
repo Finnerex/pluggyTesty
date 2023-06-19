@@ -591,6 +591,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new MeowmereItemType(this, "meowmere", false, ChatColor.DARK_BLUE + "Meowmere"));
         resourceManager.registerItem(new MagnetSphereItemType(this, "magnet_sphere", false, ChatColor.AQUA + "Magnet Sphere"));
         resourceManager.registerItem(new KingPunchItemType(this, "king_punch", false, ChatColor.RED + "King Punch"));
+        resourceManager.registerItem(new FisherOfSoulsItemType(this, "soul_fisher", false, ChatColor.DARK_PURPLE + "Fisher Of Souls", nbtKeyManager, resourceManager));
 
         // Arrows
         resourceManager.registerItem(new JestersArrowItemType(this, "jesters_arrow", false, ChatColor.BLUE + "Jester's Arrow"));
