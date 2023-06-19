@@ -33,6 +33,7 @@ public class ZapinatorItemType extends SimpleItemType implements InteractableIte
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
         meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Randomized bolt of energy", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f + "s"));
+        meta.setUnbreakable(true);
     }
 
     @Override

@@ -34,7 +34,6 @@ public class FisherOfSoulsEventListener implements Listener {
 
     @EventHandler
     public void onPlayerFish(PlayerFishEvent event) {
-        Bukkit.broadcastMessage("state: " + event.getState());
         if (event.getState() != PlayerFishEvent.State.FISHING)
             return;
 
@@ -46,18 +45,14 @@ public class FisherOfSoulsEventListener implements Listener {
         if (event.getAction() != Action.LEFT_CLICK_AIR && event.getAction() != Action.LEFT_CLICK_BLOCK)
             return;
 
-        Bukkit.broadcastMessage("action: " + event.getAction());
         ItemStack item = event.getItem();
         if (item == null || CustomItemType.asInstanceOf(FisherOfSoulsItemType.class, item, keyManager, resourceManager) == null)
             return;
 
         Entity entity = hooks.get(event.getPlayer().getUniqueId()).getHookedEntity();
-        Bukkit.broadcastMessage("entity: " + entity);
 
         if (entity == null || entity.isDead())
             return;
-
-        Bukkit.broadcastMessage("exists");
 
         if (entity instanceof Damageable damageable)
             damageable.damage(5);

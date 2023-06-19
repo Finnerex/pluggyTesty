@@ -25,7 +25,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
     private final Map<UUID, Integer> sphereOut = new HashMap<>();
 
     public MagnetSphereItemType(Plugin namespace, String id, boolean customModel, String name) {
-        super(namespace, id, customModel, name, Material.ENCHANTED_BOOK);
+        super(namespace, id, customModel, name, Material.HEART_OF_THE_SEA);
         this.schedulerPlugin = namespace;
     }
 

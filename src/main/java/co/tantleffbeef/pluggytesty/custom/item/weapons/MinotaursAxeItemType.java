@@ -5,8 +5,11 @@ import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -39,6 +42,7 @@ public class MinotaursAxeItemType extends SimpleItemType implements Interactable
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
         meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Throw up to three axes", ChatColor.DARK_GREEN + "Cooldown : " + COOLDOWN_TICKS / 20f + "s"));
+        meta.setUnbreakable(true);
     }
 
     @Override

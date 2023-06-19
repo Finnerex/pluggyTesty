@@ -6,6 +6,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -31,6 +32,7 @@ public class HandThrusterItemType extends SimpleItemType implements Interactable
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
 
         final int cooldown = player.getCooldown(Material.SOUL_CAMPFIRE);
+        player.spawnParticle(Particle.FLAME, player.getLocation(), 2);
 
         // im too lazy to make this good someone else can do it if they want
         final int fuel = 100 - cooldown;

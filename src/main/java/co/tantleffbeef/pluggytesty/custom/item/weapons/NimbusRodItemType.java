@@ -37,6 +37,7 @@ public class NimbusRodItemType extends SimpleItemType implements InteractableIte
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
         meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Damaging rain cloud", ChatColor.DARK_GREEN + "No Cooldown"));
+        meta.setUnbreakable(true);
     }
 
     @Override
