@@ -63,7 +63,7 @@ public class HealingAuraItemType extends SimpleItemType implements InteractableI
                 Collection<Entity> entities = world.getNearbyEntities(centerLocation, 3, 40, 3);
 
                 for (Entity e : entities) {
-                    if (!(e instanceof Player p)) // check if it's a player
+                    if (!(e instanceof Player p) || e.isDead()) // check if it's a player
                         continue;
 
                     if (party != null && !party.containsPlayer(p)) // check if that player is in the casting player's party
