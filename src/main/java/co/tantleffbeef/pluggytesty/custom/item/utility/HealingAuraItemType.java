@@ -43,7 +43,7 @@ public class HealingAuraItemType extends SimpleItemType implements InteractableI
         if (player.hasCooldown(Material.CRIMSON_FUNGUS))
             return true;
 
-        Location centerLocation = player.getLocation();
+        Location centerLocation = player.getEyeLocation();
         World world = centerLocation.getWorld();
         assert world != null;
 
@@ -73,23 +73,23 @@ public class HealingAuraItemType extends SimpleItemType implements InteractableI
                         continue;
 
                     p.setHealth(Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), player.getHealth() + 1));
-                    world.playSound(p, Sound.AMBIENT_UNDERWATER_EXIT, 1, 1);
                 }
 
                 Location drawLocation = centerLocation.clone().subtract(new Vector(3, 0, 3));
 
                 // draw the bounds of the aura
                 for (float i = 0; i < 6; i += 0.2) {
-                    world.spawnParticle(Particle.TOTEM, drawLocation, 2, 0, 0, 0, 0);
+                    world.spawnParticle(Particle.TOTEM, drawLocation, 1, 0.2, 0, 0, 0);
                     world.spawnParticle(Particle.TOTEM, drawLocation.clone().add(0, 0, 6), 2, 0, 0, 0, 0);
                     drawLocation.add(0.2, 0, 0);
                 }
                 for (float i = 0; i < 6; i += 0.2) {
-                    world.spawnParticle(Particle.TOTEM, drawLocation, 2, 0, 0, 0, 0);
+                    world.spawnParticle(Particle.TOTEM, drawLocation, 1, 0, 0, 0.2, 0);
                     world.spawnParticle(Particle.TOTEM, drawLocation.clone().add(-6, 0, 0), 2, 0, 0, 0, 0);
-                    drawLocation.add(0, 0, -0.2);
+                    drawLocation.add(0, 0, 0.2);
                 }
 
+                runs ++;
 
             }
         };
