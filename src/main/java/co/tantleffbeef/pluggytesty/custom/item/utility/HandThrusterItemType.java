@@ -2,6 +2,8 @@ package co.tantleffbeef.pluggytesty.custom.item.utility;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -28,19 +30,25 @@ public class HandThrusterItemType extends SimpleItemType implements Interactable
 
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
+
         final int cooldown = player.getCooldown(Material.SOUL_CAMPFIRE);
 
-        Bukkit.broadcastMessage("Cooldown: " + cooldown);
+        // im too lazy to make this good someone else can do it if they want
+        final int fuel = 100 - cooldown;
+        player.spigot ().sendMessage(ChatMessageType.ACTION_BAR,
+                new ComponentBuilder("Fuel: [").color(net.md_5.bungee.api.ChatColor.GRAY)
+                .append(String.valueOf(Math.max(0, fuel)))
+                .color ((fuel > 50) ? net.md_5.bungee.api.ChatColor.GREEN : (fuel > 20) ? net.md_5.bungee.api.ChatColor.YELLOW : net.md_5.bungee.api.ChatColor.RED)
+                .append("]").color(net.md_5.bungee.api.ChatColor.GRAY).create());
 
-        if (cooldown >= 60) {
-            if (cooldown < 65)
-                player.setCooldown(Material.SOUL_CAMPFIRE, 100);
+        if (cooldown >= 100) {
+            if (cooldown < 108)
+                player.setCooldown(Material.SOUL_CAMPFIRE, 140);
 
             return true;
         }
 
-        player.setCooldown(Material.SOUL_CAMPFIRE, cooldown + 10);
-
+        player.setCooldown(Material.SOUL_CAMPFIRE, cooldown + 8);
         player.setVelocity(player.getLocation().getDirection().setY(1));
 
         return true;
