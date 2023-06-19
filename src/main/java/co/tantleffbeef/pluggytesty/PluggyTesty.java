@@ -611,6 +611,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new DiggaItemType(this, "digga", false, "Digga"));
         resourceManager.registerItem(new SwiftStaffItemType(this, "swift_staff", false, ChatColor.BLUE + "Swift Staff"));
         resourceManager.registerItem(new HealingAuraItemType(this, "healing_aura", false, ChatColor.RED + "Healing Aura", partyManager));
+        resourceManager.registerItem(new HandThrusterItemType(this, "hand_thruster", false, ChatColor.GOLD + "Hand Thruster"));
 
         // Armor
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
