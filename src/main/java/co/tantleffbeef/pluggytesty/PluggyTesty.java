@@ -269,6 +269,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
         getServer().getPluginManager().registerEvents(new FisherOfSoulsEventListener(nbtKeyManager, resourceManager), this);
         getServer().getPluginManager().registerEvents(new FeatherBootsSneakListener(nbtKeyManager, resourceManager), this);
+        getServer().getPluginManager().registerEvents(new LandMineDropListener(nbtKeyManager, resourceManager, this), this);
         getServer().getPluginManager().registerEvents(new SpecialArrowShootListener(nbtKeyManager, resourceManager, this), this);
         getServer().getPluginManager().registerEvents(new SpecialTntListener(blockManager), this);
 
@@ -615,6 +616,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new SwiftStaffItemType(this, "swift_staff", false, ChatColor.BLUE + "Swift Staff"));
         resourceManager.registerItem(new HealingAuraItemType(this, "healing_aura", false, ChatColor.RED + "Healing Aura", partyManager));
         resourceManager.registerItem(new HandThrusterItemType(this, "hand_thruster", false, ChatColor.GOLD + "Hand Thruster"));
+        resourceManager.registerItem(new LandMineItemType(this, "land_mine", false, "Land Mine"));
 
         // Armor
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, "Feather Boots"));
