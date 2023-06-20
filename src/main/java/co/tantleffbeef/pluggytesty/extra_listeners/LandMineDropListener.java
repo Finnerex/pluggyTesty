@@ -8,6 +8,7 @@ import co.tantleffbeef.pluggytesty.custom.item.utility.LandMineItemType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
@@ -17,6 +18,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Collection;
 
 public class LandMineDropListener implements Listener {
 
@@ -53,7 +56,11 @@ public class LandMineDropListener implements Listener {
                 } else if (!item.isOnGround() && !item.isDead())
                     return;
 
-                if (!world.getNearbyEntities(itemDisplay.getLocation(), 1, 1, 1).isEmpty()) {
+                Collection<Entity> entities = world.getNearbyEntities(itemDisplay.getLocation(), 1, 1, 1);
+                entities.remove(itemDisplay);
+                entities.remove(item);
+
+                if (!entities.isEmpty()) {
                     world.createExplosion(itemDisplay.getLocation(), 2, false, false);
                     itemDisplay.remove();
                     cancel();
