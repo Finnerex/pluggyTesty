@@ -47,6 +47,12 @@ public class LandMineDropListener implements Listener {
             @Override
             public void run() {
 
+                if (item.isDead() && itemDisplay == null) {
+                    cancel();
+                    return;
+                }
+
+
                 if (item.isOnGround() && !item.isDead()) {
                     itemDisplay = world.spawn(item.getLocation(), ItemDisplay.class, (display) -> {
                         display.setRotation(0, 90);
