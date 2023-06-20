@@ -39,7 +39,7 @@ public class StickyTntItemType extends SimplePlaceableItemType implements Custom
 
     @Override
     public void explosionEffect(Block tnt){
-        FallingBlock block = tnt.getWorld().spawnFallingBlock(tnt.getLocation(), Material.LAVA, (byte) 0);
+        FallingBlock block = tnt.getWorld().spawnFallingBlock(tnt.getLocation(), Material.LAVA.createBlockData());
         float x = (float) -1 + (float) (Math.random() * ((1 - -1) + 1));
         float y = (float) -5 + (float)(Math.random() * ((5 - -5) + 1));
         float z = (float) -0.3 + (float)(Math.random() * ((0.3 - -0.3) + 1));
