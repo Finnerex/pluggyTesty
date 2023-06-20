@@ -1,25 +1,28 @@
 package co.tantleffbeef.pluggytesty.custom.item.weapons.TNT;
 
+import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimplePlaceableItemType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.Nullable;
+import org.bukkit.util .Vector;
 
 import java.util.List;
 
 
-public class StickyTntItemType extends SimplePlaceableItemType implements CustomTNT {
+public class StickyTntItemType extends SimplePlaceableItemType implements InteractableItemType {
 
     private final Plugin plugin;
+    private final Vector displacementVec = new Vector(0, 5, 0);
 
 
 
@@ -29,7 +32,7 @@ public class StickyTntItemType extends SimplePlaceableItemType implements Custom
     }
     @Override
     public @NotNull Material baseMaterial() {
-        return Material.TNT;
+        return Material.BARRIER;
     }
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
@@ -37,14 +40,16 @@ public class StickyTntItemType extends SimplePlaceableItemType implements Custom
         meta.setLore(List.of(ChatColor.DARK_GREEN + "SUPER Sticky!!!"));
     }
 
+
     @Override
-    public void explosionEffect(Block tnt){
-        FallingBlock block = tnt.getWorld().spawnFallingBlock(tnt.getLocation(), Material.LAVA.createBlockData());
+    public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
+        FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().add(displacementVec), Material.GRASS_BLOCK.createBlockData());
         float x = (float) -1 + (float) (Math.random() * ((1 - -1) + 1));
-        float y = (float) -5 + (float)(Math.random() * ((5 - -5) + 1));
-        float z = (float) -0.3 + (float)(Math.random() * ((0.3 - -0.3) + 1));
+        float y = (float) -5 + (float) (Math.random() * ((5 - -5) + 1));
+        float z = (float) -0.3 + (float) (Math.random() * ((0.3 - -0.3) + 1));
         Bukkit.broadcastMessage("§c" + x + ", §a" + y + ", §d" + z);
-        block.setVelocity(new Vector(x, y, z));
+        fallingBlock.setVelocity(new Vector(x, y, z));
+        return false;
     }
 }
 
