@@ -49,7 +49,7 @@ public class LandMineDropListener implements Listener {
 
                 if (item.isOnGround() && !item.isDead()) {
                     itemDisplay = world.spawn(item.getLocation(), ItemDisplay.class, (display) -> {
-                        display.setRotation(0, 0);
+                        display.setRotation(90, 0);
                         display.setItemStack(new ItemStack(Material.FIREWORK_STAR));
                     });
 
