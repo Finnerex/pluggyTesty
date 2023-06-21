@@ -25,9 +25,6 @@ import java.util.List;
 public class StickyTntItemType extends SimplePlaceableItemType implements InteractableBlockType {
 
     private final Plugin plugin;
-    private final Vector displacementVec = new Vector(0, 5, 0);
-
-
 
     public StickyTntItemType(Plugin namespace, String id, boolean customModel, String name){
         super(namespace, id, customModel, name);
@@ -45,7 +42,7 @@ public class StickyTntItemType extends SimplePlaceableItemType implements Intera
 
     @Override
     public boolean interactBlock(@NotNull Player player, @NotNull Location location, @NotNull Block block, @NotNull Action action) {
-        FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().add(displacementVec), Material.GRASS_BLOCK.createBlockData());
+        FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().add(new Vector(0, 5, 0)), Material.GRASS_BLOCK.createBlockData());
         return false;
     }
 }
