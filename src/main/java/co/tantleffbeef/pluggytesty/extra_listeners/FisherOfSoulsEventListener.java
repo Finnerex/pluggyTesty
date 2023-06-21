@@ -49,9 +49,10 @@ public class FisherOfSoulsEventListener implements Listener {
         if (item == null || CustomItemType.asInstanceOf(FisherOfSoulsItemType.class, item, keyManager, resourceManager) == null)
             return;
 
-        Entity entity = hooks.get(event.getPlayer().getUniqueId()).getHookedEntity();
+        FishHook hook = hooks.get(event.getPlayer().getUniqueId());
+        Entity entity = hook.getHookedEntity();
 
-        if (entity == null || entity.isDead())
+        if (entity == null || entity.isDead() || hook.isDead())
             return;
 
         if (entity instanceof Damageable damageable)

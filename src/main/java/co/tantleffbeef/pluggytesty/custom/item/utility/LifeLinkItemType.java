@@ -24,13 +24,17 @@ public class LifeLinkItemType extends SimpleItemType implements InteractableItem
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
-        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Link to another player", "Absorb 50% of linked player's taken damage (20 block range)"));
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Link to another player",
+                ChatColor.DARK_GREEN + "Absorb 50% of linked player's taken damage (20 block range)",
+                ChatColor.DARK_GREEN + "Sneak + Right-Click : Remove link"));
     }
 
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
-        if (player.isSneaking())
+        if (player.isSneaking()) {
             LifeLinkListener.resetPlayerLink(player.getUniqueId());
+            player.sendMessage(ChatColor.GOLD + "Life link removed");
+        }
 
         return true;
     }
