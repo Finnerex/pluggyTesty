@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.server.BroadcastMessageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -42,7 +43,7 @@ public class StickyTntItemType extends SimplePlaceableItemType implements Intera
 
     @Override
     public boolean interactBlock(@NotNull Player player, @NotNull Location location, @NotNull Block block, @NotNull Action action) {
-        System.out.println("bozo");
+        Bukkit.broadcastMessage("bozo");
         FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().add(new Vector(0, 5, 0)), Material.GRASS_BLOCK.createBlockData());
         return false;
     }
