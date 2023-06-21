@@ -59,26 +59,18 @@ public class LifeLinkListener implements Listener {
         if (!(event.getEntity() instanceof Player damagedPlayer))
             return;
 
-        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "player damaged");
-
         UUID linkerUUID = playerLinks.get(damagedPlayer.getUniqueId());
 
         if (linkerUUID == null)
             return;
-
-        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "linker id exists");
 
         Player linker = server.getPlayer(linkerUUID);
 
         if (linker == null)
             return;
 
-        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "linker exists");
-
         if (damagedPlayer.getLocation().distance(linker.getLocation()) > 20)
             return;
-
-        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "distance <= 20");
 
         event.setDamage(event.getDamage() / 2);
         linker.damage(event.getDamage() / 2);
