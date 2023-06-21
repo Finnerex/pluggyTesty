@@ -38,11 +38,11 @@ public class LifeLinkListener implements Listener {
     public void onPlayerInteract(PlayerInteractEntityEvent event) {
         Player linker = event.getPlayer();
 
-        ItemStack item = linker.getItemInUse();
-        if (item == null || CustomItemType.asInstanceOf(LifeLinkItemType.class, item, keyManager, resourceManager) == null)
+        ItemStack item = linker.getInventory().getItemInMainHand();
+        if (CustomItemType.asInstanceOf(LifeLinkItemType.class, item, keyManager, resourceManager) == null)
             return;
 
-        Bukkit.broadcastMessage("HumanEntity#getItemInUse() is indeed the method you want to use.");
+        Bukkit.broadcastMessage("this one for real");
 
         if (!(event.getRightClicked() instanceof Player playerToLink))
             return;
