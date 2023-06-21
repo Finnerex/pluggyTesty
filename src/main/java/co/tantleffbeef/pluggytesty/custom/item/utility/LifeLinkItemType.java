@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.custom.item.utility;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import co.tantleffbeef.pluggytesty.extra_listeners.LifeLinkListener;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -28,7 +29,9 @@ public class LifeLinkItemType extends SimpleItemType implements InteractableItem
 
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
-        // this is purely so they can't place the item down
+        if (player.isSneaking())
+            LifeLinkListener.resetPlayerLink(player.getUniqueId());
+
         return true;
     }
 }

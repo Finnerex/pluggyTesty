@@ -5,6 +5,8 @@ import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
 import co.tantleffbeef.pluggytesty.custom.item.utility.LifeLinkItemType;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -15,14 +17,13 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class LifeLinkListener implements Listener {
 
-    // Contains UUIDs of linked players and the player that linked to them
-    private final Map<UUID, UUID> playerLinks;
+    // Contains UUIDs of linked players and the player that linked them (shouldn't be static but balls)
+    // goofy BiMap so i can use get with the linker
+    private static final BiMap<UUID, UUID> playerLinks = HashBiMap.create();
     private final KeyManager<CustomNbtKey> keyManager;
     private final ResourceManager resourceManager;
     private final Server server;
@@ -31,7 +32,10 @@ public class LifeLinkListener implements Listener {
         this.keyManager = keyManager;
         this.resourceManager = resourceManager;
         this.server = server;
-        this.playerLinks = new HashMap<>();
+    }
+
+    public static void resetPlayerLink(UUID player) {
+        playerLinks.remove(playerLinks.inverse().get(player));
     }
 
     @EventHandler
@@ -74,7 +78,6 @@ public class LifeLinkListener implements Listener {
 
         event.setDamage(event.getDamage() / 2);
         linker.damage(event.getDamage() / 2);
-        linker.setLastDamageCause(event);
     }
 
 }
