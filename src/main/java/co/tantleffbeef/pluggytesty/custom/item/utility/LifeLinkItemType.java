@@ -12,22 +12,23 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.Arrays;
 
-public class LandMineItemType extends SimpleItemType implements InteractableItemType {
-    public LandMineItemType(Plugin namespace, String id, boolean customModel, String name) {
-        super(namespace, id, customModel, name, Material.FIREWORK_STAR);
+public class LifeLinkItemType extends SimpleItemType implements InteractableItemType {
+
+    public LifeLinkItemType(Plugin namespace, String id, boolean customModel, String name) {
+        super(namespace, id, customModel, name, Material.WEEPING_VINES);
     }
 
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
-        meta.setLore(List.of(ChatColor.DARK_GREEN + "Right-Click : Throw a land mine on the ground"));
+        meta.setLore(Arrays.asList(ChatColor.DARK_GREEN + "Right-Click : Link to another player", "Absorb 50% of linked player's taken damage (20 block range)"));
     }
 
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
-        player.dropItem(false);
-        return false;
+        // this is purely so they can't place the item down
+        return true;
     }
 }

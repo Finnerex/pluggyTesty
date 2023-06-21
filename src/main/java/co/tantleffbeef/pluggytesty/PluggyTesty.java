@@ -270,6 +270,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new FisherOfSoulsEventListener(nbtKeyManager, resourceManager), this);
         getServer().getPluginManager().registerEvents(new FeatherBootsSneakListener(nbtKeyManager, resourceManager), this);
         getServer().getPluginManager().registerEvents(new LandMineDropListener(nbtKeyManager, resourceManager, this), this);
+        getServer().getPluginManager().registerEvents(new LifeLinkListener(nbtKeyManager, resourceManager, this.getServer()), this);
         getServer().getPluginManager().registerEvents(new SpecialArrowShootListener(nbtKeyManager, resourceManager, this), this);
 
         // Trims / Armor effects
@@ -608,17 +609,18 @@ public final class PluggyTesty extends JavaPlugin {
 
 
         // Utility
-        resourceManager.registerItem(new GoItemType(this, "go", false, "Go!"));
+        resourceManager.registerItem(new GoItemType(this, "go", false, ChatColor.WHITE + "Go!"));
         resourceManager.registerItem(new HealingHeartItemType(this, "healing_heart", false, ChatColor.RED + "Healing Heart"));
-        resourceManager.registerItem(new DashItemType(this, "dash", false, "Dash"));
+        resourceManager.registerItem(new DashItemType(this, "dash", false, ChatColor.WHITE + "Dash"));
         resourceManager.registerItem(new DiggaItemType(this, "digga", false, "Digga"));
         resourceManager.registerItem(new SwiftStaffItemType(this, "swift_staff", false, ChatColor.BLUE + "Swift Staff"));
         resourceManager.registerItem(new HealingAuraItemType(this, "healing_aura", false, ChatColor.RED + "Healing Aura", partyManager));
         resourceManager.registerItem(new HandThrusterItemType(this, "hand_thruster", false, ChatColor.GOLD + "Hand Thruster"));
-        resourceManager.registerItem(new LandMineItemType(this, "land_mine", false, "Land Mine"));
+        resourceManager.registerItem(new LandMineItemType(this, "land_mine", false, ChatColor.WHITE + "Land Mine"));
+        resourceManager.registerItem(new LifeLinkItemType(this, "life_link", false, ChatColor.RED + "Life Link"));
 
         // Armor
-        resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, "Feather Boots"));
+        resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
 
         // TNT
