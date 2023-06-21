@@ -42,6 +42,7 @@ public class StickyTntItemType extends SimplePlaceableItemType implements Intera
 
     @Override
     public boolean interactBlock(@NotNull Player player, @NotNull Location location, @NotNull Block block, @NotNull Action action) {
+        System.out.println("bozo");
         FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().add(new Vector(0, 5, 0)), Material.GRASS_BLOCK.createBlockData());
         return false;
     }
