@@ -42,15 +42,16 @@ public class LifeLinkListener implements Listener {
         if (CustomItemType.asInstanceOf(LifeLinkItemType.class, item, keyManager, resourceManager) == null)
             return;
 
-        Bukkit.broadcastMessage("this one for real");
-
         if (!(event.getRightClicked() instanceof Player playerToLink))
+            return;
+
+        if (playerLinks.get(playerToLink.getUniqueId()) != null)
             return;
 
         playerLinks.put(playerToLink.getUniqueId(), linker.getUniqueId());
 
         linker.sendMessage(ChatColor.GOLD + "You life linked to " + ChatColor.YELLOW + playerToLink.getDisplayName());
-        playerToLink.sendMessage(ChatColor.YELLOW + linker.getDisplayName() + " life linked to you");
+        playerToLink.sendMessage(ChatColor.YELLOW + linker.getDisplayName() + ChatColor.GOLD + " life linked to you");
     }
 
     @EventHandler
@@ -58,21 +59,30 @@ public class LifeLinkListener implements Listener {
         if (!(event.getEntity() instanceof Player damagedPlayer))
             return;
 
+        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "player damaged");
+
         UUID linkerUUID = playerLinks.get(damagedPlayer.getUniqueId());
 
         if (linkerUUID == null)
             return;
+
+        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "linker id exists");
 
         Player linker = server.getPlayer(linkerUUID);
 
         if (linker == null)
             return;
 
+        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "linker exists");
+
         if (damagedPlayer.getLocation().distance(linker.getLocation()) > 20)
             return;
 
+        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "distance <= 20");
+
         event.setDamage(event.getDamage() / 2);
         linker.damage(event.getDamage() / 2);
+        linker.setLastDamageCause(event);
     }
 
 }
