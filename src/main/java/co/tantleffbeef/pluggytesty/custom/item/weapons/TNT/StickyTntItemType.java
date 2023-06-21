@@ -45,7 +45,7 @@ public class StickyTntItemType extends SimplePlaceableItemType implements Intera
 
     @Override
     public boolean interactBlock(@NotNull Player player, @NotNull Location location, @NotNull Block block, @NotNull Action action) {
-        FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().add(displacementVec), Material.GRASS_BLOCK.createBlockData());
+        FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().add(displacementVec), Material.LAVA.createBlockData());
         float x = (float) -1 + (float) (Math.random() * ((1 - -1) + 1));
         float y = (float) -5 + (float) (Math.random() * ((5 - -5) + 1));
         float z = (float) -0.3 + (float) (Math.random() * ((0.3 - -0.3) + 1));
