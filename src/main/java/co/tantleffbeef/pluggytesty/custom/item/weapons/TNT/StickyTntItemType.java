@@ -33,7 +33,7 @@ public class StickyTntItemType extends SimplePlaceableItemType implements Intera
     }
     @Override
     public @NotNull Material baseMaterial() {
-        return Material.BARRIER;
+        return Material.STONE;
     }
     @Override
     public void modifyItemMeta(@NotNull ItemMeta meta) {
