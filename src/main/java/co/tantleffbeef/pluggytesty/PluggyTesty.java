@@ -334,6 +334,9 @@ public final class PluggyTesty extends JavaPlugin {
         );
         addCustomAttributes();
 
+        // load rooms asynchronously
+        getServer().getScheduler().runTaskAsynchronously(this, this::loadRooms);
+
         // Check every once in a while if player inventories need to be updated
         /*new BukkitRunnable() {
             private int listIndex = 0;
@@ -559,7 +562,7 @@ public final class PluggyTesty extends JavaPlugin {
         });
     }
 
-    public void loadRooms() throws IOException {
+    public void loadRooms() {
         roomInformationBiMap.clear();
 
         // Create gson instance to load the rooms
@@ -594,6 +597,8 @@ public final class PluggyTesty extends JavaPlugin {
                             Debug.alwaysError("failed to parse room '" + id + "'\n(JsonSyntaxException: " + e.getMessage() + ")");
                         }
                     });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
