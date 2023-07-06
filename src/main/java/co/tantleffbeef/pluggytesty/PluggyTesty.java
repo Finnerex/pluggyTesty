@@ -567,7 +567,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         // Create gson instance to load the rooms
         final var gson = new GsonBuilder()
-                .registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter())
+                .registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter(getDataFolder().toPath().resolve("data/schematics/rooms")))
                 .registerTypeAdapter(RoomType.class, new RoomTypeTypeAdapter())
                 .create();
 

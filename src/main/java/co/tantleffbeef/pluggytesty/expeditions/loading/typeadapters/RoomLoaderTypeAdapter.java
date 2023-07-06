@@ -15,9 +15,9 @@ import java.nio.file.Path;
 public class RoomLoaderTypeAdapter implements JsonDeserializer<RoomLoader>, JsonSerializer<RoomLoader> {
     private final Gson gson;
 
-    public RoomLoaderTypeAdapter(@NotNull BiMap<String, RoomInformation> roomInformationBiMap) {
+    public RoomLoaderTypeAdapter(@NotNull BiMap<String, RoomInformation> roomInformationBiMap, @NotNull Path basePath) {
         gson = new GsonBuilder()
-                .registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter())
+                .registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter(basePath))
                 .registerTypeAdapter(RoomInformation.class, new RoomInformationTypeAdapter(roomInformationBiMap))
                 .registerTypeAdapter(RoomType.class, new RoomTypeTypeAdapter())
                 .create();
