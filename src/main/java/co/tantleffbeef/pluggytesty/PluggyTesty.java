@@ -352,12 +352,12 @@ public final class PluggyTesty extends JavaPlugin {
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
                                             getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem"), null),
-                                    null, new Vector3i(0, 0, 0), 0
+                                    null, new Vector3i(0, 0, 0), 0, 0
                             ),
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_EXIT,
                                             getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem"), null),
-                                    null, new Vector3i(25, -5, 0), 0
+                                    null, new Vector3i(25, -5, 0), 0, 0
                             )
                     )),
                     ExpeditionType.TEST_EXPEDITION
@@ -438,12 +438,12 @@ public final class PluggyTesty extends JavaPlugin {
 
             final var firstRoom = new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
                     teFolder.resolve("te_room1.schem"),
-                    List.of(new RoomDoor(BlockFace.WEST, Material.DIRT, 3))
+                    List.of(new ConsistentHeightRoomDoor(BlockFace.WEST, Material.DIRT, 3))
             );
 
             final var lastRoom = new RoomInformation(RoomType.SIMPLE_EXIT,
                     teFolder.resolve("te_room2.schem"),
-                    List.of(new RoomDoor(BlockFace.SOUTH, Material.DIRT, 8))
+                    List.of(new ConsistentHeightRoomDoor(BlockFace.SOUTH, Material.DIRT, 8))
             );
 
             // required
@@ -460,10 +460,10 @@ public final class PluggyTesty extends JavaPlugin {
                             RoomType.EMPTY,
                             teFolder.resolve("tall_room.schem"),
                             List.of(
-                                    new RoomDoor(BlockFace.WEST, Material.DIRT, 2),
-                                    new RoomDoor(BlockFace.NORTH, Material.DIRT, 10),
-                                    new RoomDoor(BlockFace.EAST, Material.DIRT, 30),
-                                    new RoomDoor(BlockFace.SOUTH, Material.DIRT, 48)
+                                    new ConsistentHeightRoomDoor(BlockFace.WEST, Material.DIRT, 2),
+                                    new ConsistentHeightRoomDoor(BlockFace.NORTH, Material.DIRT, 10),
+                                    new ConsistentHeightRoomDoor(BlockFace.EAST, Material.DIRT, 30),
+                                    new ConsistentHeightRoomDoor(BlockFace.SOUTH, Material.DIRT, 48)
                             )
                     ),
                     new RoomInformation(
@@ -528,10 +528,10 @@ public final class PluggyTesty extends JavaPlugin {
 
     private static List<RoomDoor> fourDoorsSameHeight(int heightOffset) {
         return List.of(
-                new RoomDoor(BlockFace.NORTH, Material.DIRT, heightOffset),
-                new RoomDoor(BlockFace.SOUTH, Material.DIRT, heightOffset),
-                new RoomDoor(BlockFace.EAST, Material.DIRT, heightOffset),
-                new RoomDoor(BlockFace.WEST, Material.DIRT, heightOffset)
+                new ConsistentHeightRoomDoor(BlockFace.NORTH, Material.DIRT, heightOffset),
+                new ConsistentHeightRoomDoor(BlockFace.SOUTH, Material.DIRT, heightOffset),
+                new ConsistentHeightRoomDoor(BlockFace.EAST, Material.DIRT, heightOffset),
+                new ConsistentHeightRoomDoor(BlockFace.WEST, Material.DIRT, heightOffset)
         );
     }
 
