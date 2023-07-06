@@ -101,6 +101,7 @@ public final class PluggyTesty extends JavaPlugin {
             // delete all files in the folder
             try (final var walk = Files.walk(expeditionsWorldFolder)) {
                 walk.filter(Files::isRegularFile)
+                        .filter(path -> !Files.isDirectory(path))
                         .forEach(path -> {
                             try {
                                 Files.delete(path);
