@@ -14,6 +14,8 @@ import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
+import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.PathTypeAdapter;
+import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.RoomTypeTypeAdapter;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
@@ -42,6 +44,10 @@ import co.tantleffbeef.pluggytesty.goober.OfflineGoober;
 import co.tantleffbeef.pluggytesty.goober.Goober;
 import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.sk89q.worldedit.EmptyClipboardException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -87,6 +93,7 @@ public final class PluggyTesty extends JavaPlugin {
     private LevelController levelController;
     private GooberStateController gooberStateController;
     private PartyManager partyManager;
+    private final BiMap<String, RoomInformation> roomInformationBiMap = HashBiMap.create();
 
     @Override
     public void onLoad() {
@@ -536,6 +543,58 @@ public final class PluggyTesty extends JavaPlugin {
 
             return true;
         });
+
+        Objects.requireNonNull(getCommand("printrooms")).setExecutor((sender, command, label, args) -> {
+            sender.sendMessage("Rooms: ");
+
+            synchronized (roomInformationBiMap) {
+                for (final var entry : roomInformationBiMap.entrySet()) {
+                    sender.sendMessage("id: " + entry.getKey());
+                    sender.sendMessage(entry.getValue().toString());
+                    sender.sendMessage();
+                }
+            }
+
+            return true;
+        });
+    }
+
+    public void loadRooms() throws IOException {
+        roomInformationBiMap.clear();
+
+        // Create gson instance to load the rooms
+        final var gson = new GsonBuilder()
+                .registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter())
+                .registerTypeAdapter(RoomType.class, new RoomTypeTypeAdapter())
+                .create();
+
+        final Path roomsFolder = getDataFolder().toPath().resolve("rooms").normalize();
+
+        try (final var walk = Files.walk(roomsFolder)) {
+            walk
+                    .filter(Files::isRegularFile)
+                    .filter(path -> com.google.common.io.Files.getFileExtension(path.getFileName().toString()).equals("json"))
+                    .forEach(path -> {
+                        // grab relative path for the room's id
+                        final Path relativePath = roomsFolder.relativize(path).normalize();
+                        final String id = relativePath.toString();
+
+                        // load the room's information
+                        try (final var reader = new BufferedReader(new FileReader(path.toFile()))) {
+                            final RoomInformation roomInfo = gson.fromJson(reader, RoomInformation.class);
+
+                            synchronized (roomInformationBiMap) {
+                                roomInformationBiMap.put(id, roomInfo);
+                            }
+
+                            Debug.success("loaded room '" + id + "'");
+                        } catch (IOException e) {
+                            Debug.alwaysError("failed to load room '" + id + "'\n(IOException: " + e.getMessage() + ")");
+                        } catch (JsonSyntaxException e) {
+                            Debug.alwaysError("failed to parse room '" + id + "'\n(JsonSyntaxException: " + e.getMessage() + ")");
+                        }
+                    });
+        }
     }
 
     private static List<RoomDoor> fourDoorsSameHeight(int heightOffset) {

@@ -20,14 +20,19 @@ public class RoomInformationTypeAdapter implements JsonSerializer<RoomInformatio
             throw new JsonParseException("not json primitive");
 
         final String key = json.getAsString();
-        if (!roomInformationBiMap.containsKey(key))
-            throw new JsonParseException("could not find corresponding room information");
 
-        return roomInformationBiMap.get(key);
+        synchronized (roomInformationBiMap) {
+            if (!roomInformationBiMap.containsKey(key))
+                throw new JsonParseException("could not find corresponding room information");
+
+            return roomInformationBiMap.get(key);
+        }
     }
 
     @Override
     public JsonElement serialize(RoomInformation src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(roomInformationBiMap.inverse().get(src));
+        synchronized (roomInformationBiMap) {
+            return new JsonPrimitive(roomInformationBiMap.inverse().get(src));
+        }
     }
 }

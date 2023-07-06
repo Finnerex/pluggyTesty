@@ -37,6 +37,8 @@ commands:
   selectioninfo:
     description: bruh
     aliases: ["si"]
+  printrooms:
+    description: prints the rooms
   leaveexpedition:
     description: removes you from being on whatever expedition
     aliases: ["le"]
