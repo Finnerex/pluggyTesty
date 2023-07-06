@@ -23,7 +23,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <!--<enablePreview>true</enablePreview>-->
+                    <enablePreview>true</enablePreview>
                     <compilerArgs>
                         <arg>-parameters</arg>
                         <arg>--enable-preview</arg>
