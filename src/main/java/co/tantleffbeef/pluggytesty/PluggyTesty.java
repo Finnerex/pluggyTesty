@@ -571,7 +571,7 @@ public final class PluggyTesty extends JavaPlugin {
                 .registerTypeAdapter(RoomType.class, new RoomTypeTypeAdapter())
                 .create();
 
-        final Path roomsFolder = getDataFolder().toPath().resolve("rooms").normalize();
+        final Path roomsFolder = getDataFolder().toPath().resolve("data/rooms").normalize();
 
         try (final var walk = Files.walk(roomsFolder)) {
             walk
