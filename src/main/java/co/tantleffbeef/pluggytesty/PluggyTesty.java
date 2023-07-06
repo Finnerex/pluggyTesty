@@ -101,7 +101,6 @@ public final class PluggyTesty extends JavaPlugin {
             // delete all files in the folder
             try (final var walk = Files.walk(expeditionsWorldFolder)) {
                 walk.filter(Files::isRegularFile)
-                        .filter(path -> !Files.isDirectory(path))
                         .forEach(path -> {
                             try {
                                 Files.delete(path);
@@ -109,11 +108,23 @@ public final class PluggyTesty extends JavaPlugin {
                                 throw new RuntimeException(e);
                             }
                         });
-
-                Files.delete(expeditionsWorldFolder);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
+            deleteFolderRecursively(expeditionsWorldFolder);
+        }
+    }
+
+    private void deleteFolderRecursively(Path folder) {
+        try (final var files = Files.list(folder);
+            final var files2 = Files.list(folder)) {
+            if (files.findAny().isPresent())
+                files2.forEach(this::deleteFolderRecursively);
+
+            Files.delete(folder);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
