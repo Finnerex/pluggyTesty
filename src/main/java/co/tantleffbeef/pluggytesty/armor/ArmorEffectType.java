@@ -2,22 +2,22 @@ package co.tantleffbeef.pluggytesty.armor;
 
 // an enum containing all possible unique effects a player can get from armor trims
 public enum ArmorEffectType {
-    CONDUIT_POWER, // on equip
-    DEBUFF_DAMAGE_IMMUNITY, // on effect given to player -> if wither/poison, remove // TODO
-    ARROW_CONSERVATION, // on shoot -> 50% to give back arrow
-    NIGHT_VISION, // on equip, on effect given (blind/dark resist)
-    JUMP_BOOST, // on equip
-    HASTE, // on equip
-    SPEED, // on equip
-    EXP_BOOST, // on exp gained
-    FIRE_RESISTANCE, // on equip
-    KNOCKBACK_RESIST, // on player damage -> set kb to false
-    DAMAGE_INCREASE, // on entity damage -> if player has this, increase damage done by player
-    FALL_DAMAGE_IMMUNITY, // on player damage -> check if from fall -> cancel
-    WITHER_ATTACKS, // on entity damage -> give entity wither effect
-    DASH, // FIGURE OUT // TODO
-    HEALTH_BOOST, // on equip
-    REGEN_ON_KILL; // on entity death -> give player health
+    CONDUIT_POWER,
+    DEBUFF_DAMAGE_IMMUNITY,
+    ARROW_CONSERVATION,
+    NIGHT_VISION,
+    JUMP_BOOST,
+    HASTE,
+    SPEED,
+    EXP_BOOST,
+    FIRE_RESISTANCE,
+    KNOCKBACK_RESIST,
+    DAMAGE_INCREASE,
+    FALL_DAMAGE_IMMUNITY,
+    WITHER_ATTACKS,
+    DASH,
+    HEALTH_BOOST,
+    REGEN_ON_KILL;
 
     @Override
     public String toString() {

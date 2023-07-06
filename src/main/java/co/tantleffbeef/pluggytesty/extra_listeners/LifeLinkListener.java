@@ -52,6 +52,11 @@ public class LifeLinkListener implements Listener {
         if (playerLinks.get(playerToLink.getUniqueId()) != null)
             return;
 
+        if (playerLinks.inverse().get(playerToLink.getUniqueId()) != null) {
+            linker.sendMessage(ChatColor.RED + "This player is already linking!");
+            return;
+        }
+
         playerLinks.put(playerToLink.getUniqueId(), linker.getUniqueId());
 
         linker.sendMessage(ChatColor.GOLD + "You life linked to " + ChatColor.YELLOW + playerToLink.getDisplayName());
