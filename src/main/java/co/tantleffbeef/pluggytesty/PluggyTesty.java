@@ -15,6 +15,7 @@ import co.tantleffbeef.pluggytesty.expeditions.loading.*;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.PathTypeAdapter;
+import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.RoomDoorTypeAdapter;
 import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.RoomTypeTypeAdapter;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
@@ -569,6 +570,7 @@ public final class PluggyTesty extends JavaPlugin {
         final var gson = new GsonBuilder()
                 .registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter(getDataFolder().toPath().resolve("data/schematics/rooms")))
                 .registerTypeAdapter(RoomType.class, new RoomTypeTypeAdapter())
+                .registerTypeHierarchyAdapter(RoomDoor.class, new RoomDoorTypeAdapter())
                 .create();
 
         final Path roomsFolder = getDataFolder().toPath().resolve("data/rooms").normalize();
