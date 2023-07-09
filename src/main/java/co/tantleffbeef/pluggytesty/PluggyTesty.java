@@ -48,6 +48,7 @@ import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.sk89q.worldedit.EmptyClipboardException;
@@ -595,8 +596,8 @@ public final class PluggyTesty extends JavaPlugin {
                             Debug.success("loaded room '" + id + "'");
                         } catch (IOException e) {
                             Debug.alwaysError("failed to load room '" + id + "'\n(IOException: " + e.getMessage() + ")");
-                        } catch (JsonSyntaxException e) {
-                            Debug.alwaysError("failed to parse room '" + id + "'\n(JsonSyntaxException: " + e.getMessage() + ")");
+                        } catch (JsonParseException e) {
+                            Debug.alwaysError("failed to parse room '" + id + "'\n(" + e.getMessage() + ")");
                         }
                     });
         } catch (IOException e) {
