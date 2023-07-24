@@ -39,4 +39,8 @@ public enum ExpeditionType {
     public @NotNull ExpeditionConstructor getConstructor() {
         return constructor;
     }
+
+    public String getId() {
+        return id;
+    }
 }

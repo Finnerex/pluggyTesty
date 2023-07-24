@@ -14,6 +14,9 @@ import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
+import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.PathTypeAdapter;
+import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.RoomDoorTypeAdapter;
+import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.RoomTypeTypeAdapter;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
@@ -42,6 +45,11 @@ import co.tantleffbeef.pluggytesty.goober.OfflineGoober;
 import co.tantleffbeef.pluggytesty.goober.Goober;
 import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.sk89q.worldedit.EmptyClipboardException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -87,6 +95,7 @@ public final class PluggyTesty extends JavaPlugin {
     private LevelController levelController;
     private GooberStateController gooberStateController;
     private PartyManager partyManager;
+    private final BiMap<String, RoomInformation> roomInformationBiMap = HashBiMap.create();
 
     @Override
     public void onLoad() {
@@ -108,11 +117,23 @@ public final class PluggyTesty extends JavaPlugin {
                                 throw new RuntimeException(e);
                             }
                         });
-
-                Files.delete(expeditionsWorldFolder);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
+            deleteFolderRecursively(expeditionsWorldFolder);
+        }
+    }
+
+    private void deleteFolderRecursively(Path folder) {
+        try (final var files = Files.list(folder);
+            final var files2 = Files.list(folder)) {
+            if (files.findAny().isPresent())
+                files2.forEach(this::deleteFolderRecursively);
+
+            Files.delete(folder);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -315,6 +336,9 @@ public final class PluggyTesty extends JavaPlugin {
         );
         addCustomAttributes();
 
+        // load rooms asynchronously
+        getServer().getScheduler().runTaskAsynchronously(this, this::loadRooms);
+
         // Check every once in a while if player inventories need to be updated
         /*new BukkitRunnable() {
             private int listIndex = 0;
@@ -352,12 +376,12 @@ public final class PluggyTesty extends JavaPlugin {
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
                                             getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem"), null),
-                                    null, new Vector3i(0, 0, 0), 0
+                                    null, new Vector3i(0, 0, 0), 0, 0
                             ),
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_EXIT,
                                             getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem"), null),
-                                    null, new Vector3i(25, -5, 0), 0
+                                    null, new Vector3i(25, -5, 0), 0, 0
                             )
                     )),
                     ExpeditionType.TEST_EXPEDITION
@@ -438,12 +462,12 @@ public final class PluggyTesty extends JavaPlugin {
 
             final var firstRoom = new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
                     teFolder.resolve("te_room1.schem"),
-                    List.of(new RoomDoor(BlockFace.WEST, Material.DIRT, 3))
+                    List.of(new ConsistentHeightRoomDoor(BlockFace.WEST, Material.DIRT, 3))
             );
 
             final var lastRoom = new RoomInformation(RoomType.SIMPLE_EXIT,
                     teFolder.resolve("te_room2.schem"),
-                    List.of(new RoomDoor(BlockFace.SOUTH, Material.DIRT, 8))
+                    List.of(new ConsistentHeightRoomDoor(BlockFace.SOUTH, Material.DIRT, 8))
             );
 
             // required
@@ -460,10 +484,10 @@ public final class PluggyTesty extends JavaPlugin {
                             RoomType.EMPTY,
                             teFolder.resolve("tall_room.schem"),
                             List.of(
-                                    new RoomDoor(BlockFace.WEST, Material.DIRT, 2),
-                                    new RoomDoor(BlockFace.NORTH, Material.DIRT, 10),
-                                    new RoomDoor(BlockFace.EAST, Material.DIRT, 30),
-                                    new RoomDoor(BlockFace.SOUTH, Material.DIRT, 48)
+                                    new ConsistentHeightRoomDoor(BlockFace.WEST, Material.DIRT, 2),
+                                    new ConsistentHeightRoomDoor(BlockFace.NORTH, Material.DIRT, 10),
+                                    new ConsistentHeightRoomDoor(BlockFace.EAST, Material.DIRT, 30),
+                                    new ConsistentHeightRoomDoor(BlockFace.SOUTH, Material.DIRT, 48)
                             )
                     ),
                     new RoomInformation(
@@ -524,14 +548,69 @@ public final class PluggyTesty extends JavaPlugin {
 
             return true;
         });
+
+        Objects.requireNonNull(getCommand("printrooms")).setExecutor((sender, command, label, args) -> {
+            sender.sendMessage("Rooms: ");
+
+            synchronized (roomInformationBiMap) {
+                for (final var entry : roomInformationBiMap.entrySet()) {
+                    sender.sendMessage("id: " + entry.getKey());
+                    sender.sendMessage(entry.getValue().toString());
+                    sender.sendMessage();
+                }
+            }
+
+            return true;
+        });
+    }
+
+    public void loadRooms() {
+        roomInformationBiMap.clear();
+
+        // Create gson instance to load the rooms
+        final var gson = new GsonBuilder()
+                .registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter(getDataFolder().toPath().resolve("data/schematics/rooms")))
+                .registerTypeAdapter(RoomType.class, new RoomTypeTypeAdapter())
+                .registerTypeHierarchyAdapter(RoomDoor.class, new RoomDoorTypeAdapter())
+                .create();
+
+        final Path roomsFolder = getDataFolder().toPath().resolve("data/rooms").normalize();
+
+        try (final var walk = Files.walk(roomsFolder)) {
+            walk
+                    .filter(Files::isRegularFile)
+                    .filter(path -> com.google.common.io.Files.getFileExtension(path.getFileName().toString()).equals("json"))
+                    .forEach(path -> {
+                        // grab relative path for the room's id
+                        final Path relativePath = roomsFolder.relativize(path).normalize();
+                        final String id = relativePath.toString();
+
+                        // load the room's information
+                        try (final var reader = new BufferedReader(new FileReader(path.toFile()))) {
+                            final RoomInformation roomInfo = gson.fromJson(reader, RoomInformation.class);
+
+                            synchronized (roomInformationBiMap) {
+                                roomInformationBiMap.put(id, roomInfo);
+                            }
+
+                            Debug.success("loaded room '" + id + "'");
+                        } catch (IOException e) {
+                            Debug.alwaysError("failed to load room '" + id + "'\n(IOException: " + e.getMessage() + ")");
+                        } catch (JsonParseException e) {
+                            Debug.alwaysError("failed to parse room '" + id + "'\n(" + e.getMessage() + ")");
+                        }
+                    });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static List<RoomDoor> fourDoorsSameHeight(int heightOffset) {
         return List.of(
-                new RoomDoor(BlockFace.NORTH, Material.DIRT, heightOffset),
-                new RoomDoor(BlockFace.SOUTH, Material.DIRT, heightOffset),
-                new RoomDoor(BlockFace.EAST, Material.DIRT, heightOffset),
-                new RoomDoor(BlockFace.WEST, Material.DIRT, heightOffset)
+                new ConsistentHeightRoomDoor(BlockFace.NORTH, Material.DIRT, heightOffset),
+                new ConsistentHeightRoomDoor(BlockFace.SOUTH, Material.DIRT, heightOffset),
+                new ConsistentHeightRoomDoor(BlockFace.EAST, Material.DIRT, heightOffset),
+                new ConsistentHeightRoomDoor(BlockFace.WEST, Material.DIRT, heightOffset)
         );
     }
 

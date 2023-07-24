@@ -48,6 +48,10 @@ public enum RoomType {
         return Optional.empty();
     }
 
+    public String getId() {
+        return id;
+    }
+
     public @NotNull RoomConstructor getConstructor() {
         return constructor;
     }

@@ -1,11 +1,7 @@
 package co.tantleffbeef.pluggytesty.expeditions.loading.roomloading;
 
-import co.tantleffbeef.pluggytesty.expeditions.loading.RoomDoor;
-import co.tantleffbeef.pluggytesty.expeditions.loading.RoomInformationInstance;
-import co.tantleffbeef.pluggytesty.expeditions.loading.RoomInformation;
-import co.tantleffbeef.pluggytesty.expeditions.loading.RoomInformationCollection;
+import co.tantleffbeef.pluggytesty.expeditions.loading.*;
 import co.tantleffbeef.pluggytesty.misc.Debug;
-import com.google.gson.JsonObject;
 import org.bukkit.block.BlockFace;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
@@ -21,11 +17,15 @@ public class RandomRoomLoader implements RoomLoader {
     // TODO: remove the room_size thing
     private final static int ROOM_SIZE = 25;
 
-    public static @NotNull RoomLoader from(@NotNull JsonObject json, @NotNull RoomInformationCollection collection) {
-        final var requiredRoomList = new ArrayList<RoomInformation>();
-        final var optionalRoomList = new ArrayList<>();
-
-        return new RandomRoomLoader(null, null, null, null, 0);
+    @Override
+    public String toString() {
+        return "RandomRoomLoader{" +
+                "firstRoom=" + firstRoom +
+                ", lastRoom=" + lastRoom +
+                ", requiredRooms=" + requiredRooms +
+                ", optionalRooms=" + optionalRooms +
+                ", numOptional=" + numOptional +
+                '}';
     }
 
     private static class RandomRoomDoor {
@@ -129,8 +129,7 @@ public class RandomRoomLoader implements RoomLoader {
                 roomsOffsetFromStart,
                 roomsList,
                 doors,
-                new RoomInformationInstance(firstRoom, firstRoom.getDoors(), new Vector3i(), 0),
-                ROOM_SIZE
+                new RoomInformationInstance(firstRoom, firstRoom.getDoors(), new Vector3i(), 0, 0)
         );
 
         // Then randomly generate
@@ -139,12 +138,12 @@ public class RandomRoomLoader implements RoomLoader {
             final var roomInstance = pickLocationAndGenerateInstance(room, random, doors);
 
             // add the room
-            addRoom(roomsOffsetFromStart, roomsList, doors, roomInstance, ROOM_SIZE);
+            addRoom(roomsOffsetFromStart, roomsList, doors, roomInstance);
         }
 
         // lastly make final room
         final var finalRoomInstance = pickLocationAndGenerateInstance(lastRoom, random, doors);
-        addRoom(roomsOffsetFromStart, roomsList, doors, finalRoomInstance, ROOM_SIZE);
+        addRoom(roomsOffsetFromStart, roomsList, doors, finalRoomInstance);
 
         return roomsOffsetFromStart.values();
     }
@@ -171,14 +170,14 @@ public class RandomRoomLoader implements RoomLoader {
         final int yaw = calculateYaw(existingDoor, newDoor);
         final Vector3i offset = calculateOffset(existingDoor.room,
                 existingDoor.door.getDirection(),
-                existingDoor.door.getHeightOffset(),
-                newDoor.getHeightOffset(),
-                ROOM_SIZE);
+                existingDoor.door.getHeightOffset(random.nextInt()),
+                newDoor.getHeightOffset(random.nextInt())
+        );
 
         final List<RoomDoor> rotatedDoors = new ArrayList<>();
-        roomDoors.forEach(door -> rotatedDoors.add(new RoomDoor(rotateFace(door.getDirection(), yaw), door.getReplacementMaterial(), door.getHeightOffset())));
+        roomDoors.forEach(door -> rotatedDoors.add(new ConsistentHeightRoomDoor(rotateFace(door.getDirection(), yaw), door.getReplacementMaterial(), door.getHeightOffset(random.nextInt()))));
 
-        return new RoomInformationInstance(room, rotatedDoors, offset, yaw);
+        return new RoomInformationInstance(room, rotatedDoors, offset, yaw, random.nextInt());
     }
 
     private int calculateYaw(@NotNull RandomRoomDoor existingDoor, @NotNull RoomDoor newDoor) {
@@ -197,8 +196,7 @@ public class RandomRoomLoader implements RoomLoader {
     private Vector3i calculateOffset(@NotNull RoomInformationInstance existingRoom,
                                      @NotNull BlockFace newRoomDirection,
                                      int existingDoorHeightOffset,
-                                     int newDoorHeightOffset,
-                                     int roomSize) {
+                                     int newDoorHeightOffset) {
         final var existingRoomOffset = existingRoom.getOffset();
 
         // calculate where the new room will be on the y
@@ -208,10 +206,10 @@ public class RandomRoomLoader implements RoomLoader {
         int z = existingRoomOffset.z();
 
         switch (newRoomDirection) {
-            case SOUTH -> z += roomSize;
-            case NORTH -> z -= roomSize;
-            case EAST -> x += roomSize;
-            case WEST -> x -= roomSize;
+            case SOUTH -> z += RandomRoomLoader.ROOM_SIZE;
+            case NORTH -> z -= RandomRoomLoader.ROOM_SIZE;
+            case EAST -> x += RandomRoomLoader.ROOM_SIZE;
+            case WEST -> x -= RandomRoomLoader.ROOM_SIZE;
         }
 
         return new Vector3i(x, y, z);
@@ -220,8 +218,7 @@ public class RandomRoomLoader implements RoomLoader {
     private void addRoom(@NotNull Map<Vector2ic, RoomInformationInstance> roomsOffsetFromStart,
                          @NotNull List<RoomInformationInstance> roomsList,
                          @NotNull List<RandomRoomDoor> doors,
-                         @NotNull RoomInformationInstance newRoom,
-                         int roomSize) {
+                         @NotNull RoomInformationInstance newRoom) {
         //assert !roomsOffsetFromStart.containsKey(newRoom.getOffset()); TODO
         final Vector3ic offset = newRoom.getOffset();
         final var offset2d = new Vector2i(offset.x(), offset.z());
@@ -244,7 +241,7 @@ public class RandomRoomLoader implements RoomLoader {
         newRoom.getDoors().forEach(door -> doorDirections.put(door.getDirection(), new RandomRoomDoor(newRoom, door)));
 
         // North
-        final var northOffset = new Vector2i(offset2d).add(0, -roomSize);
+        final var northOffset = new Vector2i(offset2d).add(0, -RandomRoomLoader.ROOM_SIZE);
         if (roomsOffsetFromStart.containsKey(northOffset)) {
             Debug.info("north offset found");
             final var northRoom = roomsOffsetFromStart.get(northOffset);
@@ -265,7 +262,7 @@ public class RandomRoomLoader implements RoomLoader {
         }
 
         // South
-        final var southOffset = new Vector2i(offset2d).add(0, roomSize);
+        final var southOffset = new Vector2i(offset2d).add(0, RandomRoomLoader.ROOM_SIZE);
         if (roomsOffsetFromStart.containsKey(southOffset)) {
             final var southRoom = roomsOffsetFromStart.get(southOffset);
             if (southRoom == null)
@@ -285,7 +282,7 @@ public class RandomRoomLoader implements RoomLoader {
         }
 
         // East
-        final var eastOffset = new Vector2i(offset2d).add(roomSize, 0);
+        final var eastOffset = new Vector2i(offset2d).add(RandomRoomLoader.ROOM_SIZE, 0);
         if (roomsOffsetFromStart.containsKey(eastOffset)) {
             final var eastRoom = roomsOffsetFromStart.get(eastOffset);
             if (eastRoom == null)
@@ -305,7 +302,7 @@ public class RandomRoomLoader implements RoomLoader {
         }
 
         // West
-        final var westOffset = new Vector2i(offset2d).add(-roomSize, 0);
+        final var westOffset = new Vector2i(offset2d).add(-RandomRoomLoader.ROOM_SIZE, 0);
         if (roomsOffsetFromStart.containsKey(westOffset)) {
             final var westRoom = roomsOffsetFromStart.get(westOffset);
             if (westRoom == null)
