@@ -14,9 +14,7 @@ import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
-import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.PathTypeAdapter;
-import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.RoomDoorTypeAdapter;
-import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.RoomTypeTypeAdapter;
+import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.*;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
@@ -49,7 +47,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonSyntaxException;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.sk89q.worldedit.EmptyClipboardException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -96,6 +93,7 @@ public final class PluggyTesty extends JavaPlugin {
     private GooberStateController gooberStateController;
     private PartyManager partyManager;
     private final BiMap<String, RoomInformation> roomInformationBiMap = HashBiMap.create();
+    private final BiMap<String, ExpeditionInformation> expeditionInformationBiMap = HashBiMap.create();
 
     @Override
     public void onLoad() {
@@ -337,7 +335,7 @@ public final class PluggyTesty extends JavaPlugin {
         addCustomAttributes();
 
         // load rooms asynchronously
-        getServer().getScheduler().runTaskAsynchronously(this, this::loadRooms);
+        getServer().getScheduler().runTaskAsynchronously(this, this::loadRoomsAndExpeditions);
 
         // Check every once in a while if player inventories need to be updated
         /*new BukkitRunnable() {
@@ -537,6 +535,7 @@ public final class PluggyTesty extends JavaPlugin {
                             lastRoom,
                             requiredRooms,
                             optionalRooms,
+                            25,
                             numOptional
                     ),
                     ExpeditionType.TEST_EXPEDITION
@@ -562,9 +561,28 @@ public final class PluggyTesty extends JavaPlugin {
 
             return true;
         });
+
+        Objects.requireNonNull(getCommand("printexps")).setExecutor((sender, command, label, args) -> {
+            sender.sendMessage("Expeditions: ");
+
+            synchronized (expeditionInformationBiMap) {
+                for (final var entry : expeditionInformationBiMap.entrySet()) {
+                    sender.sendMessage("id: " + entry.getKey());
+                    sender.sendMessage(entry.getValue().toString());
+                    sender.sendMessage();
+                }
+            }
+
+            return true;
+        });
     }
 
-    public void loadRooms() {
+    public void loadRoomsAndExpeditions() {
+        loadRooms();
+        loadExpeditions();
+    }
+
+    private void loadRooms() {
         roomInformationBiMap.clear();
 
         // Create gson instance to load the rooms
@@ -598,6 +616,47 @@ public final class PluggyTesty extends JavaPlugin {
                             Debug.alwaysError("failed to load room '" + id + "'\n(IOException: " + e.getMessage() + ")");
                         } catch (JsonParseException e) {
                             Debug.alwaysError("failed to parse room '" + id + "'\n(" + e.getMessage() + ")");
+                        }
+                    });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void loadExpeditions() {
+        roomInformationBiMap.clear();
+
+        // Create gson instance to load the rooms
+        final var gson = new GsonBuilder()
+                // .registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter(getDataFolder().toPath().resolve("data/schematics/rooms")))
+                .registerTypeAdapter(ExpeditionType.class, new ExpeditionTypeTypeAdapter())
+                .registerTypeHierarchyAdapter(RoomLoaderTypeAdapter.class, new RoomLoaderTypeAdapter(roomInformationBiMap, getDataFolder().toPath().resolve("data/")))
+                .create();
+
+        final Path expeditionsFolder = getDataFolder().toPath().resolve("data/expeditions").normalize();
+
+        try (final var walk = Files.walk(expeditionsFolder)) {
+            walk
+                    .filter(Files::isRegularFile)
+                    .filter(path -> com.google.common.io.Files.getFileExtension(path.getFileName().toString()).equals("json"))
+                    .forEach(path -> {
+                        // grab relative path for the room's id
+                        final Path relativePath = expeditionsFolder.relativize(path).normalize();
+                        final String id = relativePath.toString();
+
+                        // load the room's information
+                        try (final var reader = new BufferedReader(new FileReader(path.toFile()))) {
+                            final ExpeditionInformation expInfo = gson.fromJson(reader, ExpeditionInformation.class);
+
+                            synchronized (expeditionInformationBiMap) {
+                                expeditionInformationBiMap.put(id, expInfo);
+                            }
+
+                            Debug.success("loaded expedition '" + id + "'");
+                        } catch (IOException e) {
+                            Debug.alwaysError("failed to load expedition '" + id + "'\n(IOException: " + e.getMessage() + ")");
+                        } catch (JsonParseException e) {
+                            Debug.alwaysError("failed to parse expedition '" + id + "'\n(" + e.getMessage() + ")");
                         }
                     });
         } catch (IOException e) {

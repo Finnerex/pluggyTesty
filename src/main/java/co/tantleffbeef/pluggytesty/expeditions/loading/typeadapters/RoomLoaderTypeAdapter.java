@@ -16,8 +16,9 @@ public class RoomLoaderTypeAdapter implements JsonDeserializer<RoomLoader>, Json
     private final Gson gson;
 
     public RoomLoaderTypeAdapter(@NotNull BiMap<String, RoomInformation> roomInformationBiMap, @NotNull Path basePath) {
+        // TODO: figure out if this one needs to be here
         gson = new GsonBuilder()
-                .registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter(basePath))
+                // .registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter(basePath))
                 .registerTypeAdapter(RoomInformation.class, new RoomInformationTypeAdapter(roomInformationBiMap))
                 .registerTypeAdapter(RoomType.class, new RoomTypeTypeAdapter())
                 .create();

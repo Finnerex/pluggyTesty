@@ -39,6 +39,8 @@ commands:
     aliases: ["si"]
   printrooms:
     description: prints the rooms
+  printexps:
+    description: prints the expeditions
   leaveexpedition:
     description: removes you from being on whatever expedition
     aliases: ["le"]

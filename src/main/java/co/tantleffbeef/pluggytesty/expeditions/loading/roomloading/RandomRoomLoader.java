@@ -14,8 +14,6 @@ import java.util.*;
 import static co.tantleffbeef.pluggytesty.misc.BlockFaceMath.*;
 
 public class RandomRoomLoader implements RoomLoader {
-    // TODO: remove the room_size thing
-    private final static int ROOM_SIZE = 25;
 
     @Override
     public String toString() {
@@ -56,6 +54,7 @@ public class RandomRoomLoader implements RoomLoader {
     private final RoomInformation lastRoom;
     private final List<RoomInformation> requiredRooms;
     private final List<RoomInformation> optionalRooms;
+    private final int roomSize;
     private final int numOptional;
 
     /**
@@ -73,11 +72,13 @@ public class RandomRoomLoader implements RoomLoader {
                             @NotNull RoomInformation endingRoom,
                             @NotNull List<RoomInformation> requiredRooms,
                             @NotNull List<RoomInformation> optionalRooms,
+                            int roomSize,
                             int numOptional) {
         this.firstRoom = startingRoom;
         this.lastRoom = endingRoom;
         this.requiredRooms = requiredRooms;
         this.optionalRooms = optionalRooms;
+        this.roomSize = roomSize;
         this.numOptional = numOptional;
 
         checkRooms();
@@ -206,10 +207,10 @@ public class RandomRoomLoader implements RoomLoader {
         int z = existingRoomOffset.z();
 
         switch (newRoomDirection) {
-            case SOUTH -> z += RandomRoomLoader.ROOM_SIZE;
-            case NORTH -> z -= RandomRoomLoader.ROOM_SIZE;
-            case EAST -> x += RandomRoomLoader.ROOM_SIZE;
-            case WEST -> x -= RandomRoomLoader.ROOM_SIZE;
+            case SOUTH -> z += roomSize;
+            case NORTH -> z -= roomSize;
+            case EAST -> x += roomSize;
+            case WEST -> x -= roomSize;
         }
 
         return new Vector3i(x, y, z);
@@ -241,7 +242,7 @@ public class RandomRoomLoader implements RoomLoader {
         newRoom.getDoors().forEach(door -> doorDirections.put(door.getDirection(), new RandomRoomDoor(newRoom, door)));
 
         // North
-        final var northOffset = new Vector2i(offset2d).add(0, -RandomRoomLoader.ROOM_SIZE);
+        final var northOffset = new Vector2i(offset2d).add(0, -roomSize);
         if (roomsOffsetFromStart.containsKey(northOffset)) {
             Debug.info("north offset found");
             final var northRoom = roomsOffsetFromStart.get(northOffset);
@@ -262,7 +263,7 @@ public class RandomRoomLoader implements RoomLoader {
         }
 
         // South
-        final var southOffset = new Vector2i(offset2d).add(0, RandomRoomLoader.ROOM_SIZE);
+        final var southOffset = new Vector2i(offset2d).add(0, roomSize);
         if (roomsOffsetFromStart.containsKey(southOffset)) {
             final var southRoom = roomsOffsetFromStart.get(southOffset);
             if (southRoom == null)
@@ -282,7 +283,7 @@ public class RandomRoomLoader implements RoomLoader {
         }
 
         // East
-        final var eastOffset = new Vector2i(offset2d).add(RandomRoomLoader.ROOM_SIZE, 0);
+        final var eastOffset = new Vector2i(offset2d).add(roomSize, 0);
         if (roomsOffsetFromStart.containsKey(eastOffset)) {
             final var eastRoom = roomsOffsetFromStart.get(eastOffset);
             if (eastRoom == null)
@@ -302,7 +303,7 @@ public class RandomRoomLoader implements RoomLoader {
         }
 
         // West
-        final var westOffset = new Vector2i(offset2d).add(-RandomRoomLoader.ROOM_SIZE, 0);
+        final var westOffset = new Vector2i(offset2d).add(-roomSize, 0);
         if (roomsOffsetFromStart.containsKey(westOffset)) {
             final var westRoom = roomsOffsetFromStart.get(westOffset);
             if (westRoom == null)
