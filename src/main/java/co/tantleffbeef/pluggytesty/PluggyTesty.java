@@ -13,6 +13,7 @@ import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
+import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.*;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
@@ -652,7 +653,7 @@ public final class PluggyTesty extends JavaPlugin {
         final var gson = new GsonBuilder()
                 // .registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter(getDataFolder().toPath().resolve("data/schematics/rooms")))
                 .registerTypeAdapter(ExpeditionType.class, new ExpeditionTypeTypeAdapter())
-                .registerTypeHierarchyAdapter(RoomLoaderTypeAdapter.class, new RoomLoaderTypeAdapter(roomInformationBiMap, getDataFolder().toPath().resolve("data/")))
+                .registerTypeHierarchyAdapter(RoomLoader.class, new RoomLoaderTypeAdapter(roomInformationBiMap, getDataFolder().toPath().resolve("data/")))
                 .create();
 
         final Path expeditionsFolder = getDataFolder().toPath().resolve("data/expeditions").normalize();
