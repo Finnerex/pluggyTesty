@@ -603,7 +603,9 @@ public final class PluggyTesty extends JavaPlugin {
     }
 
     private void loadRooms() {
-        roomInformationBiMap.clear();
+        synchronized (roomInformationBiMap) {
+            roomInformationBiMap.clear();
+        }
 
         // Create gson instance to load the rooms
         final var gson = new GsonBuilder()
@@ -621,7 +623,7 @@ public final class PluggyTesty extends JavaPlugin {
                     .forEach(path -> {
                         // grab relative path for the room's id
                         final Path relativePath = roomsFolder.relativize(path).normalize();
-                        final String id = relativePath.toString();
+                        final String id = com.google.common.io.Files.getNameWithoutExtension(relativePath.toString());
 
                         // load the room's information
                         try (final var reader = new BufferedReader(new FileReader(path.toFile()))) {
@@ -662,7 +664,7 @@ public final class PluggyTesty extends JavaPlugin {
                     .forEach(path -> {
                         // grab relative path for the room's id
                         final Path relativePath = expeditionsFolder.relativize(path).normalize();
-                        final String id = relativePath.toString();
+                        final String id = com.google.common.io.Files.getNameWithoutExtension(relativePath.toString());
 
                         // load the room's information
                         try (final var reader = new BufferedReader(new FileReader(path.toFile()))) {
