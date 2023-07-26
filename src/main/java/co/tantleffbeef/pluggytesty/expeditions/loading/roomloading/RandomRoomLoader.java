@@ -15,17 +15,6 @@ import static co.tantleffbeef.pluggytesty.misc.BlockFaceMath.*;
 
 public class RandomRoomLoader implements RoomLoader {
 
-    @Override
-    public String toString() {
-        return "RandomRoomLoader{" +
-                "firstRoom=" + firstRoom +
-                ", lastRoom=" + lastRoom +
-                ", requiredRooms=" + requiredRooms +
-                ", optionalRooms=" + optionalRooms +
-                ", numOptional=" + numOptional +
-                '}';
-    }
-
     private static class RandomRoomDoor {
         public final RoomInformationInstance room;
 
@@ -100,6 +89,18 @@ public class RandomRoomLoader implements RoomLoader {
             if (optionalRooms.get(i).getDoors() == null)
                 throw new IllegalArgumentException("Optional room " + i + " does not have a doors list");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "RandomRoomLoader{" +
+                "firstRoom=" + firstRoom +
+                ", lastRoom=" + lastRoom +
+                ", requiredRooms=" + requiredRooms +
+                ", optionalRooms=" + optionalRooms +
+                ", roomSize=" + roomSize +
+                ", numOptional=" + numOptional +
+                '}';
     }
 
     @Override

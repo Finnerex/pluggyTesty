@@ -1,0 +1,16 @@
+{
+  "roomLoader": {
+    "type": "random",
+    "firstRoom": "te_room1",
+    "lastRoom": "te_room1",
+    "requiredRooms": [
+      "te_room1"
+    ],
+    "optionalRooms": [
+      "te_room1"
+    ],
+    "roomSize": 25,
+    "numOptional": 2
+  },
+  "expeditionType": "default"
+}
