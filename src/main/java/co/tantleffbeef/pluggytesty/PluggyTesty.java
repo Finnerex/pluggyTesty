@@ -629,6 +629,7 @@ public final class PluggyTesty extends JavaPlugin {
                         // load the room's information
                         try (final var reader = new BufferedReader(new FileReader(path.toFile()))) {
                             final RoomInformation roomInfo = gson.fromJson(reader, RoomInformation.class);
+                            Debug.info("roomInfo: " + roomInfo);
 
                             synchronized (roomInformationBiMap) {
                                 roomInformationBiMap.put(id, roomInfo);
@@ -670,6 +671,7 @@ public final class PluggyTesty extends JavaPlugin {
                         // load the room's information
                         try (final var reader = new BufferedReader(new FileReader(path.toFile()))) {
                             final ExpeditionInformation expInfo = gson.fromJson(reader, ExpeditionInformation.class);
+                            Debug.info("expInfo: " + expInfo);
 
                             synchronized (expeditionInformationBiMap) {
                                 expeditionInformationBiMap.put(id, expInfo);
