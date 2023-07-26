@@ -549,6 +549,16 @@ public final class PluggyTesty extends JavaPlugin {
         });
 
         Objects.requireNonNull(getCommand("printrooms")).setExecutor((sender, command, label, args) -> {
+            if (args.length > 0) {
+                var id = args[0];
+                sender.sendMessage("Room with id: " + id);
+                synchronized (roomInformationBiMap) {
+                    sender.sendMessage(String.valueOf(roomInformationBiMap.get(id)));
+                }
+
+                return true;
+            }
+
             sender.sendMessage("Rooms: ");
 
             synchronized (roomInformationBiMap) {
@@ -563,6 +573,16 @@ public final class PluggyTesty extends JavaPlugin {
         });
 
         Objects.requireNonNull(getCommand("printexps")).setExecutor((sender, command, label, args) -> {
+            if (args.length > 0) {
+                var id = args[0];
+                sender.sendMessage("Expedition with id: " + id);
+                synchronized (expeditionInformationBiMap) {
+                    sender.sendMessage(String.valueOf(expeditionInformationBiMap.get(id)));
+                }
+
+                return true;
+            }
+
             sender.sendMessage("Expeditions: ");
 
             synchronized (expeditionInformationBiMap) {
