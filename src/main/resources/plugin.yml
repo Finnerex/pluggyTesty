@@ -44,3 +44,7 @@ commands:
   leaveexpedition:
     description: removes you from being on whatever expedition
     aliases: ["le"]
+  runexpedition:
+    description: runs an expedition
+    usage: "/runexpedition [player] (expedition name)"
+    aliases: ["rexp", "runexp"]

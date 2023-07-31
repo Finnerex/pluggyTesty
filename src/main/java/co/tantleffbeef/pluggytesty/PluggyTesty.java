@@ -11,6 +11,7 @@ import co.tantleffbeef.pluggytesty.attributes.CraftListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
+import co.tantleffbeef.pluggytesty.expeditions.commands.RunExpeditionCommand;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RoomLoader;
@@ -284,6 +285,7 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("trial3boss").setExecutor(new BossTrial3(this));
         getCommand("trial4boss").setExecutor(new BossTrial4(this));
         getCommand("trial5boss").setExecutor(new BossTrial5(this));
+        getCommand("runexpedition").setExecutor(new RunExpeditionCommand(expeditionInformationBiMap, getServer(), getServer().getScheduler(), expeditionBuilder, this, gooberStateController));
 
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
