@@ -648,7 +648,9 @@ public final class PluggyTesty extends JavaPlugin {
     }
 
     private void loadExpeditions() {
-        roomInformationBiMap.clear();
+        synchronized (expeditionInformationBiMap) {
+            expeditionInformationBiMap.clear();
+        }
 
         // Create gson instance to load the rooms
         final var gson = new GsonBuilder()
