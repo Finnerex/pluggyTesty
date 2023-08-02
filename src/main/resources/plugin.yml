@@ -48,3 +48,6 @@ commands:
     description: runs an expedition
     usage: "/runexpedition [player] (expedition name)"
     aliases: ["rexp", "runexp"]
+  reloadexpeditions:
+    description: reloads all expeditions and rooms
+    usage: "/reloadexpeditions"

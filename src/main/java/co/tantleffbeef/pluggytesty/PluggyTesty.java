@@ -11,6 +11,7 @@ import co.tantleffbeef.pluggytesty.attributes.CraftListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
+import co.tantleffbeef.pluggytesty.expeditions.commands.ReloadExpeditionsCommand;
 import co.tantleffbeef.pluggytesty.expeditions.commands.RunExpeditionCommand;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
@@ -59,6 +60,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockFace;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -77,6 +79,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Logger;
 
 @SuppressWarnings("unused")
 public final class PluggyTesty extends JavaPlugin {
@@ -286,6 +289,7 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("trial4boss").setExecutor(new BossTrial4(this));
         getCommand("trial5boss").setExecutor(new BossTrial5(this));
         getCommand("runexpedition").setExecutor(new RunExpeditionCommand(expeditionInformationBiMap, getServer(), getServer().getScheduler(), expeditionBuilder, this, gooberStateController));
+        getCommand("reloadexpeditions").setExecutor(new ReloadExpeditionsCommand(this));
 
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
@@ -338,7 +342,7 @@ public final class PluggyTesty extends JavaPlugin {
         addCustomAttributes();
 
         // load rooms asynchronously
-        getServer().getScheduler().runTaskAsynchronously(this, this::loadRoomsAndExpeditions);
+        getServer().getScheduler().runTaskAsynchronously(this, this::loadRoomsAndExpeditionsDefaultLogger);
 
         // Check every once in a while if player inventories need to be updated
         /*new BukkitRunnable() {
@@ -600,12 +604,19 @@ public final class PluggyTesty extends JavaPlugin {
         });
     }
 
-    public void loadRoomsAndExpeditions() {
-        loadRooms();
-        loadExpeditions();
+    public void loadRoomsAndExpeditionsDefaultLogger() {
+        loadRoomsAndExpeditions(null);
     }
 
-    private void loadRooms() {
+    public void loadRoomsAndExpeditions(@Nullable CommandSender logger) {
+        if (logger == null)
+            logger = getServer().getConsoleSender();
+
+        loadRooms(logger);
+        loadExpeditions(logger);
+    }
+
+    private void loadRooms(@NotNull CommandSender logger) {
         synchronized (roomInformationBiMap) {
             roomInformationBiMap.clear();
         }
@@ -631,17 +642,16 @@ public final class PluggyTesty extends JavaPlugin {
                         // load the room's information
                         try (final var reader = new BufferedReader(new FileReader(path.toFile()))) {
                             final RoomInformation roomInfo = gson.fromJson(reader, RoomInformation.class);
-                            Debug.info("roomInfo: " + roomInfo);
 
                             synchronized (roomInformationBiMap) {
                                 roomInformationBiMap.put(id, roomInfo);
                             }
 
-                            Debug.success("loaded room '" + id + "'");
+                            Debug.success(logger, "loaded room '" + id + "'");
                         } catch (IOException e) {
-                            Debug.alwaysError("failed to load room '" + id + "'\n(IOException: " + e.getMessage() + ")");
+                            Debug.alwaysError(logger, "failed to load room '" + id + "'\n(IOException: " + e.getMessage() + ")");
                         } catch (JsonParseException e) {
-                            Debug.alwaysError("failed to parse room '" + id + "'\n(" + e.getMessage() + ")");
+                            Debug.alwaysError(logger, "failed to parse room '" + id + "'\n(" + e.getMessage() + ")");
                         }
                     });
         } catch (IOException e) {
@@ -649,7 +659,7 @@ public final class PluggyTesty extends JavaPlugin {
         }
     }
 
-    private void loadExpeditions() {
+    private void loadExpeditions(@NotNull CommandSender logger) {
         synchronized (expeditionInformationBiMap) {
             expeditionInformationBiMap.clear();
         }
@@ -675,17 +685,16 @@ public final class PluggyTesty extends JavaPlugin {
                         // load the room's information
                         try (final var reader = new BufferedReader(new FileReader(path.toFile()))) {
                             final ExpeditionInformation expInfo = gson.fromJson(reader, ExpeditionInformation.class);
-                            Debug.info("expInfo: " + expInfo);
 
                             synchronized (expeditionInformationBiMap) {
                                 expeditionInformationBiMap.put(id, expInfo);
                             }
 
-                            Debug.success("loaded expedition '" + id + "'");
+                            Debug.success(logger, "loaded expedition '" + id + "'");
                         } catch (IOException e) {
-                            Debug.alwaysError("failed to load expedition '" + id + "'\n(IOException: " + e.getMessage() + ")");
+                            Debug.alwaysError(logger, "failed to load expedition '" + id + "'\n(IOException: " + e.getMessage() + ")");
                         } catch (JsonParseException e) {
-                            Debug.alwaysError("failed to parse expedition '" + id + "'\n(" + e.getMessage() + ")");
+                            Debug.alwaysError(logger, "failed to parse expedition '" + id + "'\n(" + e.getMessage() + ")");
                         }
                     });
         } catch (IOException e) {
