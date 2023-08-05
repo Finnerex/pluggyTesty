@@ -85,6 +85,8 @@ public class ExpeditionBuilder {
             // so we can adjust the whole room over
             final var minimumPos = new Vector3i(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
 
+            int tempOffset = 0;
+
             // Loop through every room to find the minimum position
             for (var room : roomInfoList) {
 //                final var info = room.roomInformation;
@@ -93,9 +95,11 @@ public class ExpeditionBuilder {
                 if (offset.x() < minimumPos.x)
                     minimumPos.x = offset.x();
                 if (offset.y() < minimumPos.y)
-                    minimumPos.y = offset.y();
+                    minimumPos.y = offset.y() + tempOffset;
                 if (offset.z() < minimumPos.z)
                     minimumPos.z = offset.z();
+
+                tempOffset++;
             }
 
             Debug.log("minimum pos: " + minimumPos);
