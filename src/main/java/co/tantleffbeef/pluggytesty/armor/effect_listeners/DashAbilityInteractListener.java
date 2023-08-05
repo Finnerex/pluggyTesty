@@ -21,6 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class DashAbilityInteractListener implements Listener {
 
     private final Plugin plugin;
+    private final int DASH_CD_TICKS = 60;
 
     public DashAbilityInteractListener(Plugin plugin) {
         this.plugin = plugin;
@@ -28,6 +29,7 @@ public class DashAbilityInteractListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+
 
         if (event.getAction() != Action.LEFT_CLICK_AIR)
             return;
@@ -40,7 +42,7 @@ public class DashAbilityInteractListener implements Listener {
         if (ArmorEquipListener.effectMap.get(player.getUniqueId()) != ArmorEffectType.DASH)
             return;
 
-        // use the boots to hold the double click timer
+        // use the boots to hold the double click timer OMG EPIC COMMENT
         ItemStack boots = player.getInventory().getBoots();
         assert boots != null;
 
@@ -58,7 +60,7 @@ public class DashAbilityInteractListener implements Listener {
         player.setVelocity(player.getVelocity().add(player.getEyeLocation().getDirection().multiply(2)));
         player.getWorld().playSound(player, Sound.ENTITY_FISHING_BOBBER_RETRIEVE, 1, 1);
 
-        player.setCooldown(cp.getType(), 90);
+        player.setCooldown(cp.getType(), DASH_CD_TICKS);
 
         BukkitRunnable runnable = new BukkitRunnable() {
 
@@ -66,12 +68,12 @@ public class DashAbilityInteractListener implements Listener {
             @Override
             public void run() {
 
-                if (runs > 18) {
+                if (runs > DASH_CD_TICKS / 5) {
                     cancel();
                     return;
                 }
 
-                String red = "|".repeat(90/5 - runs);
+                String red = "|".repeat(DASH_CD_TICKS/5 - runs);
                 String green = "|".repeat(runs);
 
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
