@@ -21,7 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class DashAbilityInteractListener implements Listener {
 
     private final Plugin plugin;
-    private final int DASH_CD_TICKS = 60;
+    private final int DASH_CD_TICKS = 45;
 
     public DashAbilityInteractListener(Plugin plugin) {
         this.plugin = plugin;
