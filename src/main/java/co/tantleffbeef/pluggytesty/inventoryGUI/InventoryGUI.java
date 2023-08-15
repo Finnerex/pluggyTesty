@@ -30,8 +30,8 @@ public class InventoryGUI {
 
         ItemMeta meta = fillEmpty.getItemMeta();
 
-        meta.setDisplayName("");
-        meta.setLore(List.of(""));
+        meta.setDisplayName(" ");
+        meta.setLore(List.of(" "));
 
         fillEmpty.setItemMeta(meta);
 
