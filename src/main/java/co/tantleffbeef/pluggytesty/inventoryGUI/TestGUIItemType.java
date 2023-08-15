@@ -21,7 +21,8 @@ public class TestGUIItemType extends SimpleItemType implements InteractableItemT
         super(namespace, id, customModel, name, Material.ACACIA_LOG);
 
 
-        gui = new InventoryGUI(18, "TestGUI", Material.BLACK_BED, namespace.getServer());
+        gui = new InventoryGUI(18, "TestGUI", Material.PINK_STAINED_GLASS_PANE, namespace.getServer());
+
         gui.addButton(new InventoryButton((event) -> {
             Entity e = event.getWhoClicked();
             e.getWorld().playSound(e, Sound.ENTITY_BAT_AMBIENT, 1, 1);

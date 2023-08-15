@@ -26,6 +26,8 @@ public class InventoryGUI {
     public InventoryGUI(int size, String name, ItemStack fillEmpty, Server server) {
         buttons = new HashMap<>();
 
+        fillEmpty.setItemMeta(null);
+
         inventory = server.createInventory(null, size, name);
         for (int i = 0; i < inventory.getSize(); i++) {
             inventory.setItem(i, fillEmpty);
