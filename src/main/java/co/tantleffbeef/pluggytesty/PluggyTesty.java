@@ -20,6 +20,8 @@ import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomL
 import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.*;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
+import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryGUIManager;
+import co.tantleffbeef.pluggytesty.inventoryGUI.TestGUIItemType;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
 import co.tantleffbeef.pluggytesty.bosses.*;
 import co.tantleffbeef.pluggytesty.custom.item.utility.*;
@@ -321,9 +323,10 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PartyFriendlyFireListener(partyManager), this);
         getServer().getPluginManager().registerEvents(new GooberStateListener(gooberStateController, getServer()), this);
         getServer().getPluginManager().registerEvents(new DisabledRecipeManager(this, gooberStateController, nbtKeyManager), this);
+        getServer().getPluginManager().registerEvents(new InventoryGUIManager(), this);
 
 
-        ArmorEquipEvent.registerListener(this);
+                ArmorEquipEvent.registerListener(this);
 
         registerRecipes();
 
@@ -751,6 +754,9 @@ public final class PluggyTesty extends JavaPlugin {
     }
 
     private void registerItems() {
+        // Testing
+        resourceManager.registerItem(new TestGUIItemType(this, "gui_tester", false, "GUI Tester"));
+
         // Weapons
         resourceManager.registerItem(new MagicStickItemType(this, "magic_stick", false, "Magic Stick"));
         resourceManager.registerItem(new AxeOfYourMotherItemType(this, "mother_axe", false, ChatColor.AQUA + "Axe of Your Mother"));

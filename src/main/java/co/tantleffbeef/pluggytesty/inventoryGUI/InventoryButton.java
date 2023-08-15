@@ -1,0 +1,31 @@
+package co.tantleffbeef.pluggytesty.inventoryGUI;
+
+import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.function.Consumer;
+
+public class InventoryButton {
+
+    private final Consumer<InventoryClickEvent> clickEventConsumer;
+    private final ItemStack icon;
+
+    public InventoryButton(Consumer<InventoryClickEvent> clickEventConsumer, Material icon) {
+        this(clickEventConsumer, new ItemStack(icon));
+    }
+
+    public InventoryButton(Consumer<InventoryClickEvent> clickEventConsumer, ItemStack icon) {
+        this.clickEventConsumer = clickEventConsumer;
+        this.icon = icon;
+    }
+
+    public ItemStack getIcon() {
+        return icon;
+    }
+
+    public void click(InventoryClickEvent event) {
+        clickEventConsumer.accept(event);
+    }
+
+}
