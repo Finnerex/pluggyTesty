@@ -34,7 +34,7 @@ public class InventoryGUI {
         buttons.put(slot, button);
         inventory.setItem(slot, button.getIcon());
         return this;
-    }
+    } // phart
 
     public InventoryButton getButton(int slot) {
         return buttons.get(slot);
