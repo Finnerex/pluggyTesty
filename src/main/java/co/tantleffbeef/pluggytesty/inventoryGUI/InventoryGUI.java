@@ -5,6 +5,7 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -26,7 +27,12 @@ public class InventoryGUI {
     public InventoryGUI(int size, String name, ItemStack fillEmpty, Server server) {
         buttons = new HashMap<>();
 
-        fillEmpty.setItemMeta(null);
+        ItemMeta meta = fillEmpty.getItemMeta();
+
+        meta.setDisplayName(null);
+        meta.setLore(null);
+
+        fillEmpty.setItemMeta(meta);
 
         inventory = server.createInventory(null, size, name);
         for (int i = 0; i < inventory.getSize(); i++) {
