@@ -4,7 +4,9 @@ import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -20,6 +22,15 @@ public class TestGUIItemType extends SimpleItemType implements InteractableItemT
 
 
         gui = new InventoryGUI(18, "TestGUI", Material.BLACK_BED, namespace.getServer());
+        gui.addButton(new InventoryButton((event) -> {
+            Entity e = event.getWhoClicked();
+            e.getWorld().playSound(e, Sound.ENTITY_BAT_AMBIENT, 1, 1);
+        }, Material.BAMBOO, "Bat", "play the bat", "ambient sfx"), 3)
+
+        .addButton(new InventoryButton((event) -> {
+            Entity e = event.getWhoClicked();
+            e.getWorld().createExplosion(e.getLocation(), 20, false, false);
+        }, Material.TNT, "Explode!!", "(explode)"), 7);
     }
 
     @Override

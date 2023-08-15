@@ -27,14 +27,16 @@ public class InventoryGUI {
         buttons = new HashMap<>();
 
         inventory = server.createInventory(null, size, name);
-        inventory.all(fillEmpty);
+        for (int i = 0; i < inventory.getSize(); i++) {
+            inventory.setItem(i, fillEmpty);
+        }
     }
 
     public InventoryGUI addButton(InventoryButton button, int slot) {
         buttons.put(slot, button);
         inventory.setItem(slot, button.getIcon());
         return this;
-    } // phart
+    }
 
     public InventoryButton getButton(int slot) {
         return buttons.get(slot);
