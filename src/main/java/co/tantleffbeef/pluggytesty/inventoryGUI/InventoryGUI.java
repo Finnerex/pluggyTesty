@@ -7,8 +7,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.awt.*;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class InventoryGUI {
@@ -29,8 +30,8 @@ public class InventoryGUI {
 
         ItemMeta meta = fillEmpty.getItemMeta();
 
-        meta.setDisplayName(null);
-        meta.setLore(null);
+        meta.setDisplayName("");
+        meta.setLore(List.of(""));
 
         fillEmpty.setItemMeta(meta);
 
