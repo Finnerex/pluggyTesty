@@ -63,7 +63,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
             inside.setTransformation(transformation);
         });
 
-        PluggyTesty.removeOnDisable.add(glass);
+        //PluggyTesty.removeOnDisable.add(glass);
 
         BukkitRunnable runnable = new BukkitRunnable() {
 
