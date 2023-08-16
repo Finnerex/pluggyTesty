@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import co.tantleffbeef.pluggytesty.PluggyTesty;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -62,6 +63,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
             inside.setTransformation(transformation);
         });
 
+        PluggyTesty.removeOnDisable.add(glass);
 
         BukkitRunnable runnable = new BukkitRunnable() {
 

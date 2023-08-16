@@ -63,6 +63,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -76,9 +77,7 @@ import org.joml.Vector3i;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
@@ -86,11 +85,10 @@ import java.util.logging.Logger;
 @SuppressWarnings("unused")
 public final class PluggyTesty extends JavaPlugin {
     public static final int DEFAULT_PLAYER_LEVEL = 0;
-
     private static final long PARTY_INVITE_EXPIRATION_TIME_SECONDS = 60L;
+    public static final Collection<Entity> removeOnDisable = new ArrayList<>();
 
     private ResourceManager resourceManager;
-
     private BlockManager blockManager;
     private RecipeManager recipeManager;
     private KeyManager<CustomNbtKey> nbtKeyManager;
@@ -324,6 +322,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GooberStateListener(gooberStateController, getServer()), this);
         getServer().getPluginManager().registerEvents(new DisabledRecipeManager(this, gooberStateController, nbtKeyManager), this);
         getServer().getPluginManager().registerEvents(new InventoryGUIManager(), this);
+        getServer().getPluginManager().registerEvents(new EntityDeathGarbageCollector(), this);
 
 
                 ArmorEquipEvent.registerListener(this);
@@ -943,6 +942,13 @@ public final class PluggyTesty extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
+        removeOnDisable.forEach((entity) -> {
+            removeOnDisable.remove(entity);
+            entity.remove();
+            Debug.log("Removed entity: " + entity);
+        });
+
         getLogger().info("no more");
     }
 
