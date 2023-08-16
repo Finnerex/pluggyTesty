@@ -322,7 +322,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GooberStateListener(gooberStateController, getServer()), this);
         getServer().getPluginManager().registerEvents(new DisabledRecipeManager(this, gooberStateController, nbtKeyManager), this);
         getServer().getPluginManager().registerEvents(new InventoryGUIManager(), this);
-        getServer().getPluginManager().registerEvents(new EntityDeathGarbageCollector(), this);
+//        getServer().getPluginManager().registerEvents(new EntityDeathGarbageCollector(), this);
 
 
                 ArmorEquipEvent.registerListener(this);
