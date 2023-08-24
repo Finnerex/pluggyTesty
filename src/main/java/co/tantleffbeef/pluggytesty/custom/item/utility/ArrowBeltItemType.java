@@ -97,7 +97,7 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             ItemStack arrowItem = getNextArrow(playerUUID, event.getConsumable(), inventory);
 
             event.setConsumeItem(false);
-            ItemStack item = inventory.getItem(inventory.first(arrowItem));
+            ItemStack item = inventory.getItem(inventory.first(arrowItem.getType()));
 
             Bukkit.broadcastMessage("arrow ItemStack: " + arrowItem);
             Bukkit.broadcastMessage("Inventory ItemStack" + item);
