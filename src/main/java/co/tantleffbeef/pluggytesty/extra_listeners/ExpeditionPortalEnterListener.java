@@ -1,14 +1,23 @@
 package co.tantleffbeef.pluggytesty.extra_listeners;
 
+import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
+import co.tantleffbeef.pluggytesty.expeditions.ExpeditionController;
+import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
+import co.tantleffbeef.pluggytesty.goober.GooberStateController;
+import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryButton;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryGUI;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalEnterEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.Plugin;
 
 import org.bukkit.Material;
+
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class ExpeditionPortalEnterListener implements Listener {
 
@@ -30,11 +39,38 @@ public class ExpeditionPortalEnterListener implements Listener {
                 "Zombie Expedition",           "Earth Expedition",        "North Outpost Expedition", "Lava Expedition",     "Darkness Expedition",
                 "Skeleton Expedition",         "Air Expedition",          "South Outpost Expedition", "Scorched Expedition", "Wasteland Expedition",
                 "Zombified Piglin Expedition", "Water Expedition",        "East Outpost Expedition",  "Soul Expedition",     "Happy Animals Expedition",
-                "Ice Expedition",              "West Outpost Expedition", "Piglin Expediton",
-                "Undead Trial", "Weather Trial", "Mansion Trial", };
+                                               "Ice Expedition",          "West Outpost Expedition",  "Piglin Expediton",
+                "Undead Trial",                "Weather Trial",           "Mansion Trial",            "Magma Trial",         "Decay Trial",        "The Final Trial"};
         final String[] lores = {"Undead", "Elemental", "Illager", "Nether", "Void", "Ending"};
 //        final Material[] icons = {Material.GREEN_STAINED_GLASS_PANE, Material.GRA}
 
+    }
+
+    private void onExpeditionClick(InventoryClickEvent event) {
+        if(!(event.getWhoClicked() instanceof Player player))
+            return;
+
+        expeditionConfirmGUI.displayTo(player);
+    }
+
+    private void onConfirm(InventoryClickEvent event) {
+//        expeditionBuilder.buildExpedition(expeditionTypes.get("air"))
+//                .whenComplete((r, e) -> {
+//                    if (e != null)
+//                        Debug.alwaysError(e.toString());
+//                })
+//                .thenAccept(exp -> plugin.getServer().getScheduler().runTask(plugin, () -> {
+//                    exp.start(GooberStateController);
+//                }));
+    }
+
+    private void onDecline(InventoryClickEvent event) {
+        if (!(event.getWhoClicked() instanceof Player player))
+            return;
+
+        player.closeInventory();
+
+        expeditionEnterGUI.displayTo(player);
     }
 
     @EventHandler
@@ -42,6 +78,12 @@ public class ExpeditionPortalEnterListener implements Listener {
         if (!(event.getEntity() instanceof Player player))
             return;
 
+        expeditionEnterGUI.displayTo(player);
+
     }
+
+//    private void displayAndDecorate(Player player) {
+//        expeditionEnterGUI.displayTo(player);
+//    }
 
 }
