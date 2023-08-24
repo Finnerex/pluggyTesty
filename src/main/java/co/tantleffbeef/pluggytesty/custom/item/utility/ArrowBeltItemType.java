@@ -9,9 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.entity.AbstractArrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -87,21 +85,39 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
 
             UUID playerUUID = player.getUniqueId();
 
+            if (playerBelts.get(playerUUID) == null)
+                return;
+
             playerLastShotPos.putIfAbsent(playerUUID, 0);
 
             Inventory inventory = player.getInventory();
-            Entity arrow = event.getProjectile();
+            ItemStack arrowItem = getNextArrow(playerUUID, event.getConsumable(), inventory);
 
-            event.setProjectile(player.getWorld().spawnArrow(arrow.getLocation(), arrow.getVelocity().normalize(), (float) arrow.getVelocity().length(), 0));
+            event.setConsumeItem(false);
+            ItemStack item = inventory.getItem(inventory.first(arrowItem));
+            assert item != null;
+            item.setAmount(item.getAmount() - 1);
+
+            Entity arrow = event.getProjectile();
+            event.setProjectile(player.getWorld().spawnArrow(arrow.getLocation(), arrow.getVelocity().normalize(),
+                    (float) arrow.getVelocity().length(), 0, getArrowEntity(arrowItem)));
         }
 
-        private ItemStack getNextArrow(UUID player, ItemStack originalArrow) {
+        private <T extends AbstractArrow> Class<T> getArrowEntity(ItemStack arrowItem) {
+
+            return switch (arrowItem.getType()) {
+                default -> (Class<T>) Arrow.class;
+                case SPECTRAL_ARROW -> (Class<T>) SpectralArrow.class;
+            };
+        }
+
+        private ItemStack getNextArrow(UUID player, ItemStack originalArrow, Inventory inventory) {
 
             for (int i = 0; i < 5; i++) {
 
                 ItemStack arrow = getArrowOrNull(i, player);
 
-                if (arrow != null)
+                if (inventory.contains(arrow))
                     return arrow;
 
                 playerLastShotPos.put(player, (playerLastShotPos.get(player) + 1) % 5);
