@@ -10,6 +10,7 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class InventoryGUIManager implements Listener {
 
@@ -28,7 +29,7 @@ public class InventoryGUIManager implements Listener {
 
         // Inventory inv = event.getClickedInventory();
         UUID player = event.getWhoClicked().getUniqueId();
-        InventoryGUI gui = inventories.get(inv);
+        InventoryGUI gui = inventories.get(player);
 
         Bukkit.broadcastMessage("inv opened");
 
