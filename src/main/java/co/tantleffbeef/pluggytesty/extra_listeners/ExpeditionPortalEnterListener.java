@@ -45,84 +45,66 @@ public class ExpeditionPortalEnterListener implements Listener {
 
         expeditionEnterGUI
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1", "Undead"), 0)
+                        event -> {}, Material.RED_STAINED_GLASS_PANE, "Tier 1", "Undead"), 0)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 2", "Elemental"), 0)
+                        event -> {}, Material.RED_STAINED_GLASS_PANE, "Tier 2", "Elemental"), 9)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 3", "Illager"), 0)
+                        event -> {}, Material.RED_STAINED_GLASS_PANE, "Tier 3", "Illager"), 9 * 2)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 4", "Undead"), 0)
+                        event -> {}, Material.RED_STAINED_GLASS_PANE, "Tier 4", "Nether"), 9 * 3)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 5", "Undead"), 0)
+                        event -> {}, Material.RED_STAINED_GLASS_PANE, "Tier 5", "Void"), 9 * 4)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 6", "Undead"), 0)
+                        event -> {}, Material.RED_STAINED_GLASS_PANE, "Tier 6", "Ending"), 9 * 5)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                        this::onExpeditionClick, Material.COARSE_DIRT, "Zombie Expedition"), 2)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                        this::onExpeditionClick, Material.BONE_BLOCK, "Skeleton Expedition"), 3)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                        this::onExpeditionClick, Material.NETHERRACK, "Zombified Piglin Expedition"), 4)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                        this::onExpeditionClick, Material.ROTTEN_FLESH, "Undead Trial"), 8)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                        this::onExpeditionClick, Material.DEEPSLATE, "Earth Expedition"), 11)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                        this::onExpeditionClick, Material.PURPUR_BLOCK, "Air Expedition"), 12)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                        this::onExpeditionClick, Material.PRISMARINE, "Water Expedition"), 13)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                        this::onExpeditionClick, Material.ICE, "Ice Expedition"), 14)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                        this::onExpeditionClick, Material.LIGHTNING_ROD, "Weather Trial"), 17)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                        this::onExpeditionClick, Material.DARK_OAK_PLANKS, "North Outpost Expedition"), 20)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                        this::onExpeditionClick, Material.DARK_OAK_LOG, "South Outpost Expedition"), 21)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.EMEARLD_ORE, "East Outpost Expedition"), 22)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.EMERALD_BLOCK, "West Outpost Expedition"), 23)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.TOTEM_OF_UNDYING, "Mansion Trial"), 26)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.MAGMA_BLOCK, "Lava Expedition"), 29)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.SAND, "Scorched Expedition"), 30)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.SOUL_SAND, "Soul Expedition"), 31)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.GILDED_BLACKSTONE, "Piglin Expediton"), 32)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.LAVA_BUCKET, "Magma Trial"), 35)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.SKULK, "Darkness Expedition"), 38)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.END_STONE, "Wasteland Expedition"), 39)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.LIGHT_BLUE_WOOL, "Happy Animals Expedition"), 40)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.WITHER_ROSE, "Decay Trial"), 44)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.DRAGON_EGG, "The Final Trial"), 53);
 
-                
-        // column major list of names of the buttons
-        final String[] names =
-                {"Tier 1",                     "Tier 2",                  "Tier 3",                   "Tier 4",              "Tier 5",             "Tier 6",
-                "Zombie Expedition",           "Earth Expedition",        "North Outpost Expedition", "Lava Expedition",     "Darkness Expedition",
-                "Skeleton Expedition",         "Air Expedition",          "South Outpost Expedition", "Scorched Expedition", "Wasteland Expedition",
-                "Zombified Piglin Expedition", "Water Expedition",        "East Outpost Expedition",  "Soul Expedition",     "Happy Animals Expedition",
-                                               "Ice Expedition",          "West Outpost Expedition",  "Piglin Expediton",
-                "Undead Trial",                "Weather Trial",           "Mansion Trial",            "Magma Trial",         "Decay Trial",        "The Final Trial"};
-        final String[] lores = {"Undead", "Elemental", "Illager", "Nether", "Void", "Ending"};
-        final Material[] icons =
-                {Material.RED_STAINED_GLASS_PANE, Material.RED_STAINED_GLASS_PANE, Material.RED_STAINED_GLASS_PANE, Material.RED_STAINED_GLASS_PANE, Material.RED_STAINED_GLASS_PANE, Material.RED_STAINED_GLASS_PANE,
-                // stuff
-                Material.COARSE_DIRT, Material.DEEPSLATE, Material.DARK_OAK_PLANKS, Material.MAGMA_BLOCK, Material.END_STONE,
-                Material.BONE_BLOCK, Material.PURPUR_BLOCK, Material.DARK_OAK_LOG, Material.SAND, Material.SCULK,
-                Material.NETHERRACK, Material.PRISMARINE, Material.EMERALD_ORE, Material.SOUL_SAND, Material.LIGHT_BLUE_WOOL,
-                                     Material.ICE, Material.EMERALD_BLOCK, Material.GILDED_BLACKSTONE,
-                Material.ROTTEN_FLESH, Material.LIGHTNING_ROD, Material.TOTEM_OF_UNDYING, Material.LAVA, Material.WITHER_ROSE, Material.DRAGON_EGG};
-
-        int goofy = 0;
-
-        for (int i = 0; i < 6*9; i++) {
-            if((i > 5 && i < 12) || (i != 53 && i % 6 == 5) || (i > 35 && i < 48)) { // i love hard coding the excluded slots
-                goofy++;
-                continue;
-            }
-
-            Consumer<InventoryClickEvent> eventConsumer = this::onExpeditionClick;
-            if (i < 6)
-                eventConsumer = event -> {};
-
-            String name = i - goofy >= names.length ? " " : names[i - goofy];
-            String lore = i - goofy >= lores.length ? " " : lores[i - goofy];
-            Material icon = i - goofy >= icons.length ? Material.AIR : icons[i - goofy];
-
-            expeditionEnterGUI.addButton(
-                    new InventoryButton(
-                            eventConsumer,
-                            icon,
-                            name,
-                            lore
-                    ), i
-            );
-        }
 
     }
 
@@ -158,6 +140,9 @@ public class ExpeditionPortalEnterListener implements Listener {
         Bukkit.broadcastMessage("ENTRED PORIOTAl");
 
         if (!(event.getEntity() instanceof Player player))
+            return;
+
+        if (player.getOpenInventory() != null)
             return;
 
         expeditionEnterGUI.displayTo(player);
