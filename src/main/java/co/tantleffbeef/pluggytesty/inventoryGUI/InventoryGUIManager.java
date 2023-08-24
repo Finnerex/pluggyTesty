@@ -16,7 +16,7 @@ public class InventoryGUIManager implements Listener {
     private static final Map<Inventory, InventoryGUI> inventories = new HashMap<>();
 
     // map for if selector buttons are listening for clicks
-    private final Map<InventoryGUI, InventorySelectorButton> listeningForSelection = new HashMap<>();
+    private final Map<Inventory, InventorySelectorButton> listeningForSelection = new HashMap<>();
 
     public static void registerInventoryGUI(Inventory inventory, InventoryGUI gui) {
         inventories.put(inventory, gui);
@@ -24,36 +24,38 @@ public class InventoryGUIManager implements Listener {
 
     @EventHandler
     public void OnInventoryClick(InventoryClickEvent event) {
+        Inventory inv = event.getClickedInventory();
         InventoryGUI gui = inventories.get(event.getInventory());
 
-        if (gui == null)
-            return;
-
-        event.setCancelled(true);
-
-        InventoryButton button = gui.getButton(event.getSlot());
-
-        if (button == null) {
-            InventorySelectorButton selector = listeningForSelection.get(gui);
-            Bukkit.broadcastMessage("not button");
+        if (gui == null) {
+            InventorySelectorButton selector = listeningForSelection.get(inv);
+            Bukkit.broadcastMessage("a gui");
             if (selector != null) {
                 selector.click(event);
                 Bukkit.broadcastMessage("second click on selector");
 
-                listeningForSelection.remove(gui);
+                listeningForSelection.remove(inv);
             }
 
             return;
         }
 
 
+        event.setCancelled(true);
+
+        InventoryButton button = gui.getButton(event.getSlot());
+
+        if (button == null)
+            return;
+
+
         if (button instanceof InventorySelectorButton selector) {
-            listeningForSelection.put(gui, selector);
+            listeningForSelection.put(inv, selector);
             Bukkit.broadcastMessage("selector click");
         } else {
             button.click(event);
             Bukkit.broadcastMessage("normal button click");
-            listeningForSelection.remove(gui);
+            listeningForSelection.remove(inv);
         }
 
     }
