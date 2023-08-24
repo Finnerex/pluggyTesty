@@ -24,17 +24,19 @@ public class InventoryGUIManager implements Listener {
 
     @EventHandler
     public void OnInventoryClick(InventoryClickEvent event) {
+        Inventory wholeInv = event.getInventory();
+
         Inventory inv = event.getClickedInventory();
         InventoryGUI gui = inventories.get(inv);
 
         if (gui == null) {
-            InventorySelectorButton selector = listeningForSelection.get(inv);
-            Bukkit.broadcastMessage("a gui");
+            InventorySelectorButton selector = listeningForSelection.get(wholeInv);
+            Bukkit.broadcastMessage("not a gui");
             if (selector != null) {
                 selector.click(event);
                 Bukkit.broadcastMessage("second click on selector");
 
-                listeningForSelection.remove(inv);
+                listeningForSelection.remove(wholeInv);
             }
 
             return;
@@ -48,12 +50,12 @@ public class InventoryGUIManager implements Listener {
             return;
 
         if (button instanceof InventorySelectorButton selector) {
-            listeningForSelection.put(inv, selector);
+            listeningForSelection.put(wholeInv, selector);
             Bukkit.broadcastMessage("selector click");
         } else {
             button.click(event);
             Bukkit.broadcastMessage("normal button click");
-            listeningForSelection.remove(inv);
+            listeningForSelection.remove(wholeInv);
         }
 
     }
