@@ -29,7 +29,7 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
 
         playerBelts = new HashMap<>();
 
-        DEFAULT_BELT = new InventoryGUI(5, "ArrowBelt", namespace.getServer());
+        DEFAULT_BELT = new InventoryGUI(9, "ArrowBelt", namespace.getServer());
 
         // some goofy stuff so that it can access itself in the lambda
         var ref = new Object() {
@@ -56,7 +56,7 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
                 "Click to change"
         );
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 2; i < 7; i++) {
             DEFAULT_BELT.addButton(ref.selectorButton, i);
         }
     }
