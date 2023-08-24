@@ -7,6 +7,7 @@ import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryButton;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryGUI;
 import co.tantleffbeef.pluggytesty.misc.Debug;
+import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -117,6 +118,8 @@ public class ExpeditionPortalEnterListener implements Listener {
 
     @EventHandler
     public void onPortalEnter(EntityPortalEnterEvent event) {
+        Bukkit.broadcastMessage("ENTRED PORIOTAl");
+
         if (!(event.getEntity() instanceof Player player))
             return;
 
