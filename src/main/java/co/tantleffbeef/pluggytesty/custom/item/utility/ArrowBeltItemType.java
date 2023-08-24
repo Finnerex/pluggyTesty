@@ -44,7 +44,8 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
                             return;
 
                         if (item.getType() == Material.ARROW || item.getType() == Material.SPECTRAL_ARROW || item.getType() == Material.TIPPED_ARROW) {
-                            playerBelts.get(event.getWhoClicked().getUniqueId()).setIcon(buttonSlot, new ItemStack(item.getType(), 1));
+                            item.setAmount(1);
+                            playerBelts.get(event.getWhoClicked().getUniqueId()).setIcon(buttonSlot, item);
 
                             if (event.getWhoClicked() instanceof Player player)
                                 player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BANJO, 1, 2);
