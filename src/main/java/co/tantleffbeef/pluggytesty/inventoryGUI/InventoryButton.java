@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 public class InventoryButton {
 
     private final Consumer<InventoryClickEvent> clickEventConsumer;
-    private final ItemStack icon;
+    private ItemStack icon;
 
     public InventoryButton(Consumer<InventoryClickEvent> clickEventConsumer, Material icon, String name, String... lore) {
         this(clickEventConsumer, new ItemStack(icon));
@@ -31,6 +31,21 @@ public class InventoryButton {
 
     public ItemStack getIcon() {
         return icon;
+    }
+
+    public void setIcon(ItemStack icon) {
+        this.icon = icon;
+    }
+
+    public void setIcon(Material material, String name, String... lore) {
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+
+        meta.setDisplayName(name);
+        meta.setLore(List.of(lore));
+        item.setItemMeta(meta);
+
+        icon = item;
     }
 
     public void click(InventoryClickEvent event) {

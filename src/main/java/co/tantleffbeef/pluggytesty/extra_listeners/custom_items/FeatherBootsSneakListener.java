@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty.extra_listeners;
+package co.tantleffbeef.pluggytesty.extra_listeners.custom_items;
 
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;

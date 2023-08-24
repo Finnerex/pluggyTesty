@@ -14,14 +14,12 @@ public class InventoryGUIManager implements Listener {
 
     private static final Map<Inventory, InventoryGUI> inventories = new HashMap<>();
 
+    // map for if selector buttons are listening for clicks
+    private final Map<InventoryGUI, InventorySelectorButton> listeningForSelection = new HashMap<>();
+
     public static void registerInventoryGUI(Inventory inventory, InventoryGUI gui) {
         inventories.put(inventory, gui);
     }
-
-//    @EventHandler
-//    public void OnInventoryOpen(InventoryOpenEvent event) {
-//
-//    }
 
     @EventHandler
     public void OnInventoryClick(InventoryClickEvent event) {
@@ -31,12 +29,26 @@ public class InventoryGUIManager implements Listener {
             return;
 
         event.setCancelled(true);
+
         InventoryButton button = gui.getButton(event.getSlot());
 
-        if (button == null)
-            return;
+        if (button == null) {
+            InventorySelectorButton selector = listeningForSelection.get(gui);
+            if (selector != null) {
+                selector.click(event);
 
-        button.click(event);
+                listeningForSelection.remove(gui);
+            }
+
+            return;
+        }
+
+
+        if (button instanceof InventorySelectorButton selector)
+            listeningForSelection.put(gui, selector);
+        else
+            button.click(event);
+
     }
 
     @EventHandler

@@ -20,6 +20,7 @@ import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomL
 import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.*;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
+import co.tantleffbeef.pluggytesty.extra_listeners.custom_items.*;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryGUIManager;
 import co.tantleffbeef.pluggytesty.inventoryGUI.TestGUIItemType;
 import co.tantleffbeef.pluggytesty.levels.DisabledRecipeManager;
@@ -80,7 +81,6 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.logging.Logger;
 
 @SuppressWarnings("unused")
 public final class PluggyTesty extends JavaPlugin {
@@ -800,6 +800,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new HandThrusterItemType(this, "hand_thruster", false, ChatColor.GOLD + "Hand Thruster"));
         resourceManager.registerItem(new LandMineItemType(this, "land_mine", false, ChatColor.WHITE + "Land Mine"));
         resourceManager.registerItem(new LifeLinkItemType(this, "life_link", false, ChatColor.RED + "Life Link"));
+        resourceManager.registerItem(new ArrowBeltItemType(this, "arrow_belt", false, ChatColor.WHITE + "Arrow Belt"));
 
         // Armor
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));

@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty.extra_listeners;
+package co.tantleffbeef.pluggytesty.extra_listeners.custom_items;
 
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
@@ -7,7 +7,6 @@ import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
 import co.tantleffbeef.pluggytesty.custom.item.utility.LifeLinkItemType;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;

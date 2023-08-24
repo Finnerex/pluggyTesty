@@ -1,11 +1,10 @@
-package co.tantleffbeef.pluggytesty.extra_listeners;
+package co.tantleffbeef.pluggytesty.extra_listeners.custom_items;
 
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.FisherOfSoulsItemType;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FishHook;

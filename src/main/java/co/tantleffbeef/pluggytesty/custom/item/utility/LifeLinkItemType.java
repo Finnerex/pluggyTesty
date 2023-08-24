@@ -2,7 +2,7 @@ package co.tantleffbeef.pluggytesty.custom.item.utility;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
-import co.tantleffbeef.pluggytesty.extra_listeners.LifeLinkListener;
+import co.tantleffbeef.pluggytesty.extra_listeners.custom_items.LifeLinkListener;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
