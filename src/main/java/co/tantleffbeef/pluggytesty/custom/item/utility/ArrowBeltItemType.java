@@ -20,6 +20,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -102,7 +104,13 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             ItemStack arrowItem = getNextArrow(playerUUID, event.getConsumable(), inventory);
 
             event.setConsumeItem(false);
-            ItemStack item = inventory.getItem(inventory.first(arrowItem.getType()));
+            ItemStack item = null;
+            for (ItemStack itemStack : inventory.getContents()) {
+                if (itemStack.isSimilar(arrowItem)) {
+                    item = itemStack;
+                    break;
+                }
+            }
 
             Bukkit.broadcastMessage("arrow ItemStack: " + arrowItem);
             Bukkit.broadcastMessage("Inventory ItemStack" + item);
@@ -122,6 +130,11 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             newArrow.setDamage(oldArrow.getDamage());
             newArrow.setPierceLevel(oldArrow.getPierceLevel());
             newArrow.setShotFromCrossbow(oldArrow.isShotFromCrossbow());
+
+            if (newArrow instanceof Arrow potionableArrow && oldArrow instanceof Arrow oldPotionableArrow) {
+                potionableArrow.setBasePotionData(oldPotionableArrow.getBasePotionData());
+                potionableArrow.setColor(oldPotionableArrow.getColor());
+            }
 
             for (MetadataValue data : oldArrow.getMetadata("customArrowType")) {
                 if (data.value() instanceof CustomArrow customArrow) {
