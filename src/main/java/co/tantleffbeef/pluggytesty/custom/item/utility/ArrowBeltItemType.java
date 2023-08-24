@@ -74,7 +74,7 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             event.setConsumeItem(false);
             ItemStack item = null;
             for (ItemStack itemStack : inventory.getContents()) {
-                if (itemStack.isSimilar(arrowItem)) {
+                if (arrowItem.isSimilar(itemStack)) {
                     item = itemStack;
                     break;
                 }
