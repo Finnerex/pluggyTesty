@@ -805,7 +805,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new HandThrusterItemType(this, "hand_thruster", false, ChatColor.GOLD + "Hand Thruster"));
         resourceManager.registerItem(new LandMineItemType(this, "land_mine", false, ChatColor.WHITE + "Land Mine"));
         resourceManager.registerItem(new LifeLinkItemType(this, "life_link", false, ChatColor.RED + "Life Link"));
-        resourceManager.registerItem(new ArrowBeltItemType(this, "arrow_belt", false, ChatColor.WHITE + "Arrow Belt"));
+        resourceManager.registerItem(new ArrowBeltItemType(this, "arrow_belt", false, ChatColor.WHITE + "Arrow Belt", nbtKeyManager, resourceManager));
         resourceManager.registerItem(new ExpeditionEnterItemType(this, "expedition_enter", false, ChatColor.WHITE + "Enter Expedition",
                 expeditionBuilder, expeditionController, expeditionInformationBiMap, gooberStateController));
 
