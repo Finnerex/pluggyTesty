@@ -28,6 +28,11 @@ public class InventoryGUI {
     public InventoryGUI(int size, String name, ItemStack fillEmpty, Server server) {
         buttons = new HashMap<>();
 
+        inventory = server.createInventory(null, size, name);
+
+        if (fillEmpty.getType() == Material.AIR)
+            return;
+
         ItemMeta meta = fillEmpty.getItemMeta();
 
         meta.setDisplayName(" ");
@@ -35,7 +40,6 @@ public class InventoryGUI {
 
         fillEmpty.setItemMeta(meta);
 
-        inventory = server.createInventory(null, size, name);
         for (int i = 0; i < inventory.getSize(); i++) {
             inventory.setItem(i, fillEmpty);
         }
