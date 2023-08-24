@@ -1,5 +1,9 @@
 package co.tantleffbeef.pluggytesty.custom.item.utility;
 
+import co.tantleffbeef.mcplanes.CustomNbtKey;
+import co.tantleffbeef.mcplanes.KeyManager;
+import co.tantleffbeef.mcplanes.ResourceManager;
+import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.CustomArrow;
@@ -34,12 +38,18 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
 
     private final Map<UUID, InventoryGUI> playerBelts;
     private final Map<UUID, Integer> playerLastShotPos;
+
+    KeyManager<CustomNbtKey> keyManager;
+    ResourceManager resourceManager;
     private final Plugin plugin;
 
-    public ArrowBeltItemType(Plugin namespace, String id, boolean customModel, String name) {
+    public ArrowBeltItemType(Plugin namespace, String id, boolean customModel, String name, KeyManager<CustomNbtKey> keyManager, ResourceManager resourceManager) {
         super(namespace, id, customModel, name, Material.PAPER);
 
         namespace.getServer().getPluginManager().registerEvents(new BeltShootListener(), namespace);
+
+        this.keyManager = keyManager;
+        this.resourceManager = resourceManager;
 
         this.plugin = namespace;
         playerBelts = new HashMap<>();
@@ -74,6 +84,7 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             event.setConsumeItem(false);
             ItemStack item = null;
             for (ItemStack itemStack : inventory.getContents()) {
+                Bukkit.broadcastMessage(ChatColor.AQUA + "Item Stack: " + itemStack);
                 if (arrowItem.isSimilar(itemStack)) {
                     item = itemStack;
                     break;
@@ -111,13 +122,12 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
                 Bukkit.broadcastMessage(ChatColor.GOLD + "potion effect applied");
             }
 
-//            if ()
-//            for (MetadataValue data : oldArrow.getMetadata("customArrowType")) {
-//                if (data.value() instanceof CustomArrow customArrow) {
-//                    newArrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
-//                    break;
-//                }
-//            }
+            CustomArrow customArrow = CustomItemType.asInstanceOf(CustomArrow.class, event.getConsumable(), keyManager, resourceManager);
+
+            if (customArrow == null && newArrow instanceof Arrow) {
+                customArrow.applySpawnEffects((Arrow) newArrow);
+                newArrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
+            }
 
             event.setProjectile(newArrow);
 
