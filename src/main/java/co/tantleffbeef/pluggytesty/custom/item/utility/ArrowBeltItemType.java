@@ -9,10 +9,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +33,8 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
 
     public ArrowBeltItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.PAPER);
+
+        namespace.getServer().getPluginManager().registerEvents(new BeltShootListener(), namespace);
 
         playerBelts = new HashMap<>();
         playerLastShotPos = new HashMap<>();
@@ -71,7 +75,10 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
         public void onShoot(EntityShootBowEvent event) {
             ItemStack bow = event.getBow();
 
-            if (bow == null || bow.getType() == Material.CROSSBOW)
+            Bukkit.broadcastMessage("event hapopenent");
+
+            // not dealing with crossbows here
+            if (bow == null || bow.getType() == Material.CROSSBOW || event.getConsumable() == null)
                 return;
 
             if (!(event.getEntity() instanceof Player player))
@@ -80,19 +87,44 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             UUID playerUUID = player.getUniqueId();
 
             playerLastShotPos.putIfAbsent(playerUUID, 0);
+
+            Inventory inventory = player.getInventory();
+
+            // this is so redarded
+            ItemStack arrow = getNextArrow(playerUUID, event.getConsumable());
+
+            Bukkit.broadcastMessage("current consume: " + event.getConsumable());
+            inventory.setItem(inventory.first(event.getConsumable()), arrow);
+            Bukkit.broadcastMessage("next arrow:" + arrow);
+            Bukkit.broadcastMessage("hopefully changed consume idk why it would be tho: " + event.getConsumable());
         }
 
-//        private ItemStack getNextArrow(UUID player, ItemStack originalArrow) {
-//
-//            ItemStack arrow = originalArrow;
-//
-//            for (int i = 0; i < 5; i++) {
-//
-//                if ()
-//
-//                playerLastShotPos.put(player, (playerLastShotPos.get(player) + 1) % 5);
-//            }
-//        }
+
+        private ItemStack getNextArrow(UUID player, ItemStack originalArrow) {
+
+            for (int i = 0; i < 5; i++) {
+
+                ItemStack arrow = getArrowOrNull(i, player);
+
+                if (arrow != null)
+                    return arrow;
+
+                playerLastShotPos.put(player, (playerLastShotPos.get(player) + 1) % 5);
+            }
+
+            return originalArrow;
+        }
+
+        private ItemStack getArrowOrNull(int position, UUID player) {
+
+            ItemStack itemStack = playerBelts.get(player).getButton(position + 2).getIcon();
+            Material type = itemStack.getType();
+
+            if (type == Material.SPECTRAL_ARROW || type == Material.ARROW || type == Material.TIPPED_ARROW)
+                return itemStack;
+
+            return null;
+        }
     }
 
     @Override
