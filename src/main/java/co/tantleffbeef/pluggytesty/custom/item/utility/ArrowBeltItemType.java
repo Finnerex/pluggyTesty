@@ -32,37 +32,33 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
 
         DEFAULT_BELT = new InventoryGUI(9, "ArrowBelt", namespace.getServer());
 
-        // some goofy stuff so that it can access itself in the lambda
-        var ref = new Object() {
-            InventoryButton selectorButton = null;
-        };
-
-        ref.selectorButton = new InventorySelectorButton(
-                (event) -> {
-                    ItemStack item = event.getCurrentItem();
-
-                    Bukkit.broadcastMessage("arrow select click");
-
-                    if (item == null)
-                        return;
-
-                    if (item.getType() == Material.ARROW || item.getType() == Material.SPECTRAL_ARROW || item.getType() == Material.TIPPED_ARROW) {
-                        ref.selectorButton.setIcon(item);
-
-                        Bukkit.broadcastMessage("selected");
-
-                        if (event.getWhoClicked() instanceof Player player)
-                            player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BANJO, 1, 2);
-                    }
-
-                },
-                Material.GRAY_STAINED_GLASS_PANE,
-                "No arrow assigned",
-                "Click to change"
-        );
 
         for (int i = 2; i < 7; i++) {
-            DEFAULT_BELT.addButton(ref.selectorButton, i);
+            InventoryButton selectorButton = new InventorySelectorButton(
+                    (event) -> {
+                        ItemStack item = event.getCurrentItem();
+
+                        Bukkit.broadcastMessage("arrow select click");
+
+                        if (item == null)
+                            return;
+
+                        if (item.getType() == Material.ARROW || item.getType() == Material.SPECTRAL_ARROW || item.getType() == Material.TIPPED_ARROW) {
+                            playerBelts.get(event.getWhoClicked().getUniqueId()).setIcon(event.getSlot(), item);
+
+                            Bukkit.broadcastMessage("selected");
+
+                            if (event.getWhoClicked() instanceof Player player)
+                                player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BANJO, 1, 2);
+                        }
+
+                    },
+                    Material.GRAY_STAINED_GLASS_PANE,
+                    "No arrow assigned",
+                    "Click to change"
+            );
+
+            DEFAULT_BELT.addButton(selectorButton, i);
         }
     }
 

@@ -25,7 +25,7 @@ public class InventoryGUIManager implements Listener {
     @EventHandler
     public void OnInventoryClick(InventoryClickEvent event) {
         Inventory inv = event.getClickedInventory();
-        InventoryGUI gui = inventories.get(event.getInventory());
+        InventoryGUI gui = inventories.get(inv);
 
         if (gui == null) {
             InventorySelectorButton selector = listeningForSelection.get(inv);
@@ -40,14 +40,12 @@ public class InventoryGUIManager implements Listener {
             return;
         }
 
-
         event.setCancelled(true);
 
         InventoryButton button = gui.getButton(event.getSlot());
 
         if (button == null)
             return;
-
 
         if (button instanceof InventorySelectorButton selector) {
             listeningForSelection.put(inv, selector);

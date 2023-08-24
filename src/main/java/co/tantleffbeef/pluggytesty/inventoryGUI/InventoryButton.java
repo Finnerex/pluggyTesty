@@ -37,16 +37,7 @@ public class InventoryButton {
         this.icon = icon;
     }
 
-    public void setIcon(Material material, String name, String... lore) {
-        ItemStack item = new ItemStack(material);
-        ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(name);
-        meta.setLore(List.of(lore));
-        item.setItemMeta(meta);
-
-        icon = item;
-    }
 
     public void click(InventoryClickEvent event) {
         clickEventConsumer.accept(event);

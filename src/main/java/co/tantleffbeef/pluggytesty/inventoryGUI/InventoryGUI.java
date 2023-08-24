@@ -51,6 +51,23 @@ public class InventoryGUI {
         return this;
     }
 
+    public void setIcon(int slot, Material material, String name, String... lore) {
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+
+        meta.setDisplayName(name);
+        meta.setLore(List.of(lore));
+        item.setItemMeta(meta);
+
+        setIcon(slot, item);
+    }
+
+    public void setIcon(int slot, ItemStack itemStack) {
+        getButton(slot).setIcon(itemStack);
+
+        inventory.setItem(slot, itemStack);
+    }
+
     public InventoryButton getButton(int slot) {
         return buttons.get(slot);
     }
