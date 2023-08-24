@@ -197,6 +197,8 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
 
                 DEFAULT_BELT.addButton(selectorButton, i);
             }
+
+            playerBelts.put(uuid, DEFAULT_BELT);
         }
 
 
