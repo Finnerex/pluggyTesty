@@ -25,9 +25,6 @@ public class InventoryGUIManager implements Listener {
 
     @EventHandler
     public void OnInventoryClick(InventoryClickEvent event) {
-        Inventory wholeInv = event.getInventory();
-
-        // Inventory inv = event.getClickedInventory();
         UUID player = event.getWhoClicked().getUniqueId();
         InventoryGUI gui = inventories.get(player);
 
@@ -66,7 +63,7 @@ public class InventoryGUIManager implements Listener {
 
     @EventHandler
     public void OnInventoryClose(InventoryCloseEvent event) {
-        inventories.remove(event.getInventory());
+        inventories.remove(event.getPlayer().getUniqueId());
     }
 
 }
