@@ -10,6 +10,9 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +25,7 @@ import java.util.UUID;
 public class ArrowBeltItemType extends SimpleItemType implements InteractableItemType {
 
     private final Map<UUID, InventoryGUI> playerBelts;
+    private final Map<UUID, Integer> playerLastShotPos;
 
     private final InventoryGUI DEFAULT_BELT;
 
@@ -29,9 +33,9 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
         super(namespace, id, customModel, name, Material.PAPER);
 
         playerBelts = new HashMap<>();
+        playerLastShotPos = new HashMap<>();
 
         DEFAULT_BELT = new InventoryGUI(9, "ArrowBelt", namespace.getServer());
-
 
         for (int i = 2; i < 7; i++) {
             int buttonSlot = i;
@@ -58,6 +62,36 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             );
 
             DEFAULT_BELT.addButton(selectorButton, i);
+        }
+    }
+
+    private class BeltShootListener implements Listener {
+
+        @EventHandler
+        public void onShoot(EntityShootBowEvent event) {
+            ItemStack bow = event.getBow();
+
+            if (bow == null || bow.getType() == Material.CROSSBOW)
+                return;
+
+            if (!(event.getEntity() instanceof Player player))
+                return;
+
+            UUID playerUUID = player.getUniqueId();
+
+            playerLastShotPos.putIfAbsent(playerUUID, 0);
+        }
+
+        private ItemStack getNextArrow(UUID player, ItemStack originalArrow) {
+
+            ItemStack arrow = originalArrow;
+
+            for (int i = 0; i < 5; i++) {
+
+                if ()
+
+                playerLastShotPos.put(player, (playerLastShotPos.get(player) + 1) % 5);
+            }
         }
     }
 
