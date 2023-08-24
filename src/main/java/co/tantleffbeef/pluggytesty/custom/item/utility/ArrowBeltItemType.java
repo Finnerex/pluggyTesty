@@ -5,6 +5,7 @@ import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryButton;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryGUI;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventorySelectorButton;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -40,11 +41,15 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
                 (event) -> {
                     ItemStack item = event.getCurrentItem();
 
+                    Bukkit.broadcastMessage("arrow select click");
+
                     if (item == null)
                         return;
 
                     if (item.getType() == Material.ARROW || item.getType() == Material.SPECTRAL_ARROW || item.getType() == Material.TIPPED_ARROW) {
                         ref.selectorButton.setIcon(item);
+
+                        Bukkit.broadcastMessage("selected");
 
                         if (event.getWhoClicked() instanceof Player player)
                             player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BANJO, 1, 2);
