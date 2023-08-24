@@ -79,7 +79,7 @@ public class ExpeditionPortalEnterListener implements Listener {
                 .addButton(new InventoryButton(
                         this::onExpeditionClick, Material.DARK_OAK_LOG, "South Outpost Expedition"), 21)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.EMEARLD_ORE, "East Outpost Expedition"), 22)
+                        this::onExpeditionClick, Material.EMERALD_ORE, "East Outpost Expedition"), 22)
                 .addButton(new InventoryButton(
                         this::onExpeditionClick, Material.EMERALD_BLOCK, "West Outpost Expedition"), 23)
                 .addButton(new InventoryButton(
@@ -95,7 +95,7 @@ public class ExpeditionPortalEnterListener implements Listener {
                 .addButton(new InventoryButton(
                         this::onExpeditionClick, Material.LAVA_BUCKET, "Magma Trial"), 35)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.SKULK, "Darkness Expedition"), 38)
+                        this::onExpeditionClick, Material.SCULK, "Darkness Expedition"), 38)
                 .addButton(new InventoryButton(
                         this::onExpeditionClick, Material.END_STONE, "Wasteland Expedition"), 39)
                 .addButton(new InventoryButton(
