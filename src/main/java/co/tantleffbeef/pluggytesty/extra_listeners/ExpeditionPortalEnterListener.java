@@ -36,7 +36,7 @@ public class ExpeditionPortalEnterListener implements Listener {
         this.expeditionTypes = expeditionTypes;
         this.plugin = plugin;
 
-        expeditionEnterGUI = new InventoryGUI(5 * 9, "Expeditions", Material.GRAY_STAINED_GLASS_PANE, plugin.getServer());
+        expeditionEnterGUI = new InventoryGUI(6 * 9, "Expeditions", Material.GRAY_STAINED_GLASS_PANE, plugin.getServer());
         expeditionConfirmGUI = new InventoryGUI(1 * 9, "Continue?",  Material.GRAY_STAINED_GLASS_PANE, plugin.getServer());
 
         expeditionConfirmGUI.addButton(new InventoryButton(this::onConfirm, Material.GREEN_STAINED_GLASS, "Confirm", "Enter Expedition"), 4);
