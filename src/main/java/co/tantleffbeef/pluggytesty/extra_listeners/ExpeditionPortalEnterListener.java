@@ -6,6 +6,8 @@ import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
 import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryButton;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryGUI;
+import co.tantleffbeef.pluggytesty.misc.Debug;
+import org.bukkit.Server;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,13 +22,20 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class ExpeditionPortalEnterListener implements Listener {
+    private final ExpeditionBuilder expeditionBuilder;
+    private final ExpeditionController expeditionController;
+    private final Map<String, ExpeditionInformation> expeditionTypes;
+    private final Plugin plugin;
 
     private InventoryGUI expeditionEnterGUI;
     private InventoryGUI expeditionConfirmGUI;
-    private ExpeditionBuilder expeditionBuilder;
-    private ExpeditionController expeditionController;
 
-    public ExpeditionPortalEnterListener(Plugin plugin) {
+    public ExpeditionPortalEnterListener(Plugin plugin, ExpeditionBuilder builder, ExpeditionController expController, Map<String, ExpeditionInformation> expeditionTypes) {
+        this.expeditionBuilder = builder;
+        this.expeditionController = expController;
+        this.expeditionTypes = expeditionTypes;
+        this.plugin = plugin;
+
         expeditionEnterGUI = new InventoryGUI(5 * 9, "Expeditions", Material.GRAY_STAINED_GLASS_PANE, plugin.getServer());
         expeditionConfirmGUI = new InventoryGUI(1 * 9, "Continue?",  Material.GRAY_STAINED_GLASS_PANE, plugin.getServer());
 
