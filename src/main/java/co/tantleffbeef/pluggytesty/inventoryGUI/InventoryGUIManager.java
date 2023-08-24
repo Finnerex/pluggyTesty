@@ -28,8 +28,6 @@ public class InventoryGUIManager implements Listener {
         UUID player = event.getWhoClicked().getUniqueId();
         InventoryGUI gui = inventories.get(player);
 
-        Bukkit.broadcastMessage("inv opened");
-
         if (gui == null)
             return;
 
@@ -42,8 +40,6 @@ public class InventoryGUIManager implements Listener {
             InventorySelectorButton selector = listeningForSelection.get(player);
             if (selector != null) {
                 selector.click(event);
-
-                Bukkit.broadcastMessage("selector?????");
 
                 listeningForSelection.remove(player);
             }
