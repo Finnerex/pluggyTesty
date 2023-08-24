@@ -13,20 +13,21 @@ import java.util.Map;
 
 public class InventoryGUIManager implements Listener {
 
-    private static final Map<Inventory, InventoryGUI> inventories = new HashMap<>();
+    private static final Map<UUID, InventoryGUI> inventories = new HashMap<>();
 
     // map for if selector buttons are listening for clicks
     private final Map<Inventory, InventorySelectorButton> listeningForSelection = new HashMap<>();
 
-    public static void registerInventoryGUI(Inventory inventory, InventoryGUI gui) {
-        inventories.put(inventory, gui);
+    public static void registerInventoryGUI(UUID player, InventoryGUI gui) {
+        inventories.put(player, gui);
     }
 
     @EventHandler
     public void OnInventoryClick(InventoryClickEvent event) {
         Inventory wholeInv = event.getInventory();
 
-        Inventory inv = event.getClickedInventory();
+        // Inventory inv = event.getClickedInventory();
+        UUID player = event.getWhoClicked().getUniqueId();
         InventoryGUI gui = inventories.get(inv);
 
         Bukkit.broadcastMessage("inv opened");
@@ -35,7 +36,7 @@ public class InventoryGUIManager implements Listener {
             InventorySelectorButton selector = listeningForSelection.get(wholeInv);
             if (selector != null) {
                 selector.click(event);
-                
+
                 Bukkit.broadcastMessage("selector?????");
 
                 listeningForSelection.remove(wholeInv);

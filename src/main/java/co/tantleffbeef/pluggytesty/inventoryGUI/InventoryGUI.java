@@ -73,7 +73,7 @@ public class InventoryGUI {
     }
 
     public void displayTo(Player player) {
-        InventoryGUIManager.registerInventoryGUI(inventory, this);
+        InventoryGUIManager.registerInventoryGUI(player.getUniqueId(), this);
         player.openInventory(inventory);
     }
 
