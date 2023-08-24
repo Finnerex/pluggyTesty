@@ -1,5 +1,7 @@
 package co.tantleffbeef.pluggytesty.extra_listeners;
 
+import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
+import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionController;
 import co.tantleffbeef.pluggytesty.expeditions.loading.ExpeditionInformation;
@@ -9,20 +11,24 @@ import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryGUI;
 import co.tantleffbeef.pluggytesty.misc.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalEnterEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import org.bukkit.Material;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class ExpeditionPortalEnterListener implements Listener {
+public class ExpeditionPortalEnterListener extends SimpleItemType implements InteractableItemType {
     private final ExpeditionBuilder expeditionBuilder;
     private final ExpeditionController expeditionController;
     private final Map<String, ExpeditionInformation> expeditionTypes;
@@ -144,6 +150,14 @@ public class ExpeditionPortalEnterListener implements Listener {
 
         expeditionEnterGUI.displayTo(player);
 
+    }
+
+    @Override
+    public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
+
+        expeditionEnterGUI.displayTo(player);
+
+        return true;
     }
 
 //    private void displayAndDecorate(Player player) {
