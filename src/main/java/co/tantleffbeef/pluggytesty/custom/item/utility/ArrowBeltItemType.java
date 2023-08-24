@@ -128,22 +128,23 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             // Make it the same arrow (this is goofy)
             newArrow.setPickupStatus(oldArrow.getPickupStatus());
             newArrow.setCritical(oldArrow.isCritical());
+            newArrow.setShooter(oldArrow.getShooter());
 //            newArrow.setDamage(oldArrow.getDamage());
 //            newArrow.setPierceLevel(oldArrow.getPierceLevel());
             newArrow.setShotFromCrossbow(oldArrow.isShotFromCrossbow());
 
 
-
             if (newArrow instanceof Arrow potionableArrow && item.getItemMeta() instanceof PotionMeta potionMeta) {
+                potionableArrow.setBasePotionData(potionMeta.getBasePotionData());
+                potionableArrow.setColor(potionMeta.getColor());
+
                 for (PotionEffect effect : potionMeta.getCustomEffects()) {
                     potionableArrow.addCustomEffect(effect, true);
                 }
-
-                potionableArrow.setBasePotionData(potionMeta.getBasePotionData());
-                potionableArrow.setColor(potionMeta.getColor());
                 Bukkit.broadcastMessage(ChatColor.GOLD + "potion effect applied");
             }
 
+//            if ()
 //            for (MetadataValue data : oldArrow.getMetadata("customArrowType")) {
 //                if (data.value() instanceof CustomArrow customArrow) {
 //                    newArrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
