@@ -324,6 +324,8 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryGUIManager(), this);
 //        getServer().getPluginManager().registerEvents(new EntityDeathGarbageCollector(), this);
 
+        getServer().getPluginManager().registerEvents(new ExpeditionPortalEnterListener(this, expeditionBuilder, expeditionController, expeditionInformationBiMap), this);
+
 
                 ArmorEquipEvent.registerListener(this);
 
