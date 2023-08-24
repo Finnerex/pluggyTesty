@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.inventoryGUI;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -34,8 +35,10 @@ public class InventoryGUIManager implements Listener {
 
         if (button == null) {
             InventorySelectorButton selector = listeningForSelection.get(gui);
+            Bukkit.broadcastMessage("not button");
             if (selector != null) {
                 selector.click(event);
+                Bukkit.broadcastMessage("second click on selector");
 
                 listeningForSelection.remove(gui);
             }
@@ -44,10 +47,14 @@ public class InventoryGUIManager implements Listener {
         }
 
 
-        if (button instanceof InventorySelectorButton selector)
+        if (button instanceof InventorySelectorButton selector) {
             listeningForSelection.put(gui, selector);
-        else
+            Bukkit.broadcastMessage("selector click");
+        } else {
             button.click(event);
+            Bukkit.broadcastMessage("normal button click");
+            listeningForSelection.remove(gui);
+        }
 
     }
 
