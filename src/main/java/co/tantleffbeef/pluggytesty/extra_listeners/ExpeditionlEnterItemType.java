@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class ExpeditionPortalEnterListener extends SimpleItemType implements InteractableItemType {
+public class ExpeditionEnterItemType extends SimpleItemType implements InteractableItemType {
     private final ExpeditionBuilder expeditionBuilder;
     private final ExpeditionController expeditionController;
     private final Map<String, ExpeditionInformation> expeditionTypes;
@@ -37,7 +37,8 @@ public class ExpeditionPortalEnterListener extends SimpleItemType implements Int
     private InventoryGUI expeditionEnterGUI;
     private InventoryGUI expeditionConfirmGUI;
 
-    public ExpeditionPortalEnterListener(Plugin plugin, ExpeditionBuilder builder, ExpeditionController expController, Map<String, ExpeditionInformation> expeditionTypes) {
+    public ExpeditionEnterItemType(Plugin plugin, String id, boolean customModel, String name, ExpeditionBuilder builder, ExpeditionController expController, Map<String, ExpeditionInformation> expeditionTypes) {
+        super(plugin, id, customModel, name, Material.END_ROD);
         this.expeditionBuilder = builder;
         this.expeditionController = expController;
         this.expeditionTypes = expeditionTypes;
@@ -141,16 +142,6 @@ public class ExpeditionPortalEnterListener extends SimpleItemType implements Int
         expeditionEnterGUI.displayTo(player);
     }
 
-    @EventHandler
-    public void onPortalEnter(EntityPortalEnterEvent event) {
-        Bukkit.broadcastMessage("ENTRED PORIOTAl");
-
-        if (!(event.getEntity() instanceof Player player))
-            return;
-
-        expeditionEnterGUI.displayTo(player);
-
-    }
 
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
