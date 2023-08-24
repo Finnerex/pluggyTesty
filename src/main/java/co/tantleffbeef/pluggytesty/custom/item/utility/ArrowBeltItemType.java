@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.AbstractArrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -89,16 +90,10 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             playerLastShotPos.putIfAbsent(playerUUID, 0);
 
             Inventory inventory = player.getInventory();
+            Entity arrow = event.getProjectile();
 
-            // this is so redarded
-            ItemStack arrow = getNextArrow(playerUUID, event.getConsumable());
-
-            Bukkit.broadcastMessage("current consume: " + event.getConsumable());
-            inventory.setItem(inventory.first(event.getConsumable()), arrow);
-            Bukkit.broadcastMessage("next arrow:" + arrow);
-            Bukkit.broadcastMessage("hopefully changed consume idk why it would be tho: " + event.getConsumable());
+            event.setProjectile(player.getWorld().spawnArrow(arrow.getLocation(), arrow.getVelocity().normalize(), (float) arrow.getVelocity().length(), 0));
         }
-
 
         private ItemStack getNextArrow(UUID player, ItemStack originalArrow) {
 
