@@ -21,10 +21,8 @@ public class ExpeditionPortalEnterListener implements Listener {
         expeditionEnterGUI = new InventoryGUI(5 * 9, "Expeditions", Material.GRAY_STAINED_GLASS_PANE, plugin.getServer());
         expeditionConfirmGUI = new InventoryGUI(1 * 9, "Continue?",  Material.GRAY_STAINED_GLASS_PANE, plugin.getServer());
 
-        expeditionConfirmGUI.addButton(new InventoryButton(
-                (event) -> {
-                    
-                }, Material.GREEN_STAINED_GLASS, "Confirm", "Enter Expedition"), 4);
+        expeditionConfirmGUI.addButton(new InventoryButton(this::onConfirm, Material.GREEN_STAINED_GLASS, "Confirm", "Enter Expedition"), 4);
+        expeditionConfirmGUI.addButton(new InventoryButton(this::onDecline, Material.RED_STAINED_GLASS, "Cancel", "Return to Expedition Selector"), 6);
 
         // column major list of names of the buttons
         final String[] names =
