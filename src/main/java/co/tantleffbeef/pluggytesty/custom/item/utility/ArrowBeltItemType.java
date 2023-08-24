@@ -50,6 +50,8 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
                         if (item == null)
                             return;
 
+                        item = item.clone();
+
                         if (item.getType() == Material.ARROW || item.getType() == Material.SPECTRAL_ARROW || item.getType() == Material.TIPPED_ARROW) {
                             item.setAmount(1);
                             playerBelts.get(event.getWhoClicked().getUniqueId()).setIcon(buttonSlot, item);
@@ -94,7 +96,7 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             ItemStack arrowItem = getNextArrow(playerUUID, event.getConsumable(), inventory);
 
             event.setConsumeItem(false);
-            ItemStack item = inventory.getItem(inventory.first(arrowItem));
+            ItemStack item = inventory.getItem(inventory.first(arrowItem.getType()));
             assert item != null;
             item.setAmount(item.getAmount() - 1);
 
