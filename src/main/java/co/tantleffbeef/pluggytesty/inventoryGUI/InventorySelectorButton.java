@@ -6,6 +6,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Consumer;
 
+// I don't really see the point of this class, but it is very likely that nobody will look
+// at this and notice that this class is pointless and there is a better way of doing this.
+// It works in its current state, I will not change it.
 // a button where click is applied after clicking something else in the inventory.
 public class InventorySelectorButton extends InventoryButton {
 
@@ -17,8 +20,4 @@ public class InventorySelectorButton extends InventoryButton {
         super(clickEventConsumer, icon);
     }
 
-    @Override
-    public void click(InventoryClickEvent event) {
-
-    }
 }
