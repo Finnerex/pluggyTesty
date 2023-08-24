@@ -30,7 +30,15 @@ public class InventoryGUIManager implements Listener {
 
         Bukkit.broadcastMessage("inv opened");
 
-        if (gui == null) {
+        if (gui == null)
+            return;
+
+        event.setCancelled(true);
+
+        InventoryButton button = gui.getButton(event.getSlot());
+
+        if (button == null) {
+
             InventorySelectorButton selector = listeningForSelection.get(player);
             if (selector != null) {
                 selector.click(event);
@@ -42,15 +50,6 @@ public class InventoryGUIManager implements Listener {
 
             return;
         }
-
-        Bukkit.broadcastMessage("gui not null");
-
-        event.setCancelled(true);
-
-        InventoryButton button = gui.getButton(event.getSlot());
-
-        if (button == null)
-            return;
 
         if (button instanceof InventorySelectorButton selector) {
             listeningForSelection.put(player, selector);
