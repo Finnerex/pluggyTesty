@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
@@ -124,24 +125,31 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             AbstractArrow newArrow = player.getWorld().spawnArrow(oldArrow.getLocation(), oldArrow.getVelocity().normalize(),
                     (float) oldArrow.getVelocity().length(), 0, getArrowEntity(arrowItem));
 
-            // Make it the same arrow
+            // Make it the same arrow (this is goofy)
             newArrow.setPickupStatus(oldArrow.getPickupStatus());
             newArrow.setCritical(oldArrow.isCritical());
-            newArrow.setDamage(oldArrow.getDamage());
-            newArrow.setPierceLevel(oldArrow.getPierceLevel());
+//            newArrow.setDamage(oldArrow.getDamage());
+//            newArrow.setPierceLevel(oldArrow.getPierceLevel());
             newArrow.setShotFromCrossbow(oldArrow.isShotFromCrossbow());
 
-            if (newArrow instanceof Arrow potionableArrow && oldArrow instanceof Arrow oldPotionableArrow) {
-                potionableArrow.setBasePotionData(oldPotionableArrow.getBasePotionData());
-                potionableArrow.setColor(oldPotionableArrow.getColor());
+
+
+            if (newArrow instanceof Arrow potionableArrow && item.getItemMeta() instanceof PotionMeta potionMeta) {
+                for (PotionEffect effect : potionMeta.getCustomEffects()) {
+                    potionableArrow.addCustomEffect(effect, true);
+                }
+
+                potionableArrow.setBasePotionData(potionMeta.getBasePotionData());
+                potionableArrow.setColor(potionMeta.getColor());
+                Bukkit.broadcastMessage(ChatColor.GOLD + "potion effect applied");
             }
 
-            for (MetadataValue data : oldArrow.getMetadata("customArrowType")) {
-                if (data.value() instanceof CustomArrow customArrow) {
-                    newArrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
-                    break;
-                }
-            }
+//            for (MetadataValue data : oldArrow.getMetadata("customArrowType")) {
+//                if (data.value() instanceof CustomArrow customArrow) {
+//                    newArrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
+//                    break;
+//                }
+//            }
 
             event.setProjectile(newArrow);
 
