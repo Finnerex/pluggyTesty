@@ -31,10 +31,8 @@ public class InventoryGUIManager implements Listener {
 
         if (gui == null) {
             InventorySelectorButton selector = listeningForSelection.get(wholeInv);
-            Bukkit.broadcastMessage("not a gui");
             if (selector != null) {
                 selector.click(event);
-                Bukkit.broadcastMessage("second click on selector");
 
                 listeningForSelection.remove(wholeInv);
             }
@@ -51,10 +49,8 @@ public class InventoryGUIManager implements Listener {
 
         if (button instanceof InventorySelectorButton selector) {
             listeningForSelection.put(wholeInv, selector);
-            Bukkit.broadcastMessage("selector click");
         } else {
             button.click(event);
-            Bukkit.broadcastMessage("normal button click");
             listeningForSelection.remove(wholeInv);
         }
 
