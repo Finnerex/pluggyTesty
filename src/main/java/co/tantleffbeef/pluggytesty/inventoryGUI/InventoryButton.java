@@ -17,6 +17,10 @@ public class InventoryButton {
         this(clickEventConsumer, new ItemStack(icon));
 
         ItemMeta meta = this.icon.getItemMeta();
+
+        if (meta == null)
+            return;
+
         meta.setLore(List.of(lore));
         meta.setDisplayName(name);
 
