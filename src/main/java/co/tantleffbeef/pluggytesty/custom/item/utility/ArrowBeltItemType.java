@@ -96,20 +96,26 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             ItemStack arrowItem = getNextArrow(playerUUID, event.getConsumable(), inventory);
 
             event.setConsumeItem(false);
-            ItemStack item = inventory.getItem(inventory.first(arrowItem.getType()));
+            ItemStack item = inventory.getItem(inventory.first(arrowItem));
+
+            Bukkit.broadcastMessage("arrow ItemStack: " + arrowItem);
+            Bukkit.broadcastMessage("Inventory ItemStack" + item);
+
             assert item != null;
             item.setAmount(item.getAmount() - 1);
 
             Entity arrow = event.getProjectile();
             event.setProjectile(player.getWorld().spawnArrow(arrow.getLocation(), arrow.getVelocity().normalize(),
                     (float) arrow.getVelocity().length(), 0, getArrowEntity(arrowItem)));
+
+            Bukkit.broadcastMessage("new projectile: " + event.getProjectile());
         }
 
         private <T extends AbstractArrow> Class<T> getArrowEntity(ItemStack arrowItem) {
 
             return switch (arrowItem.getType()) {
-                default -> (Class<T>) Arrow.class;
                 case SPECTRAL_ARROW -> (Class<T>) SpectralArrow.class;
+                default -> (Class<T>) Arrow.class;
             };
         }
 
