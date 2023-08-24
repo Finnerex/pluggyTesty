@@ -119,6 +119,8 @@ public class ExpeditionEnterItemType extends SimpleItemType implements Interacta
         if(!(event.getWhoClicked() instanceof Player player))
             return;
 
+        player.closeInventory();
+
         expeditionConfirmGUI.displayTo(player);
     }
 
