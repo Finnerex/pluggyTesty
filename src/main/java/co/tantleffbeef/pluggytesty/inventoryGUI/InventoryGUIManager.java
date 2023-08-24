@@ -29,16 +29,22 @@ public class InventoryGUIManager implements Listener {
         Inventory inv = event.getClickedInventory();
         InventoryGUI gui = inventories.get(inv);
 
+        Bukkit.broadcastMessage("inv opened");
+
         if (gui == null) {
             InventorySelectorButton selector = listeningForSelection.get(wholeInv);
             if (selector != null) {
                 selector.click(event);
+                
+                Bukkit.broadcastMessage("selector?????");
 
                 listeningForSelection.remove(wholeInv);
             }
 
             return;
         }
+
+        Bukkit.broadcastMessage("gui not null");
 
         event.setCancelled(true);
 
