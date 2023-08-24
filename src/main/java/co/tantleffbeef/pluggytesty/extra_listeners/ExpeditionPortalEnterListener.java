@@ -51,7 +51,40 @@ public class ExpeditionPortalEnterListener implements Listener {
                                                "Ice Expedition",          "West Outpost Expedition",  "Piglin Expediton",
                 "Undead Trial",                "Weather Trial",           "Mansion Trial",            "Magma Trial",         "Decay Trial",        "The Final Trial"};
         final String[] lores = {"Undead", "Elemental", "Illager", "Nether", "Void", "Ending"};
-//        final Material[] icons = {Material.GREEN_STAINED_GLASS_PANE, Material.GRA}
+        final Material[] icons =
+                {Material.RED_STAINED_GLASS_PANE, Material.RED_STAINED_GLASS_PANE, Material.RED_STAINED_GLASS_PANE, Material.RED_STAINED_GLASS_PANE, Material.RED_STAINED_GLASS_PANE, Material.RED_STAINED_GLASS_PANE,
+                // stuff
+                Material.COARSE_DIRT, Material.DEEPSLATE, Material.DARK_OAK_PLANKS, Material.MAGMA_BLOCK, Material.END_STONE,
+                Material.BONE_BLOCK, Material.PURPUR_BLOCK, Material.DARK_OAK_LOG, Material.SAND, Material.SCULK,
+                Material.NETHERRACK, Material.PRISMARINE, Material.EMERALD_ORE, Material.SOUL_SAND, Material.LIGHT_BLUE_WOOL,
+                                     Material.ICE, Material.EMERALD_BLOCK, Material.GILDED_BLACKSTONE,
+                Material.ROTTEN_FLESH, Material.LIGHTNING_ROD, Material.TOTEM_OF_UNDYING, Material.LAVA, Material.WITHER_ROSE, Material.DRAGON_EGG};
+
+        int goofy = 0;
+
+        for (int i = 0; i < 6*9; i++) {
+            if((i > 5 && i < 12) || (i != 53 && i % 6 == 5) || (i > 35 && i < 48)) { // i love hard coding the excluded slots
+                goofy++;
+                continue;
+            }
+
+            Consumer<InventoryClickEvent> eventConsumer = this::onExpeditionClick;
+            if (i < 6)
+                eventConsumer = event -> {};
+
+            String name = i - goofy >= names.length ? " " : names[i - goofy];
+            String lore = i - goofy >= lores.length ? " " : lores[i - goofy];
+            Material icon = i - goofy >= icons.length ? Material.AIR : icons[i - goofy];
+
+            expeditionEnterGUI.addButton(
+                    new InventoryButton(
+                            eventConsumer,
+                            icon,
+                            name,
+                            lore
+                    ), i
+            );
+        }
 
     }
 
