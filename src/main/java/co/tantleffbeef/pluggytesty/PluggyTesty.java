@@ -187,7 +187,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL, this.getServer()));
 
-        registerItems();
+
 //        registerRecipes();
 
         // Adds all the textures and models in the resources folder to the resource pack
@@ -204,6 +204,8 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionController), this);
 
         gooberStateController = new GooberStateController(levelController, partyManager, expeditionController, getServer());
+
+        registerItems();
 
         final var commandManager = new PaperCommandManager(this);
         commandManager.getCommandContexts().registerIssuerAwareContext(Goober.class, context -> {
