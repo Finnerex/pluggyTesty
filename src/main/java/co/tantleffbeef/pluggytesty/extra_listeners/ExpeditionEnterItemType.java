@@ -142,7 +142,7 @@ public class ExpeditionEnterItemType extends SimpleItemType implements Interacta
         if (!(event.getWhoClicked() instanceof Player player))
             return;
 
-        expeditionBuilder.buildExpedition(expeditionTypes.get("air"))
+        expeditionBuilder.buildExpedition(expeditionTypes.get(chosenExpeditions.get(player.getUniqueId())))
                 .whenComplete((r, e) -> {
                     if (e != null)
                         Debug.alwaysError(e.toString());
@@ -150,12 +150,15 @@ public class ExpeditionEnterItemType extends SimpleItemType implements Interacta
                 .thenAccept(exp -> plugin.getServer().getScheduler().runTask(plugin, () -> {
                     exp.start(gooberStateController.wrapPlayer(player).getPartyOrCreate());
                 }));
+
+        chosenExpeditions.remove(player.getUniqueId());
     }
 
     private void onDecline(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player))
             return;
 
+        chosenExpeditions.remove(player.getUniqueId());
         player.closeInventory();
 
         expeditionEnterGUI.displayTo(player);
