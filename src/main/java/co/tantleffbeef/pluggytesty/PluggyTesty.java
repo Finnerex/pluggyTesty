@@ -324,8 +324,6 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryGUIManager(), this);
 //        getServer().getPluginManager().registerEvents(new EntityDeathGarbageCollector(), this);
 
-        getServer().getPluginManager().registerEvents(new ExpeditionPortalEnterListener(this, expeditionBuilder, expeditionController, expeditionInformationBiMap), this);
-
 
                 ArmorEquipEvent.registerListener(this);
 
@@ -803,6 +801,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new LandMineItemType(this, "land_mine", false, ChatColor.WHITE + "Land Mine"));
         resourceManager.registerItem(new LifeLinkItemType(this, "life_link", false, ChatColor.RED + "Life Link"));
         resourceManager.registerItem(new ArrowBeltItemType(this, "arrow_belt", false, ChatColor.WHITE + "Arrow Belt"));
+//        resourceManager.registerItem(new ExpeditionEnterItemType(this, "portal_enter", false, ChatColor.WHITE + "Portal Enter", ));
 
         // Armor
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));
