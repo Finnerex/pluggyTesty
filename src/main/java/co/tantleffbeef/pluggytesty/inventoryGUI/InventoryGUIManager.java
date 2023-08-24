@@ -17,7 +17,7 @@ public class InventoryGUIManager implements Listener {
     private static final Map<UUID, InventoryGUI> inventories = new HashMap<>();
 
     // map for if selector buttons are listening for clicks
-    private final Map<Inventory, InventorySelectorButton> listeningForSelection = new HashMap<>();
+    private final Map<UUID, InventorySelectorButton> listeningForSelection = new HashMap<>();
 
     public static void registerInventoryGUI(UUID player, InventoryGUI gui) {
         inventories.put(player, gui);
@@ -34,13 +34,13 @@ public class InventoryGUIManager implements Listener {
         Bukkit.broadcastMessage("inv opened");
 
         if (gui == null) {
-            InventorySelectorButton selector = listeningForSelection.get(wholeInv);
+            InventorySelectorButton selector = listeningForSelection.get(player);
             if (selector != null) {
                 selector.click(event);
 
                 Bukkit.broadcastMessage("selector?????");
 
-                listeningForSelection.remove(wholeInv);
+                listeningForSelection.remove(player);
             }
 
             return;
@@ -56,10 +56,10 @@ public class InventoryGUIManager implements Listener {
             return;
 
         if (button instanceof InventorySelectorButton selector) {
-            listeningForSelection.put(wholeInv, selector);
+            listeningForSelection.put(player, selector);
         } else {
             button.click(event);
-            listeningForSelection.remove(wholeInv);
+            listeningForSelection.remove(player);
         }
 
     }
