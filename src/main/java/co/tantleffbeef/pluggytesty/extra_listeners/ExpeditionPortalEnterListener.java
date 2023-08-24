@@ -142,9 +142,6 @@ public class ExpeditionPortalEnterListener implements Listener {
         if (!(event.getEntity() instanceof Player player))
             return;
 
-        if (player.getOpenInventory() != null)
-            return;
-
         expeditionEnterGUI.displayTo(player);
 
     }
