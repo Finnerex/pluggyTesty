@@ -128,12 +128,11 @@ public class ExpeditionEnterItemType extends SimpleItemType implements Interacta
         if(!(event.getWhoClicked() instanceof Player player))
             return;
 
-        Bukkit.broadcastMessage("clicked on: " + chosenExpeditions.get(player.getUniqueId()));
-
         String id = event.getCurrentItem().getItemMeta().getDisplayName().toLowerCase()
-                .replaceAll(" ", "_").replaceAll("_expediton", "");
+                .replaceAll(" ", "_").replace("_expedition", "");
 
         chosenExpeditions.put(player.getUniqueId(), id);
+        Bukkit.broadcastMessage("clicked on: " + chosenExpeditions.get(player.getUniqueId()));
 
         player.closeInventory();
 
