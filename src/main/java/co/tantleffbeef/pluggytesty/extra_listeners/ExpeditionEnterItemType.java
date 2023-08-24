@@ -107,7 +107,7 @@ public class ExpeditionEnterItemType extends SimpleItemType implements Interacta
                 .addButton(new InventoryButton(
                         this::onExpeditionClick, Material.SOUL_SAND, "Soul Expedition"), 31)
                 .addButton(new InventoryButton(
-                        this::onExpeditionClick, Material.GILDED_BLACKSTONE, "Piglin Expediton"), 32)
+                        this::onExpeditionClick, Material.GILDED_BLACKSTONE, "Piglin Expedition"), 32)
                 .addButton(new InventoryButton(
                         this::onExpeditionClick, Material.LAVA_BUCKET, "Magma Trial"), 35)
                 .addButton(new InventoryButton(
