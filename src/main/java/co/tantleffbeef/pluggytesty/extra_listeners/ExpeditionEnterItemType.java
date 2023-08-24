@@ -25,30 +25,39 @@ import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class ExpeditionEnterItemType extends SimpleItemType implements InteractableItemType {
     private final ExpeditionBuilder expeditionBuilder;
     private final ExpeditionController expeditionController;
     private final Map<String, ExpeditionInformation> expeditionTypes;
+
+    private final Map<UUID, String> chosenExpeditions;
     private final Plugin plugin;
+    private final GooberStateController gooberStateController;
 
     private InventoryGUI expeditionEnterGUI;
     private InventoryGUI expeditionConfirmGUI;
 
-    public ExpeditionEnterItemType(Plugin plugin, String id, boolean customModel, String name, ExpeditionBuilder builder, ExpeditionController expController, Map<String, ExpeditionInformation> expeditionTypes) {
+    public ExpeditionEnterItemType(Plugin plugin, String id, boolean customModel, String name, ExpeditionBuilder builder,
+                                   ExpeditionController expController, Map<String, ExpeditionInformation> expeditionTypes, GooberStateController gooberStateController) {
         super(plugin, id, customModel, name, Material.END_ROD);
         this.expeditionBuilder = builder;
         this.expeditionController = expController;
         this.expeditionTypes = expeditionTypes;
+        this.gooberStateController = gooberStateController;
         this.plugin = plugin;
+
+        this.chosenExpeditions = new HashMap<>();
 
         expeditionEnterGUI = new InventoryGUI(6 * 9, "Expeditions", Material.GRAY_STAINED_GLASS_PANE, plugin.getServer());
         expeditionConfirmGUI = new InventoryGUI(1 * 9, "Continue?",  Material.GRAY_STAINED_GLASS_PANE, plugin.getServer());
 
-        expeditionConfirmGUI.addButton(new InventoryButton(this::onConfirm, Material.GREEN_STAINED_GLASS, "Confirm", "Enter Expedition"), 4);
-        expeditionConfirmGUI.addButton(new InventoryButton(this::onDecline, Material.RED_STAINED_GLASS, "Cancel", "Return to Expedition Selector"), 6);
+        expeditionConfirmGUI.addButton(new InventoryButton(this::onConfirm, Material.GREEN_STAINED_GLASS, "Confirm", "Enter Expedition"), 3);
+        expeditionConfirmGUI.addButton(new InventoryButton(this::onDecline, Material.RED_STAINED_GLASS, "Cancel", "Return to Expedition Selector"), 5);
 
         expeditionEnterGUI
                 .addButton(new InventoryButton(
@@ -119,20 +128,28 @@ public class ExpeditionEnterItemType extends SimpleItemType implements Interacta
         if(!(event.getWhoClicked() instanceof Player player))
             return;
 
+        String id = event.getCurrentItem().getItemMeta().getDisplayName().toLowerCase()
+                .replaceAll(" ", "_").replaceAll("_expediton", "");
+
+        chosenExpeditions.put(player.getUniqueId(), id);
+
         player.closeInventory();
 
         expeditionConfirmGUI.displayTo(player);
     }
 
     private void onConfirm(InventoryClickEvent event) {
-//        expeditionBuilder.buildExpedition(expeditionTypes.get("air"))
-//                .whenComplete((r, e) -> {
-//                    if (e != null)
-//                        Debug.alwaysError(e.toString());
-//                })
-//                .thenAccept(exp -> plugin.getServer().getScheduler().runTask(plugin, () -> {
-//                    exp.start(GooberStateController);
-//                }));
+        if (!(event.getWhoClicked() instanceof Player player))
+            return;
+
+        expeditionBuilder.buildExpedition(expeditionTypes.get("air"))
+                .whenComplete((r, e) -> {
+                    if (e != null)
+                        Debug.alwaysError(e.toString());
+                })
+                .thenAccept(exp -> plugin.getServer().getScheduler().runTask(plugin, () -> {
+                    exp.start(gooberStateController.wrapPlayer(player).getPartyOrCreate());
+                }));
     }
 
     private void onDecline(InventoryClickEvent event) {
