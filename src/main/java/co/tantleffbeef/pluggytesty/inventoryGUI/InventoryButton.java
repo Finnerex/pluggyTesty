@@ -37,8 +37,6 @@ public class InventoryButton {
         this.icon = icon;
     }
 
-
-
     public void click(InventoryClickEvent event) {
         clickEventConsumer.accept(event);
     }

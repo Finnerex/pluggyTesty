@@ -34,6 +34,7 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
 
 
         for (int i = 2; i < 7; i++) {
+            int buttonSlot = i;
             InventoryButton selectorButton = new InventorySelectorButton(
                     (event) -> {
                         ItemStack item = event.getCurrentItem();
@@ -43,7 +44,7 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
                             return;
 
                         if (item.getType() == Material.ARROW || item.getType() == Material.SPECTRAL_ARROW || item.getType() == Material.TIPPED_ARROW) {
-                            playerBelts.get(event.getWhoClicked().getUniqueId()).setIcon(event.getSlot(), new ItemStack(item.getType(), 1));
+                            playerBelts.get(event.getWhoClicked().getUniqueId()).setIcon(buttonSlot, new ItemStack(item.getType(), 1));
 
                             if (event.getWhoClicked() instanceof Player player)
                                 player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BANJO, 1, 2);
