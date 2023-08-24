@@ -69,6 +69,13 @@ public class InventoryGUI {
         inventory.setItem(slot, itemStack);
     }
 
+    public InventoryButton getButton(int slot, Inventory inventory) {
+        if (!inventory.equals(this.inventory))
+            return null;
+
+        return buttons.get(slot);
+    }
+
     public InventoryButton getButton(int slot) {
         return buttons.get(slot);
     }

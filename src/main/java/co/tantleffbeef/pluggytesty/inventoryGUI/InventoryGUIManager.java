@@ -35,7 +35,7 @@ public class InventoryGUIManager implements Listener {
 
         event.setCancelled(true);
 
-        InventoryButton button = gui.getButton(event.getSlot());
+        InventoryButton button = gui.getButton(event.getSlot(), event.getClickedInventory());
 
         if (button == null) {
 
