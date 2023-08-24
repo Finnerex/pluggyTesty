@@ -128,10 +128,10 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
                 ItemStack arrow = getArrowOrNull(index, player);
                 Bukkit.broadcastMessage(ChatColor.GREEN + "next Arrow: " + arrow + "\nindex: " + index);
 
+                playerLastShotPos.put(player, (index + 1) % 5);
+
                 if (inventory.containsAtLeast(arrow, 1))
                     return arrow;
-
-                playerLastShotPos.put(player, (index + 1) % 5);
             }
 
             return originalArrow;
