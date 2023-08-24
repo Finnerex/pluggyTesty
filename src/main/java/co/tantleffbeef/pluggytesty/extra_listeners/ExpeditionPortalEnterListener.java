@@ -43,6 +43,43 @@ public class ExpeditionPortalEnterListener implements Listener {
         expeditionConfirmGUI.addButton(new InventoryButton(this::onConfirm, Material.GREEN_STAINED_GLASS, "Confirm", "Enter Expedition"), 4);
         expeditionConfirmGUI.addButton(new InventoryButton(this::onDecline, Material.RED_STAINED_GLASS, "Cancel", "Return to Expedition Selector"), 6);
 
+        expeditionEnterGUI
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1", "Undead"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 2", "Elemental"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 3", "Illager"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 4", "Undead"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 5", "Undead"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 6", "Undead"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+                .addButton(new InventoryButton(
+                        this::onExpeditionClick, Material.RED_STAINED_GLASS_PANE, "Tier 1"), 0)
+
+                
         // column major list of names of the buttons
         final String[] names =
                 {"Tier 1",                     "Tier 2",                  "Tier 3",                   "Tier 4",              "Tier 5",             "Tier 6",
