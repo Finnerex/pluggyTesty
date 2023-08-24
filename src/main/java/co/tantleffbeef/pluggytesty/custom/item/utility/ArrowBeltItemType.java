@@ -25,7 +25,7 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
     private final InventoryGUI DEFAULT_BELT;
 
     public ArrowBeltItemType(Plugin namespace, String id, boolean customModel, String name) {
-        super(namespace, id, customModel, name);
+        super(namespace, id, customModel, name, Material.PAPER);
 
         playerBelts = new HashMap<>();
 
