@@ -6,6 +6,7 @@ import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryButton;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryGUI;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventorySelectorButton;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -122,13 +123,15 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
         private ItemStack getNextArrow(UUID player, ItemStack originalArrow, Inventory inventory) {
 
             for (int i = 0; i < 5; i++) {
+                int index = playerLastShotPos.get(player);
 
-                ItemStack arrow = getArrowOrNull(i, player);
+                ItemStack arrow = getArrowOrNull(index, player);
+                Bukkit.broadcastMessage(ChatColor.GREEN + "next Arrow: " + arrow + "\nindex: " + index);
 
                 if (inventory.contains(arrow))
                     return arrow;
 
-                playerLastShotPos.put(player, (playerLastShotPos.get(player) + 1) % 5);
+                playerLastShotPos.put(player, (index + 1) % 5);
             }
 
             return originalArrow;
