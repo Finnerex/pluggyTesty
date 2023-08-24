@@ -82,17 +82,17 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             playerLastShotPos.putIfAbsent(playerUUID, 0);
         }
 
-        private ItemStack getNextArrow(UUID player, ItemStack originalArrow) {
-
-            ItemStack arrow = originalArrow;
-
-            for (int i = 0; i < 5; i++) {
-
-                if ()
-
-                playerLastShotPos.put(player, (playerLastShotPos.get(player) + 1) % 5);
-            }
-        }
+//        private ItemStack getNextArrow(UUID player, ItemStack originalArrow) {
+//
+//            ItemStack arrow = originalArrow;
+//
+//            for (int i = 0; i < 5; i++) {
+//
+//                if ()
+//
+//                playerLastShotPos.put(player, (playerLastShotPos.get(player) + 1) % 5);
+//            }
+//        }
     }
 
     @Override
