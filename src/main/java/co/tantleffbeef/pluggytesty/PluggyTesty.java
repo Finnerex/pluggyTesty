@@ -10,6 +10,7 @@ import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.CraftListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
+import co.tantleffbeef.pluggytesty.expeditions.ExpeditionController;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.commands.ReloadExpeditionsCommand;
 import co.tantleffbeef.pluggytesty.expeditions.commands.RunExpeditionCommand;
@@ -99,6 +100,8 @@ public final class PluggyTesty extends JavaPlugin {
     private PartyManager partyManager;
     private final BiMap<String, RoomInformation> roomInformationBiMap = HashBiMap.create();
     private final BiMap<String, ExpeditionInformation> expeditionInformationBiMap = HashBiMap.create();
+    private ExpeditionBuilder expeditionBuilder;
+    private PTExpeditionController expeditionController;
 
     @Override
     public void onLoad() {
@@ -195,8 +198,8 @@ public final class PluggyTesty extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        final var expeditionController = new PTExpeditionController();
-        final var expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
+        expeditionController = new PTExpeditionController();
+        expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
 
         getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionController), this);
 
@@ -801,7 +804,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new LandMineItemType(this, "land_mine", false, ChatColor.WHITE + "Land Mine"));
         resourceManager.registerItem(new LifeLinkItemType(this, "life_link", false, ChatColor.RED + "Life Link"));
         resourceManager.registerItem(new ArrowBeltItemType(this, "arrow_belt", false, ChatColor.WHITE + "Arrow Belt"));
-//        resourceManager.registerItem(new ExpeditionEnterItemType(this, "portal_enter", false, ChatColor.WHITE + "Portal Enter", ));
+        resourceManager.registerItem(new ExpeditionEnterItemType(this, "portal_enter", false, ChatColor.WHITE + "Portal Enter", expeditionBuilder, expeditionController, expeditionInformationBiMap));
 
         // Armor
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));
