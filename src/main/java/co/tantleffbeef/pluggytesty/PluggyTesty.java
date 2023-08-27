@@ -822,6 +822,47 @@ public final class PluggyTesty extends JavaPlugin {
     private void addCustomAttributes() {
         // modify a bunch of vanilla items
 
+        // Swords
+        addCustomAttributeToVanillaItem(Material.WOODEN_SWORD,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 5,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.STONE_SWORD,
+                new AttributePair(Attribute.GENERIC_ARMOR, 6,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.IRON_SWORD,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 7,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.GOLDEN_SWORD,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 10,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.DIAMOND_SWORD,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 14,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.NETHERITE_SWORD,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 20,
+                        EquipmentSlot.HAND));
+
+        // Tools
+        addCustomAttributeToVanillaItem(Material.WOODEN_AXE,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 1,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.STONE_AXE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 1,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.IRON_AXE,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 2,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.GOLDEN_AXE,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 3,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.DIAMOND_AXE,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 4,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.NETHERITE_AXE,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 5,
+                        EquipmentSlot.HAND));
+
+
         // Armor
 
         // leather
