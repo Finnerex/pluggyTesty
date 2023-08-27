@@ -23,7 +23,7 @@ import java.util.Collection;
 
 public class BoombatStickItemType extends SimpleItemType implements InteractableItemType {
 
-    private final int COOLDOWN_TICKS = 5;
+    private final int COOLDOWN_TICKS = 15;
     private final Plugin plugin;
 
 
