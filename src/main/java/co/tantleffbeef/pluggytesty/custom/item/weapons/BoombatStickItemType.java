@@ -60,6 +60,7 @@ public class BoombatStickItemType extends SimpleItemType implements Interactable
                 Collection<Entity> entities = bat.getNearbyEntities(1, 1, 1);
 
                 entities.remove(bat);
+                entities.remove(player);
 
                 if (!entities.isEmpty() || bat.getLocation().getBlock().getType() != Material.AIR) {
                     bat.getWorld().createExplosion(bat.getLocation(), 4, false, false, bat);
