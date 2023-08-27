@@ -7,14 +7,16 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Random;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -49,17 +51,29 @@ public class BoombatStickItemType extends SimpleItemType implements Interactable
 
         Bat bat = player.getWorld().spawn(player.getEyeLocation(), Bat.class, (b) -> {
             b.setCustomName(ChatColor.DARK_PURPLE + "Boombat");
-            b.setVelocity(player.getEyeLocation().getDirection());
             b.setAware(false);
+            b.setAware(true);
             b.setInvulnerable(true);
         });
 
+        Random rand = new Random();
+
         BukkitRunnable runnable = new BukkitRunnable() {
+
+            Vector direction = player.getEyeLocation().getDirection().add(
+                    new Vector(rand.nextFloat() * 4 - 2, rand.nextFloat() * 4 - 2, rand.nextFloat() * 4 - 2)).normalize();
+
             @Override
             public void run() {
                 Collection<Entity> entities = bat.getNearbyEntities(1, 1, 1);
 
-                entities.remove(bat);
+                bat.teleport(bat.getLocation().add(direction));
+
+                entities.forEach((entity) -> {
+                    if (entity.getType() == EntityType.BAT)
+                        entities.remove(entity);
+                });
+
                 entities.remove(player);
 
                 if (!entities.isEmpty() || bat.getLocation().getBlock().getType() != Material.AIR) {
@@ -75,7 +89,7 @@ public class BoombatStickItemType extends SimpleItemType implements Interactable
             }
         };
 
-        runnable.runTaskTimer(plugin, 0, 2);
+        runnable.runTaskTimer(plugin, 0, 0);
 
         player.setCooldown(Material.STICK, COOLDOWN_TICKS);
 
