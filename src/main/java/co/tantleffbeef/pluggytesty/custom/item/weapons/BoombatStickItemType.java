@@ -61,7 +61,7 @@ public class BoombatStickItemType extends SimpleItemType implements Interactable
         BukkitRunnable runnable = new BukkitRunnable() {
 
             Vector direction = player.getEyeLocation().getDirection().add(
-                    new Vector(rand.nextFloat() - 0.5f, rand.nextFloat() - 0.5f, rand.nextFloat() - 0.5f)).normalize();
+                    new Vector(rand.nextFloat() / 5 - 0.1f, rand.nextFloat() / 5 - 0.1f, rand.nextFloat() / 5 - 0.1f)).normalize();
 
             @Override
             public void run() {
