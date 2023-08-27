@@ -50,7 +50,7 @@ public class BoombatStickItemType extends SimpleItemType implements Interactable
         Bat bat = player.getWorld().spawn(player.getEyeLocation(), Bat.class, (b) -> {
             b.setCustomName(ChatColor.DARK_PURPLE + "Boombat");
             b.setVelocity(player.getEyeLocation().getDirection());
-            b.setAwake(false);
+            b.setAware(false);
             b.setInvulnerable(true);
         });
 
