@@ -60,6 +60,9 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
 
         @EventHandler
         public void onShoot(EntityShootBowEvent event) {
+            if (!(event.getEntity() instanceof Player player))
+                return;
+
             if (eventsToIgnore.contains(event)) {
                 eventsToIgnore.remove(event);
                 return;
@@ -71,9 +74,6 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
 
             // not dealing with crossbows here
             if (bow == null || bow.getType() == Material.CROSSBOW || event.getConsumable() == null)
-                return;
-
-            if (!(event.getEntity() instanceof Player player))
                 return;
 
             UUID playerUUID = player.getUniqueId();
