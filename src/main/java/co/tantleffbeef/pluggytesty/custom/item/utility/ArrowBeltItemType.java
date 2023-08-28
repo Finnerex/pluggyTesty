@@ -81,28 +81,9 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             if (playerBelts.get(playerUUID) == null)
                 return;
 
-            playerLastShotPos.putIfAbsent(playerUUID, 0);
+            Inventory inventory = player.getInventory();
 
             ItemStack arrowItem = getNextArrow(playerUUID, event.getConsumable(), player.getInventory());
-
-            event.setCancelled(true);
-
-            EntityShootBowEvent newEvent = new EntityShootBowEvent(player, bow, arrowItem, getArrowEntity(arrowItem, event),
-                    event.getHand(), event.getForce(), event.shouldConsumeItem());
-            eventsToIgnore.add(newEvent);
-        }
-
-        private <T extends AbstractArrow> AbstractArrow getArrowEntity(ItemStack arrowItem, EntityShootBowEvent event) {
-
-            Class<T> theClass = switch (arrowItem.getType()) {
-                case SPECTRAL_ARROW -> (Class<T>) SpectralArrow.class;
-                default -> (Class<T>) Arrow.class;
-            };
-
-            assert event.getEntity() instanceof Player;
-            Player player = (Player) event.getEntity();
-
-            Inventory inventory = player.getInventory();
 
             ItemStack item = null;
             for (ItemStack itemStack : inventory.getContents()) {
@@ -115,10 +96,26 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
 
             assert item != null;
 
+            playerLastShotPos.putIfAbsent(playerUUID, 0);
+
+            event.setCancelled(true);
+
+            EntityShootBowEvent newEvent = new EntityShootBowEvent(player, bow, item, getArrowEntity(arrowItem, event),
+                    event.getHand(), event.getForce(), event.shouldConsumeItem());
+            eventsToIgnore.add(newEvent);
+        }
+
+        private <T extends AbstractArrow> AbstractArrow getArrowEntity(ItemStack arrowItem, EntityShootBowEvent event) {
+
+            Class<T> theClass = switch (arrowItem.getType()) {
+                case SPECTRAL_ARROW -> (Class<T>) SpectralArrow.class;
+                default -> (Class<T>) Arrow.class;
+            };
+
             assert event.getProjectile() instanceof AbstractArrow;
             AbstractArrow oldArrow = (AbstractArrow) event.getProjectile();
 
-            AbstractArrow newArrow = player.getWorld().spawnArrow(oldArrow.getLocation(), oldArrow.getVelocity().normalize(),
+            AbstractArrow newArrow = event.getEntity().getWorld().spawnArrow(oldArrow.getLocation(), oldArrow.getVelocity().normalize(),
                     (float) oldArrow.getVelocity().length(), 0, theClass);
 
             // Make it the same arrow (this is goofy)
@@ -130,7 +127,7 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             newArrow.setShotFromCrossbow(oldArrow.isShotFromCrossbow());
 
 
-            if (newArrow instanceof Arrow potionableArrow && item.getItemMeta() instanceof PotionMeta potionMeta) {
+            if (newArrow instanceof Arrow potionableArrow && arrowItem.getItemMeta() instanceof PotionMeta potionMeta) {
                 potionableArrow.setBasePotionData(potionMeta.getBasePotionData());
                 potionableArrow.setColor(potionMeta.getColor());
 
