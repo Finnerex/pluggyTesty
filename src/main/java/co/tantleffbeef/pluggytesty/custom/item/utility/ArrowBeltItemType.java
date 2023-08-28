@@ -81,6 +81,8 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             if (playerBelts.get(playerUUID) == null)
                 return;
 
+            playerLastShotPos.putIfAbsent(playerUUID, 0);
+
             Inventory inventory = player.getInventory();
 
             ItemStack arrowItem = getNextArrow(playerUUID, event.getConsumable(), player.getInventory());
@@ -95,8 +97,6 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             }
 
             assert item != null;
-
-            playerLastShotPos.putIfAbsent(playerUUID, 0);
 
             event.setCancelled(true);
 
