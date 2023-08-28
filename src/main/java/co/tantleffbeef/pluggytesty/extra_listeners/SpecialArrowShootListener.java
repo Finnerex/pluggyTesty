@@ -32,7 +32,7 @@ public class SpecialArrowShootListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onBowShoot(EntityShootBowEvent event) {
 
         if (!(event.getProjectile() instanceof Arrow arrow) || event.isCancelled())
