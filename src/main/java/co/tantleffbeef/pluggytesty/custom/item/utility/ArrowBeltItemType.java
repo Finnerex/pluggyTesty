@@ -30,14 +30,13 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ArrowBeltItemType extends SimpleItemType implements InteractableItemType {
 
     private final Map<UUID, InventoryGUI> playerBelts;
     private final Map<UUID, Integer> playerLastShotPos;
+    private final Collection<EntityShootBowEvent> eventsToIgnore;
 
     KeyManager<CustomNbtKey> keyManager;
     ResourceManager resourceManager;
@@ -54,12 +53,18 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
         this.plugin = namespace;
         playerBelts = new HashMap<>();
         playerLastShotPos = new HashMap<>();
+        eventsToIgnore = new ArrayList<>();
     }
 
     private class BeltShootListener implements Listener {
 
         @EventHandler
         public void onShoot(EntityShootBowEvent event) {
+            if (eventsToIgnore.contains(event)) {
+                eventsToIgnore.remove(event);
+                return;
+            }
+
             ItemStack bow = event.getBow();
 
             Bukkit.broadcastMessage("event hapopenent");
@@ -78,10 +83,27 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
 
             playerLastShotPos.putIfAbsent(playerUUID, 0);
 
-            Inventory inventory = player.getInventory();
-            ItemStack arrowItem = getNextArrow(playerUUID, event.getConsumable(), inventory);
+            ItemStack arrowItem = getNextArrow(playerUUID, event.getConsumable(), player.getInventory());
 
-            event.setConsumeItem(false);
+            event.setCancelled(true);
+
+            EntityShootBowEvent newEvent = new EntityShootBowEvent(player, bow, arrowItem, getArrowEntity(arrowItem, event),
+                    event.getHand(), event.getForce(), event.shouldConsumeItem());
+            eventsToIgnore.add(newEvent);
+        }
+
+        private <T extends AbstractArrow> AbstractArrow getArrowEntity(ItemStack arrowItem, EntityShootBowEvent event) {
+
+            Class<T> theClass = switch (arrowItem.getType()) {
+                case SPECTRAL_ARROW -> (Class<T>) SpectralArrow.class;
+                default -> (Class<T>) Arrow.class;
+            };
+
+            assert event.getEntity() instanceof Player;
+            Player player = (Player) event.getEntity();
+
+            Inventory inventory = player.getInventory();
+
             ItemStack item = null;
             for (ItemStack itemStack : inventory.getContents()) {
                 Bukkit.broadcastMessage(ChatColor.AQUA + "Item Stack: " + itemStack);
@@ -91,17 +113,13 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
                 }
             }
 
-            Bukkit.broadcastMessage("arrow ItemStack: " + arrowItem);
-            Bukkit.broadcastMessage("Inventory ItemStack" + item);
-
             assert item != null;
-            item.setAmount(item.getAmount() - 1);
 
             assert event.getProjectile() instanceof AbstractArrow;
             AbstractArrow oldArrow = (AbstractArrow) event.getProjectile();
 
             AbstractArrow newArrow = player.getWorld().spawnArrow(oldArrow.getLocation(), oldArrow.getVelocity().normalize(),
-                    (float) oldArrow.getVelocity().length(), 0, getArrowEntity(arrowItem));
+                    (float) oldArrow.getVelocity().length(), 0, theClass);
 
             // Make it the same arrow (this is goofy)
             newArrow.setPickupStatus(oldArrow.getPickupStatus());
@@ -122,24 +140,8 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
                 Bukkit.broadcastMessage(ChatColor.GOLD + "potion effect applied");
             }
 
-            CustomArrow customArrow = CustomItemType.asInstanceOf(CustomArrow.class, event.getConsumable(), keyManager, resourceManager);
+            return newArrow;
 
-            if (customArrow == null && newArrow instanceof Arrow) {
-                customArrow.applySpawnEffects((Arrow) newArrow);
-                newArrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
-            }
-
-            event.setProjectile(newArrow);
-
-            Bukkit.broadcastMessage("new projectile: " + event.getProjectile());
-        }
-
-        private <T extends AbstractArrow> Class<T> getArrowEntity(ItemStack arrowItem) {
-
-            return switch (arrowItem.getType()) {
-                case SPECTRAL_ARROW -> (Class<T>) SpectralArrow.class;
-                default -> (Class<T>) Arrow.class;
-            };
         }
 
         private ItemStack getNextArrow(UUID player, ItemStack originalArrow, Inventory inventory) {
