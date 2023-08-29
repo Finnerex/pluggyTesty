@@ -158,7 +158,7 @@ public class ExpeditionBuilder {
 
                     // store the room's data
                     final var roomObject =
-                            info.roomType.getConstructor().construct(bukkitLocationFromWE(world, pasteLocation));
+                            info.roomType.getConstructor().construct(bukkitLocationFromWE(world, pasteLocation), info.roomSettings);
 
                     roomData = new RoomMetadata(
                             roomObject,

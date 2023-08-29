@@ -382,12 +382,12 @@ public final class PluggyTesty extends JavaPlugin {
                     new SpecificRoomLoader(List.of(
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
-                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem"), null),
+                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room1.schem"), null, null),
                                     null, new Vector3i(0, 0, 0), 0, 0
                             ),
                             new RoomInformationInstance(
                                     new RoomInformation(RoomType.SIMPLE_EXIT,
-                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem"), null),
+                                            getDataFolder().toPath().resolve("data").resolve("rooms").resolve("test_expedition").resolve("te_room2.schem"), null, null),
                                     null, new Vector3i(25, -5, 0), 0, 0
                             )
                     )),
@@ -469,11 +469,13 @@ public final class PluggyTesty extends JavaPlugin {
 
             final var firstRoom = new RoomInformation(RoomType.SIMPLE_STARTING_ROOM,
                     teFolder.resolve("te_room1.schem"),
+                    null,
                     List.of(new ConsistentHeightRoomDoor(BlockFace.WEST, Material.DIRT, 3))
             );
 
             final var lastRoom = new RoomInformation(RoomType.SIMPLE_EXIT,
                     teFolder.resolve("te_room2.schem"),
+                    null,
                     List.of(new ConsistentHeightRoomDoor(BlockFace.SOUTH, Material.DIRT, 8))
             );
 
@@ -485,11 +487,13 @@ public final class PluggyTesty extends JavaPlugin {
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_1.schem"),
+                            null,
                             fourDoorsSameHeight(5)
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("tall_room.schem"),
+                            null,
                             List.of(
                                     new ConsistentHeightRoomDoor(BlockFace.WEST, Material.DIRT, 2),
                                     new ConsistentHeightRoomDoor(BlockFace.NORTH, Material.DIRT, 10),
@@ -500,6 +504,7 @@ public final class PluggyTesty extends JavaPlugin {
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_5.schem"),
+                            null,
                             fourDoorsSameHeight(5)
                     )
             );
@@ -514,26 +519,31 @@ public final class PluggyTesty extends JavaPlugin {
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_3.schem"),
+                            null,
                             fourDoorsSameHeight(5)
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_4.schem"),
+                            null,
                             fourDoorsSameHeight(6)
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_6.schem"),
+                            null,
                             fourDoorsSameHeight(12)
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_7.schem"),
+                            null,
                             fourDoorsSameHeight(9)
                     ),
                     new RoomInformation(
                             RoomType.EMPTY,
                             teFolder.resolve("re_room_8.schem"),
+                            null,
                             fourDoorsSameHeight(4)
                     )
             );
