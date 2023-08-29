@@ -9,6 +9,7 @@ import org.bukkit.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -31,10 +32,10 @@ public class SpecialArrowShootListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onBowShoot(EntityShootBowEvent event) {
 
-        if (!(event.getProjectile() instanceof Arrow arrow))
+        if (!(event.getProjectile() instanceof Arrow arrow) || event.isCancelled())
             return;
 
         ItemStack item = event.getConsumable();

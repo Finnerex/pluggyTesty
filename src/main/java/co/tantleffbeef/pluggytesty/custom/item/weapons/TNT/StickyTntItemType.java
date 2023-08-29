@@ -17,7 +17,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.bukkit.Bukkit;
-import org.jetbrains.annotations.Nullable;
 import org.bukkit.util .Vector;
 
 import java.util.List;
@@ -40,13 +39,13 @@ public class StickyTntItemType extends SimplePlaceableItemType implements Intera
         super.modifyItemMeta(meta);
         meta.setLore(List.of(ChatColor.DARK_GREEN + "SUPER Sticky!!!"));
     }
-
     @Override
     public boolean interactBlock(@NotNull Player player, @NotNull Location location, @NotNull Block block, @NotNull Action action) {
         Bukkit.broadcastMessage("bozo");
         FallingBlock fallingBlock = block.getWorld().spawnFallingBlock(block.getLocation().add(new Vector(0, 5, 0)), Material.GRASS_BLOCK.createBlockData());
         return false;
     }
+
 }
 
 

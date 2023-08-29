@@ -1,5 +1,9 @@
 package co.tantleffbeef.pluggytesty.custom.item.utility;
 
+import co.tantleffbeef.mcplanes.CustomNbtKey;
+import co.tantleffbeef.mcplanes.KeyManager;
+import co.tantleffbeef.mcplanes.ResourceManager;
+import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.CustomArrow;
@@ -26,72 +30,50 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ArrowBeltItemType extends SimpleItemType implements InteractableItemType {
 
     private final Map<UUID, InventoryGUI> playerBelts;
     private final Map<UUID, Integer> playerLastShotPos;
+    private final Collection<EntityShootBowEvent> eventsToIgnore;
+
+    KeyManager<CustomNbtKey> keyManager;
+    ResourceManager resourceManager;
     private final Plugin plugin;
 
-    private final InventoryGUI DEFAULT_BELT;
-
-    public ArrowBeltItemType(Plugin namespace, String id, boolean customModel, String name) {
+    public ArrowBeltItemType(Plugin namespace, String id, boolean customModel, String name, KeyManager<CustomNbtKey> keyManager, ResourceManager resourceManager) {
         super(namespace, id, customModel, name, Material.PAPER);
 
         namespace.getServer().getPluginManager().registerEvents(new BeltShootListener(), namespace);
 
+        this.keyManager = keyManager;
+        this.resourceManager = resourceManager;
+
         this.plugin = namespace;
         playerBelts = new HashMap<>();
         playerLastShotPos = new HashMap<>();
-
-        DEFAULT_BELT = new InventoryGUI(9, "ArrowBelt", namespace.getServer());
-
-        for (int i = 2; i < 7; i++) {
-            int buttonSlot = i;
-            InventoryButton selectorButton = new InventorySelectorButton(
-                    (event) -> {
-                        ItemStack item = event.getCurrentItem();
-                        event.setCancelled(true);
-
-                        if (item == null)
-                            return;
-
-                        item = item.clone();
-
-                        if (item.getType() == Material.ARROW || item.getType() == Material.SPECTRAL_ARROW || item.getType() == Material.TIPPED_ARROW) {
-                            item.setAmount(1);
-                            playerBelts.get(event.getWhoClicked().getUniqueId()).setIcon(buttonSlot, item);
-
-                            if (event.getWhoClicked() instanceof Player player)
-                                player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BANJO, 1, 2);
-                        }
-
-                    },
-                    Material.GRAY_STAINED_GLASS_PANE,
-                    "No arrow assigned",
-                    "Click to change"
-            );
-
-            DEFAULT_BELT.addButton(selectorButton, i);
-        }
+        eventsToIgnore = new ArrayList<>();
     }
 
     private class BeltShootListener implements Listener {
 
         @EventHandler
         public void onShoot(EntityShootBowEvent event) {
+            if (!(event.getEntity() instanceof Player player))
+                return;
+
+            if (eventsToIgnore.contains(event)) {
+                eventsToIgnore.remove(event);
+                return;
+            }
+
             ItemStack bow = event.getBow();
 
             Bukkit.broadcastMessage("event hapopenent");
 
             // not dealing with crossbows here
             if (bow == null || bow.getType() == Material.CROSSBOW || event.getConsumable() == null)
-                return;
-
-            if (!(event.getEntity() instanceof Player player))
                 return;
 
             UUID playerUUID = player.getUniqueId();
@@ -102,28 +84,39 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             playerLastShotPos.putIfAbsent(playerUUID, 0);
 
             Inventory inventory = player.getInventory();
-            ItemStack arrowItem = getNextArrow(playerUUID, event.getConsumable(), inventory);
 
-            event.setConsumeItem(false);
+            ItemStack arrowItem = getNextArrow(playerUUID, event.getConsumable(), player.getInventory());
+
             ItemStack item = null;
             for (ItemStack itemStack : inventory.getContents()) {
-                if (itemStack.isSimilar(arrowItem)) {
+                Bukkit.broadcastMessage(ChatColor.AQUA + "Item Stack: " + itemStack);
+                if (arrowItem.isSimilar(itemStack)) {
                     item = itemStack;
                     break;
                 }
             }
 
-            Bukkit.broadcastMessage("arrow ItemStack: " + arrowItem);
-            Bukkit.broadcastMessage("Inventory ItemStack" + item);
-
             assert item != null;
-            item.setAmount(item.getAmount() - 1);
+
+            event.setCancelled(true);
+
+            EntityShootBowEvent newEvent = new EntityShootBowEvent(player, bow, item, getArrowEntity(arrowItem, event),
+                    event.getHand(), event.getForce(), event.shouldConsumeItem());
+            eventsToIgnore.add(newEvent);
+        }
+
+        private <T extends AbstractArrow> AbstractArrow getArrowEntity(ItemStack arrowItem, EntityShootBowEvent event) {
+
+            Class<T> theClass = switch (arrowItem.getType()) {
+                case SPECTRAL_ARROW -> (Class<T>) SpectralArrow.class;
+                default -> (Class<T>) Arrow.class;
+            };
 
             assert event.getProjectile() instanceof AbstractArrow;
             AbstractArrow oldArrow = (AbstractArrow) event.getProjectile();
 
-            AbstractArrow newArrow = player.getWorld().spawnArrow(oldArrow.getLocation(), oldArrow.getVelocity().normalize(),
-                    (float) oldArrow.getVelocity().length(), 0, getArrowEntity(arrowItem));
+            AbstractArrow newArrow = event.getEntity().getWorld().spawnArrow(oldArrow.getLocation(), oldArrow.getVelocity().normalize(),
+                    (float) oldArrow.getVelocity().length(), 0, theClass);
 
             // Make it the same arrow (this is goofy)
             newArrow.setPickupStatus(oldArrow.getPickupStatus());
@@ -134,7 +127,7 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
             newArrow.setShotFromCrossbow(oldArrow.isShotFromCrossbow());
 
 
-            if (newArrow instanceof Arrow potionableArrow && item.getItemMeta() instanceof PotionMeta potionMeta) {
+            if (newArrow instanceof Arrow potionableArrow && arrowItem.getItemMeta() instanceof PotionMeta potionMeta) {
                 potionableArrow.setBasePotionData(potionMeta.getBasePotionData());
                 potionableArrow.setColor(potionMeta.getColor());
 
@@ -144,25 +137,8 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
                 Bukkit.broadcastMessage(ChatColor.GOLD + "potion effect applied");
             }
 
-//            if ()
-//            for (MetadataValue data : oldArrow.getMetadata("customArrowType")) {
-//                if (data.value() instanceof CustomArrow customArrow) {
-//                    newArrow.setMetadata("customArrowType", new FixedMetadataValue(plugin, customArrow));
-//                    break;
-//                }
-//            }
+            return newArrow;
 
-            event.setProjectile(newArrow);
-
-            Bukkit.broadcastMessage("new projectile: " + event.getProjectile());
-        }
-
-        private <T extends AbstractArrow> Class<T> getArrowEntity(ItemStack arrowItem) {
-
-            return switch (arrowItem.getType()) {
-                case SPECTRAL_ARROW -> (Class<T>) SpectralArrow.class;
-                default -> (Class<T>) Arrow.class;
-            };
         }
 
         private ItemStack getNextArrow(UUID player, ItemStack originalArrow, Inventory inventory) {
@@ -198,7 +174,42 @@ public class ArrowBeltItemType extends SimpleItemType implements InteractableIte
     public boolean interact(@NotNull Player player, @NotNull ItemStack itemStack, @Nullable Block block) {
         UUID uuid = player.getUniqueId();
 
-        playerBelts.putIfAbsent(uuid, DEFAULT_BELT);
+        if (playerBelts.get(uuid) == null) {
+
+            InventoryGUI DEFAULT_BELT = new InventoryGUI(9, "ArrowBelt", plugin.getServer());
+
+            for (int i = 2; i < 7; i++) {
+                int buttonSlot = i;
+                InventoryButton selectorButton = new InventorySelectorButton(
+                        (event) -> {
+                            ItemStack item = event.getCurrentItem();
+                            event.setCancelled(true);
+
+                            if (item == null)
+                                return;
+
+                            item = item.clone();
+
+                            if (item.getType() == Material.ARROW || item.getType() == Material.SPECTRAL_ARROW || item.getType() == Material.TIPPED_ARROW) {
+                                item.setAmount(1);
+                                playerBelts.get(event.getWhoClicked().getUniqueId()).setIcon(buttonSlot, item);
+
+                                if (event.getWhoClicked() instanceof Player p)
+                                    p.playSound(p, Sound.BLOCK_NOTE_BLOCK_BANJO, 1, 2);
+                            }
+
+                        },
+                        Material.GRAY_STAINED_GLASS_PANE,
+                        "No arrow assigned",
+                        "Click to change"
+                );
+
+                DEFAULT_BELT.addButton(selectorButton, i);
+            }
+
+            playerBelts.put(uuid, DEFAULT_BELT);
+        }
+
 
         playerBelts.get(uuid).displayTo(player);
 

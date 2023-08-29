@@ -10,55 +10,55 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class InventoryGUIManager implements Listener {
 
-    private static final Map<Inventory, InventoryGUI> inventories = new HashMap<>();
+    private static final Map<UUID, InventoryGUI> inventories = new HashMap<>();
 
     // map for if selector buttons are listening for clicks
-    private final Map<Inventory, InventorySelectorButton> listeningForSelection = new HashMap<>();
+    private final Map<UUID, InventorySelectorButton> listeningForSelection = new HashMap<>();
 
-    public static void registerInventoryGUI(Inventory inventory, InventoryGUI gui) {
-        inventories.put(inventory, gui);
+    public static void registerInventoryGUI(UUID player, InventoryGUI gui) {
+        inventories.put(player, gui);
     }
 
     @EventHandler
     public void OnInventoryClick(InventoryClickEvent event) {
-        Inventory wholeInv = event.getInventory();
+        UUID player = event.getWhoClicked().getUniqueId();
+        InventoryGUI gui = inventories.get(player);
 
-        Inventory inv = event.getClickedInventory();
-        InventoryGUI gui = inventories.get(inv);
+        if (gui == null)
+            return;
 
-        if (gui == null) {
-            InventorySelectorButton selector = listeningForSelection.get(wholeInv);
+        event.setCancelled(true);
+
+        InventoryButton button = gui.getButton(event.getSlot(), event.getClickedInventory());
+
+        if (button == null) {
+
+            InventorySelectorButton selector = listeningForSelection.get(player);
             if (selector != null) {
                 selector.click(event);
 
-                listeningForSelection.remove(wholeInv);
+                listeningForSelection.remove(player);
             }
 
             return;
         }
 
-        event.setCancelled(true);
-
-        InventoryButton button = gui.getButton(event.getSlot());
-
-        if (button == null)
-            return;
-
         if (button instanceof InventorySelectorButton selector) {
-            listeningForSelection.put(wholeInv, selector);
+            listeningForSelection.put(player, selector);
         } else {
             button.click(event);
-            listeningForSelection.remove(wholeInv);
+            listeningForSelection.remove(player);
         }
 
     }
 
     @EventHandler
     public void OnInventoryClose(InventoryCloseEvent event) {
-        inventories.remove(event.getInventory());
+        inventories.remove(event.getPlayer().getUniqueId());
     }
 
 }

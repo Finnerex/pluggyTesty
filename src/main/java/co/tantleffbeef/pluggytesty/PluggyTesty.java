@@ -10,6 +10,7 @@ import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.CraftListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
+import co.tantleffbeef.pluggytesty.expeditions.ExpeditionController;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.commands.ReloadExpeditionsCommand;
 import co.tantleffbeef.pluggytesty.expeditions.commands.RunExpeditionCommand;
@@ -99,6 +100,8 @@ public final class PluggyTesty extends JavaPlugin {
     private PartyManager partyManager;
     private final BiMap<String, RoomInformation> roomInformationBiMap = HashBiMap.create();
     private final BiMap<String, ExpeditionInformation> expeditionInformationBiMap = HashBiMap.create();
+    private ExpeditionBuilder expeditionBuilder;
+    private PTExpeditionController expeditionController;
 
     @Override
     public void onLoad() {
@@ -184,7 +187,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL, this.getServer()));
 
-        registerItems();
+
 //        registerRecipes();
 
         // Adds all the textures and models in the resources folder to the resource pack
@@ -195,12 +198,14 @@ public final class PluggyTesty extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        final var expeditionController = new PTExpeditionController();
-        final var expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
+        expeditionController = new PTExpeditionController();
+        expeditionBuilder = new ExpeditionBuilder(expeditionController, getServer(), "expeditions", new LocationTraverser(), 512);
 
         getServer().getPluginManager().registerEvents(new PTExpeditionManagerListener(expeditionController), this);
 
         gooberStateController = new GooberStateController(levelController, partyManager, expeditionController, getServer());
+
+        registerItems();
 
         final var commandManager = new PaperCommandManager(this);
         commandManager.getCommandContexts().registerIssuerAwareContext(Goober.class, context -> {
@@ -787,6 +792,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new KingPunchItemType(this, "king_punch", false, ChatColor.RED + "King Punch"));
         resourceManager.registerItem(new FisherOfSoulsItemType(this, "soul_fisher", false, ChatColor.DARK_PURPLE + "Fisher Of Souls"));
         resourceManager.registerItem(new MagicGripperItemType(this, "magic_gripper", false, ChatColor.LIGHT_PURPLE + "Magic Gripper"));
+        resourceManager.registerItem(new BoombatStickItemType(this, "boombat_stick", false, ChatColor.DARK_GRAY + "Boombat Stick"));
 
         // Arrows
         resourceManager.registerItem(new JestersArrowItemType(this, "jesters_arrow", false, ChatColor.BLUE + "Jester's Arrow"));
@@ -810,7 +816,9 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new HandThrusterItemType(this, "hand_thruster", false, ChatColor.GOLD + "Hand Thruster"));
         resourceManager.registerItem(new LandMineItemType(this, "land_mine", false, ChatColor.WHITE + "Land Mine"));
         resourceManager.registerItem(new LifeLinkItemType(this, "life_link", false, ChatColor.RED + "Life Link"));
-        resourceManager.registerItem(new ArrowBeltItemType(this, "arrow_belt", false, ChatColor.WHITE + "Arrow Belt"));
+        resourceManager.registerItem(new ArrowBeltItemType(this, "arrow_belt", false, ChatColor.WHITE + "Arrow Belt", nbtKeyManager, resourceManager));
+        resourceManager.registerItem(new ExpeditionEnterItemType(this, "expedition_enter", false, ChatColor.WHITE + "Enter Expedition",
+                expeditionBuilder, expeditionController, expeditionInformationBiMap, gooberStateController));
 
         // Armor
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));
@@ -823,6 +831,47 @@ public final class PluggyTesty extends JavaPlugin {
 
     private void addCustomAttributes() {
         // modify a bunch of vanilla items
+
+        // Swords
+        addCustomAttributeToVanillaItem(Material.WOODEN_SWORD,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 5,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.STONE_SWORD,
+                new AttributePair(Attribute.GENERIC_ARMOR, 6,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.IRON_SWORD,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 7,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.GOLDEN_SWORD,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 10,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.DIAMOND_SWORD,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 14,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.NETHERITE_SWORD,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 20,
+                        EquipmentSlot.HAND));
+
+        // Tools
+        addCustomAttributeToVanillaItem(Material.WOODEN_AXE,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 1,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.STONE_AXE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 1,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.IRON_AXE,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 2,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.GOLDEN_AXE,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 3,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.DIAMOND_AXE,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 4,
+                        EquipmentSlot.HAND));
+        addCustomAttributeToVanillaItem(Material.NETHERITE_AXE,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 5,
+                        EquipmentSlot.HAND));
+
 
         // Armor
 

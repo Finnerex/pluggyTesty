@@ -7,6 +7,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.UUID;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -68,12 +69,19 @@ public class InventoryGUI {
         inventory.setItem(slot, itemStack);
     }
 
+    public InventoryButton getButton(int slot, Inventory inventory) {
+        if (!inventory.equals(this.inventory))
+            return null;
+
+        return buttons.get(slot);
+    }
+
     public InventoryButton getButton(int slot) {
         return buttons.get(slot);
     }
 
     public void displayTo(Player player) {
-        InventoryGUIManager.registerInventoryGUI(inventory, this);
+        InventoryGUIManager.registerInventoryGUI(player.getUniqueId(), this);
         player.openInventory(inventory);
     }
 
