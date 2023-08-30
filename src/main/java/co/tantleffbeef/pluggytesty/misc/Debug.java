@@ -19,6 +19,10 @@ public final class Debug {
         debugMessagesEnabled = enabled;
     }
 
+    public static boolean getDebugMessagesEnabled() {
+        return debugMessagesEnabled;
+    }
+
     public static void log(@NotNull String toLog) {
         assert sender != null;
 
