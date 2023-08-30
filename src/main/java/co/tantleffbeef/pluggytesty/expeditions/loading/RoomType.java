@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.loading;
 
+import co.tantleffbeef.pluggytesty.expeditions.rooms.AirLevitationCirclesRoom;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.EmptyRoom;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.SimpleExitRoom;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.SimpleStartingRoom;
@@ -10,7 +11,8 @@ import java.util.Optional;
 public enum RoomType {
     SIMPLE_STARTING_ROOM("simple_starting_room", SimpleStartingRoom::new),
     SIMPLE_EXIT("simple_exit", (c, s) -> new SimpleExitRoom()),
-    EMPTY("empty", (c, s) -> new EmptyRoom())
+    EMPTY("empty", (c, s) -> new EmptyRoom()),
+    AIR_LEVITATION_CIRCLES_ROOM("air_levitation_circles_room", AirLevitationCirclesRoom::new)
 
     ;
 
