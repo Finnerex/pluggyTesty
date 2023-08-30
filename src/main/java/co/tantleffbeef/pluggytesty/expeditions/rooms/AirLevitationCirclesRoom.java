@@ -15,12 +15,18 @@ import java.util.List;
 public class AirLevitationCirclesRoom implements Room {
     private final List<Player> players = new ArrayList<>();
     private final List<Location> circleLocations = new ArrayList<>();
+    private final List<AreaEffectCloud> areaEffectClouds = new ArrayList<>();
 
     public AirLevitationCirclesRoom(Location minimumLocation, JsonObject roomSettings) {
         var locationList = roomSettings.getAsJsonArray("levitationSpots");
 
         for (int i = 0; i < locationList.size(); i++) {
-            var locationComponents = locationList.get(i).getAsJsonArray();
+            var locationComponentsObject = locationList.get(i);
+            if (locationComponentsObject == null || locationComponentsObject.isJsonNull())
+                continue;
+
+            var locationComponents = locationComponentsObject.getAsJsonArray();
+
             var location = minimumLocation.clone().add(locationComponents.get(0).getAsFloat(),
                     locationComponents.get(1).getAsFloat(),
                     locationComponents.get(2).getAsFloat());
@@ -41,11 +47,25 @@ public class AirLevitationCirclesRoom implements Room {
             var world = location.getWorld();
             assert world != null;
             world.spawn(location, AreaEffectCloud.class, cloud -> {
+                // set cloud settings
                 cloud.clearCustomEffects();
                 cloud.addCustomEffect(
-                        new PotionEffect(PotionEffectType.LEVITATION, 1000000, 1, true),
+                        new PotionEffect(PotionEffectType.LEVITATION, 3 * 20, 6, true),
                         true);
+
+                cloud.setDuration(1000000);
+
+                // add it to the list
+                areaEffectClouds.add(cloud);
             });
+        }
+    }
+
+    @Override
+    public void onLastPlayerExitRoom(@NotNull Player player) {
+        for (var cloud:
+             areaEffectClouds) {
+            cloud.remove();
         }
     }
 }
