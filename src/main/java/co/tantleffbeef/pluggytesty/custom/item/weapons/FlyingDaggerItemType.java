@@ -99,8 +99,8 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 
                             // attack the next entity
                             if (arrow.equals(lastDamager)) {
+                                attacking.setLastDamageCause(null);
                                 attacking = null;
-                                lastDamager = null;
                                 Bukkit.broadcastMessage("they was the same");
                             }
 
