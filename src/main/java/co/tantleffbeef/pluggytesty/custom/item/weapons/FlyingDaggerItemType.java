@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,6 +11,8 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -39,6 +42,7 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
         UUID playerUUID = player.getUniqueId();
 
         entityQueues.putIfAbsent(playerUUID, new ArrayDeque<>());
+        Bukkit.broadcastMessage("queue: " + entityQueues.get(playerUUID));
 
         if (player.isSneaking()) {
 
@@ -50,7 +54,6 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                 return false;
 
             entityQueues.get(playerUUID).offer((LivingEntity) result.getHitEntity());
-            Bukkit.broadcastMessage("queue: " + entityQueues.get(playerUUID));
 
         } else {
             toggles.putIfAbsent(playerUUID, false);
@@ -65,13 +68,13 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 
                 BukkitRunnable runnable = new BukkitRunnable() {
                     LivingEntity attacking = null;
-                    int lastPeirceLevel = arrow.getPierceLevel();
                     @Override
                     public void run() {
                         Queue<LivingEntity> entityQueue = entityQueues.get(playerUUID);
 
                         if (!toggles.get(playerUUID) || arrow.isInBlock() || arrow.isDead() || arrow.isOnGround()) {
                             arrow.remove();
+                            toggles.put(playerUUID, false);
                             entityQueues.get(playerUUID).clear();
                             cancel();
                             return;
@@ -85,18 +88,18 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                             arrow.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().setY(0).rotateAroundY(90)));
 
                         } else {
-                            arrow.setVelocity(attacking.getEyeLocation().clone().subtract(arrow.getLocation()).toVector().normalize());
-                            // attack the next entity
-                            if (arrow.getPierceLevel() < lastPeirceLevel)
-                                attacking = entityQueue.poll();
+                            arrow.setVelocity(attacking.getEyeLocation().clone().subtract(arrow.getLocation()).toVector().normalize().multiply(2));
 
-//                            if (attacking == null || attacking.isDead()) {
-//                                arrow.teleport(player.getEyeLocation().add(0, 0, 1));
-//                                arrow.setVelocity(new Vector(1, 0, 0));
-//                            }
+                            EntityDamageEvent lde = attacking.getLastDamageCause();
 
-                            lastPeirceLevel = arrow.getPierceLevel();
-                            Bukkit.broadcastMessage("pierce: " + arrow.getPierceLevel());
+                            if (lde instanceof EntityDamageByEntityEvent ldbee) {
+                                // attack the next entity
+                                if (arrow.equals(ldbee.getDamager())) {
+                                    attacking.damage(2, player);
+                                    attacking = null;
+                                    Bukkit.broadcastMessage("they was the same");
+                                }
+                            }
 
                         }
 
