@@ -11,6 +11,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -91,11 +92,9 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                             arrow.setVelocity(attacking.getEyeLocation().clone().subtract(arrow.getLocation()).toVector().normalize());
 
                             EntityDamageEvent lde = attacking.getLastDamageCause();
-                            Bukkit.broadcastMessage("kay why ess: " + lde);
-                            if (lde != null) {
-                                lastDamager = lde.getEntity();
-                                Bukkit.broadcastMessage(ChatColor.RED + "cause: " + lde.getCause());
-                            }
+
+                            if (lde instanceof EntityDamageByEntityEvent ldbee)
+                                lastDamager = ldbee.getDamager();
 
 
                             // attack the next entity
