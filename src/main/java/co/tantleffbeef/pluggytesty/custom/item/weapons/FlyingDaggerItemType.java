@@ -10,6 +10,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -65,13 +66,14 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 
                 BukkitRunnable runnable = new BukkitRunnable() {
                     LivingEntity attacking = null;
-                    int lastPeirceLevel = arrow.getPierceLevel();
+                    Entity lastDamager = null;
                     @Override
                     public void run() {
                         Queue<LivingEntity> entityQueue = entityQueues.get(playerUUID);
 
                         if (!toggles.get(playerUUID) || arrow.isInBlock() || arrow.isDead() || arrow.isOnGround()) {
                             arrow.remove();
+                            toggles.put(playerUUID, false);
                             entityQueues.get(playerUUID).clear();
                             cancel();
                             return;
@@ -86,17 +88,16 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 
                         } else {
                             arrow.setVelocity(attacking.getEyeLocation().clone().subtract(arrow.getLocation()).toVector().normalize());
+
+                            EntityDamageEvent lde = attacking.getLastDamageCause();
+                            if (lde != null)
+                                lastDamager = lde.getEntity();
+
                             // attack the next entity
-                            if (arrow.getPierceLevel() < lastPeirceLevel)
+                            if (lastDamager.equals(arrow)) {
                                 attacking = entityQueue.poll();
-
-//                            if (attacking == null || attacking.isDead()) {
-//                                arrow.teleport(player.getEyeLocation().add(0, 0, 1));
-//                                arrow.setVelocity(new Vector(1, 0, 0));
-//                            }
-
-                            lastPeirceLevel = arrow.getPierceLevel();
-                            Bukkit.broadcastMessage("pierce: " + arrow.getPierceLevel());
+                                lastDamager = null;
+                            }
 
                         }
 
