@@ -61,7 +61,7 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                 // summon arrow, start going
 
                 Arrow arrow = player.getWorld().spawnArrow(player.getEyeLocation().add(0, 0, 1), new Vector(1, 0, 0), 0.6f, 0);
-                arrow.setPierceLevel(255);
+                arrow.setPierceLevel(127);
 
                 BukkitRunnable runnable = new BukkitRunnable() {
                     Entity attacking = null;
@@ -70,7 +70,7 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                     public void run() {
                         Queue<Entity> entityQueue = entityQueues.get(playerUUID);
 
-                        if (!toggles.get(playerUUID) || arrow.isInBlock() || arrow.isDead()) {
+                        if (!toggles.get(playerUUID) || arrow.isInBlock() || arrow.isDead() || arrow.isOnGround()) {
                             arrow.remove();
                             entityQueues.get(playerUUID).clear();
                             cancel();
