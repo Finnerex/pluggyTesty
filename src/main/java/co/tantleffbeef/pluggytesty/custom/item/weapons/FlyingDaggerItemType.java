@@ -68,7 +68,6 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 
                 BukkitRunnable runnable = new BukkitRunnable() {
                     LivingEntity attacking = null;
-                    Entity lastDamager = null;
                     @Override
                     public void run() {
                         Queue<LivingEntity> entityQueue = entityQueues.get(playerUUID);
@@ -89,19 +88,17 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                             arrow.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().setY(0).rotateAroundY(90)));
 
                         } else {
-                            arrow.setVelocity(attacking.getEyeLocation().clone().subtract(arrow.getLocation()).toVector().normalize());
+                            arrow.setVelocity(attacking.getEyeLocation().clone().subtract(arrow.getLocation()).toVector().normalize().multiply(2));
 
                             EntityDamageEvent lde = attacking.getLastDamageCause();
 
-                            if (lde instanceof EntityDamageByEntityEvent ldbee)
-                                lastDamager = ldbee.getDamager();
-
-
-                            // attack the next entity
-                            if (arrow.equals(lastDamager)) {
-                                attacking.setLastDamageCause(null);
-                                attacking = null;
-                                Bukkit.broadcastMessage("they was the same");
+                            if (lde instanceof EntityDamageByEntityEvent ldbee) {
+                                // attack the next entity
+                                if (arrow.equals(ldbee.getDamager())) {
+                                    attacking.damage(2);
+                                    attacking = null;
+                                    Bukkit.broadcastMessage("they was the same");
+                                }
                             }
 
                         }
