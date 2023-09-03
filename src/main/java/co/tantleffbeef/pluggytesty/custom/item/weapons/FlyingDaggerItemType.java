@@ -40,6 +40,7 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
         UUID playerUUID = player.getUniqueId();
 
         entityQueues.putIfAbsent(playerUUID, new ArrayDeque<>());
+        Bukkit.broadcastMessage("queue: " + entityQueues.get(playerUUID));
 
         if (player.isSneaking()) {
 
@@ -51,7 +52,6 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                 return false;
 
             entityQueues.get(playerUUID).offer((LivingEntity) result.getHitEntity());
-            Bukkit.broadcastMessage("queue: " + entityQueues.get(playerUUID));
 
         } else {
             toggles.putIfAbsent(playerUUID, false);
@@ -93,10 +93,12 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                             if (lde != null)
                                 lastDamager = lde.getEntity();
 
+
                             // attack the next entity
-                            if (lastDamager.equals(arrow)) {
-                                attacking = entityQueue.poll();
+                            if (arrow.equals(lastDamager)) {
+                                attacking = null;
                                 lastDamager = null;
+                                Bukkit.broadcastMessage("they was the same");
                             }
 
                         }
