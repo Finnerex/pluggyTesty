@@ -60,6 +60,7 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 
                 Arrow arrow = player.getWorld().spawnArrow(player.getEyeLocation(), new Vector(0, 0, 0), 0.6f, 0);
                 arrow.setPierceLevel(127);
+                arrow.setGravity(false);
 
                 BukkitRunnable runnable = new BukkitRunnable() {
                     Entity attacking = null;
