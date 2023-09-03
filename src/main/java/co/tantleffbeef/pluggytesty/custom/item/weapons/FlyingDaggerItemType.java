@@ -94,7 +94,7 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                             Bukkit.broadcastMessage("kay why ess: " + lde);
                             if (lde != null) {
                                 lastDamager = lde.getEntity();
-                                Bukkit.broadcastMessage(ChatColor.RED + "a row: " + lde.getEntity());
+                                Bukkit.broadcastMessage(ChatColor.RED + "cause: " + lde.getCause());
                             }
 
 
