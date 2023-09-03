@@ -4,13 +4,12 @@ import co.aikar.commands.*;
 import co.tantleffbeef.mcplanes.*;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
-import co.tantleffbeef.pluggytesty.armor.BaseArmor;
+import co.tantleffbeef.pluggytesty.armor.PureArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.CraftListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
-import co.tantleffbeef.pluggytesty.expeditions.ExpeditionController;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.commands.ReloadExpeditionsCommand;
 import co.tantleffbeef.pluggytesty.expeditions.commands.RunExpeditionCommand;
@@ -57,19 +56,21 @@ import com.google.gson.JsonParseException;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.sk89q.worldedit.EmptyClipboardException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import net.kyori.adventure.text.minimessage.Template;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.NetherWartsState;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
@@ -830,6 +831,7 @@ public final class PluggyTesty extends JavaPlugin {
 
     }
 
+
     private void addCustomAttributes() {
         // modify a bunch of vanilla items
 
@@ -1023,7 +1025,7 @@ public final class PluggyTesty extends JavaPlugin {
         recipeManager.registerUnlockableRecipe(new NamespacedKey(this, "chain"), Material.IRON_NUGGET);
 
 
-        final ShapedRecipe chainHelm = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), BaseArmor.cH())
+        final ShapedRecipe chainHelm = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), PureArmor.cH())
                 .shape(
                         "ccc",
                         "c c")
@@ -1032,7 +1034,7 @@ public final class PluggyTesty extends JavaPlugin {
         recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_helmet"), Material.CHAIN);
 
 
-        final ShapedRecipe chainBoots = new ShapedRecipe(NamespacedKey.minecraft("chainmail_boots"), BaseArmor.cB())
+        final ShapedRecipe chainBoots = new ShapedRecipe(NamespacedKey.minecraft("chainmail_boots"), PureArmor.cB())
                 .shape(
                         "c c",
                         "c c")
@@ -1041,7 +1043,7 @@ public final class PluggyTesty extends JavaPlugin {
         recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_boots"), Material.CHAIN);
 
 
-        final ShapedRecipe chainChestplate = new ShapedRecipe(NamespacedKey.minecraft("chainmail_chestplate"), BaseArmor.cC())
+        final ShapedRecipe chainChestplate = new ShapedRecipe(NamespacedKey.minecraft("chainmail_chestplate"), PureArmor.cC())
                 .shape(
                         "c c",
                         "ccc",
@@ -1051,7 +1053,7 @@ public final class PluggyTesty extends JavaPlugin {
         recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_chestplate"), Material.CHAIN);
 
 
-        final ShapedRecipe chainLeggings = new ShapedRecipe(NamespacedKey.minecraft("chainmail_leggings"), BaseArmor.cL())
+        final ShapedRecipe chainLeggings = new ShapedRecipe(NamespacedKey.minecraft("chainmail_leggings"), PureArmor.cL())
                 .shape(
                         "ccc",
                         "c c",
@@ -1059,6 +1061,17 @@ public final class PluggyTesty extends JavaPlugin {
                 .setIngredient('c', Material.CHAIN);
         getServer().addRecipe(chainLeggings);
         recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_leggings"), Material.CHAIN);
+
+
+        //pure armor
+
+        RecipeChoice.ExactChoice purifier = new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE));
+
+
+        RecipeChoice.ExactChoice pureLeather = new RecipeChoice.ExactChoice(new ItemStack(Material.LEATHER));
+        RecipeChoice.ExactChoice leatherHelmet = new RecipeChoice.ExactChoice(new ItemStack(Material.LEATHER_HELMET));
+        SmithingTransformRecipe pureLeatherHelmet = new SmithingTransformRecipe(new NamespacedKey(this, "pureLeatherHelmet"), PureArmor.lH(), purifier, leatherHelmet, pureLeather);
+
 
     }
 
