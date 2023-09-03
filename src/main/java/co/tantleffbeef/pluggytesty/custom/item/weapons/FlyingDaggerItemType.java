@@ -90,6 +90,7 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                             arrow.setVelocity(attacking.getEyeLocation().clone().subtract(arrow.getLocation()).toVector().normalize());
 
                             EntityDamageEvent lde = attacking.getLastDamageCause();
+                            Bukkit.broadcastMessage("kay why ess: " + lde);
                             if (lde != null)
                                 lastDamager = lde.getEntity();
 
