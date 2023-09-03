@@ -304,6 +304,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LandMineDropListener(nbtKeyManager, resourceManager, this), this);
         getServer().getPluginManager().registerEvents(new LifeLinkListener(nbtKeyManager, resourceManager, this.getServer()), this);
         getServer().getPluginManager().registerEvents(new SpecialArrowShootListener(nbtKeyManager, resourceManager, this), this);
+        getServer().getPluginManager().registerEvents(new EnchantListener(), this);
 
         // Trims / Armor effects
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);

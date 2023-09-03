@@ -3,12 +3,15 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -22,7 +25,7 @@ import java.util.*;
 public class FlyingDaggerItemType extends SimpleItemType implements InteractableItemType {
     // I am making this simply because I really wanted to use a queue in something.
 
-    private final Map<UUID, Queue<Entity>> entityQueues;
+    private final Map<UUID, Queue<LivingEntity>> entityQueues;
     private final Map<UUID, Boolean> toggles;
     private final Plugin plugin;
 
@@ -38,20 +41,18 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
         UUID playerUUID = player.getUniqueId();
 
         entityQueues.putIfAbsent(playerUUID, new ArrayDeque<>());
+        Bukkit.broadcastMessage("queue: " + entityQueues.get(playerUUID));
 
         if (player.isSneaking()) {
-            if (toggles.get(playerUUID))
-                return false;
 
             // get looking at entity, add to the queue
             Location l = player.getEyeLocation();
             RayTraceResult result = player.getWorld().rayTraceEntities(l.add(l.getDirection()), l.getDirection(), 20);
 
-            if (result == null || result.getHitEntity() == null)
+            if (result == null || !(result.getHitEntity() instanceof LivingEntity))
                 return false;
 
-            entityQueues.get(playerUUID).offer(result.getHitEntity());
-            Bukkit.broadcastMessage("queue: " + entityQueues.get(playerUUID));
+            entityQueues.get(playerUUID).offer((LivingEntity) result.getHitEntity());
 
         } else {
             toggles.putIfAbsent(playerUUID, false);
@@ -62,16 +63,18 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 
                 Arrow arrow = player.getWorld().spawnArrow(player.getEyeLocation(), new Vector(0, 0, 0), 0.6f, 0);
                 arrow.setPierceLevel(127);
+                arrow.setGravity(false);
 
                 BukkitRunnable runnable = new BukkitRunnable() {
-                    Entity attacking = null;
-                    int lastPeirceLevel = arrow.getPierceLevel() + 1;
+                    LivingEntity attacking = null;
+                    Entity lastDamager = null;
                     @Override
                     public void run() {
-                        Queue<Entity> entityQueue = entityQueues.get(playerUUID);
+                        Queue<LivingEntity> entityQueue = entityQueues.get(playerUUID);
 
                         if (!toggles.get(playerUUID) || arrow.isInBlock() || arrow.isDead() || arrow.isOnGround()) {
                             arrow.remove();
+                            toggles.put(playerUUID, false);
                             entityQueues.get(playerUUID).clear();
                             cancel();
                             return;
@@ -82,24 +85,25 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 
                         if (attacking == null || attacking.isDead()) {
                             // orbit the player
-                            arrow.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().rotateAroundY(90)));
+                            arrow.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().setY(0).rotateAroundY(90)));
 
                         } else {
-                            arrow.setVelocity(attacking.getLocation().subtract(arrow.getLocation()).toVector().normalize());
+                            arrow.setVelocity(attacking.getEyeLocation().clone().subtract(arrow.getLocation()).toVector().normalize());
+
+                            EntityDamageEvent lde = attacking.getLastDamageCause();
+                            Bukkit.broadcastMessage("kay why ess: " + lde);
+                            if (lde != null) {
+                                lastDamager = lde.getEntity();
+                                Bukkit.broadcastMessage(ChatColor.RED + "a row: " + lde.getEntity());
+                            }
+
 
                             // attack the next entity
-                            if (arrow.getPierceLevel() < lastPeirceLevel)
-                                attacking = entityQueue.poll();
-
-//                            if (attacking == null || attacking.isDead()) {
-//                                arrow.teleport(player.getEyeLocation().add(0, 0, 1));
-//                                arrow.setVelocity(new Vector(1, 0, 0));
-//                            }
-
-                            arrow.setVelocity(attacking.getLocation().clone().subtract(arrow.getLocation()).toVector().normalize());
-
-                            lastPeirceLevel = arrow.getPierceLevel();
-                            Bukkit.broadcastMessage("pierce: " + arrow.getPierceLevel());
+                            if (arrow.equals(lastDamager)) {
+                                attacking = null;
+                                lastDamager = null;
+                                Bukkit.broadcastMessage("they was the same");
+                            }
 
                         }
 
