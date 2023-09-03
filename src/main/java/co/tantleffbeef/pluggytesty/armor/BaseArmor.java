@@ -95,7 +95,7 @@ public abstract class BaseArmor {
     public static ItemStack iL(){
         ItemStack Item = new ItemStack(Material.IRON_LEGGINGS);
         ItemMeta Meta = Item.getItemMeta();
-        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 3, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
         Item.setItemMeta(Meta);
 
         return Item;
