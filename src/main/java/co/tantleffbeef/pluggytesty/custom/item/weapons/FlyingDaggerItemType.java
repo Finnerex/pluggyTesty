@@ -95,7 +95,7 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                             if (lde instanceof EntityDamageByEntityEvent ldbee) {
                                 // attack the next entity
                                 if (arrow.equals(ldbee.getDamager())) {
-                                    attacking.damage(2);
+                                    attacking.damage(2, player);
                                     attacking = null;
                                     Bukkit.broadcastMessage("they was the same");
                                 }
