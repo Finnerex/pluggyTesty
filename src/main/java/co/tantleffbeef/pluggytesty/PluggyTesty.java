@@ -58,10 +58,7 @@ import com.sk89q.worldedit.EmptyClipboardException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import net.kyori.adventure.text.minimessage.Template;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.NetherWartsState;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockFace;
@@ -1071,7 +1068,7 @@ public final class PluggyTesty extends JavaPlugin {
         RecipeChoice.ExactChoice pureLeather = new RecipeChoice.ExactChoice(new ItemStack(Material.IRON_INGOT));
         RecipeChoice.ExactChoice leatherHelmet = new RecipeChoice.ExactChoice(new ItemStack(Material.LEATHER_HELMET));
         SmithingTransformRecipe pureLeatherHelmet = new SmithingTransformRecipe(new NamespacedKey(this, "pureLeatherHelmet"), PureArmor.lH(), purifier, leatherHelmet, pureLeather);
-
+        Bukkit.addRecipe(pureLeatherHelmet);
 
     }
 
