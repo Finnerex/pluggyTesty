@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.loading;
 
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,6 +11,7 @@ import java.util.Objects;
 public class RoomInformation {
     public final RoomType roomType;
     public final Path schematicPath;
+    public final JsonObject roomSettings;
     private final List<RoomDoor> doors;
 
     @Override
@@ -25,9 +27,10 @@ public class RoomInformation {
         return Objects.hash(roomType, schematicPath, doors);
     }
 
-    public RoomInformation(@NotNull RoomType roomType, @NotNull Path schematicPath, @Nullable List<RoomDoor> doors) {
+    public RoomInformation(@NotNull RoomType roomType, @NotNull Path schematicPath, @Nullable JsonObject roomSettings, @Nullable List<RoomDoor> doors) {
         this.roomType = roomType;
         this.schematicPath = schematicPath;
+        this.roomSettings = roomSettings;
         this.doors = doors;
     }
 

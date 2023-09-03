@@ -87,8 +87,12 @@ public class RunExpeditionCommand implements CommandExecutor, TabCompleter {
 
         builder.buildExpedition(expeditionInfo)
                 .whenComplete((r, e) -> {
-                    if (e != null)
+                    if (e != null) {
                         Debug.alwaysError(e.toString());
+                        if (Debug.getDebugMessagesEnabled())
+                            //noinspection CallToPrintStackTrace
+                            e.printStackTrace();
+                    }
                 })
                 .thenAccept(expedition -> scheduler.runTask(plugin, () -> expedition.start(party)));
 

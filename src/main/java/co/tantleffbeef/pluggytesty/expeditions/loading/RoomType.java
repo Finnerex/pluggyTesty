@@ -1,24 +1,18 @@
 package co.tantleffbeef.pluggytesty.expeditions.loading;
 
+import co.tantleffbeef.pluggytesty.expeditions.rooms.AirLevitationCirclesRoom;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.EmptyRoom;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.SimpleExitRoom;
 import co.tantleffbeef.pluggytesty.expeditions.rooms.SimpleStartingRoom;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public enum RoomType {
-    SIMPLE_STARTING_ROOM("simple_starting_room", (minimumCorner) -> new SimpleStartingRoom(minimumCorner, new Location[]{
-            new Location(Bukkit.getWorld("expeditions"), 14.5, 6.0625, 10.5),
-            new Location(Bukkit.getWorld("expeditions"), 18.5, 7, 9.5),
-            new Location(Bukkit.getWorld("expeditions"), 7.5, 14, 7.5),
-            new Location(Bukkit.getWorld("expeditions"), 21.5, 14, 12.5),
-            new Location(Bukkit.getWorld("expeditions"), 20.7, 11, 9.4),
-    })),
-    SIMPLE_EXIT("simple_exit", c -> new SimpleExitRoom()),
-    EMPTY("empty", c -> new EmptyRoom())
+    SIMPLE_STARTING_ROOM("simple_starting_room", SimpleStartingRoom::new),
+    SIMPLE_EXIT("simple_exit", (c, s) -> new SimpleExitRoom()),
+    EMPTY("empty", (c, s) -> new EmptyRoom()),
+    AIR_LEVITATION_CIRCLES_ROOM("air_levitation_circles_room", AirLevitationCirclesRoom::new)
 
     ;
 
