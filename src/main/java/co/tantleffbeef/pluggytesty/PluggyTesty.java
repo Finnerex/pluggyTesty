@@ -10,7 +10,6 @@ import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.CraftListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
-import co.tantleffbeef.pluggytesty.expeditions.ExpeditionController;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.commands.ReloadExpeditionsCommand;
 import co.tantleffbeef.pluggytesty.expeditions.commands.RunExpeditionCommand;

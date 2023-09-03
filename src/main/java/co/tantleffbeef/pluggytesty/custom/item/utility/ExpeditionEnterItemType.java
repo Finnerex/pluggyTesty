@@ -1,4 +1,4 @@
-package co.tantleffbeef.pluggytesty.extra_listeners;
+package co.tantleffbeef.pluggytesty.custom.item.utility;
 
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;

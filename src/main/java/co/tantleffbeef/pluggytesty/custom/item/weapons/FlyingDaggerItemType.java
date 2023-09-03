@@ -40,8 +40,6 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
         entityQueues.putIfAbsent(playerUUID, new ArrayDeque<>());
 
         if (player.isSneaking()) {
-            if (toggles.get(playerUUID))
-                return false;
 
             // get looking at entity, add to the queue
             Location l = player.getEyeLocation();
@@ -82,11 +80,10 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 
                         if (attacking == null || attacking.isDead()) {
                             // orbit the player
-                            arrow.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().rotateAroundY(90)));
+                            arrow.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().setY(0).rotateAroundY(90)));
 
                         } else {
-                            arrow.setVelocity(attacking.getLocation().subtract(arrow.getLocation()).toVector().normalize());
-
+                            arrow.setVelocity(attacking.getLocation().clone().subtract(arrow.getLocation()).toVector().normalize());
                             // attack the next entity
                             if (arrow.getPierceLevel() < lastPeirceLevel)
                                 attacking = entityQueue.poll();
@@ -95,8 +92,6 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 //                                arrow.teleport(player.getEyeLocation().add(0, 0, 1));
 //                                arrow.setVelocity(new Vector(1, 0, 0));
 //                            }
-
-                            arrow.setVelocity(attacking.getLocation().clone().subtract(arrow.getLocation()).toVector().normalize());
 
                             lastPeirceLevel = arrow.getPierceLevel();
                             Bukkit.broadcastMessage("pierce: " + arrow.getPierceLevel());
