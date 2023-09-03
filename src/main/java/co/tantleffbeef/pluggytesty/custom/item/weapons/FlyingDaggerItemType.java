@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -22,7 +23,7 @@ import java.util.*;
 public class FlyingDaggerItemType extends SimpleItemType implements InteractableItemType {
     // I am making this simply because I really wanted to use a queue in something.
 
-    private final Map<UUID, Queue<Entity>> entityQueues;
+    private final Map<UUID, Queue<LivingEntity>> entityQueues;
     private final Map<UUID, Boolean> toggles;
     private final Plugin plugin;
 
@@ -45,10 +46,10 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
             Location l = player.getEyeLocation();
             RayTraceResult result = player.getWorld().rayTraceEntities(l.add(l.getDirection()), l.getDirection(), 20);
 
-            if (result == null || result.getHitEntity() == null)
+            if (result == null || !(result.getHitEntity() instanceof LivingEntity))
                 return false;
 
-            entityQueues.get(playerUUID).offer(result.getHitEntity());
+            entityQueues.get(playerUUID).offer((LivingEntity) result.getHitEntity());
             Bukkit.broadcastMessage("queue: " + entityQueues.get(playerUUID));
 
         } else {
@@ -63,11 +64,11 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                 arrow.setGravity(false);
 
                 BukkitRunnable runnable = new BukkitRunnable() {
-                    Entity attacking = null;
-                    int lastPeirceLevel = arrow.getPierceLevel() + 1;
+                    LivingEntity attacking = null;
+                    int lastPeirceLevel = arrow.getPierceLevel();
                     @Override
                     public void run() {
-                        Queue<Entity> entityQueue = entityQueues.get(playerUUID);
+                        Queue<LivingEntity> entityQueue = entityQueues.get(playerUUID);
 
                         if (!toggles.get(playerUUID) || arrow.isInBlock() || arrow.isDead() || arrow.isOnGround()) {
                             arrow.remove();
