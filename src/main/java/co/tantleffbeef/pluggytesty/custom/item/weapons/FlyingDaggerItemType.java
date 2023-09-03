@@ -85,7 +85,7 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                             arrow.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().setY(0).rotateAroundY(90)));
 
                         } else {
-                            arrow.setVelocity(attacking.getLocation().clone().subtract(arrow.getLocation()).toVector().normalize());
+                            arrow.setVelocity(attacking.getEyeLocation().clone().subtract(arrow.getLocation()).toVector().normalize());
                             // attack the next entity
                             if (arrow.getPierceLevel() < lastPeirceLevel)
                                 attacking = entityQueue.poll();
