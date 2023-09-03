@@ -12,7 +12,7 @@ import java.util.UUID;
 public abstract class PureArmor {
 
     public static ItemStack lH(){
-        ItemStack Item = new ItemStack(Material.LEATHER_HELMET);
+        ItemStack Item = new ItemStack(Material.IRON_HELMET);
         ItemMeta Meta = Item.getItemMeta();
         Meta.setDisplayName("Pure Leather Helmet");
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
