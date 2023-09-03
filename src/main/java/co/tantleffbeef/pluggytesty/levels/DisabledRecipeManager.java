@@ -101,7 +101,10 @@ public class DisabledRecipeManager implements Listener {
                 entry(NamespacedKey.minecraft("netherite_axe"), 5),
                 entry(NamespacedKey.minecraft("netherite_hoe"), 5),
                 entry(NamespacedKey.minecraft("netherite_shovel"), 5),
-                entry(NamespacedKey.minecraft("netherite_sword"), 5)
+                entry(NamespacedKey.minecraft("netherite_sword"), 5),
+
+                // Disabled
+                entry(NamespacedKey.minecraft("enchanting_table"), DISABLED)
         );
 
     }

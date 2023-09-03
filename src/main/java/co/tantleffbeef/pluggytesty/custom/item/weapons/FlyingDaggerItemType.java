@@ -45,7 +45,7 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 
             // get looking at entity, add to the queue
             Location l = player.getEyeLocation();
-            RayTraceResult result = player.getWorld().rayTraceEntities(l, l.getDirection(), 20);
+            RayTraceResult result = player.getWorld().rayTraceEntities(l.add(l.getDirection()), l.getDirection(), 20);
 
             if (result == null || result.getHitEntity() == null)
                 return false;
@@ -60,7 +60,7 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
             if (toggles.get(playerUUID)) {
                 // summon arrow, start going
 
-                Arrow arrow = player.getWorld().spawnArrow(player.getEyeLocation().add(0, 0, 1), new Vector(1, 0, 0), 0.6f, 0);
+                Arrow arrow = player.getWorld().spawnArrow(player.getEyeLocation(), new Vector(0, 0, 0), 0.6f, 0);
                 arrow.setPierceLevel(127);
 
                 BukkitRunnable runnable = new BukkitRunnable() {
@@ -82,7 +82,7 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 
                         if (attacking == null || attacking.isDead()) {
                             // orbit the player
-                            arrow.setVelocity(arrow.getVelocity().add(arrow.getLocation().clone().subtract(player.getLocation()).toVector()));
+                            arrow.teleport(player.getEyeLocation().add(player.getEyeLocation().getDirection().rotateAroundY(90)));
 
                         } else {
                             arrow.setVelocity(attacking.getLocation().subtract(arrow.getLocation()).toVector().normalize());
@@ -91,10 +91,10 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
                             if (arrow.getPierceLevel() < lastPeirceLevel)
                                 attacking = entityQueue.poll();
 
-                            if (attacking == null || attacking.isDead()) {
-                                arrow.teleport(player.getEyeLocation().add(0, 0, 1));
-                                arrow.setVelocity(new Vector(1, 0, 0));
-                            }
+//                            if (attacking == null || attacking.isDead()) {
+//                                arrow.teleport(player.getEyeLocation().add(0, 0, 1));
+//                                arrow.setVelocity(new Vector(1, 0, 0));
+//                            }
 
                             arrow.setVelocity(attacking.getLocation().clone().subtract(arrow.getLocation()).toVector().normalize());
 
