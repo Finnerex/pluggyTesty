@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty.custom.item.weapons;
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -91,8 +92,10 @@ public class FlyingDaggerItemType extends SimpleItemType implements Interactable
 
                             EntityDamageEvent lde = attacking.getLastDamageCause();
                             Bukkit.broadcastMessage("kay why ess: " + lde);
-                            if (lde != null)
+                            if (lde != null) {
                                 lastDamager = lde.getEntity();
+                                Bukkit.broadcastMessage(ChatColor.RED + "a row: " + lde.getEntity());
+                            }
 
 
                             // attack the next entity
