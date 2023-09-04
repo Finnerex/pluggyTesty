@@ -320,8 +320,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
 
         getServer().getPluginManager().registerEvents(new VillagerTradesListener(gooberStateController), this);
-        getServer().getPluginManager().registerEvents(new CraftListener(attributeManager), this);
-        getServer().getPluginManager().registerEvents(new SmithListener(), this);
+        getServer().getPluginManager().registerEvents(new AttributeUpdateListener(attributeManager), this);
         getServer().getPluginManager().registerEvents(new PartyFriendlyFireListener(partyManager), this);
         getServer().getPluginManager().registerEvents(new GooberStateListener(gooberStateController, getServer()), this);
         getServer().getPluginManager().registerEvents(new DisabledRecipeManager(this, gooberStateController, nbtKeyManager), this);
@@ -1021,7 +1020,7 @@ public final class PluggyTesty extends JavaPlugin {
         recipeManager.registerUnlockableRecipe(new NamespacedKey(this, "chain"), Material.IRON_NUGGET);
 
 
-        final ShapedRecipe chainHelm = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), BaseArmor.cH())
+        final ShapedRecipe chainHelm = new ShapedRecipe(NamespacedKey.minecraft("chainmail_helmet"), PureArmor.cH())
                 .shape(
                         "ccc",
                         "c c")
@@ -1030,7 +1029,7 @@ public final class PluggyTesty extends JavaPlugin {
         recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_helmet"), Material.CHAIN);
 
 
-        final ShapedRecipe chainBoots = new ShapedRecipe(NamespacedKey.minecraft("chainmail_boots"), BaseArmor.cB())
+        final ShapedRecipe chainBoots = new ShapedRecipe(NamespacedKey.minecraft("chainmail_boots"), PureArmor.cB())
                 .shape(
                         "c c",
                         "c c")
@@ -1039,7 +1038,7 @@ public final class PluggyTesty extends JavaPlugin {
         recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_boots"), Material.CHAIN);
 
 
-        final ShapedRecipe chainChestplate = new ShapedRecipe(NamespacedKey.minecraft("chainmail_chestplate"), BaseArmor.cC())
+        final ShapedRecipe chainChestplate = new ShapedRecipe(NamespacedKey.minecraft("chainmail_chestplate"), PureArmor.cC())
                 .shape(
                         "c c",
                         "ccc",
@@ -1049,7 +1048,7 @@ public final class PluggyTesty extends JavaPlugin {
         recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_chestplate"), Material.CHAIN);
 
 
-        final ShapedRecipe chainLeggings = new ShapedRecipe(NamespacedKey.minecraft("chainmail_leggings"), BaseArmor.cL())
+        final ShapedRecipe chainLeggings = new ShapedRecipe(NamespacedKey.minecraft("chainmail_leggings"), PureArmor.cL())
                 .shape(
                         "ccc",
                         "c c",
