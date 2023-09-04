@@ -14,7 +14,7 @@ import org.bukkit.block.Biome;
 import static java.util.Map.entry;
 
 public class KeyGuardians {
-    public static Map<String, Biome> dailySpawns = new HashMap<>();
+    public static Map<Biome, String> dailySpawns = new HashMap<>();
     public KeyGuardians() {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("America/New_York"));
         ZonedDateTime nextRun = now.plusDays(1).withHour(0).withMinute(0).withSecond(0);
@@ -60,7 +60,7 @@ public class KeyGuardians {
                 if(dailySpawns.containsValue(biome)) {
                     i--;
                 } else {
-                    dailySpawns.put(guardians[i], biome);
+                    dailySpawns.put(biome, guardians[i]);
                 }
 
             }
