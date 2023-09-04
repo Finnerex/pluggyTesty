@@ -9,12 +9,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.UUID;
 
-public abstract class BaseArmor {
+public abstract class PureArmor {
 
     public static ItemStack lH(){
         ItemStack Item = new ItemStack(Material.LEATHER_HELMET);
         ItemMeta Meta = Item.getItemMeta();
+        assert Meta != null;
+        Meta.setDisplayName("Pure Leather Helmet");
         Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
         Item.setItemMeta(Meta);
 
         return Item;
@@ -95,7 +98,7 @@ public abstract class BaseArmor {
     public static ItemStack iL(){
         ItemStack Item = new ItemStack(Material.IRON_LEGGINGS);
         ItemMeta Meta = Item.getItemMeta();
-        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 3, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
         Item.setItemMeta(Meta);
 
         return Item;

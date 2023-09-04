@@ -4,7 +4,7 @@ import co.aikar.commands.*;
 import co.tantleffbeef.mcplanes.*;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
-import co.tantleffbeef.pluggytesty.armor.BaseArmor;
+import co.tantleffbeef.pluggytesty.armor.PureArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.AttributeUpdateListener;
@@ -320,7 +320,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
 
         getServer().getPluginManager().registerEvents(new VillagerTradesListener(gooberStateController), this);
-        getServer().getPluginManager().registerEvents(new AttributeUpdateListener(attributeManager), this);
+        getServer().getPluginManager().registerEvents(new CraftListener(attributeManager), this);
         getServer().getPluginManager().registerEvents(new SmithListener(), this);
         getServer().getPluginManager().registerEvents(new PartyFriendlyFireListener(partyManager), this);
         getServer().getPluginManager().registerEvents(new GooberStateListener(gooberStateController, getServer()), this);
