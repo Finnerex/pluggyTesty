@@ -1063,7 +1063,7 @@ public final class PluggyTesty extends JavaPlugin {
         RecipeChoice.ExactChoice purifier = new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE));
 
 
-        RecipeChoice.ExactChoice pureLeather = new RecipeChoice.ExactChoice(new ItemStack(Material.IRON_INGOT));
+        RecipeChoice.MaterialChoice pureLeather = new RecipeChoice.MaterialChoice(Material.LEATHER);
         RecipeChoice.MaterialChoice leatherHelmet = new RecipeChoice.MaterialChoice(Material.LEATHER_HELMET);
         SmithingTransformRecipe pureLeatherHelmet = new SmithingTransformRecipe(new NamespacedKey(this, "pure_leather_helmet"), PureArmor.lH(), purifier, leatherHelmet, pureLeather);
         Bukkit.addRecipe(pureLeatherHelmet);
