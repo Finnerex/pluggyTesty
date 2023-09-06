@@ -5,7 +5,6 @@ import co.tantleffbeef.pluggytesty.misc.Debug;
 import co.tantleffbeef.pluggytesty.misc.ErrorCode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -246,7 +245,7 @@ public class PTExpeditionController implements ExpeditionController {
         }
     }
 
-    public void onPlayerDamageByBlock(Player player, EntityDamageByBlockEvent event) {
+    public void onPlayerDamage(Player player, EntityDamageEvent event) {
         assert expeditionPlayers.contains(player);
 
         // Grab the expedition they're in
@@ -259,7 +258,7 @@ public class PTExpeditionController implements ExpeditionController {
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL && roomData.tags().contains("no_fall_damage"))
             event.setCancelled(true);
 
-        roomData.room().onPlayerDamageByBlock(player, event);
+        roomData.room().onPlayerDamage(player, event);
     }
 
     private RoomMetadata findRoomWithPlayer(@NotNull Expedition expedition, @NotNull Vector playerLocation)
