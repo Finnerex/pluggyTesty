@@ -23,6 +23,7 @@ import org.joml.Vector3i;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
@@ -162,6 +163,7 @@ public class ExpeditionBuilder {
 
                     roomData = new RoomMetadata(
                             roomObject,
+                            Objects.requireNonNullElse(info.tags, Collections.emptyList()),
                             // Give the room a bounding box based solely on its schematic
                             new RoomBoundingBox(
                                     bukkitLocationFromWE(world, pasteLocation),

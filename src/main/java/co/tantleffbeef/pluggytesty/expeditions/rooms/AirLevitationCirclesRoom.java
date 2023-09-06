@@ -19,12 +19,8 @@ public class AirLevitationCirclesRoom implements Room {
     private final List<Location> circleLocations = new ArrayList<>();
     private final List<AreaEffectCloud> areaEffectClouds = new ArrayList<>();
 
-    private RoomTransform transform;
-
     public AirLevitationCirclesRoom(RoomTransform transform, JsonObject roomSettings) {
         var locationList = roomSettings.getAsJsonArray("levitationSpots");
-
-        this.transform = transform;
 
         for (int i = 0; i < locationList.size(); i++) {
             var locationComponentsObject = locationList.get(i);
@@ -48,8 +44,6 @@ public class AirLevitationCirclesRoom implements Room {
 
     @Override
     public void onFirstPlayerEnterRoom(@NotNull Player player) {
-        transform.getLocation(5, 5, 5).getBlock().setType(Material.REDSTONE_BLOCK);
-
         for (var location:
              circleLocations) {
             var world = location.getWorld();
@@ -75,5 +69,13 @@ public class AirLevitationCirclesRoom implements Room {
              areaEffectClouds) {
             cloud.remove();
         }
+    }
+
+    @Override
+    public void onPlayerMove(@NotNull Player player, @NotNull Location location) {
+        if (location.getBlock().getType() != Material.POLISHED_BLACKSTONE_PRESSURE_PLATE)
+            return;
+
+        player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 3 * 20, 6, true));
     }
 }

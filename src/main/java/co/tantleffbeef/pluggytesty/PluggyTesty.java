@@ -374,7 +374,7 @@ public final class PluggyTesty extends JavaPlugin {
             }
         }.runTaskTimer(this, 3, 7);*/
 
-        Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
+        /*Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
             if (!(commandSender instanceof Player player))
                 return false;
 
@@ -409,7 +409,7 @@ public final class PluggyTesty extends JavaPlugin {
             }));
 
             return true;
-        });
+        });*/
 
         Objects.requireNonNull(getCommand("selectioninfo")).setExecutor((sender, command, label, args) -> {
             if (!(sender instanceof Player player))
@@ -449,7 +449,7 @@ public final class PluggyTesty extends JavaPlugin {
             return true;
         });
 
-        Objects.requireNonNull(getCommand("randomtestexpedition")).setExecutor((sender, command, label, args) -> {
+        /*Objects.requireNonNull(getCommand("randomtestexpedition")).setExecutor((sender, command, label, args) -> {
             if (!(sender instanceof Player player))
                 return false;
 
@@ -589,7 +589,7 @@ public final class PluggyTesty extends JavaPlugin {
             }
 
             return true;
-        });
+        });*/
 
         Objects.requireNonNull(getCommand("printexps")).setExecutor((sender, command, label, args) -> {
             if (args.length > 0) {

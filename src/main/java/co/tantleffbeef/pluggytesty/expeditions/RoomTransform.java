@@ -39,47 +39,47 @@ public class RoomTransform {
             // x  x  x  x  x
             // x  x  x  x  x
             // x  x  x  x  x
-            // x  x  o  x  x
             // x  x  x  x  x
+            // x  o  x  x  x    (1, 0)
 
             // x  x  x  x  x
+            // o  x  x  x  x
             // x  x  x  x  x
-            // x  o  x  x  x
-            // x  x  x  x  x
-            // x  x  x  x  x
+            // x  x  x  x  x     z  rs-1 -  x
+            // x  x  x  x  x    (0, 5 - 1 - 1)
 
             newX = z;
-            newZ = x;
+            newZ = roomSize - 1 - x;
         } else if (angle == 180) {
             // x  x  x  x  x
             // x  x  x  x  x
             // x  x  x  x  x
+            // x  x  x  x  x
             // x  o  x  x  x
-            // x  x  x  x  x
 
-            // x  x  x  x  x
             // x  x  x  o  x
             // x  x  x  x  x
             // x  x  x  x  x
             // x  x  x  x  x
+            // x  x  x  x  x
 
-            newX = roomSize - x;
-            newZ = roomSize - z;
+            newX = roomSize - 1 - x;
+            newZ = roomSize - 1 - z;
         } else if (angle == 270) {
             // x  x  x  x  x
             // x  x  x  x  x
             // x  x  x  x  x
-            // x  o  x  x  x
             // x  x  x  x  x
+            // x  o  x  x  x   (1, 0)
 
             // x  x  x  x  x
             // x  x  x  x  x
             // x  x  x  x  x
-            // x  x  x  o  x
-            // x  x  x  x  x
+            // x  x  x  x  o
+            // x  x  x  x  x   (5 - 1 - 0, 1)
 
-            newX = roomSize - z;
-            newZ = roomSize - x;
+            newX = roomSize - 1 - z;
+            newZ = x;
         } else {
             newX = x;
             newZ = z;
