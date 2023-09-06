@@ -1,8 +1,10 @@
 package co.tantleffbeef.pluggytesty.expeditions.listeners;
 
 import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionController;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,5 +32,18 @@ public class PTExpeditionManagerListener implements Listener {
             event.setCancelled(true);
 
         expeditionManager.onPlayerMoved(player, event.getTo());
+    }
+
+    @EventHandler
+    public void onPlayerDamageByBlock(@NotNull EntityDamageByBlockEvent event) {
+        final var entity = event.getEntity();
+        if (!(entity instanceof Player player))
+            return;
+
+        // Check if this event is even relevant
+        if (!expeditionManager.inExpedition(player))
+            return;
+
+        expeditionManager.onPlayerDamageByBlock(player, event);
     }
 }

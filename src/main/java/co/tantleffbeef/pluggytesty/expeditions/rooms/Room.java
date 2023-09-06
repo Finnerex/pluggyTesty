@@ -4,6 +4,7 @@ import co.tantleffbeef.pluggytesty.expeditions.Expedition;
 import co.tantleffbeef.pluggytesty.misc.Debug;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -20,16 +21,9 @@ public interface Room {
     default void onFirstPlayerEnterRoom(@NotNull Player player) {
         Debug.log("Room.onFirstPlayerEnterRoom(): onFirstPlayerEnterRoom");
     }
-    default void onPlayerEnterRoom(@NotNull Player player) {
-        Debug.log("Room.onPlayerEnterRoom(): onPlayerEnterRoom");
-    }
-    default void onPlayerExitRoom(@NotNull Player player) {
-        Debug.log("Room.onPlayerExitRoom(): onPlayerExitRoom");
-    }
-    default void onLastPlayerExitRoom(@NotNull Player player) {
-        Debug.log("Room.onLastPlayerExitRoom(): onPlayerMove");
-    }
-    default void onPlayerMove(@NotNull Player player, @NotNull Location location) {
-        // Debug.log("Room.onPlayerMove(): onPlayerMove");
-    }
+    default void onPlayerEnterRoom(@NotNull Player player) { }
+    default void onPlayerExitRoom(@NotNull Player player) { }
+    default void onLastPlayerExitRoom(@NotNull Player player) { }
+    default void onPlayerMove(@NotNull Player player, @NotNull Location location) { }
+    default void onPlayerDamageByBlock(@NotNull Player player, @NotNull EntityDamageByBlockEvent event) { }
 }
