@@ -7,7 +7,6 @@ import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.PureArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
-import co.tantleffbeef.pluggytesty.attributes.AttributeUpdateListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
@@ -56,19 +55,18 @@ import com.google.gson.JsonParseException;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.sk89q.worldedit.EmptyClipboardException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import net.kyori.adventure.text.minimessage.Template;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
@@ -302,6 +300,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LandMineDropListener(nbtKeyManager, resourceManager, this), this);
         getServer().getPluginManager().registerEvents(new LifeLinkListener(nbtKeyManager, resourceManager, this.getServer()), this);
         getServer().getPluginManager().registerEvents(new SpecialArrowShootListener(nbtKeyManager, resourceManager, this), this);
+        getServer().getPluginManager().registerEvents(new EnchantListener(), this);
 
         // Trims / Armor effects
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
@@ -320,7 +319,6 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerDeathMonitor(), this);
 
         getServer().getPluginManager().registerEvents(new VillagerTradesListener(gooberStateController), this);
-        getServer().getPluginManager().registerEvents(new AttributeUpdateListener(attributeManager), this);
         getServer().getPluginManager().registerEvents(new PartyFriendlyFireListener(partyManager), this);
         getServer().getPluginManager().registerEvents(new GooberStateListener(gooberStateController, getServer()), this);
         getServer().getPluginManager().registerEvents(new DisabledRecipeManager(this, gooberStateController, nbtKeyManager), this);
@@ -791,6 +789,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new FisherOfSoulsItemType(this, "soul_fisher", false, ChatColor.DARK_PURPLE + "Fisher Of Souls"));
         resourceManager.registerItem(new MagicGripperItemType(this, "magic_gripper", false, ChatColor.LIGHT_PURPLE + "Magic Gripper"));
         resourceManager.registerItem(new BoombatStickItemType(this, "boombat_stick", false, ChatColor.DARK_GRAY + "Boombat Stick"));
+        resourceManager.registerItem(new FlyingDaggerItemType(this, "flying_dagger", false, ChatColor.YELLOW + "Flying Dagger"));
 
         // Arrows
         resourceManager.registerItem(new JestersArrowItemType(this, "jesters_arrow", false, ChatColor.BLUE + "Jester's Arrow"));
@@ -826,6 +825,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", true, ChatColor.GREEN + "Sticky TNT"));
 
     }
+
 
     private void addCustomAttributes() {
         // modify a bunch of vanilla items
@@ -1057,6 +1057,18 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().addRecipe(chainLeggings);
         recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_leggings"), Material.CHAIN);
 
+
+        //pure armor
+
+        RecipeChoice.ExactChoice purifier = new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE));
+
+
+        RecipeChoice.MaterialChoice pureLeather = new RecipeChoice.MaterialChoice(Material.LEATHER);
+        RecipeChoice.MaterialChoice leatherHelmet = new RecipeChoice.MaterialChoice(Material.LEATHER_HELMET);
+        SmithingTransformRecipe pureLeatherHelmet = new SmithingTransformRecipe(new NamespacedKey(this, "pure_leather_helmet"), PureArmor.lH(), purifier, leatherHelmet, pureLeather);
+        Bukkit.addRecipe(pureLeatherHelmet);
+
     }
+
 
 }
