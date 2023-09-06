@@ -1,6 +1,7 @@
 package co.tantleffbeef.pluggytesty.expeditions.listeners;
 
 import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionController;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,6 +40,8 @@ public class PTExpeditionManagerListener implements Listener {
         final var entity = event.getEntity();
         if (!(entity instanceof Player player))
             return;
+
+        Bukkit.broadcastMessage("on player damage by block");
 
         // Check if this event is even relevant
         if (!expeditionManager.inExpedition(player))

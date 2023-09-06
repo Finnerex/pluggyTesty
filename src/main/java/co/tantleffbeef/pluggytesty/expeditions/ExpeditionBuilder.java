@@ -161,6 +161,10 @@ public class ExpeditionBuilder {
                     final var roomObject =
                             info.roomType.getConstructor().construct(new RoomTransform(bukkitLocationFromWE(world, pasteLocation), schem.getDimensions().getBlockX(), room.getRotation()), info.roomSettings);
 
+                    if (info.tags == null)
+                        Debug.log("tags == null");
+                    else
+                        Debug.log(info.tags.toString());
                     roomData = new RoomMetadata(
                             roomObject,
                             Objects.requireNonNullElse(info.tags, Collections.emptyList()),
