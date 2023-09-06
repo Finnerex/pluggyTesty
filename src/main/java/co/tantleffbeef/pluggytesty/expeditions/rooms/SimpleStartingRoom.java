@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.rooms;
 
+import co.tantleffbeef.pluggytesty.expeditions.RoomTransform;
 import com.google.gson.JsonObject;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -13,10 +14,10 @@ public class SimpleStartingRoom implements StartingRoom {
     private final Location spawnLocation;
     private final List<Player> players;
 
-    public SimpleStartingRoom(@NotNull Location minimumCorner, @NotNull JsonObject roomSettings) {
+    public SimpleStartingRoom(@NotNull RoomTransform transform, @NotNull JsonObject roomSettings) {
         var spawnOffsets = roomSettings.getAsJsonArray("spawnOffset");
 
-        spawnLocation = minimumCorner.clone().add(spawnOffsets.get(0).getAsFloat(),
+        spawnLocation = transform.getLocation(spawnOffsets.get(0).getAsFloat(),
                 spawnOffsets.get(1).getAsFloat(),
                 spawnOffsets.get(2).getAsFloat());
         this.players = new ArrayList<>();

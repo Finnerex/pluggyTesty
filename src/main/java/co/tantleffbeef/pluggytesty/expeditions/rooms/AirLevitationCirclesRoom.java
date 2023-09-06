@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.expeditions.rooms;
 
+import co.tantleffbeef.pluggytesty.expeditions.RoomTransform;
 import com.google.gson.JsonObject;
 import org.bukkit.Location;
 import org.bukkit.entity.AreaEffectCloud;
@@ -17,7 +18,7 @@ public class AirLevitationCirclesRoom implements Room {
     private final List<Location> circleLocations = new ArrayList<>();
     private final List<AreaEffectCloud> areaEffectClouds = new ArrayList<>();
 
-    public AirLevitationCirclesRoom(Location minimumLocation, JsonObject roomSettings) {
+    public AirLevitationCirclesRoom(RoomTransform transform, JsonObject roomSettings) {
         var locationList = roomSettings.getAsJsonArray("levitationSpots");
 
         for (int i = 0; i < locationList.size(); i++) {
@@ -27,7 +28,7 @@ public class AirLevitationCirclesRoom implements Room {
 
             var locationComponents = locationComponentsObject.getAsJsonArray();
 
-            var location = minimumLocation.clone().add(locationComponents.get(0).getAsFloat(),
+            var location = transform.getLocation(locationComponents.get(0).getAsFloat(),
                     locationComponents.get(1).getAsFloat(),
                     locationComponents.get(2).getAsFloat());
             
