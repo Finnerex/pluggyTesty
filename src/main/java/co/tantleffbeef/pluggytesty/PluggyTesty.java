@@ -762,6 +762,8 @@ public final class PluggyTesty extends JavaPlugin {
         }
     }
 
+
+
     private void registerItems() {
         // Testing
         resourceManager.registerItem(new TestGUIItemType(this, "gui_tester", false, "GUI Tester"));
