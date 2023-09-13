@@ -1013,6 +1013,10 @@ public final class PluggyTesty extends JavaPlugin {
         getLogger().info("no more");
     }
 
+//    public SmithingTransformRecipe smithingRecipes(RecipeChoice.ExactChoice purifier, RecipeChoice.MaterialChoice pureLeather){
+//
+//    }
+
     private void registerRecipes() {
         final ShapedRecipe chains = new ShapedRecipe(new NamespacedKey(this, "chain"), new ItemStack(Material.CHAIN))
                 .shape( "i",
