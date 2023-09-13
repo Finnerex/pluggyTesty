@@ -1068,6 +1068,8 @@ public final class PluggyTesty extends JavaPlugin {
         //pure armor
         var result = resourceManager.getCustomItemStack(new NamespacedKey(this, "pure_leather_helmet"));
 
+        attributeManager.registerModifiedItem(result);
+
         RecipeChoice.ExactChoice purifier = new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE));
 
 
