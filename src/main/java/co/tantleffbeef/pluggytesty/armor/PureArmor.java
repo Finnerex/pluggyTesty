@@ -1,27 +1,33 @@
 package co.tantleffbeef.pluggytesty.armor;
 
+import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
+import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
 public abstract class PureArmor {
 
-    public static ItemStack lH(){
-        ItemStack Item = new ItemStack(Material.LEATHER_HELMET);
-        ItemMeta Meta = Item.getItemMeta();
-        assert Meta != null;
-        Meta.setDisplayName("Pure Leather Helmet");
-        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
-        Meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
-        Item.setItemMeta(Meta);
+    /*public static ItemStack lH(){
+        // move this out of this class, put it in the pluggy testy
+        CustomItemType leatherHelmet = new SimpleItemType(plugin, "pure_leather_helmet", false, "Pure Leather Helmet") {
+            @Override
+            public void modifyItemMeta(@NotNull ItemMeta meta) {
+                super.modifyItemMeta(meta);
+
+                meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+                meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+            }
+        };
 
         return Item;
-    }
+    }*/
 
     public static ItemStack lC(){
         ItemStack Item = new ItemStack(Material.LEATHER_CHESTPLATE);

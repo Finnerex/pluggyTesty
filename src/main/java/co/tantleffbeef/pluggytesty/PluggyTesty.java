@@ -821,6 +821,12 @@ public final class PluggyTesty extends JavaPlugin {
         // Armor
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
+        // pure armor
+        resourceManager.registerItem(new SimpleArmorItemType(this, "pure_leather_helmet", false, "Pure Leather Helmet",
+                Material.LEATHER_HELMET,
+                new SimpleArmorItemType.AttributePair(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "armor", 2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD)),
+                new SimpleArmorItemType.AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "armor", 1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD))
+                ));
 
         // TNT
         resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", true, ChatColor.GREEN + "Sticky TNT"));
@@ -1060,13 +1066,14 @@ public final class PluggyTesty extends JavaPlugin {
 
 
         //pure armor
+        var result = resourceManager.getCustomItemStack(new NamespacedKey(this, "pure_leather_helmet"));
 
         RecipeChoice.ExactChoice purifier = new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE));
 
 
         RecipeChoice.MaterialChoice pureLeather = new RecipeChoice.MaterialChoice(Material.LEATHER);
         RecipeChoice.MaterialChoice leatherHelmet = new RecipeChoice.MaterialChoice(Material.LEATHER_HELMET);
-        SmithingTransformRecipe pureLeatherHelmet = new SmithingTransformRecipe(new NamespacedKey(this, "pure_leather_helmet"), PureArmor.lH(), purifier, leatherHelmet, pureLeather);
+        SmithingTransformRecipe pureLeatherHelmet = new SmithingTransformRecipe(new NamespacedKey(this, "pure_leather_helmet"), result, purifier, leatherHelmet, pureLeather);
         Bukkit.addRecipe(pureLeatherHelmet);
 
     }
