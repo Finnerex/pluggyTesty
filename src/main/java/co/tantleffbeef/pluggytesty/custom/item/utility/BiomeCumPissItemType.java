@@ -121,7 +121,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
 
                             CompassMeta compassMeta = (CompassMeta) compass.getItemMeta();
                             compassMeta.setLodestone(parseLocationString(item.getItemMeta().getLore().get(0), player.getWorld()));
-                            compassMeta.setLodestoneTracked(true);
+                            compassMeta.setLodestoneTracked(false);
 
                             compass.setItemMeta(compassMeta);
 
