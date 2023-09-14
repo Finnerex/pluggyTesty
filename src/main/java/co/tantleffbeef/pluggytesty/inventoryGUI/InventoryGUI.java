@@ -58,7 +58,11 @@ public class InventoryGUI {
 
         for (int i = 0; i < materials.length; i++) {
             buttons.put(startingSlot + i, new InventoryButton(clickEventConsumer, materials[i], names[i]));
-            inventory.setItem(startingSlot + i, new ItemStack(materials[i]));
+            ItemStack item = new ItemStack(materials[i]);
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(names[i]);
+            item.setItemMeta(meta);
+            inventory.setItem(startingSlot + i, item);
         }
 
         return this;

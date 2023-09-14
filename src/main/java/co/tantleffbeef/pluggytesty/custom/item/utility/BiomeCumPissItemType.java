@@ -16,10 +16,7 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class BiomeCumPissItemType extends SimpleItemType implements InteractableItemType {
 
@@ -80,7 +77,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                             Biome biome = player.getWorld().getBiome(l);
 
                             InventoryGUI gui = playerGUIs.get(player.getUniqueId());
-                            int slot = event.getSlot();
+                            int slot = List.of(biomes).indexOf(biome);
 
                             gui.setIcon(slot, buttons.get(biome),
                                     gui.getButton(slot).getIcon().getItemMeta().getDisplayName(),
