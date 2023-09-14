@@ -139,7 +139,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
     private Location parseLocationString(String locationString, World world) {
         String[] xyz = locationString.split(", ");
 
-        Bukkit.broadcastMessage("location: " + locationString + "\nthe thing: " + xyz);
+        Bukkit.broadcastMessage("location: " + locationString + "\nthe thing: " + Arrays.toString(xyz));
 
         int x = Integer.getInteger(xyz[0]);
         int y = Integer.getInteger(xyz[1]);
