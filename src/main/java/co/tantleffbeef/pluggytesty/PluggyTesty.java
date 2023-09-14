@@ -910,9 +910,9 @@ public final class PluggyTesty extends JavaPlugin {
         addCustomAttributeToVanillaItem(Material.IRON_HELMET,
                 new AttributePair(Attribute.GENERIC_ARMOR, 3,
                         EquipmentSlot.HEAD));
-        addCustomAttributeToVanillaItem(Material.IRON_CHESTPLATE,
-                new AttributePair(Attribute.GENERIC_ARMOR, 3,
-                        EquipmentSlot.CHEST));
+//        addCustomAttributeToVanillaItem(Material.IRON_CHESTPLATE,
+//                new AttributePair(Attribute.GENERIC_ARMOR, 3,
+//                        EquipmentSlot.CHEST));
         addCustomAttributeToVanillaItem(Material.IRON_LEGGINGS,
                 new AttributePair(Attribute.GENERIC_ARMOR, 3,
                         EquipmentSlot.LEGS));

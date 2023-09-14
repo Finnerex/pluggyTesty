@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CompassMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +20,7 @@ import java.util.*;
 
 public class BiomeCumPissItemType extends SimpleItemType implements InteractableItemType {
 
-    private Map<ItemStack, InventoryGUI> itemGUIs;
+    private Map<UUID, InventoryGUI> itemGUIs;
     private final InventoryGUI initialGUI;
     private final InventoryGUI confirmRecordGUI;
     private final InventoryGUI DEFAULT_GUI;
@@ -62,7 +63,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                                 return;
 
                             player.closeInventory();
-                            itemGUIs.get(player.getInventory().getItemInMainHand()).displayTo(player);
+                            itemGUIs.get(player.getUniqueId()/*.getInventory().getItemInMainHand()*/).displayTo(player);
 
                         }, Material.GREEN_CONCRETE, "Track Biome"
                 ), 5);
@@ -77,7 +78,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                             Location l = player.getLocation();
                             Biome biome = player.getWorld().getBiome(l);
 
-                            InventoryGUI gui = itemGUIs.get(player.getInventory().getItemInMainHand());
+                            InventoryGUI gui = itemGUIs.get(player.getUniqueId()/*.getInventory().getItemInMainHand()*/);
                             int slot = List.of(biomes).indexOf(biome);
 
                             gui.setIcon(slot, buttons.get(biome),
@@ -142,7 +143,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack item, @Nullable Block targetBlock) {
 
-        itemGUIs.putIfAbsent(item, DEFAULT_GUI);
+        itemGUIs.putIfAbsent(player.getUniqueId(), DEFAULT_GUI);
 
         initialGUI.displayTo(player);
 
@@ -178,7 +179,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
             ObjectInputStream objectInput
                     = new ObjectInputStream(fileInput);
 
-            itemGUIs = (Map<ItemStack, InventoryGUI>) objectInput.readObject();
+            itemGUIs = (Map<UUID, InventoryGUI>) objectInput.readObject();
 
             objectInput.close();
             fileInput.close();
