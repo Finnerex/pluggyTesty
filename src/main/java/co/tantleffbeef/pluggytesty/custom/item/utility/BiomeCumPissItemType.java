@@ -20,7 +20,7 @@ import java.util.*;
 
 public class BiomeCumPissItemType extends SimpleItemType implements InteractableItemType {
 
-    private final Map<UUID, InventoryGUI> playerGUIs;
+    private final Map<ItemStack, InventoryGUI> playerGUIs;
     private final InventoryGUI initialGUI;
     private final InventoryGUI confirmRecordGUI;
     private final InventoryGUI DEFAULT_GUI;
@@ -61,7 +61,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                                 return;
 
                             player.closeInventory();
-                            playerGUIs.get(player.getUniqueId()).displayTo(player);
+                            playerGUIs.get(player.getInventory().getItemInMainHand()).displayTo(player);
 
                         }, Material.GREEN_CONCRETE, "Track Biome"
                 ), 5);
@@ -76,7 +76,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                             Location l = player.getLocation();
                             Biome biome = player.getWorld().getBiome(l);
 
-                            InventoryGUI gui = playerGUIs.get(player.getUniqueId());
+                            InventoryGUI gui = playerGUIs.get(player.getInventory().getItemInMainHand());
                             int slot = List.of(biomes).indexOf(biome);
 
                             gui.setIcon(slot, buttons.get(biome),
@@ -141,12 +141,12 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack item, @Nullable Block targetBlock) {
 
-        UUID uuid = player.getUniqueId();
-
-        playerGUIs.putIfAbsent(uuid, DEFAULT_GUI);
+        playerGUIs.putIfAbsent(item, DEFAULT_GUI);
 
         initialGUI.displayTo(player);
 
         return false;
     }
+
+//    private void serialize
 }
