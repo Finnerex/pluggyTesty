@@ -105,7 +105,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                 ), 5);
 
 
-        Material[] materials = new Material[57];
+        Material[] materials = new Material[54];
         Arrays.fill(materials, Material.RED_STAINED_GLASS);
 
         DEFAULT_GUI
