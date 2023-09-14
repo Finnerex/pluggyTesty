@@ -141,9 +141,9 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
 
         Bukkit.broadcastMessage("location: " + locationString + "\nthe thing: " + Arrays.toString(xyz));
 
-        int x = Integer.getInteger(xyz[0]);
-        int y = Integer.getInteger(xyz[1]);
-        int z = Integer.getInteger(xyz[2]);
+        int x = Integer.getInteger("7"/*xyz[0]*/);
+        int y = Integer.getInteger("8"/*xyz[1]*/);
+        int z = Integer.getInteger("9"/*xyz[2]*/);
 
         Bukkit.broadcastMessage("x: " + x + "\ny: " + y + "\nz: " + z);
         return new Location(world, x, y, z);
