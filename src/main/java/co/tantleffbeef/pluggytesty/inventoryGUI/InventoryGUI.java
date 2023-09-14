@@ -54,7 +54,7 @@ public class InventoryGUI {
 
     public InventoryGUI addButtons(Consumer<InventoryClickEvent> clickEventConsumer, int startingSlot, Material[] materials, String[] names) {
         if (materials.length != names.length)
-            throw new RuntimeException("You Must Have The Same Number Of Materials And Names");
+            throw new RuntimeException("You must have the same number of materials and names");
 
         for (int i = 0; i < materials.length; i++) {
             buttons.put(startingSlot + i, new InventoryButton(clickEventConsumer, materials[i], names[i]));

@@ -5,10 +5,7 @@ import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryButton;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryGUI;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -141,7 +138,15 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
 
     private Location parseLocationString(String locationString, World world) {
         String[] xyz = locationString.split(", ");
-        return new Location(world, Integer.getInteger(xyz[0]), Integer.getInteger(xyz[0]), Integer.getInteger(xyz[0]));
+
+        Bukkit.broadcastMessage("location: " + locationString + "\nthe thing: " + xyz);
+
+        int x = Integer.getInteger(xyz[0]);
+        int y = Integer.getInteger(xyz[1]);
+        int z = Integer.getInteger(xyz[2]);
+
+        Bukkit.broadcastMessage("x: " + x + "\ny: " + y + "\nz: " + z);
+        return new Location(world, x, y, z);
     }
 
     @Override
