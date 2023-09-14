@@ -151,7 +151,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
 
         playerGUIs.putIfAbsent(uuid, DEFAULT_GUI);
 
-        playerGUIs.get(uuid).displayTo(player);
+        initialGUI.displayTo(player);
 
         return false;
     }
