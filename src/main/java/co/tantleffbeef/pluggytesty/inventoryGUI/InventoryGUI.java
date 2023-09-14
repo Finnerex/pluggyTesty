@@ -102,4 +102,14 @@ public class InventoryGUI {
         player.openInventory(inventory);
     }
 
+    @Override
+    public InventoryGUI clone() {
+        try {
+            return (InventoryGUI) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }

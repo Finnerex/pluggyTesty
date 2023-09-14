@@ -143,7 +143,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack item, @Nullable Block targetBlock) {
 
-        itemGUIs.putIfAbsent(player.getUniqueId(), DEFAULT_GUI);
+        itemGUIs.putIfAbsent(player.getUniqueId(), DEFAULT_GUI.clone());
 
         initialGUI.displayTo(player);
 
