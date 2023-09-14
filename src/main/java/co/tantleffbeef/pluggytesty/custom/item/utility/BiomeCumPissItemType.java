@@ -1,6 +1,5 @@
 package co.tantleffbeef.pluggytesty.custom.item.utility;
 
-import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
 import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryButton;
@@ -11,16 +10,16 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CompassMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.*;
 import java.util.*;
 
 public class BiomeCumPissItemType extends SimpleItemType implements InteractableItemType {
 
-    private final Map<UUID, InventoryGUI> playerGUIs;
+    private Map<ItemStack, InventoryGUI> itemGUIs;
     private final InventoryGUI initialGUI;
     private final InventoryGUI confirmRecordGUI;
     private final InventoryGUI DEFAULT_GUI;
@@ -28,7 +27,9 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
 
     public BiomeCumPissItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.COMPASS);
-        playerGUIs = new HashMap<>();
+//        itemGUIs = new HashMap<>();
+
+        deserializeGUIs();
 
         buttons = new HashMap<>();
 
@@ -61,7 +62,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                                 return;
 
                             player.closeInventory();
-                            playerGUIs.get(player.getUniqueId()).displayTo(player);
+                            itemGUIs.get(player.getInventory().getItemInMainHand()).displayTo(player);
 
                         }, Material.GREEN_CONCRETE, "Track Biome"
                 ), 5);
@@ -76,7 +77,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                             Location l = player.getLocation();
                             Biome biome = player.getWorld().getBiome(l);
 
-                            InventoryGUI gui = playerGUIs.get(player.getUniqueId());
+                            InventoryGUI gui = itemGUIs.get(player.getInventory().getItemInMainHand());
                             int slot = List.of(biomes).indexOf(biome);
 
                             gui.setIcon(slot, buttons.get(biome),
@@ -141,12 +142,52 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack item, @Nullable Block targetBlock) {
 
-        UUID uuid = player.getUniqueId();
-
-        playerGUIs.putIfAbsent(uuid, DEFAULT_GUI);
+        itemGUIs.putIfAbsent(item, DEFAULT_GUI);
 
         initialGUI.displayTo(player);
 
+        serializeGUIs();
+
         return false;
     }
+
+    private final String path = "data/misc/biome_compass.txt";
+
+    private void serializeGUIs() {
+        try {
+            FileOutputStream myFileOutStream = new FileOutputStream(path);
+
+            ObjectOutputStream myObjectOutStream = new ObjectOutputStream(myFileOutStream);
+
+            myObjectOutStream.writeObject(itemGUIs);
+
+            // closing FileOutputStream and
+            // ObjectOutputStream
+            myObjectOutStream.close();
+            myFileOutStream.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deserializeGUIs() {
+        try {
+            FileInputStream fileInput = new FileInputStream(path);
+
+            ObjectInputStream objectInput
+                    = new ObjectInputStream(fileInput);
+
+            itemGUIs = (Map<ItemStack, InventoryGUI>) objectInput.readObject();
+
+            objectInput.close();
+            fileInput.close();
+        }
+
+        catch (Exception e) {
+            e.printStackTrace();
+            itemGUIs = new HashMap<>();
+        }
+    }
+
 }
