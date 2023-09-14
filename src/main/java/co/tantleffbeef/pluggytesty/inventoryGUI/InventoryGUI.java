@@ -3,15 +3,15 @@ package co.tantleffbeef.pluggytesty.inventoryGUI;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.UUID;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class InventoryGUI {
     private final Inventory inventory;
@@ -50,6 +50,23 @@ public class InventoryGUI {
         buttons.put(slot, button);
         inventory.setItem(slot, button.getIcon());
         return this;
+    }
+
+    public InventoryGUI addButtons(Consumer<InventoryClickEvent> clickEventConsumer, int startingSlot, Material[] materials, String[] names) {
+        if (materials.length != names.length)
+            throw new RuntimeException("You must have the same number of materials and names");
+
+        for (int i = 0; i < materials.length; i++) {
+            buttons.put(startingSlot + i, new InventoryButton(clickEventConsumer, materials[i], names[i]));
+            ItemStack item = new ItemStack(materials[i]);
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(names[i]);
+            item.setItemMeta(meta);
+            inventory.setItem(startingSlot + i, item);
+        }
+
+        return this;
+
     }
 
     public void setIcon(int slot, Material material, String name, String... lore) {
