@@ -759,13 +759,14 @@ public final class PluggyTesty extends JavaPlugin {
         }
     }
 
-    public SimpleArmorItemType RegisterAttributes(@NotNull Plugin plugin, String id, String name, Material material, int amount, int amount2, EquipmentSlot slot){
+    public SimpleArmorItemType RegisterAttributes(String id, String name, Material material, int amount, int amount2, EquipmentSlot slot){
 
-        return new SimpleArmorItemType(plugin, "pure_"+ id, false, "Pure " + name, material,
+        return new SimpleArmorItemType(this, "pure_"+ id, false, "Pure " + name, material,
                 new SimpleArmorItemType.AttributePair(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "irrelevant", amount, AttributeModifier.Operation.ADD_NUMBER, slot)),
                 new SimpleArmorItemType.AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "irrelevant", amount2, AttributeModifier.Operation.ADD_NUMBER, slot)));
     }
     private void registerItems() {
+
         // Testing
         resourceManager.registerItem(new TestGUIItemType(this, "gui_tester", false, "GUI Tester"));
 
@@ -823,7 +824,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
         // pure armor
-        resourceManager.registerItem(RegisterAttributes(this, "leather_helmet", "Leather Helmet", Material.LEATHER_HELMET, 1, 1, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("leather_helmet", "Leather Helmet", Material.LEATHER_HELMET, 1, 1, EquipmentSlot.HEAD));
         // TNT
         resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", true, ChatColor.GREEN + "Sticky TNT"));
 
@@ -1068,7 +1069,6 @@ public final class PluggyTesty extends JavaPlugin {
         //pure armor
         var result = resourceManager.getCustomItemStack(new NamespacedKey(this, "pure_leather_helmet"));
 
-        attributeManager.registerModifiedItem(result);
 
         RecipeChoice.ExactChoice purifier = new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE));
 
