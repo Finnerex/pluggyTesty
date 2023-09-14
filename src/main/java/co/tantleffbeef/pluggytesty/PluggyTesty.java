@@ -7,15 +7,14 @@ import co.tantleffbeef.pluggytesty.armor.ArmorEquipListener;
 import co.tantleffbeef.pluggytesty.armor.PureArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
+import co.tantleffbeef.pluggytesty.attributes.AttributeUpdateListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.commands.ReloadExpeditionsCommand;
 import co.tantleffbeef.pluggytesty.expeditions.commands.RunExpeditionCommand;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
-import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RoomLoader;
-import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.*;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
@@ -30,7 +29,6 @@ import co.tantleffbeef.pluggytesty.custom.item.armor.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.*;
 import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionController;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PTPartyManager;
-import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import co.tantleffbeef.pluggytesty.expeditions.parties.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PTExpeditionManagerListener;
@@ -55,23 +53,20 @@ import com.google.gson.JsonParseException;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.sk89q.worldedit.EmptyClipboardException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import net.kyori.adventure.text.minimessage.Template;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3i;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -323,6 +318,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GooberStateListener(gooberStateController, getServer()), this);
         getServer().getPluginManager().registerEvents(new DisabledRecipeManager(this, gooberStateController, nbtKeyManager), this);
         getServer().getPluginManager().registerEvents(new InventoryGUIManager(), this);
+        getServer().getPluginManager().registerEvents(new AttributeUpdateListener(attributeManager), this);
 //        getServer().getPluginManager().registerEvents(new EntityDeathGarbageCollector(), this);
 
 
@@ -375,7 +371,7 @@ public final class PluggyTesty extends JavaPlugin {
             }
         }.runTaskTimer(this, 3, 7);*/
 
-        Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
+        /*Objects.requireNonNull(getCommand("testexpedition")).setExecutor((commandSender, command, s, strings) -> {
             if (!(commandSender instanceof Player player))
                 return false;
 
@@ -410,7 +406,7 @@ public final class PluggyTesty extends JavaPlugin {
             }));
 
             return true;
-        });
+        });*/
 
         Objects.requireNonNull(getCommand("selectioninfo")).setExecutor((sender, command, label, args) -> {
             if (!(sender instanceof Player player))
@@ -450,7 +446,7 @@ public final class PluggyTesty extends JavaPlugin {
             return true;
         });
 
-        Objects.requireNonNull(getCommand("randomtestexpedition")).setExecutor((sender, command, label, args) -> {
+        /*Objects.requireNonNull(getCommand("randomtestexpedition")).setExecutor((sender, command, label, args) -> {
             if (!(sender instanceof Player player))
                 return false;
 
@@ -590,7 +586,7 @@ public final class PluggyTesty extends JavaPlugin {
             }
 
             return true;
-        });
+        });*/
 
         Objects.requireNonNull(getCommand("printexps")).setExecutor((sender, command, label, args) -> {
             if (args.length > 0) {
@@ -763,6 +759,12 @@ public final class PluggyTesty extends JavaPlugin {
         }
     }
 
+    public SimpleArmorItemType RegisterAttributes(@NotNull Plugin plugin, String id, String name, Material material, int amount, int amount2, EquipmentSlot slot){
+
+        return new SimpleArmorItemType(plugin, "pure_"+ id, false, "Pure " + name, material,
+                new SimpleArmorItemType.AttributePair(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "irrelevant", amount, AttributeModifier.Operation.ADD_NUMBER, slot)),
+                new SimpleArmorItemType.AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "irrelevant", amount2, AttributeModifier.Operation.ADD_NUMBER, slot)));
+    }
     private void registerItems() {
         // Testing
         resourceManager.registerItem(new TestGUIItemType(this, "gui_tester", false, "GUI Tester"));
@@ -821,7 +823,8 @@ public final class PluggyTesty extends JavaPlugin {
         // Armor
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
-
+        // pure armor
+        resourceManager.registerItem(RegisterAttributes(this, "leather_helmet", "Leather Helmet", Material.LEATHER_HELMET, 1, 1, EquipmentSlot.HEAD));
         // TNT
         resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", true, ChatColor.GREEN + "Sticky TNT"));
 
@@ -1011,6 +1014,10 @@ public final class PluggyTesty extends JavaPlugin {
         getLogger().info("no more");
     }
 
+//    public SmithingTransformRecipe smithingRecipes(RecipeChoice.ExactChoice purifier, RecipeChoice.MaterialChoice pureLeather){
+//
+//    }
+
     private void registerRecipes() {
         final ShapedRecipe chains = new ShapedRecipe(new NamespacedKey(this, "chain"), new ItemStack(Material.CHAIN))
                 .shape( "i",
@@ -1060,13 +1067,16 @@ public final class PluggyTesty extends JavaPlugin {
 
 
         //pure armor
+        var result = resourceManager.getCustomItemStack(new NamespacedKey(this, "pure_leather_helmet"));
+
+        attributeManager.registerModifiedItem(result);
 
         RecipeChoice.ExactChoice purifier = new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE));
 
 
-        RecipeChoice.ExactChoice pureLeather = new RecipeChoice.ExactChoice(new ItemStack(Material.IRON_INGOT));
+        RecipeChoice.MaterialChoice pureLeather = new RecipeChoice.MaterialChoice(Material.LEATHER);
         RecipeChoice.MaterialChoice leatherHelmet = new RecipeChoice.MaterialChoice(Material.LEATHER_HELMET);
-        SmithingTransformRecipe pureLeatherHelmet = new SmithingTransformRecipe(new NamespacedKey(this, "pure_leather_helmet"), PureArmor.lH(), purifier, leatherHelmet, pureLeather);
+        SmithingTransformRecipe pureLeatherHelmet = new SmithingTransformRecipe(new NamespacedKey(this, "pure_leather_helmet"), result, purifier, leatherHelmet, pureLeather);
         Bukkit.addRecipe(pureLeatherHelmet);
 
     }

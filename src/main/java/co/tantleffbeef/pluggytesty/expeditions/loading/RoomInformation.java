@@ -13,6 +13,7 @@ public class RoomInformation {
     public final Path schematicPath;
     public final JsonObject roomSettings;
     private final List<RoomDoor> doors;
+    public final List<String> tags;
 
     @Override
     public boolean equals(Object o) {
@@ -27,11 +28,12 @@ public class RoomInformation {
         return Objects.hash(roomType, schematicPath, doors);
     }
 
-    public RoomInformation(@NotNull RoomType roomType, @NotNull Path schematicPath, @Nullable JsonObject roomSettings, @Nullable List<RoomDoor> doors) {
+    public RoomInformation(@NotNull RoomType roomType, @NotNull Path schematicPath, @Nullable JsonObject roomSettings, @Nullable List<RoomDoor> doors, @Nullable List<String> tags) {
         this.roomType = roomType;
         this.schematicPath = schematicPath;
         this.roomSettings = roomSettings;
         this.doors = doors;
+        this.tags = tags;
     }
 
     @Override

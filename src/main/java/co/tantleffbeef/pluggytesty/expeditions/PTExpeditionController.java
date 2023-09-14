@@ -5,6 +5,7 @@ import co.tantleffbeef.pluggytesty.misc.Debug;
 import co.tantleffbeef.pluggytesty.misc.ErrorCode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -229,10 +230,10 @@ public class PTExpeditionController implements ExpeditionController {
             expedition.setPlayerRoom(player, newRoomData);
             // Let the rooms know that it changed
             oldRoom.onPlayerExitRoom(player);
-            if (oldRoom.getPlayers().size() < 1)
+            if (oldRoom.getPlayers().isEmpty())
                 oldRoom.onLastPlayerExitRoom(player);
 
-            if (newRoom.getPlayers().size() < 1)
+            if (newRoom.getPlayers().isEmpty())
                 newRoom.onFirstPlayerEnterRoom(player);
             newRoom.onPlayerEnterRoom(player);
             newRoom.onPlayerMove(player, to);
@@ -242,6 +243,22 @@ public class PTExpeditionController implements ExpeditionController {
                     "an expedition had to be forcibly ended because a player was not in a room");
             throw new RuntimeException(e);
         }
+    }
+
+    public void onPlayerDamage(Player player, EntityDamageEvent event) {
+        assert expeditionPlayers.contains(player);
+
+        // Grab the expedition they're in
+        final var expedition = partyExpeditionMap.get(playerPartyMap.get(player.getUniqueId()));
+
+        // Grab the room they're in
+        final var roomData = expedition.getRoomWithPlayerData(player);
+
+        // check if it has no fall damage tag
+        if (event.getCause() == EntityDamageEvent.DamageCause.FALL && roomData.tags().contains("no_fall_damage"))
+            event.setCancelled(true);
+
+        roomData.room().onPlayerDamage(player, event);
     }
 
     private RoomMetadata findRoomWithPlayer(@NotNull Expedition expedition, @NotNull Vector playerLocation)
