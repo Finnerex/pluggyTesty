@@ -5,10 +5,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.SmithingTransformRecipe;
+import org.bukkit.inventory.*;
 import org.jetbrains.annotations.NotNull;
 
 public class AttributeUpdateListener implements Listener {
@@ -23,6 +20,21 @@ public class AttributeUpdateListener implements Listener {
         Bukkit.broadcastMessage("Passed test0");
         // Grab the crafting table inventory
         final CraftingInventory inventory = event.getInventory();
+        // Grab the result slot
+        final ItemStack result = inventory.getResult();
+
+        // Exit if there isn't a result
+        if (result == null)
+            return;
+
+        // If there is a result check if it needs to be updated
+        attributeManager.updateItem(result);
+    }
+    @EventHandler
+    public void onPrepareSmithingCraft(@NotNull PrepareSmithingEvent event) {
+        Bukkit.broadcastMessage("Passed test0");
+        // Grab the smithing table inventory
+        final SmithingInventory inventory= event.getInventory();
         // Grab the result slot
         final ItemStack result = inventory.getResult();
 
