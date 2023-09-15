@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.attributes;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -7,6 +8,9 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AttributeUpdateListener implements Listener {
     private final AttributeManager attributeManager;
@@ -34,16 +38,18 @@ public class AttributeUpdateListener implements Listener {
     public void onPrepareSmithingCraft(@NotNull PrepareSmithingEvent event) {
         Bukkit.broadcastMessage("Passed test0");
         // Grab the smithing table inventory
-        final SmithingInventory inventory= event.getInventory();
+        final SmithingInventory inventory = event.getInventory();
         // Grab the result slot
         final ItemStack result = inventory.getResult();
+        // Grab the recipe
+        final var recipe = inventory.getRecipe();
 
         // Exit if there isn't a result
         if (result == null)
             return;
 
         // If there is a result check if it needs to be updated
-        attributeManager.updateSmithingItem(result);
+        attributeManager.updateSmithingItem(result, recipe, event);
     }
 
     @EventHandler

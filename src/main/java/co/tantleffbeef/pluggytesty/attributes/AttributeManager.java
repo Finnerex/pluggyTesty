@@ -7,8 +7,10 @@ import co.tantleffbeef.pluggytesty.PluggyTesty;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.SmithingTransformRecipe;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -70,7 +72,10 @@ public class AttributeManager {
 
         // Save the modified version
         itemModifications.put(id, item);
+
+
     }
+
 
     /**
      * Scans through all items in the inventory,
@@ -129,35 +134,20 @@ public class AttributeManager {
                 resetMeta(itemStack.getItemMeta(), modification.getItemMeta())
         );
     }
-    public void updateSmithingItem(@NotNull ItemStack itemStack) {
+    public void updateSmithingItem(@NotNull ItemStack result, Recipe recipe, PrepareSmithingEvent event) {
         Bukkit.broadcastMessage("Passed test1");
-        assert itemStack.getItemMeta() != null;
+        // Grab the result item's id
+        final var id = CustomItemNbt.customItemIdOrVanilla(result, keyManager);
 
-        // Grab the item's id
-        final var id = CustomItemNbt.customItemIdOrVanilla(itemStack, keyManager);
-
-        // If no modification is registered
-        // for this item id then no need
-        // to modify it
-        if (!modifiedItemSet.contains(id)) {
-            Bukkit.broadcastMessage("Passed test2");
-            return;
-        }
-
-        final var modification = itemModifications.get(new NamespacedKey(plugin, "pure_leather_helmet"));
-        assert modification != null;
+        final var trueResult = recipe.getResult();
 
         // If the item doesn't need modification return
-        if (!needsModification(itemStack, modification)) {
+        if (trueResult.equals(result)) {
             Bukkit.broadcastMessage("Passed test3");
             return;
         }
 
-        assert modification.getItemMeta() != null;
-
-        itemStack.setItemMeta(
-                resetMeta(itemStack.getItemMeta(), modification.getItemMeta())
-        );
+        event.setResult(trueResult);
     }
 
     private boolean needsModification(@NotNull ItemStack toModify, @NotNull ItemStack modification) {
