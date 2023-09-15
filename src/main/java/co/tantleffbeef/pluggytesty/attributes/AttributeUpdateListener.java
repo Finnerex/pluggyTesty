@@ -6,6 +6,8 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.SmithingTransformRecipe;
 import org.jetbrains.annotations.NotNull;
 
 public class AttributeUpdateListener implements Listener {
@@ -17,6 +19,9 @@ public class AttributeUpdateListener implements Listener {
 
     @EventHandler
     public void onPrepareCraft(@NotNull PrepareItemCraftEvent event) {
+        // Exception for pure armor
+        if(event.getRecipe() instanceof SmithingTransformRecipe)
+            return;
         // Grab the crafting table inventory
         final CraftingInventory inventory = event.getInventory();
         // Grab the result slot
