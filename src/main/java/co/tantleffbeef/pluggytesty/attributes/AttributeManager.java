@@ -97,6 +97,7 @@ public class AttributeManager {
      *                  have item meta
      */
     public void updateItem(@NotNull ItemStack itemStack) {
+        Bukkit.broadcastMessage("Passed test1");
         assert itemStack.getItemMeta() != null;
 
         // Grab the item's id
@@ -105,15 +106,17 @@ public class AttributeManager {
         // If no modification is registered
         // for this item id then no need
         // to modify it
-        if (!modifiedItemSet.contains(id))
+        if (!modifiedItemSet.contains(id)) {
+            Bukkit.broadcastMessage("Passed test2");
             return;
+        }
 
         final var modification = itemModifications.get(id);
         assert modification != null;
 
         // If the item doesn't need modification return
         if (!needsModification(itemStack, modification)) {
-            Bukkit.broadcastMessage("Passed test");
+            Bukkit.broadcastMessage("Passed test3");
             return;
         }
 

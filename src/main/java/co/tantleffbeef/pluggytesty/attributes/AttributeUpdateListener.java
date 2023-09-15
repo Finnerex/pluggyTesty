@@ -1,4 +1,5 @@
 package co.tantleffbeef.pluggytesty.attributes;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -19,6 +20,7 @@ public class AttributeUpdateListener implements Listener {
 
     @EventHandler
     public void onPrepareCraft(@NotNull PrepareItemCraftEvent event) {
+        Bukkit.broadcastMessage("Passed test0");
         // Grab the crafting table inventory
         final CraftingInventory inventory = event.getInventory();
         // Grab the result slot
