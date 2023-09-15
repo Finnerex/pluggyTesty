@@ -43,7 +43,7 @@ public class AttributeUpdateListener implements Listener {
             return;
 
         // If there is a result check if it needs to be updated
-        attributeManager.updateItem(result);
+        attributeManager.updateSmithingItem(result);
     }
 
     @EventHandler

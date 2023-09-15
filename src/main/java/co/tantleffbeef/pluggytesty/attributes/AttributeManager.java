@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.SmithingTransformRecipe;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -102,6 +103,33 @@ public class AttributeManager {
      *                  have item meta
      */
     public void updateItem(@NotNull ItemStack itemStack) {
+        assert itemStack.getItemMeta() != null;
+
+        // Grab the item's id
+        final var id = CustomItemNbt.customItemIdOrVanilla(itemStack, keyManager);
+
+        // If no modification is registered
+        // for this item id then no need
+        // to modify it
+        if (!modifiedItemSet.contains(id)) {
+            return;
+        }
+
+        final var modification = itemModifications.get(id);
+        assert modification != null;
+
+        // If the item doesn't need modification return
+        if (!needsModification(itemStack, modification)) {
+            return;
+        }
+
+        assert modification.getItemMeta() != null;
+
+        itemStack.setItemMeta(
+                resetMeta(itemStack.getItemMeta(), modification.getItemMeta())
+        );
+    }
+    public void updateSmithingItem(@NotNull ItemStack itemStack) {
         Bukkit.broadcastMessage("Passed test1");
         assert itemStack.getItemMeta() != null;
 
@@ -116,7 +144,6 @@ public class AttributeManager {
             return;
         }
 
-//        final var modification = itemModifications.get(id);
         final var modification = itemModifications.get(new NamespacedKey(plugin, "pure_leather_helmet"));
         assert modification != null;
 
