@@ -164,7 +164,7 @@ public final class PluggyTesty extends JavaPlugin {
         nbtKeyManager = rApi.getNbtKeyManager();
         blockManager = rApi.getBlockManager();
 
-        attributeManager = new AttributeManager(nbtKeyManager);
+        attributeManager = new AttributeManager(nbtKeyManager, this);
         lootTableManager = new LootTableManager(attributeManager);
         partyManager = new PTPartyManager();
 

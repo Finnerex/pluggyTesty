@@ -3,6 +3,7 @@ package co.tantleffbeef.pluggytesty.attributes;
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
+import co.tantleffbeef.pluggytesty.PluggyTesty;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -28,7 +30,10 @@ public class AttributeManager {
 
     private final KeyManager<CustomNbtKey> keyManager;
 
-    public AttributeManager(@NotNull KeyManager<CustomNbtKey> nbtKeyManager) {
+    private final Plugin plugin;
+
+    public AttributeManager(@NotNull KeyManager<CustomNbtKey> nbtKeyManager, Plugin namespace) {
+        this.plugin = namespace;
         this.modifiedItemSet = new HashSet<>();
         this.itemModifications = new HashMap<>();
         this.keyManager = nbtKeyManager;
@@ -111,7 +116,8 @@ public class AttributeManager {
             return;
         }
 
-        final var modification = itemModifications.get(id);
+//        final var modification = itemModifications.get(id);
+        final var modification = itemModifications.get(new NamespacedKey(plugin, "pure_leather_helmet"));
         assert modification != null;
 
         // If the item doesn't need modification return
