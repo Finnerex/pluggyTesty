@@ -112,8 +112,10 @@ public class AttributeManager {
         assert modification != null;
 
         // If the item doesn't need modification return
-        if (!needsModification(itemStack, modification))
+        if (!needsModification(itemStack, modification)) {
+            Bukkit.broadcastMessage("Passed test");
             return;
+        }
 
         assert modification.getItemMeta() != null;
 
