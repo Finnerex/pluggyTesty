@@ -910,9 +910,9 @@ public final class PluggyTesty extends JavaPlugin {
         addCustomAttributeToVanillaItem(Material.IRON_HELMET,
                 new AttributePair(Attribute.GENERIC_ARMOR, 3,
                         EquipmentSlot.HEAD));
-//        addCustomAttributeToVanillaItem(Material.IRON_CHESTPLATE,
-//                new AttributePair(Attribute.GENERIC_ARMOR, 3,
-//                        EquipmentSlot.CHEST));
+        addCustomAttributeToVanillaItem(Material.IRON_CHESTPLATE,
+                new AttributePair(Attribute.GENERIC_ARMOR, 3,
+                        EquipmentSlot.CHEST));
         addCustomAttributeToVanillaItem(Material.IRON_LEGGINGS,
                 new AttributePair(Attribute.GENERIC_ARMOR, 3,
                         EquipmentSlot.LEGS));
@@ -1075,8 +1075,8 @@ public final class PluggyTesty extends JavaPlugin {
 
 
         RecipeChoice.MaterialChoice pureLeather = new RecipeChoice.MaterialChoice(Material.LEATHER);
-        RecipeChoice.MaterialChoice leatherHelmet = new RecipeChoice.MaterialChoice(Material.IRON_CHESTPLATE);
-        SmithingTransformRecipe pureLeatherHelmet = new SmithingTransformRecipe(new NamespacedKey(this, "pure_leather_helmet"), result, purifier, leatherHelmet, pureLeather);
+        RecipeChoice.MaterialChoice leatherHelmet = new RecipeChoice.MaterialChoice(Material.LEATHER_HELMET);
+        SmithingTransformRecipe pureLeatherHelmet = new SmithingTransformRecipe(new NamespacedKey(this, "pure_leather_helmet_recipe"), result, purifier, leatherHelmet, pureLeather);
         Bukkit.addRecipe(pureLeatherHelmet);
 
     }
