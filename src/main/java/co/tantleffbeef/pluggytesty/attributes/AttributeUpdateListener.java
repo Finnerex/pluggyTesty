@@ -19,9 +19,6 @@ public class AttributeUpdateListener implements Listener {
 
     @EventHandler
     public void onPrepareCraft(@NotNull PrepareItemCraftEvent event) {
-        // Exception for pure armor
-        if(event.getRecipe() instanceof SmithingTransformRecipe)
-            return;
         // Grab the crafting table inventory
         final CraftingInventory inventory = event.getInventory();
         // Grab the result slot
