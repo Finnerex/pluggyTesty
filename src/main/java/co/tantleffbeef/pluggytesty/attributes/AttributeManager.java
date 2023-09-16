@@ -135,15 +135,11 @@ public class AttributeManager {
         );
     }
     public void updateSmithingItem(@NotNull ItemStack result, Recipe recipe, PrepareSmithingEvent event) {
-        Bukkit.broadcastMessage("Passed test1");
-        // Grab the result item's id
-        final var id = CustomItemNbt.customItemIdOrVanilla(result, keyManager);
 
         final var trueResult = recipe.getResult();
 
         // If the item doesn't need modification return
         if (trueResult.equals(result)) {
-            Bukkit.broadcastMessage("Passed test3");
             return;
         }
 

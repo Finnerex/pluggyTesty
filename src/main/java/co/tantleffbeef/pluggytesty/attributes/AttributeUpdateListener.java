@@ -36,7 +36,6 @@ public class AttributeUpdateListener implements Listener {
     }
     @EventHandler
     public void onPrepareSmithingCraft(@NotNull PrepareSmithingEvent event) {
-        Bukkit.broadcastMessage("Passed test0");
         // Grab the smithing table inventory
         final SmithingInventory inventory = event.getInventory();
         // Grab the result slot
@@ -46,6 +45,9 @@ public class AttributeUpdateListener implements Listener {
 
         // Exit if there isn't a result
         if (result == null)
+            return;
+
+        if (recipe == null)
             return;
 
         // If there is a result check if it needs to be updated

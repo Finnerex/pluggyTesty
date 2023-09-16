@@ -824,8 +824,10 @@ public final class PluggyTesty extends JavaPlugin {
         // Armor
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
-        // pure armor
+        // Pure armor
         resourceManager.registerItem(RegisterAttributes("leather_helmet", "Leather Helmet", Material.LEATHER_HELMET, 1, 1, EquipmentSlot.HEAD));
+        // Pure materials
+        resourceManager.registerItem(new PureLeatherItemType(this, "pure_Leather", false, ChatColor.DARK_PURPLE + "Pure Leather"));
         // TNT
         resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", true, ChatColor.GREEN + "Sticky TNT"));
 
@@ -1015,9 +1017,12 @@ public final class PluggyTesty extends JavaPlugin {
         getLogger().info("no more");
     }
 
-//    public SmithingTransformRecipe smithingRecipes(RecipeChoice.ExactChoice purifier, RecipeChoice.MaterialChoice pureLeather){
-//
-//    }
+    public void smithingRecipes(String recipeKey, Material baseMaterial, String pureMaterialKey, String resultKey){
+
+        var recipe = new SmithingTransformRecipe(new NamespacedKey(this, recipeKey), resourceManager.getCustomItemStack(new NamespacedKey(this, resultKey)), new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE)), new RecipeChoice.MaterialChoice(baseMaterial), (RecipeChoice) resourceManager.getCustomItemStack(new NamespacedKey(this, pureMaterialKey)));
+
+        Bukkit.addRecipe(recipe);
+    }
 
     private void registerRecipes() {
         final ShapedRecipe chains = new ShapedRecipe(new NamespacedKey(this, "chain"), new ItemStack(Material.CHAIN))
@@ -1068,16 +1073,8 @@ public final class PluggyTesty extends JavaPlugin {
 
 
         //pure armor
-        var result = resourceManager.getCustomItemStack(new NamespacedKey(this, "pure_leather_helmet"));
 
-
-        RecipeChoice.ExactChoice purifier = new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE));
-
-
-        RecipeChoice.MaterialChoice pureLeather = new RecipeChoice.MaterialChoice(Material.LEATHER);
-        RecipeChoice.MaterialChoice leatherHelmet = new RecipeChoice.MaterialChoice(Material.LEATHER_HELMET);
-        SmithingTransformRecipe pureLeatherHelmet = new SmithingTransformRecipe(new NamespacedKey(this, "pure_leather_helmet_recipe"), result, purifier, leatherHelmet, pureLeather);
-        Bukkit.addRecipe(pureLeatherHelmet);
+        smithingRecipes("pure_leather_helmet_recipe", Material.LEATHER_HELMET, "pure_leather", "pure_leather_helmet");
 
     }
 
