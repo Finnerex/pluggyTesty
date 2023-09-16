@@ -8,8 +8,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-public class PureLeatherItemType extends SimpleItemType {
-    public PureLeatherItemType(Plugin namespace, String id, boolean customModel, String name, Material baseItemMaterial) {
+public class PureMaterialItemType extends SimpleItemType {
+    public PureMaterialItemType(Plugin namespace, String id, boolean customModel, String name, Material baseItemMaterial) {
         super(namespace, id, customModel, name, baseItemMaterial);
     }
 

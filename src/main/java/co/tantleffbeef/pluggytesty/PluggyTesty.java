@@ -827,7 +827,7 @@ public final class PluggyTesty extends JavaPlugin {
         // Pure armor
         resourceManager.registerItem(RegisterAttributes("leather_helmet", "Leather Helmet", Material.LEATHER_HELMET, 1, 1, EquipmentSlot.HEAD));
         // Pure materials
-        resourceManager.registerItem(new PureLeatherItemType(this, "pure_Leather", false, ChatColor.DARK_PURPLE + "Pure Leather", Material.LEATHER_HELMET));
+        resourceManager.registerItem(new PureMaterialItemType(this, "pure_Leather", false, ChatColor.DARK_PURPLE + "Pure Leather", Material.LEATHER_HELMET));
         // TNT
         resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", true, ChatColor.GREEN + "Sticky TNT"));
 
