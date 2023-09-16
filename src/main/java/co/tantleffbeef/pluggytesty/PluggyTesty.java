@@ -827,7 +827,7 @@ public final class PluggyTesty extends JavaPlugin {
         // Pure armor
         resourceManager.registerItem(RegisterAttributes("leather_helmet", "Leather Helmet", Material.LEATHER_HELMET, 1, 1, EquipmentSlot.HEAD));
         // Pure materials
-        resourceManager.registerItem(new PureLeatherItemType(this, "pure_Leather", false, ChatColor.DARK_PURPLE + "Pure Leather"));
+        resourceManager.registerItem(new PureLeatherItemType(this, "pure_Leather", false, ChatColor.DARK_PURPLE + "Pure Leather", Material.LEATHER_HELMET));
         // TNT
         resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", true, ChatColor.GREEN + "Sticky TNT"));
 
@@ -1019,7 +1019,7 @@ public final class PluggyTesty extends JavaPlugin {
 
     public void smithingRecipes(String recipeKey, Material baseMaterial, String pureMaterialKey, String resultKey){
 
-        var recipe = new SmithingTransformRecipe(new NamespacedKey(this, recipeKey), resourceManager.getCustomItemStack(new NamespacedKey(this, resultKey)), new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE)), new RecipeChoice.MaterialChoice(baseMaterial), (RecipeChoice) resourceManager.getCustomItemStack(new NamespacedKey(this, pureMaterialKey)));
+        var recipe = new SmithingTransformRecipe(new NamespacedKey(this, recipeKey), resourceManager.getCustomItemStack(new NamespacedKey(this, resultKey)), new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE)), new RecipeChoice.MaterialChoice(baseMaterial), new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(new NamespacedKey(this, pureMaterialKey))));
 
         Bukkit.addRecipe(recipe);
     }
