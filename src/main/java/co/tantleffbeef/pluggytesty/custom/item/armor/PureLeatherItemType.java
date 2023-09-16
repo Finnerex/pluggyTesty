@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PureLeatherItemType extends SimpleItemType {
     public PureLeatherItemType(Plugin namespace, String id, boolean customModel, String name, Material baseItemMaterial) {
-        super(namespace, id, customModel, name);
+        super(namespace, id, customModel, name, baseItemMaterial);
     }
 
     @Override

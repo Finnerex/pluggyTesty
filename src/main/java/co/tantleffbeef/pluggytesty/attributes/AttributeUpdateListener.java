@@ -21,7 +21,6 @@ public class AttributeUpdateListener implements Listener {
 
     @EventHandler
     public void onPrepareCraft(@NotNull PrepareItemCraftEvent event) {
-        Bukkit.broadcastMessage("Passed test0");
         // Grab the crafting table inventory
         final CraftingInventory inventory = event.getInventory();
         // Grab the result slot
