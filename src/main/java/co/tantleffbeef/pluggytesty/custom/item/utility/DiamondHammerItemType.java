@@ -57,12 +57,12 @@ public class DiamondHammerItemType extends SimpleItemType {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
 
-                    if (i == 1 && j == 1) continue;
+//                    if (i == 1 && j == 1) continue;
 
                     currentBlockLoc.getBlock().breakNaturally();
                     currentBlockLoc.add(right);
                 }
-                currentBlockLoc.subtract(right.clone().multiply(3));
+                currentBlockLoc.subtract(right.clone().multiply(4));
                 currentBlockLoc.add(0, 1, 0);
 
                 Bukkit.broadcastMessage("block: " + currentBlockLoc.toVector());
