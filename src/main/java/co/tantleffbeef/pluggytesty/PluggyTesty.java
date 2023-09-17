@@ -9,6 +9,8 @@ import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.AttributeUpdateListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
+import co.tantleffbeef.pluggytesty.durability.CustomDurabilityManager;
+import co.tantleffbeef.pluggytesty.durability.TestDurabilityItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.commands.ReloadExpeditionsCommand;
@@ -320,6 +322,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryGUIManager(), this);
         getServer().getPluginManager().registerEvents(new AttributeUpdateListener(attributeManager), this);
 //        getServer().getPluginManager().registerEvents(new EntityDeathGarbageCollector(), this);
+        getServer().getPluginManager().registerEvents(new CustomDurabilityManager(nbtKeyManager, resourceManager), this);
 
 
                 ArmorEquipEvent.registerListener(this);
@@ -821,6 +824,7 @@ public final class PluggyTesty extends JavaPlugin {
                 expeditionBuilder, expeditionController, expeditionInformationBiMap, gooberStateController));
         resourceManager.registerItem(new BiomeCumPissItemType(this, "biome_compass", false, ChatColor.DARK_AQUA + "Biome Compass"));
         resourceManager.registerItem(new DiamondHammerItemType(this, "diamond_hammer", false, ChatColor.WHITE + "Diamond Hammer", nbtKeyManager, resourceManager));
+        resourceManager.registerItem(new TestDurabilityItemType(this, "test_durability", false, ChatColor.DARK_AQUA + "Test Durabiliter"));
 
 
         // Armor

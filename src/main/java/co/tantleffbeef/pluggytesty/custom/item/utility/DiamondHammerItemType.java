@@ -8,11 +8,11 @@ import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
@@ -33,7 +33,9 @@ public class DiamondHammerItemType extends SimpleItemType {
         @EventHandler
         public void onBlockBreak(BlockBreakEvent event) {
 
-            DiamondHammerItemType hammer = CustomItemType.asInstanceOf(DiamondHammerItemType.class, event.getPlayer().getInventory().getItemInMainHand(), keyManager, resourceManager);
+            ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();
+
+            DiamondHammerItemType hammer = CustomItemType.asInstanceOf(DiamondHammerItemType.class, tool, keyManager, resourceManager);
 
             if (hammer == null)
                 return;
@@ -59,13 +61,15 @@ public class DiamondHammerItemType extends SimpleItemType {
 
 //                    if (i == 1 && j == 1) continue;
 
-                    currentBlockLoc.getBlock().breakNaturally();
+                    currentBlockLoc.getBlock().breakNaturally(tool);
                     currentBlockLoc.add(right);
                 }
 
+                // not changing this because its hilarious
                 currentBlockLoc.subtract(right);
                 currentBlockLoc.subtract(right);
                 currentBlockLoc.subtract(right);
+
                 currentBlockLoc.add(0, 1, 0);
 
                 Bukkit.broadcastMessage("block: " + currentBlockLoc.toVector());
