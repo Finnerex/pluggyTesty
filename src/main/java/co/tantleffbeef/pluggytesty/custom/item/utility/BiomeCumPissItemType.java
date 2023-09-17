@@ -25,9 +25,11 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
     private final InventoryGUI confirmRecordGUI;
     private final InventoryGUI DEFAULT_GUI;
     private final Map<Biome, Material> buttons;
+    private final Plugin plugin;
 
     public BiomeCumPissItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.COMPASS);
+        plugin = namespace;
 //        itemGUIs = new HashMap<>();
 
         deserializeGUIs();
@@ -156,7 +158,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
 
     private void serializeGUIs() {
         try {
-            FileOutputStream myFileOutStream = new FileOutputStream(path);
+            FileOutputStream myFileOutStream = new FileOutputStream(plugin.getDataFolder() + path);
 
             ObjectOutputStream myObjectOutStream = new ObjectOutputStream(myFileOutStream);
 
@@ -174,7 +176,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
 
     private void deserializeGUIs() {
         try {
-            FileInputStream fileInput = new FileInputStream(path);
+            FileInputStream fileInput = new FileInputStream(plugin.getDataFolder() + path);
 
             ObjectInputStream objectInput
                     = new ObjectInputStream(fileInput);
