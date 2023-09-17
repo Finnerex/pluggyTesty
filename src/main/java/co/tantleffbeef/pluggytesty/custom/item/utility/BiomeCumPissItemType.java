@@ -154,7 +154,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
         return false;
     }
 
-    private final String path = "data/misc/biome_compass.txt";
+    private final String path = "/data/misc/biome_compass.txt";
 
     private void serializeGUIs() {
         try {

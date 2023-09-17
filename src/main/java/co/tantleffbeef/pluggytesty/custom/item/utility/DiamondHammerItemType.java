@@ -5,8 +5,11 @@ import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -35,8 +38,17 @@ public class DiamondHammerItemType extends SimpleItemType {
             if (hammer == null)
                 return;
 
+            BlockFace face = event.getPlayer().getFacing();
+
+            Vector right = switch (face) {
+                case NORTH -> BlockFace.WEST.getDirection();
+                case SOUTH -> BlockFace.EAST.getDirection();
+                case EAST -> BlockFace.NORTH.getDirection();
+                case WEST -> BlockFace.SOUTH.getDirection();
+                default -> BlockFace.WEST.getDirection(); // idk man
+            };
+
             Location currentBlockLoc = event.getBlock().getLocation();
-            Vector right = event.getPlayer().getEyeLocation().getDirection().setY(0).rotateAroundY(90);
 
             // current block is now bottom left
             currentBlockLoc.subtract(right);
@@ -52,6 +64,8 @@ public class DiamondHammerItemType extends SimpleItemType {
                 }
                 currentBlockLoc.subtract(right.clone().multiply(3));
                 currentBlockLoc.add(0, 1, 0);
+
+                Bukkit.broadcastMessage("block: " + currentBlockLoc.toVector());
             }
         }
     }
