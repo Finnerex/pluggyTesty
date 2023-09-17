@@ -55,7 +55,7 @@ public class CustomDurabilityManager implements Listener {
         Bukkit.broadcastMessage(ChatColor.GREEN + "Old game dur: " + damageMeta.getDamage());
 
         // change durability bar in game
-        damageMeta.setDamage((newDurability * item.getType().getMaxDurability()) / ptMax);
+        damageMeta.setDamage(ptMax / (newDurability * item.getType().getMaxDurability()));
         Bukkit.broadcastMessage(ChatColor.AQUA + "New game dur: " + damageMeta.getDamage());
 
         item.setItemMeta(damageMeta);
