@@ -9,6 +9,7 @@ import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.AttributeUpdateListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
+import co.tantleffbeef.pluggytesty.durability.CustomDurabilityChangeListener;
 import co.tantleffbeef.pluggytesty.durability.CustomDurabilityManager;
 import co.tantleffbeef.pluggytesty.durability.TestDurabilityItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
@@ -97,6 +98,8 @@ public final class PluggyTesty extends JavaPlugin {
     private ExpeditionBuilder expeditionBuilder;
     private PTExpeditionController expeditionController;
 
+    private CustomDurabilityManager durabilityManager;
+
     @Override
     public void onLoad() {
         // TODO: make this use config system
@@ -169,6 +172,8 @@ public final class PluggyTesty extends JavaPlugin {
         attributeManager = new AttributeManager(nbtKeyManager, this);
         lootTableManager = new LootTableManager(attributeManager);
         partyManager = new PTPartyManager();
+
+        durabilityManager = new CustomDurabilityManager();
 
 
         // Create level controller
@@ -322,7 +327,8 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryGUIManager(), this);
         getServer().getPluginManager().registerEvents(new AttributeUpdateListener(attributeManager), this);
 //        getServer().getPluginManager().registerEvents(new EntityDeathGarbageCollector(), this);
-        getServer().getPluginManager().registerEvents(new CustomDurabilityManager(nbtKeyManager, resourceManager), this);
+
+        getServer().getPluginManager().registerEvents(new CustomDurabilityChangeListener(durabilityManager, nbtKeyManager, resourceManager), this);
 
 
                 ArmorEquipEvent.registerListener(this);
