@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class InventoryGUI {
+public class InventoryGUI implements Cloneable {
     private final Inventory inventory;
     private final Map<Integer, InventoryButton> buttons;
 
