@@ -4,6 +4,8 @@ import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemDamageEvent;
@@ -42,13 +44,15 @@ public class CustomDurabilityManager implements Listener {
 
         // internally change durability
         durabilities.put(item, durabilities.get(item) - event.getDamage());
-
+        Bukkit.broadcastMessage("new PT dur: " + durabilities.get(item));
 
         Damageable damageMeta = (Damageable) item.getItemMeta();
         assert damageMeta != null;
 
+        Bukkit.broadcastMessage(ChatColor.GREEN + "Old game dur: " + damageMeta.getDamage());
         // change durability bar in game
         damageMeta.setDamage((durabilities.get(item) * item.getType().getMaxDurability()) / ptMax);
+        Bukkit.broadcastMessage(ChatColor.AQUA + "New game dur: " + damageMeta.getDamage());
 
         item.setItemMeta(damageMeta);
 
