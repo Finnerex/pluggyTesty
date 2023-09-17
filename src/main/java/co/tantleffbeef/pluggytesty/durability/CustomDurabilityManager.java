@@ -46,6 +46,11 @@ public class CustomDurabilityManager implements Listener {
         // I have to remove it because it's a different itemstack when the meta changes
         durabilities.remove(item);
 
+        if (newDurability <= 0) {
+            event.setDamage(999999); // a big number
+            return;
+        }
+
         Bukkit.broadcastMessage("new PT dur: " + newDurability);
         Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "durabilities" + durabilities);
 
