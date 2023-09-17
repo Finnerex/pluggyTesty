@@ -45,6 +45,7 @@ public class CustomDurabilityManager implements Listener {
         // internally change durability
         durabilities.put(item, durabilities.get(item) - event.getDamage());
         Bukkit.broadcastMessage("new PT dur: " + durabilities.get(item));
+        Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "durabilities" + durabilities);
 
         Damageable damageMeta = (Damageable) item.getItemMeta();
         assert damageMeta != null;
