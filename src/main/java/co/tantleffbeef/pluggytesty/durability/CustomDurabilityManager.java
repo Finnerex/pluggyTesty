@@ -46,10 +46,10 @@ public class CustomDurabilityManager implements Listener {
         // I have to remove it because it's a different itemstack when the meta changes
         durabilities.remove(item);
 
-        if (newDurability <= 0) {
-            event.setDamage(999999); // a big number
-            return;
-        }
+//        if (newDurability <= 0) {
+//            event.setDamage(999999); // a big number
+//            return;
+//        }
 
         Bukkit.broadcastMessage("new PT dur: " + newDurability);
         Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "durabilities" + durabilities);
@@ -60,7 +60,9 @@ public class CustomDurabilityManager implements Listener {
         Bukkit.broadcastMessage(ChatColor.GREEN + "Old game dur: " + damageMeta.getDamage());
 
         // change durability bar in game
-        damageMeta.setDamage(newDurability * (item.getType().getMaxDurability() / ptMax));
+        int gameMax = item.getType().getMaxDurability();
+        damageMeta.setDamage(gameMax - (newDurability * item.getType().getMaxDurability() / ptMax));
+
         Bukkit.broadcastMessage(ChatColor.AQUA + "New game dur: " + damageMeta.getDamage());
 
         item.setItemMeta(damageMeta);
