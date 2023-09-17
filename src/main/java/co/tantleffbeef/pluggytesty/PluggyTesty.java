@@ -873,6 +873,9 @@ public final class PluggyTesty extends JavaPlugin {
         addCustomAttributeToVanillaItem(Material.WOODEN_AXE,
                 new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 1,
                         EquipmentSlot.HAND));
+
+        durabilityManager.registerNewDurability(Material.WOODEN_PICKAXE, 7000);
+
         addCustomAttributeToVanillaItem(Material.STONE_AXE,
                 new AttributePair(Attribute.GENERIC_ARMOR, 1,
                         EquipmentSlot.HAND));
