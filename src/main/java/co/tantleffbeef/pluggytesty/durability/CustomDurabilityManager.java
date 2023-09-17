@@ -41,23 +41,29 @@ public class CustomDurabilityManager implements Listener {
 
         // item has not been damaged before
         durabilities.putIfAbsent(item, ptMax);
+        int newDurability = durabilities.get(item) - event.getDamage();
 
-        // internally change durability
-        durabilities.put(item, durabilities.get(item) - event.getDamage());
-        Bukkit.broadcastMessage("new PT dur: " + durabilities.get(item));
+        // I have to remove it because it's a different itemstack when the meta changes
+        durabilities.remove(item);
+
+        Bukkit.broadcastMessage("new PT dur: " + newDurability);
         Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "durabilities" + durabilities);
 
         Damageable damageMeta = (Damageable) item.getItemMeta();
         assert damageMeta != null;
 
         Bukkit.broadcastMessage(ChatColor.GREEN + "Old game dur: " + damageMeta.getDamage());
+
         // change durability bar in game
-        damageMeta.setDamage((durabilities.get(item) * item.getType().getMaxDurability()) / ptMax);
+        damageMeta.setDamage((newDurability * item.getType().getMaxDurability()) / ptMax);
         Bukkit.broadcastMessage(ChatColor.AQUA + "New game dur: " + damageMeta.getDamage());
 
         item.setItemMeta(damageMeta);
 
         event.setDamage(0);
+
+        // internally change durability
+        durabilities.put(item, newDurability);
 
     }
 
