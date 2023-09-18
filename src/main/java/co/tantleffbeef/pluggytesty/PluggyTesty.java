@@ -853,6 +853,10 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(RegisterAttributes("gold_chestplate", ChatColor.WHITE + "Gold Chestplate", Material.GOLDEN_CHESTPLATE, 4, 2, EquipmentSlot.CHEST));
         resourceManager.registerItem(RegisterAttributes("gold_leggings", ChatColor.WHITE + "Gold Leggings", Material.GOLDEN_LEGGINGS, 4, 2, EquipmentSlot.LEGS));
         resourceManager.registerItem(RegisterAttributes("gold_boots", ChatColor.WHITE + "Gold Boots", Material.GOLDEN_BOOTS, 4, 2, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("diamond_helmet", ChatColor.WHITE + "Diamond Helmet", Material.DIAMOND_HELMET, 5, 3, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("diamond_chestplate", ChatColor.WHITE + "Diamond Chestplate", Material.DIAMOND_CHESTPLATE, 5, 3, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("diamond_leggings", ChatColor.WHITE + "Diamond Leggings", Material.DIAMOND_LEGGINGS, 5, 3, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("diamond_boots", ChatColor.WHITE + "Diamond Boots", Material.DIAMOND_BOOTS, 5, 3, EquipmentSlot.FEET));
 
         // Pure materials
         resourceManager.registerItem(new PureMaterialItemType(this, "pure_Leather", false, ChatColor.DARK_PURPLE + "Pure Leather", Material.LEATHER));
