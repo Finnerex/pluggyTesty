@@ -837,7 +837,14 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
         // Pure armor
-        resourceManager.registerItem(RegisterAttributes("leather_helmet", "Leather Helmet", Material.LEATHER_HELMET, 1, 1, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("leather_helmet", ChatColor.WHITE + "Leather Helmet", Material.LEATHER_HELMET, 1, 1, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("leather_chestplate", ChatColor.WHITE + "Leather Helmet", Material.LEATHER_CHESTPLATE, 1, 1, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("leather_leggings", ChatColor.WHITE + "Leather Helmet", Material.LEATHER_LEGGINGS, 1, 1, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("leather_boots", ChatColor.WHITE + "Leather Helmet", Material.LEATHER_BOOTS, 1, 1, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("chain_helmet", ChatColor.WHITE + "Leather Helmet", Material.CHAINMAIL_HELMET, 2, 1, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("chain_chestplate", ChatColor.WHITE + "Leather Helmet", Material.CHAINMAIL_CHESTPLATE, 2, 1, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("chain_leggings", ChatColor.WHITE + "Leather Helmet", Material.CHAINMAIL_LEGGINGS, 2, 1, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("chain_boots", ChatColor.WHITE + "Leather Helmet", Material.CHAINMAIL_BOOTS, 2, 1, EquipmentSlot.FEET));
         // Pure materials
         resourceManager.registerItem(new PureMaterialItemType(this, "pure_Leather", false, ChatColor.DARK_PURPLE + "Pure Leather", Material.LEATHER));
         // TNT
