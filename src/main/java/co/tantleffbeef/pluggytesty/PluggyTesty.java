@@ -857,7 +857,10 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(RegisterAttributes("diamond_chestplate", ChatColor.WHITE + "Diamond Chestplate", Material.DIAMOND_CHESTPLATE, 5, 3, EquipmentSlot.CHEST));
         resourceManager.registerItem(RegisterAttributes("diamond_leggings", ChatColor.WHITE + "Diamond Leggings", Material.DIAMOND_LEGGINGS, 5, 3, EquipmentSlot.LEGS));
         resourceManager.registerItem(RegisterAttributes("diamond_boots", ChatColor.WHITE + "Diamond Boots", Material.DIAMOND_BOOTS, 5, 3, EquipmentSlot.FEET));
-
+        resourceManager.registerItem(RegisterAttributes("netherite_helmet", ChatColor.WHITE + "Netherite Helmet", Material.NETHERITE_HELMET, 6, 3, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("netherite_chestplate", ChatColor.WHITE + "Netherite Chestplate", Material.NETHERITE_CHESTPLATE, 6, 3, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("netherite_leggings", ChatColor.WHITE + "Netherite Leggings", Material.NETHERITE_LEGGINGS, 6, 3, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("netherite_boots", ChatColor.WHITE + "Netherite Boots", Material.NETHERITE_BOOTS, 6, 3, EquipmentSlot.FEET));
         // Pure materials
         resourceManager.registerItem(new PureMaterialItemType(this, "pure_Leather", false, ChatColor.DARK_PURPLE + "Pure Leather", Material.LEATHER));
         resourceManager.registerItem(new PureMaterialItemType(this, "pure_chain", false, ChatColor.DARK_PURPLE + "Pure Chain", Material.CHAIN));
