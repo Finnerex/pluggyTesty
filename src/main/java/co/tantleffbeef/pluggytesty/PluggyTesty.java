@@ -1117,15 +1117,26 @@ public final class PluggyTesty extends JavaPlugin {
         smithingRecipes("pure_leather_chestplate_recipe", Material.LEATHER_CHESTPLATE, "pure_leather", "pure_leather_chestplate");
         smithingRecipes("pure_leather_leggings_recipe", Material.LEATHER_LEGGINGS, "pure_leather", "pure_leather_leggings");
         smithingRecipes("pure_leather_boots_recipe", Material.LEATHER_BOOTS, "pure_leather", "pure_leather_boots");
-        smithingRecipes("pure_chain_helmet_recipe", Material.CHAINMAIL_HELMET, "pure_leather", "pure_chain_helmet");
-        smithingRecipes("pure_chain_chestplate_recipe", Material.CHAINMAIL_CHESTPLATE, "pure_leather", "pure_chain_chestplate");
-        smithingRecipes("pure_chain_leggings_recipe", Material.CHAINMAIL_LEGGINGS, "pure_leather", "pure_chain_leggings");
-        smithingRecipes("pure_chain_boots_recipe", Material.CHAINMAIL_BOOTS, "pure_leather", "pure_chain_boots");
-        smithingRecipes("pure_iron_helmet_recipe", Material.IRON_HELMET, "pure_leather", "pure_iron_helmet");
-        smithingRecipes("pure_iron_chestplate_recipe", Material.IRON_CHESTPLATE, "pure_leather", "pure_iron_chestplate");
-        smithingRecipes("pure_iron_leggings_recipe", Material.IRON_LEGGINGS, "pure_leather", "pure_iron_leggings");
-        smithingRecipes("pure_iron_boots_recipe", Material.IRON_BOOTS, "pure_leather", "pure_iron_boots");
-
+        smithingRecipes("pure_chain_helmet_recipe", Material.CHAINMAIL_HELMET, "pure_chain", "pure_chain_helmet");
+        smithingRecipes("pure_chain_chestplate_recipe", Material.CHAINMAIL_CHESTPLATE, "pure_chain", "pure_chain_chestplate");
+        smithingRecipes("pure_chain_leggings_recipe", Material.CHAINMAIL_LEGGINGS, "pure_chain", "pure_chain_leggings");
+        smithingRecipes("pure_chain_boots_recipe", Material.CHAINMAIL_BOOTS, "pure_chain", "pure_chain_boots");
+        smithingRecipes("pure_iron_helmet_recipe", Material.IRON_HELMET, "pure_iron", "pure_iron_helmet");
+        smithingRecipes("pure_iron_chestplate_recipe", Material.IRON_CHESTPLATE, "pure_iron", "pure_iron_chestplate");
+        smithingRecipes("pure_iron_leggings_recipe", Material.IRON_LEGGINGS, "pure_iron", "pure_iron_leggings");
+        smithingRecipes("pure_iron_boots_recipe", Material.IRON_BOOTS, "pure_iron", "pure_iron_boots");
+        smithingRecipes("pure_gold_helmet_recipe", Material.GOLDEN_HELMET, "pure_gold", "pure_gold_helmet");
+        smithingRecipes("pure_gold_chestplate_recipe", Material.GOLDEN_CHESTPLATE, "pure_gold", "pure_gold_chestplate");
+        smithingRecipes("pure_gold_leggings_recipe", Material.GOLDEN_LEGGINGS, "pure_gold", "pure_gold_leggings");
+        smithingRecipes("pure_gold_boots_recipe", Material.GOLDEN_BOOTS, "pure_gold", "pure_gold_boots");
+        smithingRecipes("pure_diamond_helmet_recipe", Material.DIAMOND_HELMET, "pure_diamond", "pure_diamond_helmet");
+        smithingRecipes("pure_diamond_chestplate_recipe", Material.DIAMOND_CHESTPLATE, "pure_diamond", "pure_diamond_chestplate");
+        smithingRecipes("pure_diamond_leggings_recipe", Material.DIAMOND_LEGGINGS, "pure_diamond", "pure_diamond_leggings");
+        smithingRecipes("pure_diamond_boots_recipe", Material.DIAMOND_BOOTS, "pure_diamond", "pure_diamond_boots");
+        smithingRecipes("pure_netherite_helmet_recipe", Material.NETHERITE_HELMET, "pure_netherite", "pure_netherite_helmet");
+        smithingRecipes("pure_netherite_chestplate_recipe", Material.NETHERITE_CHESTPLATE, "pure_netherite", "pure_netherite_chestplate");
+        smithingRecipes("pure_netherite_leggings_recipe", Material.NETHERITE_LEGGINGS, "pure_netherite", "pure_netherite_leggings");
+        smithingRecipes("pure_netherite_boots_recipe", Material.NETHERITE_BOOTS, "pure_netherite", "pure_netherite_boots");
     }
 
 
