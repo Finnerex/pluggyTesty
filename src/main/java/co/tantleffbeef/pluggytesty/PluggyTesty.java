@@ -860,6 +860,11 @@ public final class PluggyTesty extends JavaPlugin {
 
         // Pure materials
         resourceManager.registerItem(new PureMaterialItemType(this, "pure_Leather", false, ChatColor.DARK_PURPLE + "Pure Leather", Material.LEATHER));
+        resourceManager.registerItem(new PureMaterialItemType(this, "pure_chain", false, ChatColor.DARK_PURPLE + "Pure Chain", Material.CHAIN));
+        resourceManager.registerItem(new PureMaterialItemType(this, "pure_iron", false, ChatColor.DARK_PURPLE + "Pure Iron", Material.IRON_INGOT));
+        resourceManager.registerItem(new PureMaterialItemType(this, "pure_gold", false, ChatColor.DARK_PURPLE + "Pure Gold", Material.GOLD_INGOT));
+        resourceManager.registerItem(new PureMaterialItemType(this, "pure_diamond", false, ChatColor.DARK_PURPLE + "Pure Diamond", Material.DIAMOND));
+        resourceManager.registerItem(new PureMaterialItemType(this, "pure_netherite", false, ChatColor.DARK_PURPLE + "Pure Netherite", Material.NETHERITE_INGOT));
         // TNT
         resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", true, ChatColor.GREEN + "Sticky TNT"));
 
