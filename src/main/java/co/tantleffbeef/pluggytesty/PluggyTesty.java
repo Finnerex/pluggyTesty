@@ -869,7 +869,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new PureMaterialItemType(this, "pure_diamond", false, ChatColor.DARK_PURPLE + "Pure Diamond", Material.DIAMOND));
         resourceManager.registerItem(new PureMaterialItemType(this, "pure_netherite", false, ChatColor.DARK_PURPLE + "Pure Netherite", Material.NETHERITE_INGOT));
         // Pure Stone
-        resourceManager.registerItem(new PureStoneItemType(this, "pure_stone", false, ChatColor.GREEN + "Pure Stone"));
+        resourceManager.registerItem(new PureStoneItemType(this, "pure_stone", true, ChatColor.GREEN + "Pure Stone"));
         // TNT
         resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", true, ChatColor.GREEN + "Sticky TNT"));
 
@@ -1064,7 +1064,7 @@ public final class PluggyTesty extends JavaPlugin {
 
     public void smithingRecipes(String recipeKey, Material baseMaterial, String pureMaterialKey, String resultKey){
 
-        var recipe = new SmithingTransformRecipe(new NamespacedKey(this, recipeKey), resourceManager.getCustomItemStack(new NamespacedKey(this, resultKey)), new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE)), new RecipeChoice.MaterialChoice(baseMaterial), new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(new NamespacedKey(this, pureMaterialKey))));
+        var recipe = new SmithingTransformRecipe(new NamespacedKey(this, recipeKey), resourceManager.getCustomItemStack(new NamespacedKey(this, resultKey)), new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(new NamespacedKey(this, "pure_stone"))), new RecipeChoice.MaterialChoice(baseMaterial), new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(new NamespacedKey(this, pureMaterialKey))));
 
         Bukkit.addRecipe(recipe);
     }
