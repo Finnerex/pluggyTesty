@@ -9,8 +9,4 @@ public class PureStoneItemType extends SimpleItemType {
         super(namespace, id, customModel, name);
     }
 
-    @Override
-    public NamespacedKey model(){
-        return super.model();
-    }
 }
