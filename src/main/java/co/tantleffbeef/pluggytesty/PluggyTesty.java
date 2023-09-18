@@ -770,7 +770,7 @@ public final class PluggyTesty extends JavaPlugin {
 
     public SimpleArmorItemType RegisterAttributes(String id, String name, Material material, int amount, int amount2, EquipmentSlot slot){
 
-        return new SimpleArmorItemType(this, "pure_"+ id, false, "Pure " + name, material,
+        return new SimpleArmorItemType(this, "pure_"+ id, false, name, material,
                 new SimpleArmorItemType.AttributePair(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "irrelevant", amount, AttributeModifier.Operation.ADD_NUMBER, slot)),
                 new SimpleArmorItemType.AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "irrelevant", amount2, AttributeModifier.Operation.ADD_NUMBER, slot)));
     }
@@ -837,30 +837,30 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
         // Pure armor
-        resourceManager.registerItem(RegisterAttributes("leather_helmet", ChatColor.WHITE + "Leather Helmet", Material.LEATHER_HELMET, 1, 1, EquipmentSlot.HEAD));
-        resourceManager.registerItem(RegisterAttributes("leather_chestplate", ChatColor.WHITE + "Leather Chestplate", Material.LEATHER_CHESTPLATE, 1, 1, EquipmentSlot.CHEST));
-        resourceManager.registerItem(RegisterAttributes("leather_leggings", ChatColor.WHITE + "Leather Leggings", Material.LEATHER_LEGGINGS, 1, 1, EquipmentSlot.LEGS));
-        resourceManager.registerItem(RegisterAttributes("leather_boots", ChatColor.WHITE + "Leather Boots", Material.LEATHER_BOOTS, 1, 1, EquipmentSlot.FEET));
-        resourceManager.registerItem(RegisterAttributes("chain_helmet", ChatColor.WHITE + "Chain Helmet", Material.CHAINMAIL_HELMET, 2, 1, EquipmentSlot.HEAD));
-        resourceManager.registerItem(RegisterAttributes("chain_chestplate", ChatColor.WHITE + "Chain Chestplate", Material.CHAINMAIL_CHESTPLATE, 2, 1, EquipmentSlot.CHEST));
-        resourceManager.registerItem(RegisterAttributes("chain_leggings", ChatColor.WHITE + "Chain Leggings", Material.CHAINMAIL_LEGGINGS, 2, 1, EquipmentSlot.LEGS));
-        resourceManager.registerItem(RegisterAttributes("chain_boots", ChatColor.WHITE + "Chain Boots", Material.CHAINMAIL_BOOTS, 2, 1, EquipmentSlot.FEET));
-        resourceManager.registerItem(RegisterAttributes("iron_helmet", ChatColor.WHITE + "Iron Helmet", Material.IRON_HELMET, 3, 1, EquipmentSlot.HEAD));
-        resourceManager.registerItem(RegisterAttributes("iron_chestplate", ChatColor.WHITE + "Iron Chestplate", Material.IRON_CHESTPLATE, 3, 1, EquipmentSlot.CHEST));
-        resourceManager.registerItem(RegisterAttributes("iron_leggings", ChatColor.WHITE + "Iron Leggings", Material.IRON_LEGGINGS, 3, 1, EquipmentSlot.LEGS));
-        resourceManager.registerItem(RegisterAttributes("iron_boots", ChatColor.WHITE + "Iron Boots", Material.IRON_BOOTS, 3, 1, EquipmentSlot.FEET));
-        resourceManager.registerItem(RegisterAttributes("gold_helmet", ChatColor.WHITE + "Gold Helmet", Material.GOLDEN_HELMET, 4, 2, EquipmentSlot.HEAD));
-        resourceManager.registerItem(RegisterAttributes("gold_chestplate", ChatColor.WHITE + "Gold Chestplate", Material.GOLDEN_CHESTPLATE, 4, 2, EquipmentSlot.CHEST));
-        resourceManager.registerItem(RegisterAttributes("gold_leggings", ChatColor.WHITE + "Gold Leggings", Material.GOLDEN_LEGGINGS, 4, 2, EquipmentSlot.LEGS));
-        resourceManager.registerItem(RegisterAttributes("gold_boots", ChatColor.WHITE + "Gold Boots", Material.GOLDEN_BOOTS, 4, 2, EquipmentSlot.FEET));
-        resourceManager.registerItem(RegisterAttributes("diamond_helmet", ChatColor.WHITE + "Diamond Helmet", Material.DIAMOND_HELMET, 5, 3, EquipmentSlot.HEAD));
-        resourceManager.registerItem(RegisterAttributes("diamond_chestplate", ChatColor.WHITE + "Diamond Chestplate", Material.DIAMOND_CHESTPLATE, 5, 3, EquipmentSlot.CHEST));
-        resourceManager.registerItem(RegisterAttributes("diamond_leggings", ChatColor.WHITE + "Diamond Leggings", Material.DIAMOND_LEGGINGS, 5, 3, EquipmentSlot.LEGS));
-        resourceManager.registerItem(RegisterAttributes("diamond_boots", ChatColor.WHITE + "Diamond Boots", Material.DIAMOND_BOOTS, 5, 3, EquipmentSlot.FEET));
-        resourceManager.registerItem(RegisterAttributes("netherite_helmet", ChatColor.WHITE + "Netherite Helmet", Material.NETHERITE_HELMET, 6, 3, EquipmentSlot.HEAD));
-        resourceManager.registerItem(RegisterAttributes("netherite_chestplate", ChatColor.WHITE + "Netherite Chestplate", Material.NETHERITE_CHESTPLATE, 6, 3, EquipmentSlot.CHEST));
-        resourceManager.registerItem(RegisterAttributes("netherite_leggings", ChatColor.WHITE + "Netherite Leggings", Material.NETHERITE_LEGGINGS, 6, 3, EquipmentSlot.LEGS));
-        resourceManager.registerItem(RegisterAttributes("netherite_boots", ChatColor.WHITE + "Netherite Boots", Material.NETHERITE_BOOTS, 6, 3, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("leather_helmet", ChatColor.WHITE + "Pure Leather Helmet", Material.LEATHER_HELMET, 1, 1, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("leather_chestplate", ChatColor.WHITE + "Pure Leather Chestplate", Material.LEATHER_CHESTPLATE, 1, 1, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("leather_leggings", ChatColor.WHITE + "Pure Leather Leggings", Material.LEATHER_LEGGINGS, 1, 1, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("leather_boots", ChatColor.WHITE + "Pure Leather Boots", Material.LEATHER_BOOTS, 1, 1, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("chain_helmet", ChatColor.WHITE + "Pure Chain Helmet", Material.CHAINMAIL_HELMET, 2, 1, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("chain_chestplate", ChatColor.WHITE + "Pure Chain Chestplate", Material.CHAINMAIL_CHESTPLATE, 2, 1, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("chain_leggings", ChatColor.WHITE + "Pure Chain Leggings", Material.CHAINMAIL_LEGGINGS, 2, 1, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("chain_boots", ChatColor.WHITE + "Pure Chain Boots", Material.CHAINMAIL_BOOTS, 2, 1, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("iron_helmet", ChatColor.WHITE + "Pure Iron Helmet", Material.IRON_HELMET, 3, 1, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("iron_chestplate", ChatColor.WHITE + "Pure Iron Chestplate", Material.IRON_CHESTPLATE, 3, 1, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("iron_leggings", ChatColor.WHITE + "Pure Iron Leggings", Material.IRON_LEGGINGS, 3, 1, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("iron_boots", ChatColor.WHITE + "Pure Iron Boots", Material.IRON_BOOTS, 3, 1, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("gold_helmet", ChatColor.WHITE + "Pure Gold Helmet", Material.GOLDEN_HELMET, 4, 2, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("gold_chestplate", ChatColor.WHITE + "Pure Gold Chestplate", Material.GOLDEN_CHESTPLATE, 4, 2, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("gold_leggings", ChatColor.WHITE + "Pure Gold Leggings", Material.GOLDEN_LEGGINGS, 4, 2, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("gold_boots", ChatColor.WHITE + "Pure Gold Boots", Material.GOLDEN_BOOTS, 4, 2, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("diamond_helmet", ChatColor.WHITE + "Pure Diamond Helmet", Material.DIAMOND_HELMET, 5, 3, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("diamond_chestplate", ChatColor.WHITE + "Pure Diamond Chestplate", Material.DIAMOND_CHESTPLATE, 5, 3, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("diamond_leggings", ChatColor.WHITE + "Pure Diamond Leggings", Material.DIAMOND_LEGGINGS, 5, 3, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("diamond_boots", ChatColor.WHITE + "Pure Diamond Boots", Material.DIAMOND_BOOTS, 5, 3, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("netherite_helmet", ChatColor.WHITE + "Pure Netherite Helmet", Material.NETHERITE_HELMET, 6, 3, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("netherite_chestplate", ChatColor.WHITE + "Pure Netherite Chestplate", Material.NETHERITE_CHESTPLATE, 6, 3, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("netherite_leggings", ChatColor.WHITE + "Pure Netherite Leggings", Material.NETHERITE_LEGGINGS, 6, 3, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("netherite_boots", ChatColor.WHITE + "Pure Netherite Boots", Material.NETHERITE_BOOTS, 6, 3, EquipmentSlot.FEET));
         // Pure materials
         resourceManager.registerItem(new PureMaterialItemType(this, "pure_Leather", false, ChatColor.DARK_PURPLE + "Pure Leather", Material.LEATHER));
         resourceManager.registerItem(new PureMaterialItemType(this, "pure_chain", false, ChatColor.DARK_PURPLE + "Pure Chain", Material.CHAIN));
