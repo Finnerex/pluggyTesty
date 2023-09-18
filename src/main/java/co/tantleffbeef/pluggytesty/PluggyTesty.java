@@ -996,16 +996,16 @@ public final class PluggyTesty extends JavaPlugin {
         // netherite
         addCustomAttributeToVanillaItem(Material.NETHERITE_HELMET,
                 new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.HEAD),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 3, EquipmentSlot.HEAD));
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.HEAD));
         addCustomAttributeToVanillaItem(Material.NETHERITE_CHESTPLATE,
                 new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.CHEST),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 3, EquipmentSlot.CHEST));
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.CHEST));
         addCustomAttributeToVanillaItem(Material.NETHERITE_LEGGINGS,
                 new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.LEGS),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 3, EquipmentSlot.LEGS));
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.LEGS));
         addCustomAttributeToVanillaItem(Material.NETHERITE_BOOTS,
                 new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.FEET),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 3, EquipmentSlot.FEET));
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.FEET));
 
     }
 
