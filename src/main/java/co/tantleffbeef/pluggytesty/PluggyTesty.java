@@ -770,7 +770,7 @@ public final class PluggyTesty extends JavaPlugin {
 
     public SimpleArmorItemType RegisterAttributes(String id, String name, Material material, int amount, int amount2, EquipmentSlot slot){
 
-        return new SimpleArmorItemType(this, "pure_"+ id, false, name, material,
+        return new SimpleArmorItemType(this, "pure_"+ id, true, name, material,
                 new SimpleArmorItemType.AttributePair(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "irrelevant", amount, AttributeModifier.Operation.ADD_NUMBER, slot)),
                 new SimpleArmorItemType.AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "irrelevant", amount2, AttributeModifier.Operation.ADD_NUMBER, slot)));
     }
