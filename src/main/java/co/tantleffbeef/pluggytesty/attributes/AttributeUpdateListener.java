@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AttributeUpdateListener implements Listener {
     private final AttributeManager attributeManager;
@@ -44,7 +45,7 @@ public class AttributeUpdateListener implements Listener {
         final var recipe = inventory.getRecipe();
 
         // make sure player isn't dumbo
-        if (inventory.getItem(1).getItemMeta().getDisplayName().startsWith("Pure"))
+        if (Objects.requireNonNull(Objects.requireNonNull(inventory.getItem(1)).getItemMeta()).getDisplayName().startsWith("Pure"))
             return;
         // Exit if there isn't a result
         if (result == null)
