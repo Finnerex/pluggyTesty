@@ -44,14 +44,15 @@ public class AttributeUpdateListener implements Listener {
         // Grab the recipe
         final var recipe = inventory.getRecipe();
 
-        // make sure player isn't dumbo
-        if (Objects.requireNonNull(Objects.requireNonNull(inventory.getItem(1)).getItemMeta()).getDisplayName().startsWith("Pure"))
-            return;
         // Exit if there isn't a result
         if (result == null)
             return;
 
         if (recipe == null)
+            return;
+
+        // make sure player isn't dumbo
+        if (inventory.contains(result))
             return;
 
         // If there is a result check if it needs to be updated
