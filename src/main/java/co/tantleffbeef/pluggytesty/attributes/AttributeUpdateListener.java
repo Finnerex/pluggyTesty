@@ -44,6 +44,10 @@ public class AttributeUpdateListener implements Listener {
         // Grab the recipe
         final var recipe = inventory.getRecipe();
 
+        // make sure player isn't dumbo
+        if (inventory.contains(result))
+            event.setResult(null);
+
         // Exit if there isn't a result
         if (result == null)
             return;
@@ -51,9 +55,6 @@ public class AttributeUpdateListener implements Listener {
         if (recipe == null)
             return;
 
-        // make sure player isn't dumbo
-        if (inventory.contains(result))
-            return;
 
         // If there is a result check if it needs to be updated
         attributeManager.updateSmithingItem(result, recipe, event);
