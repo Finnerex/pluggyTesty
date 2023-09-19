@@ -1,4 +1,5 @@
 package co.tantleffbeef.pluggytesty.attributes;
+import co.tantleffbeef.pluggytesty.custom.item.armor.SimpleArmorItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
@@ -42,6 +43,9 @@ public class AttributeUpdateListener implements Listener {
         // Grab the recipe
         final var recipe = inventory.getRecipe();
 
+        // make sure player isn't dumbo
+        if (inventory.getItem(1).getItemMeta().getDisplayName().startsWith("Pure"))
+            return;
         // Exit if there isn't a result
         if (result == null)
             return;
