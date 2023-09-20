@@ -54,24 +54,14 @@ public class CustomDurabilityChangeListener implements Listener {
         Damageable damageMeta = (Damageable) item.getItemMeta();
         assert damageMeta != null;
 
-        // item has not been damaged before
         PersistentDataContainer itemDataContainer = damageMeta.getPersistentDataContainer();
 
-        Bukkit.broadcastMessage(ChatColor.GOLD + "Dater containter (1): " + itemDataContainer);
-
-        if (!itemDataContainer.has(DURABILITY_KEY, PersistentDataType.INTEGER)) {
-            Bukkit.broadcastMessage(ChatColor.RED + "doesn't have the thing");
+        // item has not been damaged before
+        if (!itemDataContainer.has(DURABILITY_KEY, PersistentDataType.INTEGER))
             itemDataContainer.set(DURABILITY_KEY, PersistentDataType.INTEGER, ptMax);
-        }
 
-        Bukkit.broadcastMessage(ChatColor.GOLD + "Dater containter (2): " + itemDataContainer);
 
         int newDurability = itemDataContainer.get(DURABILITY_KEY, PersistentDataType.INTEGER) - event.getDamage();
-
-        Bukkit.broadcastMessage(ChatColor.GOLD + "Dater containter (3): " + itemDataContainer);
-
-        // I have to remove it because it's a different itemstack when the meta changes
-//        durabilityManager.durabilities.remove(item);
 
         // break item if no more durability
         if (newDurability <= 0) {
@@ -79,26 +69,17 @@ public class CustomDurabilityChangeListener implements Listener {
             return;
         }
 
-        Bukkit.broadcastMessage("new PT dur: " + newDurability);
-
-        Bukkit.broadcastMessage(ChatColor.GREEN + "Old game dur: " + damageMeta.getDamage());
-
         // change durability bar in game
         int gameMax = item.getType().getMaxDurability();
         damageMeta.setDamage(gameMax - (newDurability * item.getType().getMaxDurability() / ptMax));
-
-        Bukkit.broadcastMessage(ChatColor.AQUA + "New game dur: " + damageMeta.getDamage());
 
         event.setDamage(0);
 
         // internally change durability
         itemDataContainer.set(DURABILITY_KEY, PersistentDataType.INTEGER, newDurability);
 
-        Bukkit.broadcastMessage(ChatColor.GOLD + "Dater containter (4): " + itemDataContainer);
-
         item.setItemMeta(damageMeta);
 
-        Bukkit.broadcastMessage(ChatColor.GOLD + "Dater containter (5): " + item.getItemMeta().getPersistentDataContainer());
 
     }
 
