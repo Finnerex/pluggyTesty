@@ -43,10 +43,17 @@ public class AttributeUpdateListener implements Listener {
         final ItemStack result = inventory.getResult();
         // Grab the recipe
         final var recipe = inventory.getRecipe();
+        // Get middle item
+        var middleItem = inventory.getItem(1);
+
+        // check if there is nothing in the middle slot
+        if (middleItem == null)
+            return;
 
         // make sure player isn't dumbo
-        if (inventory.contains(result))
+        if (middleItem.getItemMeta().getDisplayName().startsWith("Pure"))
             event.setResult(null);
+
 
         // Exit if there isn't a result
         if (result == null)
