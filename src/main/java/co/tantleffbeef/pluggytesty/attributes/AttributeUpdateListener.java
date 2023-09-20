@@ -1,4 +1,5 @@
 package co.tantleffbeef.pluggytesty.attributes;
+import co.tantleffbeef.pluggytesty.custom.item.armor.SimpleArmorItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AttributeUpdateListener implements Listener {
     private final AttributeManager attributeManager;
@@ -41,6 +43,17 @@ public class AttributeUpdateListener implements Listener {
         final ItemStack result = inventory.getResult();
         // Grab the recipe
         final var recipe = inventory.getRecipe();
+        // Get middle item
+        var middleItem = inventory.getItem(1);
+
+        // check if there is nothing in the middle slot
+        if (middleItem == null)
+            return;
+
+        // make sure player isn't dumbo
+        if (middleItem.getItemMeta().getDisplayName().startsWith("Pure"))
+            event.setResult(null);
+
 
         // Exit if there isn't a result
         if (result == null)
@@ -48,6 +61,7 @@ public class AttributeUpdateListener implements Listener {
 
         if (recipe == null)
             return;
+
 
         // If there is a result check if it needs to be updated
         attributeManager.updateSmithingItem(result, recipe, event);
