@@ -81,12 +81,12 @@ public class CustomDurabilityChangeListener implements Listener {
 
         Bukkit.broadcastMessage(ChatColor.AQUA + "New game dur: " + damageMeta.getDamage());
 
-        item.setItemMeta(damageMeta);
-
         event.setDamage(0);
 
         // internally change durability
         itemDataContainer.set(DURABILITY_KEY, PersistentDataType.INTEGER, newDurability);
+
+        item.setItemMeta(damageMeta);
 
     }
 
