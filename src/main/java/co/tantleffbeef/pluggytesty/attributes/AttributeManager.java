@@ -3,13 +3,18 @@ package co.tantleffbeef.pluggytesty.attributes;
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
+import co.tantleffbeef.pluggytesty.PluggyTesty;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.SmithingTransformRecipe;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -28,7 +33,10 @@ public class AttributeManager {
 
     private final KeyManager<CustomNbtKey> keyManager;
 
-    public AttributeManager(@NotNull KeyManager<CustomNbtKey> nbtKeyManager) {
+    private final Plugin plugin;
+
+    public AttributeManager(@NotNull KeyManager<CustomNbtKey> nbtKeyManager, Plugin namespace) {
+        this.plugin = namespace;
         this.modifiedItemSet = new HashSet<>();
         this.itemModifications = new HashMap<>();
         this.keyManager = nbtKeyManager;
@@ -64,7 +72,10 @@ public class AttributeManager {
 
         // Save the modified version
         itemModifications.put(id, item);
+
+
     }
+
 
     /**
      * Scans through all items in the inventory,
@@ -105,21 +116,34 @@ public class AttributeManager {
         // If no modification is registered
         // for this item id then no need
         // to modify it
-        if (!modifiedItemSet.contains(id))
+        if (!modifiedItemSet.contains(id)) {
             return;
+        }
 
         final var modification = itemModifications.get(id);
         assert modification != null;
 
         // If the item doesn't need modification return
-        if (!needsModification(itemStack, modification))
+        if (!needsModification(itemStack, modification)) {
             return;
+        }
 
         assert modification.getItemMeta() != null;
 
         itemStack.setItemMeta(
                 resetMeta(itemStack.getItemMeta(), modification.getItemMeta())
         );
+    }
+    public void updateSmithingItem(@NotNull ItemStack result, Recipe recipe, PrepareSmithingEvent event) {
+
+        final var trueResult = recipe.getResult();
+
+        // If the item doesn't need modification return
+        if (trueResult.equals(result)) {
+            return;
+        }
+
+        event.setResult(trueResult);
     }
 
     private boolean needsModification(@NotNull ItemStack toModify, @NotNull ItemStack modification) {

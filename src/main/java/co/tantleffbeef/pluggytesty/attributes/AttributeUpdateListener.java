@@ -1,12 +1,18 @@
 package co.tantleffbeef.pluggytesty.attributes;
+import co.tantleffbeef.pluggytesty.custom.item.armor.SimpleArmorItemType;
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class AttributeUpdateListener implements Listener {
     private final AttributeManager attributeManager;
@@ -28,6 +34,37 @@ public class AttributeUpdateListener implements Listener {
 
         // If there is a result check if it needs to be updated
         attributeManager.updateItem(result);
+    }
+    @EventHandler
+    public void onPrepareSmithingCraft(@NotNull PrepareSmithingEvent event) {
+        // Grab the smithing table inventory
+        final SmithingInventory inventory = event.getInventory();
+        // Grab the result slot
+        final ItemStack result = inventory.getResult();
+        // Grab the recipe
+        final var recipe = inventory.getRecipe();
+        // Get middle item
+        var middleItem = inventory.getItem(1);
+
+        // check if there is nothing in the middle slot
+        if (middleItem == null)
+            return;
+
+        // make sure player isn't dumbo
+        if (middleItem.getItemMeta().getDisplayName().startsWith("Pure"))
+            event.setResult(null);
+
+
+        // Exit if there isn't a result
+        if (result == null)
+            return;
+
+        if (recipe == null)
+            return;
+
+
+        // If there is a result check if it needs to be updated
+        attributeManager.updateSmithingItem(result, recipe, event);
     }
 
     @EventHandler

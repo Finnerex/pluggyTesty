@@ -9,14 +9,15 @@ import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.AttributeUpdateListener;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
+import co.tantleffbeef.pluggytesty.durability.CustomDurabilityChangeListener;
+import co.tantleffbeef.pluggytesty.durability.CustomDurabilityManager;
+import co.tantleffbeef.pluggytesty.durability.TestDurabilityItemType;
 import co.tantleffbeef.pluggytesty.expeditions.ExpeditionBuilder;
 import co.tantleffbeef.pluggytesty.expeditions.LocationTraverser;
 import co.tantleffbeef.pluggytesty.expeditions.commands.ReloadExpeditionsCommand;
 import co.tantleffbeef.pluggytesty.expeditions.commands.RunExpeditionCommand;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
-import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RandomRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RoomLoader;
-import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.SpecificRoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.*;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
@@ -31,7 +32,6 @@ import co.tantleffbeef.pluggytesty.custom.item.armor.*;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.arrows.*;
 import co.tantleffbeef.pluggytesty.expeditions.PTExpeditionController;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PTPartyManager;
-import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import co.tantleffbeef.pluggytesty.expeditions.parties.commands.PartyCommand;
 import co.tantleffbeef.pluggytesty.attributes.AttributeManager;
 import co.tantleffbeef.pluggytesty.expeditions.listeners.PTExpeditionManagerListener;
@@ -65,11 +65,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3i;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -97,6 +97,8 @@ public final class PluggyTesty extends JavaPlugin {
     private final BiMap<String, ExpeditionInformation> expeditionInformationBiMap = HashBiMap.create();
     private ExpeditionBuilder expeditionBuilder;
     private PTExpeditionController expeditionController;
+
+    private CustomDurabilityManager durabilityManager;
 
     @Override
     public void onLoad() {
@@ -167,9 +169,11 @@ public final class PluggyTesty extends JavaPlugin {
         nbtKeyManager = rApi.getNbtKeyManager();
         blockManager = rApi.getBlockManager();
 
-        attributeManager = new AttributeManager(nbtKeyManager);
+        attributeManager = new AttributeManager(nbtKeyManager, this);
         lootTableManager = new LootTableManager(attributeManager);
         partyManager = new PTPartyManager();
+
+        durabilityManager = new CustomDurabilityManager();
 
 
         // Create level controller
@@ -323,6 +327,8 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryGUIManager(), this);
         getServer().getPluginManager().registerEvents(new AttributeUpdateListener(attributeManager), this);
 //        getServer().getPluginManager().registerEvents(new EntityDeathGarbageCollector(), this);
+
+        getServer().getPluginManager().registerEvents(new CustomDurabilityChangeListener(this, durabilityManager, nbtKeyManager, resourceManager), this);
 
 
                 ArmorEquipEvent.registerListener(this);
@@ -762,7 +768,14 @@ public final class PluggyTesty extends JavaPlugin {
         }
     }
 
+    public SimpleArmorItemType RegisterAttributes(String id, String name, Material material, int amount, int amount2, EquipmentSlot slot){
+
+        return new SimpleArmorItemType(this, "pure_"+ id, true, name, material,
+                new SimpleArmorItemType.AttributePair(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "irrelevant", amount, AttributeModifier.Operation.ADD_NUMBER, slot)),
+                new SimpleArmorItemType.AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "irrelevant", amount2, AttributeModifier.Operation.ADD_NUMBER, slot)));
+    }
     private void registerItems() {
+
         // Testing
         resourceManager.registerItem(new TestGUIItemType(this, "gui_tester", false, "GUI Tester"));
 
@@ -815,11 +828,48 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new ArrowBeltItemType(this, "arrow_belt", false, ChatColor.WHITE + "Arrow Belt", nbtKeyManager, resourceManager));
         resourceManager.registerItem(new ExpeditionEnterItemType(this, "expedition_enter", false, ChatColor.WHITE + "Enter Expedition",
                 expeditionBuilder, expeditionController, expeditionInformationBiMap, gooberStateController));
+        resourceManager.registerItem(new BiomeCumPissItemType(this, "biome_compass", false, ChatColor.DARK_AQUA + "Biome Compass"));
+        resourceManager.registerItem(new DiamondHammerItemType(this, "diamond_hammer", false, ChatColor.WHITE + "Diamond Hammer", nbtKeyManager, resourceManager));
+        resourceManager.registerItem(new TestDurabilityItemType(this, "picky_testy", false, ChatColor.DARK_AQUA + "Picky Testy"));
+
 
         // Armor
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));
         resourceManager.registerItem(new SimpleItemType(this, "buffed_leather_helmet", true, ChatColor.AQUA + "Buffed" + ChatColor.WHITE + "Leather Hat", Material.LEATHER_HELMET));
-
+        // Pure armor
+        resourceManager.registerItem(RegisterAttributes("leather_helmet", ChatColor.WHITE + "Pure Leather Helmet", Material.LEATHER_HELMET, 1, 1, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("leather_chestplate", ChatColor.WHITE + "Pure Leather Chestplate", Material.LEATHER_CHESTPLATE, 1, 1, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("leather_leggings", ChatColor.WHITE + "Pure Leather Leggings", Material.LEATHER_LEGGINGS, 1, 1, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("leather_boots", ChatColor.WHITE + "Pure Leather Boots", Material.LEATHER_BOOTS, 1, 1, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("chain_helmet", ChatColor.WHITE + "Pure Chain Helmet", Material.CHAINMAIL_HELMET, 2, 1, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("chain_chestplate", ChatColor.WHITE + "Pure Chain Chestplate", Material.CHAINMAIL_CHESTPLATE, 2, 1, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("chain_leggings", ChatColor.WHITE + "Pure Chain Leggings", Material.CHAINMAIL_LEGGINGS, 2, 1, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("chain_boots", ChatColor.WHITE + "Pure Chain Boots", Material.CHAINMAIL_BOOTS, 2, 1, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("iron_helmet", ChatColor.WHITE + "Pure Iron Helmet", Material.IRON_HELMET, 3, 1, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("iron_chestplate", ChatColor.WHITE + "Pure Iron Chestplate", Material.IRON_CHESTPLATE, 3, 1, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("iron_leggings", ChatColor.WHITE + "Pure Iron Leggings", Material.IRON_LEGGINGS, 3, 1, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("iron_boots", ChatColor.WHITE + "Pure Iron Boots", Material.IRON_BOOTS, 3, 1, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("gold_helmet", ChatColor.WHITE + "Pure Gold Helmet", Material.GOLDEN_HELMET, 4, 2, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("gold_chestplate", ChatColor.WHITE + "Pure Gold Chestplate", Material.GOLDEN_CHESTPLATE, 4, 2, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("gold_leggings", ChatColor.WHITE + "Pure Gold Leggings", Material.GOLDEN_LEGGINGS, 4, 2, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("gold_boots", ChatColor.WHITE + "Pure Gold Boots", Material.GOLDEN_BOOTS, 4, 2, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("diamond_helmet", ChatColor.WHITE + "Pure Diamond Helmet", Material.DIAMOND_HELMET, 5, 3, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("diamond_chestplate", ChatColor.WHITE + "Pure Diamond Chestplate", Material.DIAMOND_CHESTPLATE, 5, 3, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("diamond_leggings", ChatColor.WHITE + "Pure Diamond Leggings", Material.DIAMOND_LEGGINGS, 5, 3, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("diamond_boots", ChatColor.WHITE + "Pure Diamond Boots", Material.DIAMOND_BOOTS, 5, 3, EquipmentSlot.FEET));
+        resourceManager.registerItem(RegisterAttributes("netherite_helmet", ChatColor.WHITE + "Pure Netherite Helmet", Material.NETHERITE_HELMET, 6, 3, EquipmentSlot.HEAD));
+        resourceManager.registerItem(RegisterAttributes("netherite_chestplate", ChatColor.WHITE + "Pure Netherite Chestplate", Material.NETHERITE_CHESTPLATE, 6, 3, EquipmentSlot.CHEST));
+        resourceManager.registerItem(RegisterAttributes("netherite_leggings", ChatColor.WHITE + "Pure Netherite Leggings", Material.NETHERITE_LEGGINGS, 6, 3, EquipmentSlot.LEGS));
+        resourceManager.registerItem(RegisterAttributes("netherite_boots", ChatColor.WHITE + "Pure Netherite Boots", Material.NETHERITE_BOOTS, 6, 3, EquipmentSlot.FEET));
+        // Pure materials
+        resourceManager.registerItem(new PureMaterialItemType(this, "pure_Leather", false, ChatColor.DARK_PURPLE + "Pure Leather", Material.LEATHER));
+        resourceManager.registerItem(new PureMaterialItemType(this, "pure_chain", false, ChatColor.DARK_PURPLE + "Pure Chain", Material.CHAIN));
+        resourceManager.registerItem(new PureMaterialItemType(this, "pure_iron", false, ChatColor.DARK_PURPLE + "Pure Iron", Material.IRON_INGOT));
+        resourceManager.registerItem(new PureMaterialItemType(this, "pure_gold", false, ChatColor.DARK_PURPLE + "Pure Gold", Material.GOLD_INGOT));
+        resourceManager.registerItem(new PureMaterialItemType(this, "pure_diamond", false, ChatColor.DARK_PURPLE + "Pure Diamond", Material.DIAMOND));
+        resourceManager.registerItem(new PureMaterialItemType(this, "pure_netherite", false, ChatColor.DARK_PURPLE + "Pure Netherite", Material.NETHERITE_INGOT));
+        // Pure Stone
+        resourceManager.registerItem(new SimpleItemType(this, "pure_stone", true, ChatColor.GREEN + "Pure Stone"));
         // TNT
         resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", true, ChatColor.GREEN + "Sticky TNT"));
 
@@ -945,16 +995,49 @@ public final class PluggyTesty extends JavaPlugin {
         // netherite
         addCustomAttributeToVanillaItem(Material.NETHERITE_HELMET,
                 new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.HEAD),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 3, EquipmentSlot.HEAD));
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.HEAD));
         addCustomAttributeToVanillaItem(Material.NETHERITE_CHESTPLATE,
                 new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.CHEST),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 3, EquipmentSlot.CHEST));
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.CHEST));
         addCustomAttributeToVanillaItem(Material.NETHERITE_LEGGINGS,
                 new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.LEGS),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 3, EquipmentSlot.LEGS));
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.LEGS));
         addCustomAttributeToVanillaItem(Material.NETHERITE_BOOTS,
                 new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.FEET),
-                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 3, EquipmentSlot.FEET));
+                new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.FEET));
+
+        // durabilities
+        durabilityManager.registerNewDurability(Material.LEATHER_HELMET, 100);
+        durabilityManager.registerNewDurability(Material.LEATHER_CHESTPLATE, 100);
+        durabilityManager.registerNewDurability(Material.LEATHER_LEGGINGS, 100);
+        durabilityManager.registerNewDurability(Material.LEATHER_BOOTS, 100);
+
+        durabilityManager.registerNewDurability(Material.CHAINMAIL_HELMET, 120);
+        durabilityManager.registerNewDurability(Material.CHAINMAIL_CHESTPLATE, 120);
+        durabilityManager.registerNewDurability(Material.CHAINMAIL_LEGGINGS, 120);
+        durabilityManager.registerNewDurability(Material.CHAINMAIL_BOOTS, 120);
+
+        durabilityManager.registerNewDurability(Material.IRON_HELMET, 160);
+        durabilityManager.registerNewDurability(Material.IRON_CHESTPLATE, 160);
+        durabilityManager.registerNewDurability(Material.IRON_LEGGINGS, 160);
+        durabilityManager.registerNewDurability(Material.IRON_BOOTS, 160);
+
+        durabilityManager.registerNewDurability(Material.GOLDEN_HELMET, 220);
+        durabilityManager.registerNewDurability(Material.GOLDEN_CHESTPLATE, 220);
+        durabilityManager.registerNewDurability(Material.GOLDEN_LEGGINGS, 220);
+        durabilityManager.registerNewDurability(Material.GOLDEN_BOOTS, 220);
+
+        durabilityManager.registerNewDurability(Material.DIAMOND_HELMET, 300);
+        durabilityManager.registerNewDurability(Material.DIAMOND_CHESTPLATE, 300);
+        durabilityManager.registerNewDurability(Material.DIAMOND_LEGGINGS, 300);
+        durabilityManager.registerNewDurability(Material.DIAMOND_BOOTS, 300);
+
+        durabilityManager.registerNewDurability(Material.NETHERITE_HELMET, 400);
+        durabilityManager.registerNewDurability(Material.NETHERITE_CHESTPLATE, 400);
+        durabilityManager.registerNewDurability(Material.NETHERITE_LEGGINGS, 400);
+        durabilityManager.registerNewDurability(Material.NETHERITE_BOOTS, 400);
+
+        durabilityManager.registerNewDurability(Material.WOODEN_PICKAXE, 600);
 
     }
 
@@ -1009,6 +1092,13 @@ public final class PluggyTesty extends JavaPlugin {
         getLogger().info("no more");
     }
 
+    public void smithingRecipes(String recipeKey, Material baseMaterial, String pureMaterialKey, String resultKey){
+
+        var recipe = new SmithingTransformRecipe(new NamespacedKey(this, recipeKey), resourceManager.getCustomItemStack(new NamespacedKey(this, resultKey)), new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(new NamespacedKey(this, "pure_stone"))), new RecipeChoice.MaterialChoice(baseMaterial), new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(new NamespacedKey(this, pureMaterialKey))));
+
+        Bukkit.addRecipe(recipe);
+    }
+
     private void registerRecipes() {
         final ShapedRecipe chains = new ShapedRecipe(new NamespacedKey(this, "chain"), new ItemStack(Material.CHAIN))
                 .shape( "i",
@@ -1058,15 +1148,30 @@ public final class PluggyTesty extends JavaPlugin {
 
 
         //pure armor
-
-        RecipeChoice.ExactChoice purifier = new RecipeChoice.ExactChoice(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE));
-
-
-        RecipeChoice.MaterialChoice pureLeather = new RecipeChoice.MaterialChoice(Material.LEATHER);
-        RecipeChoice.MaterialChoice leatherHelmet = new RecipeChoice.MaterialChoice(Material.LEATHER_HELMET);
-        SmithingTransformRecipe pureLeatherHelmet = new SmithingTransformRecipe(new NamespacedKey(this, "pure_leather_helmet"), PureArmor.lH(), purifier, leatherHelmet, pureLeather);
-        Bukkit.addRecipe(pureLeatherHelmet);
-
+        smithingRecipes("pure_leather_helmet_recipe", Material.LEATHER_HELMET, "pure_leather", "pure_leather_helmet");
+        smithingRecipes("pure_leather_chestplate_recipe", Material.LEATHER_CHESTPLATE, "pure_leather", "pure_leather_chestplate");
+        smithingRecipes("pure_leather_leggings_recipe", Material.LEATHER_LEGGINGS, "pure_leather", "pure_leather_leggings");
+        smithingRecipes("pure_leather_boots_recipe", Material.LEATHER_BOOTS, "pure_leather", "pure_leather_boots");
+        smithingRecipes("pure_chain_helmet_recipe", Material.CHAINMAIL_HELMET, "pure_chain", "pure_chain_helmet");
+        smithingRecipes("pure_chain_chestplate_recipe", Material.CHAINMAIL_CHESTPLATE, "pure_chain", "pure_chain_chestplate");
+        smithingRecipes("pure_chain_leggings_recipe", Material.CHAINMAIL_LEGGINGS, "pure_chain", "pure_chain_leggings");
+        smithingRecipes("pure_chain_boots_recipe", Material.CHAINMAIL_BOOTS, "pure_chain", "pure_chain_boots");
+        smithingRecipes("pure_iron_helmet_recipe", Material.IRON_HELMET, "pure_iron", "pure_iron_helmet");
+        smithingRecipes("pure_iron_chestplate_recipe", Material.IRON_CHESTPLATE, "pure_iron", "pure_iron_chestplate");
+        smithingRecipes("pure_iron_leggings_recipe", Material.IRON_LEGGINGS, "pure_iron", "pure_iron_leggings");
+        smithingRecipes("pure_iron_boots_recipe", Material.IRON_BOOTS, "pure_iron", "pure_iron_boots");
+        smithingRecipes("pure_gold_helmet_recipe", Material.GOLDEN_HELMET, "pure_gold", "pure_gold_helmet");
+        smithingRecipes("pure_gold_chestplate_recipe", Material.GOLDEN_CHESTPLATE, "pure_gold", "pure_gold_chestplate");
+        smithingRecipes("pure_gold_leggings_recipe", Material.GOLDEN_LEGGINGS, "pure_gold", "pure_gold_leggings");
+        smithingRecipes("pure_gold_boots_recipe", Material.GOLDEN_BOOTS, "pure_gold", "pure_gold_boots");
+        smithingRecipes("pure_diamond_helmet_recipe", Material.DIAMOND_HELMET, "pure_diamond", "pure_diamond_helmet");
+        smithingRecipes("pure_diamond_chestplate_recipe", Material.DIAMOND_CHESTPLATE, "pure_diamond", "pure_diamond_chestplate");
+        smithingRecipes("pure_diamond_leggings_recipe", Material.DIAMOND_LEGGINGS, "pure_diamond", "pure_diamond_leggings");
+        smithingRecipes("pure_diamond_boots_recipe", Material.DIAMOND_BOOTS, "pure_diamond", "pure_diamond_boots");
+        smithingRecipes("pure_netherite_helmet_recipe", Material.NETHERITE_HELMET, "pure_netherite", "pure_netherite_helmet");
+        smithingRecipes("pure_netherite_chestplate_recipe", Material.NETHERITE_CHESTPLATE, "pure_netherite", "pure_netherite_chestplate");
+        smithingRecipes("pure_netherite_leggings_recipe", Material.NETHERITE_LEGGINGS, "pure_netherite", "pure_netherite_leggings");
+        smithingRecipes("pure_netherite_boots_recipe", Material.NETHERITE_BOOTS, "pure_netherite", "pure_netherite_boots");
     }
 
 
