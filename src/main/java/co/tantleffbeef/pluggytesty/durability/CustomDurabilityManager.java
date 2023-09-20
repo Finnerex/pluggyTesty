@@ -18,12 +18,12 @@ import java.util.Map;
 
 public class CustomDurabilityManager implements Listener {
 
-    public Map<ItemStack, Integer> durabilities; // probably wont work??
-    public final Map<Material, Integer> newMaterialDurabilities;
+//    public Map<ItemStack, Integer> durabilities; // probably wont work??
+    private final Map<Material, Integer> newMaterialDurabilities;
 
 
     public CustomDurabilityManager() {
-        this.durabilities = new HashMap<>();
+//        this.durabilities = new HashMap<>();
         this.newMaterialDurabilities = new HashMap<>();
     }
 
@@ -31,12 +31,16 @@ public class CustomDurabilityManager implements Listener {
         newMaterialDurabilities.put(material, durability);
     }
 
-    private void saveDurabilities() {
-
+    public Integer getMaterialDurability(Material material) {
+        return newMaterialDurabilities.get(material);
     }
 
-    private void loadDurabilities() {
-
-    }
+//    private void saveDurabilities() {
+//
+//    }
+//
+//    private void loadDurabilities() {
+//
+//    }
 
 }
