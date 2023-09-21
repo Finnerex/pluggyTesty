@@ -57,12 +57,9 @@ public class InventoryGUI implements Cloneable {
             throw new RuntimeException("You must have the same number of materials and names");
 
         for (int i = 0; i < materials.length; i++) {
-            buttons.put(startingSlot + i, new InventoryButton(clickEventConsumer, materials[i], names[i]));
-            ItemStack item = new ItemStack(materials[i]);
-            ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(names[i]);
-            item.setItemMeta(meta);
-            inventory.setItem(startingSlot + i, item);
+            InventoryButton button = new InventoryButton(clickEventConsumer, materials[i], names[i]);
+            buttons.put(startingSlot + i, button);
+            inventory.setItem(startingSlot + i, button.getIcon());
         }
 
         return this;
@@ -74,12 +71,9 @@ public class InventoryGUI implements Cloneable {
             throw new RuntimeException("You must have the same number of materials and names");
 
         for (int i = 0; i < materials.length; i++) {
-            buttons.put(startingSlot + i, new UnlockableButton(clickEventConsumer, materials[i], lockedMaterial, names[i], true));
-            ItemStack item = new ItemStack(materials[i]);
-            ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(names[i]);
-            item.setItemMeta(meta);
-            inventory.setItem(startingSlot + i, item);
+            InventoryButton button = new UnlockableButton(clickEventConsumer, materials[i], lockedMaterial, names[i], true);
+            buttons.put(startingSlot + i, button);
+            inventory.setItem(startingSlot + i, button.getIcon());
         }
 
         return this;
