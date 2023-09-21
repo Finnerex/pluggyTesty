@@ -328,7 +328,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AttributeUpdateListener(attributeManager), this);
 //        getServer().getPluginManager().registerEvents(new EntityDeathGarbageCollector(), this);
 
-        getServer().getPluginManager().registerEvents(new CustomDurabilityChangeListener(durabilityManager, nbtKeyManager, resourceManager), this);
+        getServer().getPluginManager().registerEvents(new CustomDurabilityChangeListener(this, durabilityManager, nbtKeyManager, resourceManager), this);
 
 
                 ArmorEquipEvent.registerListener(this);
@@ -830,7 +830,7 @@ public final class PluggyTesty extends JavaPlugin {
                 expeditionBuilder, expeditionController, expeditionInformationBiMap, gooberStateController));
         resourceManager.registerItem(new BiomeCumPissItemType(this, "biome_compass", false, ChatColor.DARK_AQUA + "Biome Compass"));
         resourceManager.registerItem(new DiamondHammerItemType(this, "diamond_hammer", false, ChatColor.WHITE + "Diamond Hammer", nbtKeyManager, resourceManager));
-        resourceManager.registerItem(new TestDurabilityItemType(this, "test_durability", false, ChatColor.DARK_AQUA + "Test Durabiliter"));
+        resourceManager.registerItem(new TestDurabilityItemType(this, "picky_testy", false, ChatColor.DARK_AQUA + "Picky Testy"));
 
 
         // Armor
@@ -903,9 +903,6 @@ public final class PluggyTesty extends JavaPlugin {
         addCustomAttributeToVanillaItem(Material.WOODEN_AXE,
                 new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 1,
                         EquipmentSlot.HAND));
-
-        durabilityManager.registerNewDurability(Material.WOODEN_PICKAXE, 7000);
-
         addCustomAttributeToVanillaItem(Material.STONE_AXE,
                 new AttributePair(Attribute.GENERIC_ARMOR, 1,
                         EquipmentSlot.HAND));
@@ -1008,6 +1005,39 @@ public final class PluggyTesty extends JavaPlugin {
         addCustomAttributeToVanillaItem(Material.NETHERITE_BOOTS,
                 new AttributePair(Attribute.GENERIC_ARMOR, 6, EquipmentSlot.FEET),
                 new AttributePair(Attribute.GENERIC_ARMOR_TOUGHNESS, 2, EquipmentSlot.FEET));
+
+        // durabilities
+        durabilityManager.registerNewDurability(Material.LEATHER_HELMET, 100);
+        durabilityManager.registerNewDurability(Material.LEATHER_CHESTPLATE, 100);
+        durabilityManager.registerNewDurability(Material.LEATHER_LEGGINGS, 100);
+        durabilityManager.registerNewDurability(Material.LEATHER_BOOTS, 100);
+
+        durabilityManager.registerNewDurability(Material.CHAINMAIL_HELMET, 120);
+        durabilityManager.registerNewDurability(Material.CHAINMAIL_CHESTPLATE, 120);
+        durabilityManager.registerNewDurability(Material.CHAINMAIL_LEGGINGS, 120);
+        durabilityManager.registerNewDurability(Material.CHAINMAIL_BOOTS, 120);
+
+        durabilityManager.registerNewDurability(Material.IRON_HELMET, 160);
+        durabilityManager.registerNewDurability(Material.IRON_CHESTPLATE, 160);
+        durabilityManager.registerNewDurability(Material.IRON_LEGGINGS, 160);
+        durabilityManager.registerNewDurability(Material.IRON_BOOTS, 160);
+
+        durabilityManager.registerNewDurability(Material.GOLDEN_HELMET, 220);
+        durabilityManager.registerNewDurability(Material.GOLDEN_CHESTPLATE, 220);
+        durabilityManager.registerNewDurability(Material.GOLDEN_LEGGINGS, 220);
+        durabilityManager.registerNewDurability(Material.GOLDEN_BOOTS, 220);
+
+        durabilityManager.registerNewDurability(Material.DIAMOND_HELMET, 300);
+        durabilityManager.registerNewDurability(Material.DIAMOND_CHESTPLATE, 300);
+        durabilityManager.registerNewDurability(Material.DIAMOND_LEGGINGS, 300);
+        durabilityManager.registerNewDurability(Material.DIAMOND_BOOTS, 300);
+
+        durabilityManager.registerNewDurability(Material.NETHERITE_HELMET, 400);
+        durabilityManager.registerNewDurability(Material.NETHERITE_CHESTPLATE, 400);
+        durabilityManager.registerNewDurability(Material.NETHERITE_LEGGINGS, 400);
+        durabilityManager.registerNewDurability(Material.NETHERITE_BOOTS, 400);
+
+        durabilityManager.registerNewDurability(Material.WOODEN_PICKAXE, 600);
 
     }
 
