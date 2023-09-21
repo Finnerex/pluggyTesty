@@ -69,6 +69,23 @@ public class InventoryGUI implements Cloneable {
 
     }
 
+    public InventoryGUI addUnlockableButtons(Consumer<InventoryClickEvent> clickEventConsumer, int startingSlot, Material[] materials, String[] names, boolean obfuscate, Material lockedMaterial) {
+        if (materials.length != names.length)
+            throw new RuntimeException("You must have the same number of materials and names");
+
+        for (int i = 0; i < materials.length; i++) {
+            buttons.put(startingSlot + i, new UnlockableButton(clickEventConsumer, materials[i], lockedMaterial, names[i], true));
+            ItemStack item = new ItemStack(materials[i]);
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(names[i]);
+            item.setItemMeta(meta);
+            inventory.setItem(startingSlot + i, item);
+        }
+
+        return this;
+
+    }
+
     public void setIcon(int slot, Material material, String name, String... lore) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
