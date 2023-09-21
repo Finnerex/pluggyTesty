@@ -109,6 +109,11 @@ public class InventoryGUI implements Cloneable {
     }
 
     public void displayTo(Player player) {
+
+        for (Map.Entry<Integer, InventoryButton> buttonEntry : buttons.entrySet()) {
+            inventory.setItem(buttonEntry.getKey(), buttonEntry.getValue().getIcon());
+        }
+
         InventoryGUIManager.registerInventoryGUI(player.getUniqueId(), this);
         player.openInventory(inventory);
     }

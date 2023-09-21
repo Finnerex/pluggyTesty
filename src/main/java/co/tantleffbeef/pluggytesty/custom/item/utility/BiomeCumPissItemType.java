@@ -88,6 +88,8 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                                 return;
 
                             button.unlock();
+                            button.setLore(l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+
 
 //                            gui.setIcon(slot, buttons.get(biome),
 //                                    gui.getButton(slot).getIcon().getItemMeta().getDisplayName(),
