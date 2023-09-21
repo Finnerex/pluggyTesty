@@ -51,8 +51,10 @@ public class AttributeUpdateListener implements Listener {
             return;
 
         // make sure player isn't dumbo
-        if (middleItem.getItemMeta().getDisplayName().startsWith("Pure"))
+        if (middleItem.getItemMeta().getDisplayName().startsWith("Pure")) {
             event.setResult(null);
+            return;
+        }
 
 
         // Exit if there isn't a result
