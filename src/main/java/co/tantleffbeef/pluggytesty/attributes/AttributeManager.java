@@ -3,7 +3,6 @@ package co.tantleffbeef.pluggytesty.attributes;
 import co.tantleffbeef.mcplanes.CustomNbtKey;
 import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.pojo.serialize.CustomItemNbt;
-import co.tantleffbeef.pluggytesty.PluggyTesty;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -11,7 +10,6 @@ import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.SmithingTransformRecipe;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -176,11 +174,15 @@ public class AttributeManager {
         }
 
         // check if has durability
-        if (!(toClear instanceof Damageable damageable))
-            return;
+        if (toClear instanceof Damageable damageable)
+            damageable.setDamage(itemType.getMaxDurability());
 
-        // reset it if so
-        damageable.setDamage(itemType.getMaxDurability());
+        var persistentDataContainer = toClear.getPersistentDataContainer();
+
+        // remove all persistent data from the comparison
+        for (var key : persistentDataContainer.getKeys()) {
+            persistentDataContainer.remove(key);
+        }
     }
 
     private @NotNull ItemMeta resetMeta(@NotNull ItemMeta toReset, @NotNull ItemMeta model) {
@@ -194,6 +196,13 @@ public class AttributeManager {
             final var damage = ((Damageable) toReset).getDamage();
             damageableMeta.setDamage(damage);
         }
+
+        // copy over persistent data
+        /*final var newPersData = newMeta.getPersistentDataContainer();
+        final var oldData = toReset.getPersistentDataContainer();
+        for (final var key : oldData.getKeys()) {
+            oldData.
+        }*/ // TODO: finish
 
         return newMeta;
     }
