@@ -5,6 +5,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -39,6 +40,18 @@ public class InventoryButton {
 
     public void setIcon(ItemStack icon) {
         this.icon = icon;
+    }
+
+    public void setLore(String... lore) {
+        ItemMeta meta = icon.getItemMeta();
+        meta.setLore(Arrays.asList(lore));
+        icon.setItemMeta(meta);
+    }
+
+    public void setName(String name) {
+        ItemMeta meta = icon.getItemMeta();
+        meta.setDisplayName(name);
+        icon.setItemMeta(meta);
     }
 
     public void click(InventoryClickEvent event) {

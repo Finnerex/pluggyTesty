@@ -4,6 +4,7 @@ import co.tantleffbeef.mcplanes.custom.item.InteractableItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryButton;
 import co.tantleffbeef.pluggytesty.inventoryGUI.InventoryGUI;
+import co.tantleffbeef.pluggytesty.inventoryGUI.UnlockableButton;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
@@ -24,25 +25,19 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
     private final InventoryGUI initialGUI;
     private final InventoryGUI confirmRecordGUI;
     private final InventoryGUI DEFAULT_GUI;
-    private final Map<Biome, Material> buttons;
+//    private final Map<Biome, Material> buttons;
     private final Plugin plugin;
 
     public BiomeCumPissItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.COMPASS);
         plugin = namespace;
-//        itemGUIs = new HashMap<>();
 
-        deserializeGUIs();
-
-        buttons = new HashMap<>();
+        itemGUIs = new HashMap<>();
 
         Material[] buttonMaterials = {Material.WATER_BUCKET, Material.WATER_BUCKET, Material.WATER_BUCKET, Material.WATER_BUCKET, Material.WATER_BUCKET, Material.MYCELIUM, Material.STONE, Material.STONE, Material.STONE, Material.STONE, Material.CHERRY_LOG, Material.STONE, Material.STONE, Material.STONE, Material.STONE, Material.STONE, Material.GRASS_BLOCK, Material.GRASS_BLOCK, Material.FERN, Material.FERN, Material.FERN, Material.FERN, Material.GRASS_BLOCK, Material.GRASS_BLOCK, Material.GRASS_BLOCK, Material.GRASS_BLOCK, Material.GRASS_BLOCK, Material.GRASS_BLOCK, Material.WATER_BUCKET, Material.WATER_BUCKET, Material.WATER_BUCKET, Material.WATER_BUCKET, Material.WATER_BUCKET, Material.WATER_BUCKET, Material.WATER_BUCKET, Material.GRASS_BLOCK, Material.GRASS_BLOCK, Material.SNOW, Material.SNOW, Material.SAND, Material.GRASS_BLOCK, Material.GRASS_BLOCK, Material.GRASS_BLOCK, Material.TERRACOTTA, Material.TERRACOTTA, Material.TERRACOTTA, Material.DEEPSLATE, Material.DEEPSLATE, Material.DEEPSLATE, Material.NETHERRACK, Material.NETHERRACK, Material.NETHERRACK, Material.NETHERRACK, Material.NETHERRACK};
         Biome[] biomes = {Biome.DEEP_OCEAN, Biome.WARM_OCEAN, Biome.LUKEWARM_OCEAN, Biome.COLD_OCEAN, Biome.FROZEN_OCEAN, Biome.MUSHROOM_FIELDS, Biome.JAGGED_PEAKS, Biome.FROZEN_PEAKS, Biome.STONY_PEAKS, Biome.MEADOW, Biome.CHERRY_GROVE, Biome.GROVE, Biome.SNOWY_SLOPES, Biome.WINDSWEPT_HILLS, Biome.WINDSWEPT_FOREST, Biome.WINDSWEPT_GRAVELLY_HILLS, Biome.FOREST, Biome.FLOWER_FOREST, Biome.TAIGA, Biome.OLD_GROWTH_PINE_TAIGA, Biome.OLD_GROWTH_SPRUCE_TAIGA, Biome.SNOWY_TAIGA, Biome.BIRCH_FOREST, Biome.OLD_GROWTH_BIRCH_FOREST, Biome.DARK_FOREST, Biome.JUNGLE, Biome.SPARSE_JUNGLE, Biome.BAMBOO_JUNGLE, Biome.RIVER, Biome.FROZEN_RIVER, Biome.SWAMP, Biome.MANGROVE_SWAMP, Biome.BEACH, Biome.SNOWY_BEACH, Biome.STONY_SHORE, Biome.PLAINS, Biome.SUNFLOWER_PLAINS, Biome.SNOWY_PLAINS, Biome.ICE_SPIKES, Biome.DESERT, Biome.SAVANNA, Biome.SAVANNA_PLATEAU, Biome.WINDSWEPT_SAVANNA, Biome.BADLANDS, Biome.ERODED_BADLANDS, Biome.WOODED_BADLANDS, Biome.DEEP_DARK, Biome.DRIPSTONE_CAVES, Biome.LUSH_CAVES, Biome.NETHER_WASTES, Biome.SOUL_SAND_VALLEY, Biome.CRIMSON_FOREST, Biome.WARPED_FOREST, Biome.BASALT_DELTAS};
         String[] buttonNames = new String[] {"Deep Ocean", "Warm Ocean", "Lukewarm Ocean", "Cold Ocean", "Frozen Ocean", "Mushroom Fields", "Jagged Peaks", "Frozen Peaks", "Stony Peaks", "Meadow", "Cherry Grove", "Grove", "Snowy Slopes", "Windswept Hills", "Windswept Forest", "Windswept Gravelly Hills", "Forest", "Flower Forest", "Taiga", "Old Growth Pine Taiga", "Old Growth Spruce Taiga", "Snowy Taiga", "Birch Forest", "Old Growth Birch Forest", "Dark Forest", "Jungle", "Sparse Jungle", "Bamboo Jungle", "River", "Frozen River", "Swamp", "Mangrove Swamp", "Beach", "Snowy Beach", "Stony Shore", "Plains", "Sunflower Plains", "Snowy Plains", "Ice Spikes", "Desert", "Savanna", "Savanna Plateau", "Windswept Savanna", "Badlands", "Eroded Badlands", "Wooded Badlands", "Deep Dark", "Dripstone Caves", "Lush Caves", "Nether Wastes", "Soul Sand Valley", "Crimson Forest", "Warped Forest", "Basalt Deltas"};
 
-        for (int i = 0; i < biomes.length; i ++) {
-            buttons.put(biomes[i], buttonMaterials[i]);
-        }
 
         initialGUI = new InventoryGUI(9, "Biome Compass", Material.GRAY_STAINED_GLASS_PANE, namespace.getServer());
         confirmRecordGUI = new InventoryGUI(9, "Confirm Record Biome", Material.GRAY_STAINED_GLASS_PANE, namespace.getServer());
@@ -65,7 +60,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                                 return;
 
                             player.closeInventory();
-                            itemGUIs.get(player.getUniqueId()/*.getInventory().getItemInMainHand()*/).displayTo(player);
+                            itemGUIs.get(player.getUniqueId()).displayTo(player);
 
                         }, Material.GREEN_CONCRETE, "Track Biome"
                 ), 5);
@@ -80,12 +75,14 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                             Location l = player.getLocation();
                             Biome biome = player.getWorld().getBiome(l);
 
-                            InventoryGUI gui = itemGUIs.get(player.getUniqueId()/*.getInventory().getItemInMainHand()*/);
+                            InventoryGUI gui = itemGUIs.get(player.getUniqueId());
                             int slot = List.of(biomes).indexOf(biome);
 
-                            gui.setIcon(slot, buttons.get(biome),
-                                    gui.getButton(slot).getIcon().getItemMeta().getDisplayName(),
-                                    l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+                            if (!(gui.getButton(slot) instanceof UnlockableButton button))
+                                return;
+
+                            button.unlock();
+                            button.setLore(l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
 
                             player.sendMessage("Recorded biome: " + biome);
 
@@ -103,11 +100,9 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                 ), 5);
 
 
-        Material[] materials = new Material[54];
-        Arrays.fill(materials, Material.RED_STAINED_GLASS);
 
         DEFAULT_GUI
-                .addButtons(
+                .addUnlockableButtons(
                         (event) -> {
                             if (!(event.getWhoClicked() instanceof Player player))
                                 return;
@@ -132,8 +127,10 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                             player.sendMessage("Now tracking: " + item.getItemMeta().getDisplayName());
                         },
                         0,
-                        materials,
-                        buttonNames);
+                        buttonMaterials,
+                        buttonNames,
+                        true,
+                        Material.RED_STAINED_GLASS);
 
     }
 
@@ -149,48 +146,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
 
         initialGUI.displayTo(player);
 
-        serializeGUIs();
-
         return false;
-    }
-
-    private final String path = "/data/misc/biome_compass.txt";
-
-    private void serializeGUIs() {
-        try {
-            FileOutputStream myFileOutStream = new FileOutputStream(plugin.getDataFolder() + path);
-
-            ObjectOutputStream myObjectOutStream = new ObjectOutputStream(myFileOutStream);
-
-            myObjectOutStream.writeObject(itemGUIs);
-
-            // closing FileOutputStream and
-            // ObjectOutputStream
-            myObjectOutStream.close();
-            myFileOutStream.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void deserializeGUIs() {
-        try {
-            FileInputStream fileInput = new FileInputStream(plugin.getDataFolder() + path);
-
-            ObjectInputStream objectInput
-                    = new ObjectInputStream(fileInput);
-
-            itemGUIs = (Map<UUID, InventoryGUI>) objectInput.readObject();
-
-            objectInput.close();
-            fileInput.close();
-        }
-
-        catch (Exception e) {
-            e.printStackTrace();
-            itemGUIs = new HashMap<>();
-        }
     }
 
 }

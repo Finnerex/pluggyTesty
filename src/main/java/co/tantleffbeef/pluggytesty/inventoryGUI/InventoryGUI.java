@@ -57,12 +57,23 @@ public class InventoryGUI implements Cloneable {
             throw new RuntimeException("You must have the same number of materials and names");
 
         for (int i = 0; i < materials.length; i++) {
-            buttons.put(startingSlot + i, new InventoryButton(clickEventConsumer, materials[i], names[i]));
-            ItemStack item = new ItemStack(materials[i]);
-            ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(names[i]);
-            item.setItemMeta(meta);
-            inventory.setItem(startingSlot + i, item);
+            InventoryButton button = new InventoryButton(clickEventConsumer, materials[i], names[i]);
+            buttons.put(startingSlot + i, button);
+            inventory.setItem(startingSlot + i, button.getIcon());
+        }
+
+        return this;
+
+    }
+
+    public InventoryGUI addUnlockableButtons(Consumer<InventoryClickEvent> clickEventConsumer, int startingSlot, Material[] materials, String[] names, boolean obfuscate, Material lockedMaterial) {
+        if (materials.length != names.length)
+            throw new RuntimeException("You must have the same number of materials and names");
+
+        for (int i = 0; i < materials.length; i++) {
+            InventoryButton button = new UnlockableButton(clickEventConsumer, materials[i], lockedMaterial, names[i], true);
+            buttons.put(startingSlot + i, button);
+            inventory.setItem(startingSlot + i, button.getIcon());
         }
 
         return this;
@@ -98,6 +109,11 @@ public class InventoryGUI implements Cloneable {
     }
 
     public void displayTo(Player player) {
+
+        for (Map.Entry<Integer, InventoryButton> buttonEntry : buttons.entrySet()) {
+            inventory.setItem(buttonEntry.getKey(), buttonEntry.getValue().getIcon());
+        }
+
         InventoryGUIManager.registerInventoryGUI(player.getUniqueId(), this);
         player.openInventory(inventory);
     }
