@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Damageable;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -54,7 +55,7 @@ public class SteelScimitarItemType extends SimpleItemType {
         @EventHandler
         public void onAttack(EntityDamageByEntityEvent event) {
 
-            if (!(event.getEntity() instanceof Damageable damageable))
+            if (!(event.getEntity() instanceof LivingEntity livingEntity))
                 return;
 
             if (!(event.getDamager() instanceof Player player))
@@ -90,13 +91,15 @@ public class SteelScimitarItemType extends SimpleItemType {
                         return;
                     }
 
-                    damageable.damage(damage);
+                    livingEntity.setNoDamageTicks(50);
+
+                    livingEntity.damage(damage, player);
 
                     runs++;
                 }
             };
 
-            runnable.runTaskTimer(plugin, 10, 10);
+            runnable.runTaskTimer(plugin, 10, 5);
 
         }
     }
