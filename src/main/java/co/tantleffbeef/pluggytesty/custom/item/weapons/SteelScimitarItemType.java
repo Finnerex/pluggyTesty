@@ -7,6 +7,8 @@ import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Damageable;
@@ -15,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -47,7 +50,10 @@ public class SteelScimitarItemType extends SimpleItemType {
     public void modifyItemMeta(@NotNull ItemMeta meta) {
         super.modifyItemMeta(meta);
         meta.setUnbreakable(true);
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier("Attack Speed", 0.8, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED,
+                new AttributeModifier(UUID.randomUUID(), "pluggyTesty", 0.8, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,
+                new AttributeModifier(UUID.randomUUID(), "pluggyTesty", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
     }
 
     private class SteelScimitarAttackListener implements Listener {
@@ -55,13 +61,11 @@ public class SteelScimitarItemType extends SimpleItemType {
         @EventHandler
         public void onAttack(EntityDamageByEntityEvent event) {
 
-            if (!(event.getEntity() instanceof LivingEntity livingEntity))
+            if (!(event.getEntity() instanceof LivingEntity target))
                 return;
 
             if (!(event.getDamager() instanceof Player player))
                 return;
-
-            Bukkit.broadcastMessage("dmgbl dmg by player");
 
             UUID playerUUID = player.getUniqueId();
             attacking.putIfAbsent(playerUUID, false);
@@ -69,14 +73,10 @@ public class SteelScimitarItemType extends SimpleItemType {
             if (attacking.get(playerUUID))
                 return;
 
-            Bukkit.broadcastMessage("player is not attacking");
-
             SteelScimitarItemType scimitar = CustomItemType.asInstanceOf(SteelScimitarItemType.class, player.getInventory().getItemInMainHand(), keyManager, resourceManager);
 
             if (scimitar == null)
                 return;
-
-            Bukkit.broadcastMessage("player holding scimitar");
 
             final double damage = event.getDamage();
             attacking.put(playerUUID, true);
@@ -91,9 +91,11 @@ public class SteelScimitarItemType extends SimpleItemType {
                         return;
                     }
 
-                    livingEntity.setNoDamageTicks(0);
+                    target.setNoDamageTicks(0);
+                    target.damage(damage, player);
 
-                    livingEntity.damage(damage, player);
+                    target.getWorld().spawnParticle(Particle.SWEEP_ATTACK, target.getLocation().add(0, 1, 0), 1);
+                    player.playSound(player, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
 
                     runs++;
                 }
