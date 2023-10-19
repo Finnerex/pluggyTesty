@@ -5,6 +5,7 @@ import co.tantleffbeef.mcplanes.KeyManager;
 import co.tantleffbeef.mcplanes.ResourceManager;
 import co.tantleffbeef.mcplanes.custom.item.CustomItemType;
 import co.tantleffbeef.mcplanes.custom.item.SimpleItemType;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -49,6 +50,7 @@ public class SteelScimitarItemType extends SimpleItemType {
     }
 
     private class SteelScimitarAttackListener implements Listener {
+
         @EventHandler
         public void onAttack(EntityDamageByEntityEvent event) {
             if (!(event.getEntity() instanceof Damageable damageable))
@@ -57,15 +59,21 @@ public class SteelScimitarItemType extends SimpleItemType {
             if (!(event.getDamager() instanceof Player player))
                 return;
 
+            Bukkit.broadcastMessage("dmgbl dmg by player");
+
             UUID playerUUID = player.getUniqueId();
 
             if (event.equals(ignoredEvents.get(playerUUID)))
                 return;
 
+            Bukkit.broadcastMessage("event not ignored");
+
             SteelScimitarItemType scimitar = CustomItemType.asInstanceOf(SteelScimitarItemType.class, player.getInventory().getItemInMainHand(), keyManager, resourceManager);
 
             if (scimitar == null)
                 return;
+
+            Bukkit.broadcastMessage("player holding scimitar");
 
             final double damage = event.getDamage();
 
