@@ -2,6 +2,7 @@ package co.tantleffbeef.pluggytesty.goober;
 
 import co.tantleffbeef.pluggytesty.expeditions.Expedition;
 import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
+import co.tantleffbeef.pluggytesty.nations.Nation;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,4 +34,6 @@ public interface Goober extends OfflineGoober {
      * @return the expedition the player is in
      */
     Optional<Expedition> getExpedition();
+
+    Optional<Nation> getNation();
 }
