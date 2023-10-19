@@ -91,7 +91,7 @@ public class SteelScimitarItemType extends SimpleItemType {
                         return;
                     }
 
-                    livingEntity.setNoDamageTicks(50);
+                    livingEntity.setNoDamageTicks(0);
 
                     livingEntity.damage(damage, player);
 
@@ -99,7 +99,7 @@ public class SteelScimitarItemType extends SimpleItemType {
                 }
             };
 
-            runnable.runTaskTimer(plugin, 10, 5);
+            runnable.runTaskTimer(plugin, 5, 5);
 
         }
     }
