@@ -831,7 +831,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new BiomeCumPissItemType(this, "biome_compass", false, ChatColor.DARK_AQUA + "Biome Compass"));
         resourceManager.registerItem(new DiamondHammerItemType(this, "diamond_hammer", false, ChatColor.WHITE + "Diamond Hammer", nbtKeyManager, resourceManager));
         resourceManager.registerItem(new TestDurabilityItemType(this, "picky_testy", false, ChatColor.DARK_AQUA + "Picky Testy"));
-
+        resourceManager.registerItem(new SteelScimitarItemType(this, "steel_scimitar", false, ChatColor.DARK_GRAY + "Steel Scimitar", nbtKeyManager, resourceManager));
 
         // Armor
         resourceManager.registerItem(new FeatherBootsItemType(this, "feather_boots", false, ChatColor.WHITE + "Feather Boots"));

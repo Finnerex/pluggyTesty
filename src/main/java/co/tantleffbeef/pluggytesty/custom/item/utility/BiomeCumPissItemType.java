@@ -129,7 +129,7 @@ public class BiomeCumPissItemType extends SimpleItemType implements Interactable
                         0,
                         buttonMaterials,
                         buttonNames,
-                        true,
+                        false,
                         Material.RED_STAINED_GLASS);
 
     }
