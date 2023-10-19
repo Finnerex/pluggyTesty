@@ -59,7 +59,7 @@ public class SteelScimitarItemType extends SimpleItemType {
 
             UUID playerUUID = player.getUniqueId();
 
-            if (ignoredEvents.get(playerUUID).equals(event))
+            if (event.equals(ignoredEvents.get(playerUUID)))
                 return;
 
             SteelScimitarItemType scimitar = CustomItemType.asInstanceOf(SteelScimitarItemType.class, player.getInventory().getItemInMainHand(), keyManager, resourceManager);
