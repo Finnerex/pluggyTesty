@@ -28,7 +28,7 @@ public class SteelScimitarItemType extends SimpleItemType {
     private final KeyManager<CustomNbtKey> keyManager;
     private final ResourceManager resourceManager;
 
-    private final Map<UUID, EntityDamageByEntityEvent> ignoredEvents;
+    private final Map<UUID, Boolean> attacking;
 
     private final Plugin plugin;
 
@@ -36,7 +36,7 @@ public class SteelScimitarItemType extends SimpleItemType {
         super(namespace, id, customModel, name, Material.STONE_SWORD);
         this.keyManager = keyManager;
         this.resourceManager = resourceManager;
-        ignoredEvents = new HashMap<>();
+        attacking = new HashMap<>();
         plugin = namespace;
 
         namespace.getServer().getPluginManager().registerEvents(new SteelScimitarAttackListener(), namespace);
@@ -53,6 +53,7 @@ public class SteelScimitarItemType extends SimpleItemType {
 
         @EventHandler
         public void onAttack(EntityDamageByEntityEvent event) {
+
             if (!(event.getEntity() instanceof Damageable damageable))
                 return;
 
@@ -62,11 +63,12 @@ public class SteelScimitarItemType extends SimpleItemType {
             Bukkit.broadcastMessage("dmgbl dmg by player");
 
             UUID playerUUID = player.getUniqueId();
+            attacking.putIfAbsent(playerUUID, false);
 
-            if (event.equals(ignoredEvents.get(playerUUID)))
+            if (attacking.get(playerUUID))
                 return;
 
-            Bukkit.broadcastMessage("event not ignored");
+            Bukkit.broadcastMessage("player is not attacking");
 
             SteelScimitarItemType scimitar = CustomItemType.asInstanceOf(SteelScimitarItemType.class, player.getInventory().getItemInMainHand(), keyManager, resourceManager);
 
@@ -76,6 +78,7 @@ public class SteelScimitarItemType extends SimpleItemType {
             Bukkit.broadcastMessage("player holding scimitar");
 
             final double damage = event.getDamage();
+            attacking.put(playerUUID, true);
 
             BukkitRunnable runnable = new BukkitRunnable() {
                 int runs = 0;
@@ -83,13 +86,11 @@ public class SteelScimitarItemType extends SimpleItemType {
                 public void run() {
                     if (runs > 1) {
                         cancel();
+                        attacking.put(playerUUID, false);
                         return;
                     }
 
                     damageable.damage(damage);
-
-                    assert damageable.getLastDamageCause() instanceof EntityDamageByEntityEvent;
-                    ignoredEvents.put(playerUUID, (EntityDamageByEntityEvent) damageable.getLastDamageCause());
 
                     runs++;
                 }

@@ -884,7 +884,7 @@ public final class PluggyTesty extends JavaPlugin {
                 new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 5,
                         EquipmentSlot.HAND));
         addCustomAttributeToVanillaItem(Material.STONE_SWORD,
-                new AttributePair(Attribute.GENERIC_ARMOR, 6,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 6,
                         EquipmentSlot.HAND));
         addCustomAttributeToVanillaItem(Material.IRON_SWORD,
                 new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 7,
@@ -904,7 +904,7 @@ public final class PluggyTesty extends JavaPlugin {
                 new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 1,
                         EquipmentSlot.HAND));
         addCustomAttributeToVanillaItem(Material.STONE_AXE,
-                new AttributePair(Attribute.GENERIC_ARMOR, 1,
+                new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 1,
                         EquipmentSlot.HAND));
         addCustomAttributeToVanillaItem(Material.IRON_AXE,
                 new AttributePair(Attribute.GENERIC_ATTACK_DAMAGE, 2,
