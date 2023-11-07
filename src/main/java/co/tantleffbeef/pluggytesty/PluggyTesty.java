@@ -184,7 +184,7 @@ public final class PluggyTesty extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL, this.getServer()));
+        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL, this.getServer()), getServer().getPluginManager(), gooberStateController);
 
 
 //        registerRecipes();
