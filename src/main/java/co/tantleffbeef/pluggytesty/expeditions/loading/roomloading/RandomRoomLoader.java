@@ -109,14 +109,17 @@ public class RandomRoomLoader implements RoomLoader {
         final var random = new Random(seed);
 
         // Create roomList and add all required rooms
-        final var roomList = new ArrayList<>(requiredRooms);
+        // final var roomList = new ArrayList<>(requiredRooms);
+        final var optionalRoomList = new ArrayList<RoomInformation>();
+        final var requiredRoomList = new ArrayList<>(requiredRooms);
 
         // now randomly add the right number of optional rooms
         for (int i = 0; i < numOptional; i++)
-            roomList.add(optionalRooms.get(random.nextInt(optionalRooms.size())));
+            optionalRoomList.add(optionalRooms.get(random.nextInt(optionalRooms.size())));
 
         // scramble the rooms
-        Collections.shuffle(roomList, random);
+        Collections.shuffle(optionalRoomList, random);
+        Collections.shuffle(requiredRoomList, random);
 
         // generate rooms randomly
 
@@ -135,11 +138,17 @@ public class RandomRoomLoader implements RoomLoader {
         );
 
         // Then randomly generate
-        for (RoomInformation room : roomList) {
+        for (RoomInformation room : optionalRoomList) {
             // generate instance
             final var roomInstance = pickLocationAndGenerateInstance(room, random, doors);
 
             // add the room
+            addRoom(roomsOffsetFromStart, roomsList, doors, roomInstance);
+        }
+
+        for (RoomInformation room : requiredRoomList) {
+            final var roomInstance = pickLocationAndGenerateInstance(room, random, doors);
+
             addRoom(roomsOffsetFromStart, roomsList, doors, roomInstance);
         }
 
@@ -251,7 +260,7 @@ public class RandomRoomLoader implements RoomLoader {
                 throw new IllegalStateException("bruh");
 
             final var northRoomDoors = northRoom.getDoors();
-            if (northRoomDoors.size() > 0) {
+            if (!northRoomDoors.isEmpty()) {
                 final var northRoomSouthDoor = northRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.SOUTH)).findAny();
                 if (northRoomSouthDoor.isPresent()) {
                     final var removalResult = doors.remove(new RandomRoomDoor(northRoom, northRoomSouthDoor.get()));
@@ -271,7 +280,7 @@ public class RandomRoomLoader implements RoomLoader {
                 throw new IllegalStateException("bruh");
 
             final var southRoomDoors = southRoom.getDoors();
-            if (southRoomDoors.size() > 0) {
+            if (!southRoomDoors.isEmpty()) {
                 final var southRoomNorthDoor = southRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.NORTH)).findAny();
                 if (southRoomNorthDoor.isPresent()) {
                     final var removalResult = doors.remove(new RandomRoomDoor(southRoom, southRoomNorthDoor.get()));
@@ -291,7 +300,7 @@ public class RandomRoomLoader implements RoomLoader {
                 throw new IllegalStateException("bruh");
 
             final var eastRoomDoors = eastRoom.getDoors();
-            if (eastRoomDoors.size() > 0) {
+            if (!eastRoomDoors.isEmpty()) {
                 final var eastRoomWestDoor = eastRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.WEST)).findAny();
                 if (eastRoomWestDoor.isPresent()) {
                     final var removalResult = doors.remove(new RandomRoomDoor(eastRoom, eastRoomWestDoor.get()));
@@ -311,7 +320,7 @@ public class RandomRoomLoader implements RoomLoader {
                 throw new IllegalStateException("bruh");
 
             final var westRoomDoors = westRoom.getDoors();
-            if (westRoomDoors.size() > 0) {
+            if (!westRoomDoors.isEmpty()) {
                 final var westRoomEastDoor = westRoomDoors.stream().filter(door -> door.getDirection().equals(BlockFace.EAST)).findAny();
                 if (westRoomEastDoor.isPresent()) {
                     final var removalResult = doors.remove(new RandomRoomDoor(westRoom, westRoomEastDoor.get()));
