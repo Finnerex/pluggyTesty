@@ -37,7 +37,7 @@ public class KingPunchItemType extends SimpleItemType implements InteractableIte
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack item, Block block) {
         if (player.hasCooldown(Material.RED_WOOL)) {
-            return false;
+            return true;
         }
 
         item.setAmount(Math.min(item.getAmount() + 1, 50)); // every tick(s) it is held for, max 50
@@ -75,7 +75,8 @@ public class KingPunchItemType extends SimpleItemType implements InteractableIte
             runnable.runTaskTimer(schedulerPlugin, 0, 0);
 
         }
-            return false;
+
+        return true;
     }
     public void explode (Player player, ItemStack item) {
         Location location = player.getEyeLocation();
