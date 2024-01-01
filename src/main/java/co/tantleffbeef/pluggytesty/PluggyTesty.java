@@ -8,6 +8,7 @@ import co.tantleffbeef.pluggytesty.armor.PureArmor;
 import co.tantleffbeef.pluggytesty.armor.HeavyArmor;
 import co.tantleffbeef.pluggytesty.armor.effect_listeners.*;
 import co.tantleffbeef.pluggytesty.attributes.AttributeUpdateListener;
+import co.tantleffbeef.pluggytesty.custom.item.GoldBagItemType;
 import co.tantleffbeef.pluggytesty.custom.item.weapons.TNT.StickyTntItemType;
 import co.tantleffbeef.pluggytesty.durability.CustomDurabilityChangeListener;
 import co.tantleffbeef.pluggytesty.durability.CustomDurabilityManager;
@@ -184,7 +185,7 @@ public final class PluggyTesty extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL, this.getServer()));
+        levelController = new PTLevelController(new YmlLevelStore(levelDataFilePath, DEFAULT_PLAYER_LEVEL, this.getServer()), getServer().getPluginManager(), gooberStateController);
 
 
 //        registerRecipes();
@@ -875,6 +876,8 @@ public final class PluggyTesty extends JavaPlugin {
         // TNT
         resourceManager.registerItem(new StickyTntItemType(this, "sticky_tnt", true, ChatColor.GREEN + "Sticky TNT"));
 
+        // Misc
+        resourceManager.registerItem(new GoldBagItemType(this, "gold_bag", false, ChatColor.GOLD + "Gold Bag"));
     }
 
 
