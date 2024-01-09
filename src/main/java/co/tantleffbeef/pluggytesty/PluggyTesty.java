@@ -834,6 +834,7 @@ public final class PluggyTesty extends JavaPlugin {
         resourceManager.registerItem(new TestDurabilityItemType(this, "picky_testy", false, ChatColor.DARK_AQUA + "Picky Testy"));
         resourceManager.registerItem(new SteelScimitarItemType(this, "steel_scimitar", false, ChatColor.DARK_GRAY + "Steel Scimitar", nbtKeyManager, resourceManager));
         resourceManager.registerItem(new PlatinumDaggerItemType(this, "platinum_dagger", false, ChatColor.GRAY + "Platinum Dagger", nbtKeyManager, resourceManager));
+        resourceManager.registerItem(new RapidRapierItemType(this, "rapid_rapier", false, ChatColor.GRAY + "Rapid Rapier", nbtKeyManager, resourceManager));
 
 
         // Armor
