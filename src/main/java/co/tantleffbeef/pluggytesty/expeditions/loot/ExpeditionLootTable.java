@@ -21,6 +21,12 @@ public class ExpeditionLootTable {
         this.lootPool = lootPool;
     }
 
+    public ItemStack next(Random random) {
+        ItemStack item = lootPool.next().clone();
+        item.setAmount(random.nextInt(item.getAmount()) + 1);
+        return item;
+    }
+
     @NotNull
     public Collection<ItemStack> populateLoot(@Nullable Random random, @NotNull LootContext lootContext) {
         Collection<ItemStack> loot = new ArrayList<>();
@@ -31,9 +37,7 @@ public class ExpeditionLootTable {
         int numSlots = random.nextInt(minSlots, maxSlots); // number of slots to be filled
 
         for (int i = 0; i < numSlots; i++) {
-            ItemStack item = lootPool.next().clone();
-            item.setAmount(random.nextInt(item.getAmount()) + 1);
-            loot.add(item);
+            loot.add(next(random));
         }
 
         return loot;

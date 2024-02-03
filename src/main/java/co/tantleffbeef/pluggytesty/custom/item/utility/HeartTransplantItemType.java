@@ -7,6 +7,11 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -23,14 +28,13 @@ public class HeartTransplantItemType extends SimpleItemType implements Interacta
     public HeartTransplantItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.RED_DYE);
         eatenNumbers = new HashMap<>();
+        namespace.getServer().getPluginManager().registerEvents(new HeartTransplantServerStateListener(), namespace);
     }
 
     @Override
     public boolean interact(@NotNull Player player, @NotNull ItemStack item, @Nullable Block targetBlock) {
 
         UUID uuid = player.getUniqueId();
-
-        eatenNumbers.putIfAbsent(uuid, 0);
 
         int numEaten = eatenNumbers.get(uuid);
 
@@ -46,5 +50,22 @@ public class HeartTransplantItemType extends SimpleItemType implements Interacta
         item.setAmount(item.getAmount() - 1);
 
         return true;
+    }
+
+    private class HeartTransplantServerStateListener implements Listener {
+
+        // probably should do this with server starting and closing but there aren't really events for this
+        @EventHandler
+        public void onPlayerJoin(PlayerJoinEvent event) {
+            eatenNumbers.putIfAbsent(event.getPlayer().getUniqueId(), 0);
+
+            // load that shit
+        }
+
+        @EventHandler
+        public void onPlayerLeave(PlayerQuitEvent event) {
+            // save that shit
+        }
+
     }
 }

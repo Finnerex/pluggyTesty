@@ -20,6 +20,7 @@ import co.tantleffbeef.pluggytesty.expeditions.commands.RunExpeditionCommand;
 import co.tantleffbeef.pluggytesty.expeditions.loading.*;
 import co.tantleffbeef.pluggytesty.expeditions.loading.roomloading.RoomLoader;
 import co.tantleffbeef.pluggytesty.expeditions.loading.typeadapters.*;
+import co.tantleffbeef.pluggytesty.expeditions.loot.ReplenishableChestManager;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.extra_listeners.*;
 import co.tantleffbeef.pluggytesty.extra_listeners.custom_items.*;
@@ -49,6 +50,7 @@ import co.tantleffbeef.pluggytesty.goober.GooberStateListener;
 import co.tantleffbeef.pluggytesty.goober.OfflineGoober;
 import co.tantleffbeef.pluggytesty.goober.Goober;
 import co.tantleffbeef.pluggytesty.goober.GooberStateController;
+import co.tantleffbeef.pluggytesty.misc.RandomTickManager;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -91,6 +93,7 @@ public final class PluggyTesty extends JavaPlugin {
     private KeyManager<CustomNbtKey> nbtKeyManager;
     private AttributeManager attributeManager;
     private LootTableManager lootTableManager;
+    private RandomTickManager randomTickManager;
     private LevelController levelController;
     private GooberStateController gooberStateController;
     private PartyManager partyManager;
@@ -175,6 +178,7 @@ public final class PluggyTesty extends JavaPlugin {
         partyManager = new PTPartyManager();
 
         durabilityManager = new CustomDurabilityManager();
+        randomTickManager = new RandomTickManager(3);
 
 
         // Create level controller
@@ -282,12 +286,16 @@ public final class PluggyTesty extends JavaPlugin {
 
         getServer().getScheduler().runTaskTimer(this, randomGenTest, 1, 5);
 
+
+        // PLEASE MOVE THIS BACK LATER
+        ReplenishableChestManager replenishableChestManager = new ReplenishableChestManager(lootTableManager);
+
         getCommand("summonjawn").setExecutor(new BossJawn(this));
         getCommand("summonseaman").setExecutor(new BossSeaman(this));
         getCommand("giveheavyarmor").setExecutor(new HeavyArmor());
         getCommand("summongru").setExecutor(new BossGru(this));
         getCommand("summonbouncer").setExecutor(new BossFireWorker(this));
-        getCommand("chesttest").setExecutor(new LootTableTestCommand(this, lootTableManager));
+        getCommand("chesttest").setExecutor(new LootTableTestCommand(this, lootTableManager, replenishableChestManager));
         getCommand("trial1boss").setExecutor(new BossTrial1(this));
         getCommand("trial2boss").setExecutor(new BossTrial2(this));
         getCommand("trial3boss").setExecutor(new BossTrial3(this));
@@ -331,8 +339,10 @@ public final class PluggyTesty extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new CustomDurabilityChangeListener(this, durabilityManager, nbtKeyManager, resourceManager), this);
 
+        ArmorEquipEvent.registerListener(this);
 
-                ArmorEquipEvent.registerListener(this);
+        // register random events
+        randomTickManager.registerRandomTicker(replenishableChestManager, 10);
 
         registerRecipes();
 

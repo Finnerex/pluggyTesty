@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.loot.LootContext;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.RayTraceResult;
@@ -19,10 +20,12 @@ public class LootTableTestCommand implements CommandExecutor {
 
     private final Plugin namespace;
     private final LootTableManager lootTableManager;
+    ReplenishableChestManager replenishableChestManager;
 
-    public LootTableTestCommand(Plugin namespace, LootTableManager lootTableManager) {
+    public LootTableTestCommand(Plugin namespace, LootTableManager lootTableManager, ReplenishableChestManager replenishableChestManager) {
         this.namespace = namespace;
         this.lootTableManager = lootTableManager;
+        this.replenishableChestManager = replenishableChestManager;
     }
 
     @Override
@@ -64,7 +67,10 @@ public class LootTableTestCommand implements CommandExecutor {
 
         Random r = new Random();
 
-        lootTable.fillInventory(chest.getInventory(), new Random(r.nextLong()), buildContext(player));
+        if (strings.length < 1 || strings[0].equals("r"))
+            replenishableChestManager.registerReplenishableChest(chest.getInventory(), ExpeditionLootTables.TIER_1_LOW);
+        else
+            lootTable.fillInventory(chest.getInventory(), new Random(r.nextLong()), buildContext(player));
 
         return true;
     }
