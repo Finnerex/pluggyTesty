@@ -24,7 +24,7 @@ public class HealingAuraItemType extends SimpleItemType implements InteractableI
 
     private final Plugin schedulerPlugin;
     private final PartyManager partyManager;
-    private final int COOLDOWN_TICKS = 1200;
+    private final int COOLDOWN_TICKS = 600;
 
     public HealingAuraItemType(Plugin namespace, String id, boolean customModel, String name, PartyManager partyManager) {
         super(namespace, id, customModel, name, Material.CRIMSON_FUNGUS);
@@ -55,7 +55,7 @@ public class HealingAuraItemType extends SimpleItemType implements InteractableI
 
             @Override
             public void run() {
-                if (runs > 60) { // 30 secs
+                if (runs > 50) { // runs / 2 = secs
                     cancel();
                     return;
                 }

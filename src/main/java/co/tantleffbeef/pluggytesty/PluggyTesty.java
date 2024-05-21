@@ -1163,7 +1163,75 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().addRecipe(chainLeggings);
         recipeManager.registerUnlockableRecipe(NamespacedKey.minecraft("chainmail_leggings"), Material.CHAIN);
 
+        final NamespacedKey boltRodKey = new NamespacedKey(this, "bolt_rod");
+        final ShapedRecipe boltRod = new ShapedRecipe(boltRodKey, resourceManager.getCustomItemStack(boltRodKey))
+                .shape(
+                        " b ",
+                        "blb",
+                        " b ")
+                .setIngredient('b', Material.BLAZE_ROD)
+                .setIngredient('l', Material.LIGHTNING_ROD);
+        getServer().addRecipe(boltRod);
+        recipeManager.registerUnlockableRecipe(boltRodKey, Material.BLAZE_ROD);
 
+        final NamespacedKey boombatKey = new NamespacedKey(this, "boombat_stick");
+        final ShapedRecipe boombatStick = new ShapedRecipe(boombatKey, resourceManager.getCustomItemStack(boombatKey))
+                .shape(
+                        "tpt",
+                        " e ",
+                        " s ")
+                .setIngredient('t', Material.TNT)
+                .setIngredient('p', Material.PHANTOM_MEMBRANE)
+                .setIngredient('e') // yeah idk what these are zander
+
+        final NamespacedKey bouncyArrowKey = new NamespacedKey(this, "bouncy_arrow");
+        final ShapedRecipe bouncyArrow = new ShapedRecipe(bouncyArrowKey, resourceManager.getCustomItemStack(bouncyArrowKey))
+                .shape(
+                        "aaa",
+                        "asa",
+                        "aaa")
+                .setIngredient('a', Material.ARROW)
+                .setIngredient('s', Material.SLIME_BALL);
+        getServer().addRecipe(bouncyArrow);
+        recipeManager.registerUnlockableRecipe(bouncyArrowKey, Material.SLIME_BALL);
+
+        final NamespacedKey clusterBombKey = new NamespacedKey(this, "cluster_bomb");
+        final ShapedRecipe clusterBomb = new ShapedRecipe(clusterBombKey, resourceManager.getCustomItemStack(clusterBombKey))
+                .shape(
+                        "aea",
+                        "ede",
+                        "aea")
+                .setIngredient('a', Material.ARROW)
+                .setIngredient('e', Material.ENDER_PEARL)
+                .setIngredient('d', Material.DIAMOND_AXE);
+        getServer().addRecipe(clusterBomb);
+        recipeManager.registerUnlockableRecipe(clusterBombKey, Material.ENDER_PEARL);
+
+        final NamespacedKey dashKey = new NamespacedKey(this, "dash");
+        final ShapelessRecipe dash = new ShapelessRecipe(dashKey, resourceManager.getCustomItemStack(dashKey))
+                .addIngredient(Material.BLUE_ICE)
+                .addIngredient(Material.FEATHER)
+                .addIngredient(Material.RABBIT_FOOT)
+                .addIngredient(Material.PHANTOM_MEMBRANE);
+        getServer().addRecipe(dash);
+        recipeManager.registerUnlockableRecipe(dashKey, Material.PHANTOM_MEMBRANE);
+
+        final NamespacedKey explosiveArrowKey = new NamespacedKey(this, "explosive_arrow");
+        final ShapedRecipe explosiveArrow = new ShapedRecipe(explosiveArrowKey, resourceManager.getCustomItemStack(explosiveArrowKey))
+                .shape(
+                        "aaa",
+                        "ata",
+                        "aaa")
+                .setIngredient('a', Material.ARROW)
+                .setIngredient('t', Material.TNT);
+        getServer().addRecipe(explosiveArrow);
+        recipeManager.registerUnlockableRecipe(explosiveArrowKey, Material.TNT);
+
+        final NamespacedKey crazyArrowKey = new NamespacedKey(this, "crazy_arrow");
+        final ShapelessRecipe crazyArrow = new ShapelessRecipe(crazyArrowKey, resourceManager.getCustomItemStack(crazyArrowKey))
+                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(bouncyArrowKey)))
+                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(explosiveArrowKey)))
+                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(jesterArrowKey)))
         //pure armor
         smithingRecipes("pure_leather_helmet_recipe", Material.LEATHER_HELMET, "pure_leather", "pure_leather_helmet");
         smithingRecipes("pure_leather_chestplate_recipe", Material.LEATHER_CHESTPLATE, "pure_leather", "pure_leather_chestplate");

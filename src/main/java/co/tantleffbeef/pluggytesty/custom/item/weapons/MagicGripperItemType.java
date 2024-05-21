@@ -44,7 +44,7 @@ public class MagicGripperItemType extends SimpleItemType implements Interactable
 
         RayTraceResult result = player.getWorld().rayTraceEntities(playerLocation.add(playerLocation.getDirection()), playerLocation.getDirection(), 10);
 
-        if (result == null || result.getHitEntity() == null)
+        if (result == null || result.getHitEntity() == null || result.getHitEntity() instanceof Player)
             return false;
 
         heldEntities.put(playerUUID, result.getHitEntity());

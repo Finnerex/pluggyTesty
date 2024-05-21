@@ -88,7 +88,7 @@ public class MagnetSphereItemType extends SimpleItemType implements Interactable
                 if (d != null && !d.equals(player)) {
                     final double prevHealth = d.getHealth();
 
-                    d.damage(2, player);
+                    d.damage(3, player);
                     if (d.getHealth() < prevHealth) {
                         d.setVelocity(new Vector(0, 0, 0)); // stop that dawg in his tracks
 
