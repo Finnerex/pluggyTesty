@@ -315,6 +315,7 @@ public final class PluggyTesty extends JavaPlugin {
 
         // Trims / Armor effects
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
+        getServer().getPluginManager().registerEvents(new AxeFallDamageListener(), this);
         getServer().getPluginManager().registerEvents(new BowShootListener(), this);
         getServer().getPluginManager().registerEvents(new ExpChangeListener(), this);
         getServer().getPluginManager().registerEvents(new FallDamageListener(), this);
