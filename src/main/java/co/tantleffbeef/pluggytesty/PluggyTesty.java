@@ -1176,14 +1176,14 @@ public final class PluggyTesty extends JavaPlugin {
         recipeManager.registerUnlockableRecipe(boltRodKey, Material.BLAZE_ROD);
 
         final NamespacedKey boombatKey = new NamespacedKey(this, "boombat_stick");
-        final ShapedRecipe boombatStick = new ShapedRecipe(boombatKey, resourceManager.getCustomItemStack(boombatKey))
-                .shape(
-                        "tpt",
-                        " e ",
-                        " s ")
-                .setIngredient('t', Material.TNT)
-                .setIngredient('p', Material.PHANTOM_MEMBRANE)
-                .setIngredient('e') // yeah idk what these are zander
+//        final ShapedRecipe boombatStick = new ShapedRecipe(boombatKey, resourceManager.getCustomItemStack(boombatKey))
+//                .shape(
+//                        "tpt",
+//                        " e ",
+//                        " s ")
+//                .setIngredient('t', Material.TNT)
+//                .setIngredient('p', Material.PHANTOM_MEMBRANE)
+//                .setIngredient('e') // yeah idk what these are zander // TODO: gavin: fix this @finnerex
 
         final NamespacedKey bouncyArrowKey = new NamespacedKey(this, "bouncy_arrow");
         final ShapedRecipe bouncyArrow = new ShapedRecipe(bouncyArrowKey, resourceManager.getCustomItemStack(bouncyArrowKey))
@@ -1229,10 +1229,10 @@ public final class PluggyTesty extends JavaPlugin {
         recipeManager.registerUnlockableRecipe(explosiveArrowKey, Material.TNT);
 
         final NamespacedKey crazyArrowKey = new NamespacedKey(this, "crazy_arrow");
-        final ShapelessRecipe crazyArrow = new ShapelessRecipe(crazyArrowKey, resourceManager.getCustomItemStack(crazyArrowKey))
-                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(bouncyArrowKey)))
-                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(explosiveArrowKey)))
-                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(jesterArrowKey)))
+//        final ShapelessRecipe crazyArrow = new ShapelessRecipe(crazyArrowKey, resourceManager.getCustomItemStack(crazyArrowKey))
+//                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(bouncyArrowKey)))
+//                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(explosiveArrowKey)))
+//                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(jesterArrowKey))) // TODO: gavin: fix this @finnerex
         //pure armor
         smithingRecipes("pure_leather_helmet_recipe", Material.LEATHER_HELMET, "pure_leather", "pure_leather_helmet");
         smithingRecipes("pure_leather_chestplate_recipe", Material.LEATHER_CHESTPLATE, "pure_leather", "pure_leather_chestplate");
