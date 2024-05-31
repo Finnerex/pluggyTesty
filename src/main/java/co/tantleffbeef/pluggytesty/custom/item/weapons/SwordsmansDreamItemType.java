@@ -19,7 +19,7 @@ import java.util.Arrays;
 public class SwordsmansDreamItemType extends SimpleItemType implements InteractableItemType {
 
     private final Plugin schedulerPlugin;
-    private final int COOLDOWN_TICKS = 20 * 8;
+    private final int COOLDOWN_TICKS = 20 * 9;
 
     public SwordsmansDreamItemType(Plugin namespace, String id, boolean customModel, String name) {
         super(namespace, id, customModel, name, Material.IRON_SWORD);

@@ -68,8 +68,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -1176,14 +1180,15 @@ public final class PluggyTesty extends JavaPlugin {
         recipeManager.registerUnlockableRecipe(boltRodKey, Material.BLAZE_ROD);
 
         final NamespacedKey boombatKey = new NamespacedKey(this, "boombat_stick");
-//        final ShapedRecipe boombatStick = new ShapedRecipe(boombatKey, resourceManager.getCustomItemStack(boombatKey))
-//                .shape(
-//                        "tpt",
-//                        " e ",
-//                        " s ")
-//                .setIngredient('t', Material.TNT)
-//                .setIngredient('p', Material.PHANTOM_MEMBRANE)
-//                .setIngredient('e') // yeah idk what these are zander // TODO: gavin: fix this @finnerex
+        final ShapedRecipe boombatStick = new ShapedRecipe(boombatKey, resourceManager.getCustomItemStack(boombatKey))
+                .shape(
+                        "tpt",
+                        " e ",
+                        " s ")
+                .setIngredient('t', Material.TNT)
+                .setIngredient('p', Material.PHANTOM_MEMBRANE)
+                .setIngredient('e', Material.END_CRYSTAL)
+                .setIngredient('s', Material.STICK);
 
         final NamespacedKey bouncyArrowKey = new NamespacedKey(this, "bouncy_arrow");
         final ShapedRecipe bouncyArrow = new ShapedRecipe(bouncyArrowKey, resourceManager.getCustomItemStack(bouncyArrowKey))
@@ -1228,11 +1233,298 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().addRecipe(explosiveArrow);
         recipeManager.registerUnlockableRecipe(explosiveArrowKey, Material.TNT);
 
+        final NamespacedKey featherBootsKey = new NamespacedKey(this, "feather_boots");
+        final ShapedRecipe featherBoots = new ShapedRecipe(featherBootsKey, resourceManager.getCustomItemStack(featherBootsKey))
+                .shape(
+                        "f f",
+                        "p p"
+                )
+                .setIngredient('f', Material.FEATHER)
+                .setIngredient('p', Material.PHANTOM_MEMBRANE);
+        getServer().addRecipe(featherBoots);
+        recipeManager.registerUnlockableRecipe(featherBootsKey, Material.FEATHER);
+
+        final NamespacedKey flamingArrowKey = new NamespacedKey(this, "flaming_arrow");
+        final ShapedRecipe flamingArrow = new ShapedRecipe(flamingArrowKey, resourceManager.getCustomItemStack(flamingArrowKey))
+                .shape(
+                        "aaa",
+                        "afa",
+                        "aaa"
+                )
+                .setIngredient('a', Material.ARROW)
+                .setIngredient('f', Material.FLINT_AND_STEEL);
+        getServer().addRecipe(flamingArrow);
+        recipeManager.registerUnlockableRecipe(flamingArrowKey, Material.FLINT_AND_STEEL);
+
+        final NamespacedKey frostPoleKey = new NamespacedKey(this, "frost_pole");
+        final ShapedRecipe frostPole = new ShapedRecipe(frostPoleKey, resourceManager.getCustomItemStack(frostPoleKey))
+                .shape(
+                        "p",
+                        "t"
+                )
+                .setIngredient('p', Material.PACKED_ICE)
+                .setIngredient('t', Material.TORCH);
+        getServer().addRecipe(frostPole);
+        recipeManager.registerUnlockableRecipe(frostPoleKey, Material.PACKED_ICE);
+
+        final NamespacedKey frostArrowKey = new NamespacedKey(this, "frostburn_arrow");
+        final ShapedRecipe frostArrow = new ShapedRecipe(frostArrowKey, resourceManager.getCustomItemStack(frostArrowKey))
+                .shape(
+                        "aaa",
+                        "aia",
+                        "aaa"
+                )
+                .setIngredient('a', Material.ARROW)
+                .setIngredient('i', Material.ICE);
+        getServer().addRecipe(frostArrow);
+        recipeManager.registerUnlockableRecipe(frostArrowKey, Material.ICE);
+
+        final NamespacedKey healAuraKey = new NamespacedKey(this, "healing_aura");
+        final ShapedRecipe healAura = new ShapedRecipe(healAuraKey, resourceManager.getCustomItemStack(healAuraKey))
+                .shape(
+                        "g g",
+                        " t ",
+                        "g g"
+                )
+                .setIngredient('g', Material.GHAST_TEAR)
+                .setIngredient('t', Material.TOTEM_OF_UNDYING);
+        getServer().addRecipe(healAura);
+        recipeManager.registerUnlockableRecipe(healAuraKey, Material.GHAST_TEAR);
+
+        final ItemStack healingPot = new ItemStack(Material.POTION);
+        PotionMeta healingMeta = (PotionMeta) healingPot.getItemMeta();
+        healingMeta.setBasePotionType(PotionType.INSTANT_HEAL);
+        healingMeta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 0, 0, true), true);
+        healingPot.setItemMeta(healingMeta);
+
+        final NamespacedKey healHeartKey = new NamespacedKey(this, "healing_heart");
+        final ShapedRecipe healHeart = new ShapedRecipe(healHeartKey, resourceManager.getCustomItemStack(healHeartKey))
+                .shape(
+                        "www",
+                        "rhr",
+                        " d "
+                )
+                .setIngredient('w', Material.NETHER_WART_BLOCK)
+                .setIngredient('r', Material.REDSTONE_BLOCK)
+                .setIngredient('h', new RecipeChoice.ExactChoice(healingPot))
+                .setIngredient('d', Material.DIAMOND_BLOCK);
+        getServer().addRecipe(healHeart);
+        recipeManager.registerUnlockableRecipe(healHeartKey, Material.NETHER_WART_BLOCK);
+
+
+        final NamespacedKey jesterArrowKey = new NamespacedKey(this, "jesters_arrow");
+        final ShapedRecipe jesterArrow = new ShapedRecipe(jesterArrowKey, resourceManager.getCustomItemStack(jesterArrowKey))
+                .shape(
+                        "aaa",
+                        "ara",
+                        "aaa"
+                )
+                .setIngredient('a', Material.ARROW)
+                .setIngredient('r', Material.REDSTONE);
+        getServer().addRecipe(jesterArrow);
+        recipeManager.registerUnlockableRecipe(jesterArrowKey, Material.REDSTONE);
+
         final NamespacedKey crazyArrowKey = new NamespacedKey(this, "crazy_arrow");
-//        final ShapelessRecipe crazyArrow = new ShapelessRecipe(crazyArrowKey, resourceManager.getCustomItemStack(crazyArrowKey))
-//                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(bouncyArrowKey)))
-//                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(explosiveArrowKey)))
-//                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(jesterArrowKey))) // TODO: gavin: fix this @finnerex
+        final ShapelessRecipe crazyArrow = new ShapelessRecipe(crazyArrowKey, resourceManager.getCustomItemStack(crazyArrowKey))
+                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(bouncyArrowKey)))
+                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(explosiveArrowKey)))
+                .addIngredient(new RecipeChoice.ExactChoice(resourceManager.getCustomItemStack(jesterArrowKey)));
+        getServer().addRecipe(crazyArrow);
+        recipeManager.registerUnlockableRecipe(crazyArrowKey, Material.TNT);
+
+        final NamespacedKey landMineKey = new NamespacedKey(this, "land_mine");
+        final ShapelessRecipe landMine = new ShapelessRecipe(landMineKey, resourceManager.getCustomItemStack(landMineKey))
+                .addIngredient(Material.STONE_PRESSURE_PLATE)
+                .addIngredient(Material.TNT);
+        getServer().addRecipe(landMine);
+        recipeManager.registerUnlockableRecipe(landMineKey, Material.TNT);
+
+        final NamespacedKey lifeDrainKey = new NamespacedKey(this, "life_drain");
+        final ShapedRecipe lifeDrain = new ShapedRecipe(lifeDrainKey, resourceManager.getCustomItemStack(lifeDrainKey))
+                .shape(
+                        " gs",
+                        "gbg",
+                        "bg"
+                )
+                .setIngredient('b', Material.BONE_BLOCK)
+                .setIngredient('g', Material.GHAST_TEAR)
+                .setIngredient('s', Material.SOUL_CAMPFIRE);
+        getServer().addRecipe(lifeDrain);
+        recipeManager.registerUnlockableRecipe(lifeDrainKey, Material.BONE_BLOCK);
+
+        final NamespacedKey lifeLinkKey = new NamespacedKey(this, "life_link");
+        final ShapedRecipe lifeLink = new ShapedRecipe(lifeLinkKey, resourceManager.getCustomItemStack(lifeLinkKey))
+                .shape(
+                        " s ",
+                        "sis",
+                        " s "
+                )
+                .setIngredient('s', Material.SCUTE)
+                .setIngredient('i', Material.IRON_BLOCK);
+        getServer().addRecipe(lifeLink);
+        recipeManager.registerUnlockableRecipe(lifeLinkKey, Material.SCUTE);
+
+        final NamespacedKey gripperKey = new NamespacedKey(this, "magic_gripper");
+        final ShapedRecipe gripper = new ShapedRecipe(gripperKey, resourceManager.getCustomItemStack(gripperKey))
+                .shape(
+                        "n n",
+                        " d ",
+                        " e "
+                )
+                .setIngredient('n', Material.END_ROD)
+                .setIngredient('d', Material.DIAMOND_BLOCK)
+                .setIngredient('e', Material.ENDER_PEARL);
+        getServer().addRecipe(gripper);
+        recipeManager.registerUnlockableRecipe(gripperKey, Material.END_ROD);
+
+        final NamespacedKey magicMissileKey = new NamespacedKey(this, "magic_missile");
+        final ShapedRecipe magicMissile = new ShapedRecipe(magicMissileKey, resourceManager.getCustomItemStack(magicMissileKey))
+                .shape(
+                        "e",
+                        "b",
+                        "a"
+                )
+                .setIngredient('e', Material.END_CRYSTAL)
+                .setIngredient('b', Material.BLUE_CANDLE)
+                .setIngredient('a', Material.AMETHYST_SHARD);
+        getServer().addRecipe(magicMissile);
+        recipeManager.registerUnlockableRecipe(magicMissileKey, Material.AMETHYST_SHARD);
+
+        final NamespacedKey magnetSphereKey = new NamespacedKey(this, "magnet_sphere");
+        final ShapedRecipe magnetSphere = new ShapedRecipe(magnetSphereKey, resourceManager.getCustomItemStack(magnetSphereKey))
+                .shape(
+                        "pip",
+                        "chc",
+                        "pip"
+                )
+                .setIngredient('p', Material.PRISMARINE_CRYSTALS)
+                .setIngredient('i', Material.IRON_INGOT)
+                .setIngredient('c', Material.COPPER_INGOT)
+                .setIngredient('h', Material.HEART_OF_THE_SEA);
+        getServer().addRecipe(magnetSphere);
+        recipeManager.registerUnlockableRecipe(magnetSphereKey, Material.HEART_OF_THE_SEA);
+
+        final NamespacedKey minoAxeKey = new NamespacedKey(this, "minotaurs_axe");
+        final ShapedRecipe minoAxe = new ShapedRecipe(minoAxeKey, resourceManager.getCustomItemStack(minoAxeKey))
+                .shape(
+                        " g ",
+                        "gag",
+                        " g "
+                )
+                .setIngredient('g', Material.GOLDEN_AXE)
+                .setIngredient('a', Material.AMETHYST_SHARD);
+        getServer().addRecipe(minoAxe);
+        recipeManager.registerUnlockableRecipe(minoAxeKey, Material.AMETHYST_SHARD);
+
+        final NamespacedKey nimbusKey = new NamespacedKey(this, "nimbus_rod");
+        final ShapedRecipe nimbus = new ShapedRecipe(nimbusKey, resourceManager.getCustomItemStack(nimbusKey))
+                .shape(
+                        "dwd",
+                        " l ",
+                        " s "
+                )
+                .setIngredient('d', Material.POINTED_DRIPSTONE)
+                .setIngredient('w', Material.WATER_BUCKET)
+                .setIngredient('l', Material.LIGHTNING_ROD)
+                .setIngredient('s', Material.SNOW);
+        getServer().addRecipe(nimbus);
+        recipeManager.registerUnlockableRecipe(nimbusKey, Material.WATER_BUCKET);
+
+        final NamespacedKey platDagKey = new NamespacedKey(this, "platinum_dagger");
+        final ShapedRecipe platDag = new ShapedRecipe(platDagKey, resourceManager.getCustomItemStack(platDagKey))
+                .shape(
+                        "d",
+                        "s"
+                )
+                .setIngredient('d', Material.DIAMOND)
+                .setIngredient('s', Material.STICK);
+        getServer().addRecipe(platDag);
+        recipeManager.registerUnlockableRecipe(platDagKey, Material.DIAMOND);
+
+        final NamespacedKey randBowKey = new NamespacedKey(this, "random_bow");
+        final ShapedRecipe randBow = new ShapedRecipe(randBowKey, resourceManager.getCustomItemStack(randBowKey))
+                .shape(
+                        "sm ",
+                        "s n",
+                        "sc "
+                )
+                .setIngredient('s', Material.STRING)
+                .setIngredient('n', Material.NETHER_WART)
+                .setIngredient('c', Material.SUGAR);
+        getServer().addRecipe(randBow);
+        recipeManager.registerUnlockableRecipe(randBowKey, Material.NETHER_WART);
+
+        final NamespacedKey soulFishKey = new NamespacedKey(this, "fisher_of_souls");
+        final ShapelessRecipe soulFish = new ShapelessRecipe(soulFishKey, resourceManager.getCustomItemStack(soulFishKey))
+                .addIngredient(Material.FISHING_ROD)
+                .addIngredient(Material.WITHER_SKELETON_SKULL);
+        getServer().addRecipe(soulFish);
+        recipeManager.registerUnlockableRecipe(soulFishKey, Material.WITHER_SKELETON_SKULL);
+
+        final NamespacedKey steelScimKey = new NamespacedKey(this, "steel_scimitar");
+        final ShapedRecipe steelScim = new ShapedRecipe(steelScimKey, resourceManager.getCustomItemStack(steelScimKey))
+                .shape(
+                        "s",
+                        "s",
+                        "i"
+                )
+                .setIngredient('s', Material.IRON_SWORD)
+                .setIngredient('i', Material.IRON_BLOCK);
+        getServer().addRecipe(steelScim);
+        recipeManager.registerUnlockableRecipe(steelScimKey, Material.IRON_SWORD);
+
+        final NamespacedKey swiftStaffKey = new NamespacedKey(this, "swift_staff");
+        final ShapedRecipe swiftStaff = new ShapedRecipe(swiftStaffKey, resourceManager.getCustomItemStack(swiftStaffKey))
+                .shape(
+                        "sds",
+                        "sps",
+                        "sps"
+                )
+                .setIngredient('s', Material.SUGAR)
+                .setIngredient('p', new RecipeChoice.MaterialChoice(Tag.PLANKS))
+                .setIngredient('d', Material.DIAMOND);
+        getServer().addRecipe(swiftStaff);
+        recipeManager.registerUnlockableRecipe(swiftStaffKey, Material.DIAMOND);
+
+        final NamespacedKey swordDreamKey = new NamespacedKey(this, "swordsmans_dream");
+        final ShapedRecipe swordDream = new ShapedRecipe(swordDreamKey, resourceManager.getCustomItemStack(swordDreamKey))
+                .shape(
+                        " b ",
+                        "bib",
+                        " d "
+                )
+                .setIngredient('b', Material.EXPERIENCE_BOTTLE)
+                .setIngredient('i', Material.IRON_SWORD)
+                .setIngredient('d', Material.DIAMOND_BLOCK);
+        getServer().addRecipe(swordDream);
+        recipeManager.registerUnlockableRecipe(swordDreamKey, Material.EXPERIENCE_BOTTLE);
+
+        final NamespacedKey goKey = new NamespacedKey(this, "go");
+        final ShapedRecipe go = new ShapedRecipe(goKey, resourceManager.getCustomItemStack(goKey))
+                .shape(
+                        "nen",
+                        "ede",
+                        "nen"
+                )
+                .setIngredient('n', Material.NETHERITE_BLOCK)
+                .setIngredient('e', Material.ELYTRA)
+                .setIngredient('d', Material.DIAMOND_BLOCK);
+        getServer().addRecipe(go);
+        recipeManager.registerUnlockableRecipe(goKey, Material.ELYTRA);
+
+
+        final NamespacedKey kingPunchKey = new NamespacedKey(this, "king_punch");
+        final ShapedRecipe kingPunch = new ShapedRecipe(kingPunchKey, resourceManager.getCustomItemStack(kingPunchKey))
+                .shape(
+                        "ti",
+                        "et"
+                )
+                .setIngredient('t', Material.TNT)
+                .setIngredient('i', Material.IRON_BLOCK)
+                .setIngredient('e', Material.ECHO_SHARD);
+        getServer().addRecipe(kingPunch);
+        recipeManager.registerUnlockableRecipe(kingPunchKey,Material.ECHO_SHARD);
+
         //pure armor
         smithingRecipes("pure_leather_helmet_recipe", Material.LEATHER_HELMET, "pure_leather", "pure_leather_helmet");
         smithingRecipes("pure_leather_chestplate_recipe", Material.LEATHER_CHESTPLATE, "pure_leather", "pure_leather_chestplate");
