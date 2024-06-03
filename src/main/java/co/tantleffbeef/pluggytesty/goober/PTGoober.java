@@ -5,7 +5,6 @@ import co.tantleffbeef.pluggytesty.expeditions.ExpeditionController;
 import co.tantleffbeef.pluggytesty.expeditions.parties.Party;
 import co.tantleffbeef.pluggytesty.expeditions.parties.PartyManager;
 import co.tantleffbeef.pluggytesty.levels.LevelController;
-import co.tantleffbeef.pluggytesty.nations.Nation;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
@@ -133,12 +132,6 @@ public class PTGoober implements Goober {
             return Optional.empty();
 
         return Optional.of(expeditionController.getExpedition(player));
-    }
-
-    @Override
-    public Optional<Nation> getNation() {
-        // TODO: this
-        return Optional.empty();
     }
 
     void setOnline(@NotNull Player toSet) {
