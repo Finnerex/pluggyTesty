@@ -1,6 +1,5 @@
 package co.tantleffbeef.pluggytesty.war;
 
-import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -11,16 +10,13 @@ import java.util.Map;
 public class ClaimWorld {
     private final Map<Team, List<BlockPosition>> claimedChunks;
     private final Map<BlockPosition, List<ClaimedChunk>> regionClaims;
-    private final World world;
 
     /**
      * Stores in memory the claims within a world
-     * @param world the world that this object stores claims for
      */
-    public ClaimWorld(World world) {
+    public ClaimWorld() {
         this.claimedChunks = new HashMap<>();
         this.regionClaims = new HashMap<>();
-        this.world = world;
     }
 
     /**
@@ -61,6 +57,27 @@ public class ClaimWorld {
         }
 
         return false;
+    }
+
+    public Team getChunkClaim(BlockPosition chunkPosition) {
+        // Check if this is a valid chunk position
+        if (!chunkPosition.isChunkPosition())
+            throw new InvalidPositionException("must be a chunk position");
+
+        // Check if there are any chunks in this region
+        BlockPosition regionPosition = chunkPosition.getRegionPosition();
+        var chunksInRegion = regionClaims.get(regionPosition);
+        if (chunksInRegion == null)
+            throw new InvalidPositionException("there are no claims in this region");
+
+        // See if any of the chunks in the region are this one
+        for (ClaimedChunk chunk :
+                chunksInRegion) {
+            if (chunkPosition.equals(chunk.position))
+                return chunk.team;
+        }
+
+        throw new InvalidPositionException("this chunk does not contain a claim");
     }
 
     public void claimChunk(Team team, BlockPosition chunkPosition) {
