@@ -12,7 +12,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import ws.schild.jave.*;
+//import ws.schild.jave.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,12 +37,12 @@ public class AudioDownloaderCommand implements CommandExecutor {
             e.printStackTrace();
         }
 
-        try {
-            convertToMp3(videoPath + args[1], audioPath + args[1]);
-        } catch (EncoderException e) {
-            Bukkit.broadcastMessage(ChatColor.RED + "Error Encoding Audio");
-            e.printStackTrace();
-        }
+//        try {
+//            convertToMp3(videoPath + args[1], audioPath + args[1]);
+//        } catch (EncoderException e) {
+//            Bukkit.broadcastMessage(ChatColor.RED + "Error Encoding Audio");
+//            e.printStackTrace();
+//        }
 
 
 
@@ -68,23 +68,23 @@ public class AudioDownloaderCommand implements CommandExecutor {
         }
     }
 
-    private void convertToMp3(String videoPath, String mp3Path) throws EncoderException {
-        File source = new File(videoPath);
-        File target = new File(mp3Path);
-
-        AudioAttributes audio = new AudioAttributes();
-        audio.setCodec("libmp3lame");
-        audio.setBitRate(128000);
-        audio.setChannels(2);
-        audio.setSamplingRate(44100);
-
-        EncodingAttributes attrs = new EncodingAttributes();
-        attrs.setFormat("mp3");
-        attrs.setAudioAttributes(audio);
-
-        Encoder encoder = new Encoder();
-        encoder.encode(new MultimediaObject(source), target, attrs);
-
-        Bukkit.broadcastMessage("video file was " + (source.delete() ? "" : "not") + "deleted");
-    }
+//    private void convertToMp3(String videoPath, String mp3Path) throws EncoderException {
+//        File source = new File(videoPath);
+//        File target = new File(mp3Path);
+//
+//        AudioAttributes audio = new AudioAttributes();
+//        audio.setCodec("libmp3lame");
+//        audio.setBitRate(128000);
+//        audio.setChannels(2);
+//        audio.setSamplingRate(44100);
+//
+//        EncodingAttributes attrs = new EncodingAttributes();
+//        attrs.setFormat("mp3");
+//        attrs.setAudioAttributes(audio);
+//
+//        Encoder encoder = new Encoder();
+//        encoder.encode(new MultimediaObject(source), target, attrs);
+//
+//        Bukkit.broadcastMessage("video file was " + (source.delete() ? "" : "not") + "deleted");
+//    }
 }
