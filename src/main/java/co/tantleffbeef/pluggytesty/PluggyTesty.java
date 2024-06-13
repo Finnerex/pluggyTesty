@@ -308,7 +308,7 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("trial5boss").setExecutor(new BossTrial5(this));
         getCommand("runexpedition").setExecutor(new RunExpeditionCommand(expeditionInformationBiMap, getServer(), getServer().getScheduler(), expeditionBuilder, this, gooberStateController));
         getCommand("reloadexpeditions").setExecutor(new ReloadExpeditionsCommand(this));
-        getCommand("audio").setExecutor(new AudioDownloaderCommand());
+        getCommand("audio").setExecutor(new AudioDownloaderCommand( this));
 
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);

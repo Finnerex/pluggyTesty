@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import org.apache.http.HttpEntity;
@@ -20,11 +21,21 @@ import java.io.InputStream;
 
 public class AudioDownloaderCommand implements CommandExecutor {
 
-    final String audioPath = "data/audio/";
-    final String videoPath = "data/audio/temp/";
+    final String audioPath;
+    final String videoPath;
+
+    Plugin plugin;
+
+    public AudioDownloaderCommand(Plugin plugin) {
+        this.plugin = plugin;
+        videoPath = plugin.getDataFolder() + "/audio/temp/";
+        audioPath = plugin.getDataFolder() + "/audio/";
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
+        Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "paths: " + videoPath + ", " + audioPath);
 
         for (String s : args) {
             Bukkit.broadcastMessage(ChatColor.GRAY + "arg: " + s);
