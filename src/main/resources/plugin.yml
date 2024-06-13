@@ -51,3 +51,6 @@ commands:
   reloadexpeditions:
     description: reloads all expeditions and rooms
     usage: "/reloadexpeditions"
+  audio:
+    description: downloads audio from a yt video to the plugin data folder
+    usage: "/audio [url] [file name]"
