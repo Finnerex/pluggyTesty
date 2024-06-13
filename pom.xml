@@ -216,7 +216,7 @@
         <dependency>
             <groupId>com.github.axet</groupId>
             <artifactId>vget</artifactId>
-            <version>1.0.40</version>
+            <version>1.1.33</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>ws.schild</groupId>-->
