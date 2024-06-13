@@ -1456,7 +1456,7 @@ public final class PluggyTesty extends JavaPlugin {
         getServer().addRecipe(randBow);
         recipeManager.registerUnlockableRecipe(randBowKey, Material.NETHER_WART);
 
-        final NamespacedKey soulFishKey = new NamespacedKey(this, "fisher_of_souls");
+        final NamespacedKey soulFishKey = new NamespacedKey(this, "soul_fisher");
         final ShapelessRecipe soulFish = new ShapelessRecipe(soulFishKey, resourceManager.getCustomItemStack(soulFishKey))
                 .addIngredient(Material.FISHING_ROD)
                 .addIngredient(Material.WITHER_SKELETON_SKULL);
