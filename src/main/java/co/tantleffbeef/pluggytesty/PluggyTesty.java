@@ -1346,7 +1346,7 @@ public final class PluggyTesty extends JavaPlugin {
                 .shape(
                         " gs",
                         "gbg",
-                        "bg"
+                        "bg "
                 )
                 .setIngredient('b', Material.BONE_BLOCK)
                 .setIngredient('g', Material.GHAST_TEAR)
