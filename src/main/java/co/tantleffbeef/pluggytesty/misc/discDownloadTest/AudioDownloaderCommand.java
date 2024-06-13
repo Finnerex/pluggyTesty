@@ -20,8 +20,8 @@ import java.io.InputStream;
 
 public class AudioDownloaderCommand implements CommandExecutor {
 
-    final String audioPath = "data/audio";
-    final String videoPath = "data/audio/temp";
+    final String audioPath = "data/audio/";
+    final String videoPath = "data/audio/temp/";
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -31,20 +31,18 @@ public class AudioDownloaderCommand implements CommandExecutor {
         }
 
         try {
-            downloadVideo(args[0], videoPath + args[1]);
+            downloadVideo(args[0], videoPath + args[1] + ".mp4");
         } catch (Exception e) {
             Bukkit.broadcastMessage(ChatColor.RED + "Error Downloading Video");
             e.printStackTrace();
         }
 
 //        try {
-//            convertToMp3(videoPath + args[1], audioPath + args[1]);
+//            convertToMp3(videoPath + args[1], audioPath + args[1] + ".mp3");
 //        } catch (EncoderException e) {
 //            Bukkit.broadcastMessage(ChatColor.RED + "Error Encoding Audio");
 //            e.printStackTrace();
 //        }
-
-
 
 
         return false;
