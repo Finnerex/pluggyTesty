@@ -1,5 +1,6 @@
 package co.tantleffbeef.pluggytesty.misc.discDownloadTest;
 
+import com.github.axet.vget.VGet;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -8,16 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-//import ws.schild.jave.*;
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.net.URL;
 
 public class AudioDownloaderCommand implements CommandExecutor {
 
@@ -47,7 +40,14 @@ public class AudioDownloaderCommand implements CommandExecutor {
         }
 
         try {
-            downloadVideo(args[0], videoPath + args[1] + ".mp4");
+            VGet v = new VGet(
+                    new URL(args[0]),
+                    new File(videoPath /*+ args[1]*/)
+            );
+
+//            v.getVideo().setTitle(args[1]);
+            v.download();
+//            downloadVideo(args[0], videoPath + args[1] + ".mp4");
         } catch (Exception e) {
             Bukkit.broadcastMessage(ChatColor.RED + "Error Downloading Video");
             e.printStackTrace();
@@ -64,23 +64,23 @@ public class AudioDownloaderCommand implements CommandExecutor {
         return false;
     }
 
-    private void downloadVideo(String url, String outputPath) throws Exception {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(url);
-        HttpResponse response = httpClient.execute(httpGet);
-        HttpEntity entity = response.getEntity();
-
-        if (entity != null) {
-            try (InputStream inputStream = entity.getContent();
-                 FileOutputStream outputStream = new FileOutputStream(outputPath)) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-            }
-        }
-    }
+//    private void downloadVideo(String url, String outputPath) throws Exception {
+//        CloseableHttpClient httpClient = HttpClients.createDefault();
+//        HttpGet httpGet = new HttpGet(url);
+//        HttpResponse response = httpClient.execute(httpGet);
+//        HttpEntity entity = response.getEntity();
+//
+//        if (entity != null) {
+//            try (InputStream inputStream = entity.getContent();
+//                 FileOutputStream outputStream = new FileOutputStream(outputPath)) {
+//                byte[] buffer = new byte[1024];
+//                int bytesRead;
+//                while ((bytesRead = inputStream.read(buffer)) != -1) {
+//                    outputStream.write(buffer, 0, bytesRead);
+//                }
+//            }
+//        }
+//    }
 
 //    private void convertToMp3(String videoPath, String mp3Path) throws EncoderException {
 //        File source = new File(videoPath);
