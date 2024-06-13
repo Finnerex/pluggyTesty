@@ -44,9 +44,13 @@ public class AudioDownloaderCommand implements CommandExecutor {
                     new URL(args[0]),
                     new File(videoPath /*+ args[1]*/)
             );
-
 //            v.getVideo().setTitle(args[1]);
+            Bukkit.broadcastMessage("downloading video");
+
             v.download();
+
+            Bukkit.broadcastMessage("download complete (dont know if it awaits?)");
+
 //            downloadVideo(args[0], videoPath + args[1] + ".mp4");
         } catch (Exception e) {
             Bukkit.broadcastMessage(ChatColor.RED + "Error Downloading Video");
