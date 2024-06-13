@@ -35,6 +35,11 @@ public class AudioDownloaderCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
+
+        Bukkit.broadcastMessage("The directory " + plugin.getDataFolder() + ((new File(plugin.getDataFolder().getPath()).exists()) ? "exists" : "does not exist"));
+        Bukkit.broadcastMessage("The directory " + videoPath + ((new File(videoPath).exists()) ? "exists" : "does not exist"));
+
+
         Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "paths: " + videoPath + ", " + audioPath);
 
         for (String s : args) {
