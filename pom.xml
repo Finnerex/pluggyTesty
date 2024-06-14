@@ -139,6 +139,13 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
+
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
     </repositories>
 
     <distributionManagement>
@@ -214,9 +221,9 @@
             <scope>compile</scope>
         </dependency>-->
         <dependency>
-            <groupId>com.github.axet</groupId>
-            <artifactId>vget</artifactId>
-            <version>1.2.4</version>
+            <groupId>com.github.sealedtx</groupId>
+            <artifactId>java-youtube-downloader</artifactId>
+            <version>3.2.3</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>ws.schild</groupId>-->
