@@ -80,14 +80,13 @@ public class AudioDownloaderCommand implements CommandExecutor {
         Response<VideoInfo> infoResponse = downloader.getVideoInfo(infoRequest);
         VideoInfo video = infoResponse.data();
 
-        RequestVideoFileDownload downloadRequest = new RequestVideoFileDownload(video.bestVideoWithAudioFormat())
+        RequestVideoFileDownload downloadRequest = new RequestVideoFileDownload(video.bestAudioFormat())
                 .saveTo(new File(outputDir))
                 .renameTo(name)
                 .overwriteIfExists(true);
 
         Response<File> downloadResponse = downloader.downloadVideoFile(downloadRequest);
-        File data = downloadResponse.data();
-
+//        File data = downloadResponse.data();
     }
 
 
