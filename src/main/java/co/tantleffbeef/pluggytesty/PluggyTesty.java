@@ -51,7 +51,6 @@ import co.tantleffbeef.pluggytesty.goober.OfflineGoober;
 import co.tantleffbeef.pluggytesty.goober.Goober;
 import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import co.tantleffbeef.pluggytesty.misc.RandomTickManager;
-import co.tantleffbeef.pluggytesty.misc.discDownloadTest.AudioDownloaderCommand;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -308,7 +307,6 @@ public final class PluggyTesty extends JavaPlugin {
         getCommand("trial5boss").setExecutor(new BossTrial5(this));
         getCommand("runexpedition").setExecutor(new RunExpeditionCommand(expeditionInformationBiMap, getServer(), getServer().getScheduler(), expeditionBuilder, this, gooberStateController));
         getCommand("reloadexpeditions").setExecutor(new ReloadExpeditionsCommand(this));
-        getCommand("audio").setExecutor(new AudioDownloaderCommand( this));
 
 
         getServer().getPluginManager().registerEvents(new RandomEffectBowInteractListener(nbtKeyManager, resourceManager), this);
