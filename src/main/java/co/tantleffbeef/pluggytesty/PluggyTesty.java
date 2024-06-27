@@ -1293,8 +1293,8 @@ public final class PluggyTesty extends JavaPlugin {
 
         final ItemStack healingPot = new ItemStack(Material.POTION);
         PotionMeta healingMeta = (PotionMeta) healingPot.getItemMeta();
-        healingMeta.setBasePotionType(PotionType.INSTANT_HEAL);
-        healingMeta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 0, 0, true), true);
+        healingMeta.setBasePotionType(PotionType.HEALING);
+        healingMeta.addCustomEffect(new PotionEffect(PotionEffectType.INSTANT_HEALTH, 0, 0, true), true);
         healingPot.setItemMeta(healingMeta);
 
         final NamespacedKey healHeartKey = new NamespacedKey(this, "healing_heart");
@@ -1359,10 +1359,10 @@ public final class PluggyTesty extends JavaPlugin {
                         "sis",
                         " s "
                 )
-                .setIngredient('s', Material.SCUTE)
+                .setIngredient('s', Material.TURTLE_SCUTE)
                 .setIngredient('i', Material.IRON_BLOCK);
         getServer().addRecipe(lifeLink);
-        recipeManager.registerUnlockableRecipe(lifeLinkKey, Material.SCUTE);
+        recipeManager.registerUnlockableRecipe(lifeLinkKey, Material.TURTLE_SCUTE);
 
         final NamespacedKey gripperKey = new NamespacedKey(this, "magic_gripper");
         final ShapedRecipe gripper = new ShapedRecipe(gripperKey, resourceManager.getCustomItemStack(gripperKey))
