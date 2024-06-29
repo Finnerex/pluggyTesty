@@ -103,8 +103,8 @@ public class ArmorEquipListener implements Listener {
             case FIRE_RESISTANCE -> player.addPotionEffect(PotionEffectType.FIRE_RESISTANCE.createEffect(PotionEffect.INFINITE_DURATION, 0));
             case HEALTH_BOOST -> player.addPotionEffect(PotionEffectType.HEALTH_BOOST.createEffect(PotionEffect.INFINITE_DURATION, 4));
             case SPEED -> player.addPotionEffect(PotionEffectType.SPEED.createEffect(PotionEffect.INFINITE_DURATION, 1));
-            case HASTE -> player.addPotionEffect(PotionEffectType.FAST_DIGGING.createEffect(PotionEffect.INFINITE_DURATION, 1));
-            case JUMP_BOOST -> player.addPotionEffect(PotionEffectType.JUMP.createEffect(PotionEffect.INFINITE_DURATION, 3));
+            case HASTE -> player.addPotionEffect(PotionEffectType.HASTE.createEffect(PotionEffect.INFINITE_DURATION, 1));
+            case JUMP_BOOST -> player.addPotionEffect(PotionEffectType.JUMP_BOOST.createEffect(PotionEffect.INFINITE_DURATION, 3));
             case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0.5f);
         }
 
@@ -162,8 +162,8 @@ public class ArmorEquipListener implements Listener {
                 case FIRE_RESISTANCE -> player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
                 case HEALTH_BOOST -> player.removePotionEffect(PotionEffectType.HEALTH_BOOST);
                 case SPEED -> player.removePotionEffect(PotionEffectType.SPEED);
-                case HASTE -> player.removePotionEffect(PotionEffectType.FAST_DIGGING);
-                case JUMP_BOOST -> player.removePotionEffect(PotionEffectType.JUMP);
+                case HASTE -> player.removePotionEffect(PotionEffectType.HASTE);
+                case JUMP_BOOST -> player.removePotionEffect(PotionEffectType.JUMP_BOOST);
                 case KNOCKBACK_RESIST -> player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
             }
         }

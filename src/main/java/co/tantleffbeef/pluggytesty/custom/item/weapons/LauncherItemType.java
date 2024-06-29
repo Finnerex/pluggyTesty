@@ -41,7 +41,7 @@ public class LauncherItemType extends SimpleItemType implements InteractableItem
             @Override
             public void run() {
                 Block block = shootBolt(1, location);
-                player.getWorld().spawnParticle(Particle.SPELL, location, 1);
+                player.getWorld().spawnParticle(Particle.EFFECT, location, 1);
 
                 if (block != null || runs > 10) {
                     if (block != null)
@@ -79,7 +79,7 @@ public class LauncherItemType extends SimpleItemType implements InteractableItem
 
         for(float i = 0.1f; i < range; i += 0.1f) {
             location.add(location.getDirection().normalize().multiply(i));
-            world.spawnParticle(Particle.SPELL, location, 1);
+            world.spawnParticle(Particle.EFFECT, location, 1);
         }
 
         return block;

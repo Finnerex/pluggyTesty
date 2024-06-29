@@ -69,7 +69,7 @@ public class BoltRodItemType extends SimpleItemType implements InteractableItemT
 
         for(float i = 0.1f; i < range; i += 0.1f) {
             location.add(location.getDirection().multiply(i));
-            world.spawnParticle(Particle.SPELL_INSTANT, location, 1);
+            world.spawnParticle(Particle.EFFECT, location, 1);
         }
 
         return entity;

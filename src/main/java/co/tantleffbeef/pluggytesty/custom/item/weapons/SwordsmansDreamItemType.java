@@ -60,7 +60,7 @@ public class SwordsmansDreamItemType extends SimpleItemType implements Interacta
                         player.setVelocity(new Vector(0, 0, 0));
                     }
                     if (tickNum >= 30 && tickNum < 50) {
-                        world.spawnParticle(Particle.EXPLOSION_LARGE, player.getLocation(), 1);
+                        world.spawnParticle(Particle.EXPLOSION, player.getLocation(), 1);
                         player.setVelocity(player.getLocation().getDirection());
                     }
                     if (tickNum >= 50) {

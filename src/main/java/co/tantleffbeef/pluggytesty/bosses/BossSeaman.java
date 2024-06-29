@@ -95,7 +95,7 @@ public class BossSeaman implements CommandExecutor {
                     seaman.getWorld().playSound(summonHere, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1, 0.1f);
 
                     for(int i = 0; i < 4; i++) {
-                        seaman.getWorld().spawnEntity(summonHere, EntityType.LIGHTNING, false);
+                        seaman.getWorld().spawnEntity(summonHere, EntityType.LIGHTNING_BOLT, false);
                         w.spawn(summonHere, Drowned.class, (drowned) -> {
                             EntityEquipment mEquip = drowned.getEquipment();
                             mEquip.setHelmet(new ItemStack(Material.TURTLE_HELMET));
@@ -122,7 +122,7 @@ public class BossSeaman implements CommandExecutor {
                 }
 
                 if(runs > 0 && seaman.getHealth() < hp) {
-                    seaman.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, seaman.getLocation(), 1);
+                    seaman.getWorld().spawnParticle(Particle.EXPLOSION, seaman.getLocation(), 1);
                     isDoingStuff = false;
                     cancel();
                 }

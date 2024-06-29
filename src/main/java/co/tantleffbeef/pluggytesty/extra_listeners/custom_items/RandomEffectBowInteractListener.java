@@ -47,11 +47,11 @@ public class RandomEffectBowInteractListener implements Listener {
 
         switch (effect) {
             case 0 -> arrow.addCustomEffect(PotionEffectType.BLINDNESS.createEffect(100, 1), false);
-            case 1 -> arrow.addCustomEffect(PotionEffectType.HARM.createEffect(1, 1), false);
-            case 2 -> arrow.addCustomEffect(PotionEffectType.HARM.createEffect(1, 2), false);
+            case 1 -> arrow.addCustomEffect(PotionEffectType.INSTANT_DAMAGE.createEffect(1, 1), false);
+            case 2 -> arrow.addCustomEffect(PotionEffectType.INSTANT_DAMAGE.createEffect(1, 2), false);
             case 3 -> arrow.addCustomEffect(PotionEffectType.POISON.createEffect(100, 1), false);
             case 4 -> arrow.addCustomEffect(PotionEffectType.POISON.createEffect(40, 2), false);
-            case 5 -> arrow.addCustomEffect(PotionEffectType.SLOW.createEffect(60, 4), false);
+            case 5 -> arrow.addCustomEffect(PotionEffectType.SLOWNESS.createEffect(60, 4), false);
             default -> hasEffect = false;
         }
 

@@ -34,12 +34,12 @@ public class GoatHornInteractListener implements Listener {
         String instrumentString = instrument.getKey().getKey();
 
         switch (instrumentString.substring(0, instrumentString.indexOf("_goat_horn"))) {
-            case "ponder" -> addEffect(player, PotionEffectType.JUMP, 3);
-            case "admire" -> addEffect(player, PotionEffectType.FAST_DIGGING, 1);
+            case "ponder" -> addEffect(player, PotionEffectType.JUMP_BOOST, 3);
+            case "admire" -> addEffect(player, PotionEffectType.HASTE, 1);
             case "seek" -> addEffect(player, PotionEffectType.ABSORPTION, 4);
             case "call" -> addEffect(player, PotionEffectType.SPEED, 2);
             case "dream" -> addEffect(player, PotionEffectType.REGENERATION, 2);
-            case "feel" -> addEffect(player, PotionEffectType.INCREASE_DAMAGE, 1);
+            case "feel" -> addEffect(player, PotionEffectType.STRENGTH, 1);
             default -> {}
         }
 

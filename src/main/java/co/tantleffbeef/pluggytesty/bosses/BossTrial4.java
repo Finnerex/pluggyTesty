@@ -81,8 +81,8 @@ public class BossTrial4 implements CommandExecutor {
                 }
 
                 if (attack == 3 && l.distance(targetLocation) < 5) { // strength
-                    jawn.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30, 3));
-                    jawn.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30 , 2));
+                    jawn.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, 30, 3));
+                    jawn.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 30 , 2));
                     w.playSound(l, Sound.BLOCK_NOTE_BLOCK_HARP, 5, 0.1f);
                 }
 
@@ -126,7 +126,7 @@ public class BossTrial4 implements CommandExecutor {
                     l2.add(pd); // should probably be normal
 
                     //w.spawnFallingBlock(l2, Material.BEACON.createBlockData());
-                    w.spawnParticle(Particle.BLOCK_DUST, l2, 4, blockParticle);
+                    w.spawnParticle(Particle.DUST, l2, 4, blockParticle);
 
                     Collection<Entity> entities = w.getNearbyEntities(l2, 0.5, 3, 0.5); // 1b side, 2b height
                     for (Entity e : entities) { // damage all entities in that block space
