@@ -7,11 +7,12 @@ import org.bukkit.Server;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface TeamsTable {
     void saveTeam(@NotNull Team team);
-    @NotNull UUID getTeamWithPlayer(@NotNull OfflineGoober goober);
+    @NotNull Optional<UUID> getTeamWithPlayer(@NotNull OfflineGoober goober);
     @NotNull Collection<Team> loadTeams(Server server, GooberStateController gooberController);
     boolean isGooberOnTeam(@NotNull OfflineGoober goober);
 }

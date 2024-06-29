@@ -4,4 +4,5 @@ import org.jetbrains.annotations.NotNull;
 
 public interface WarDatabase {
     @NotNull TeamsTable getTeamsTable();
+    @NotNull ClaimsTable getClaimsTable();
 }

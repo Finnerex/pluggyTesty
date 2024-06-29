@@ -52,6 +52,11 @@ import co.tantleffbeef.pluggytesty.goober.Goober;
 import co.tantleffbeef.pluggytesty.goober.GooberStateController;
 import co.tantleffbeef.pluggytesty.misc.RandomTickManager;
 import co.tantleffbeef.pluggytesty.villagers.VillagerTradesListener;
+import co.tantleffbeef.pluggytesty.war.ClaimWorldController;
+import co.tantleffbeef.pluggytesty.war.TeamContainer;
+import co.tantleffbeef.pluggytesty.war.command.TeamCommand;
+import co.tantleffbeef.pluggytesty.war.db.WarDatabase;
+import co.tantleffbeef.pluggytesty.war.db.sqlite.SQLiteWarDatabase;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.GsonBuilder;
@@ -69,7 +74,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -215,6 +219,13 @@ public final class PluggyTesty extends JavaPlugin {
 
         registerItems();
 
+        final WarDatabase warDb = SQLiteWarDatabase.fromPath(getDataFolder().toPath().resolve("war.db"));
+        final ClaimWorldController claimController = new ClaimWorldController();
+        final TeamContainer teamContainer = TeamContainer.fromDatabaseTable(
+                warDb.getTeamsTable(),
+                getServer(),
+                gooberStateController);
+
         final var commandManager = new PaperCommandManager(this);
         commandManager.getCommandContexts().registerIssuerAwareContext(Goober.class, context -> {
             final boolean isOptional = context.isOptional();
@@ -284,6 +295,7 @@ public final class PluggyTesty extends JavaPlugin {
         });
 
         commandManager.registerCommand(new PartyCommand(this, getServer(), partyManager, PARTY_INVITE_EXPIRATION_TIME_SECONDS));
+        commandManager.registerCommand(new TeamCommand(claimController, teamContainer, gooberStateController));
         commandManager.registerCommand(new LevelCommand());
         final var randomGenTest = new RandomGenTestCommand(getServer().getScheduler(), this, 2500);
         commandManager.registerCommand(randomGenTest);
